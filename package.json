@@ -4,12 +4,44 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon",
+    "lint": "eslint . --ext .ts",
+	"lint:fix": "eslint . --ext .ts --fix",
+    "type-check": "tsc --noEmit",
+    "validate": "npm run lint && npm run type-check"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "."
+    ],
+    "ext": "ts",
+    "exec": "ts-node --files ./src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.5",
+    "@types/cors": "^2.8.15",
+    "@types/express": "^4.17.20",
+    "@types/express-serve-static-core": "^4.17.39",
+    "@types/lodash": "^4.14.200",
+    "@types/node": "^20.8.9",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "eslint": "^8.52.0",
+    "eslint-plugin-filenames": "^1.3.2",
+    "eslint-plugin-security": "^1.7.1",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "lodash": "^4.17.21"
   }
 }

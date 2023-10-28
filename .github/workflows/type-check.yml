@@ -1,0 +1,42 @@
+name: Type Check
+
+on: push
+
+jobs:
+  type-check-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js for backend
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies for backend
+      run: npm install
+      working-directory: ./backend
+
+    - name: Run type-check for backend
+      run: npm run type-check
+      working-directory: ./backend
+
+  type-check-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js for frontend
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies for frontend
+      run: npm install
+      working-directory: ./frontend
+
+    - name: Run type-check for frontend
+      run: npm run type-check
+      working-directory: ./frontend
