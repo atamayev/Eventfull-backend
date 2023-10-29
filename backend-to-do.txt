@@ -1,5 +1,9 @@
 Evendr To-do backend
 
+Short-term technical stuff:
+1. Add request validators and middleware to all endpoints
+2. Add schema validation rules in mongodb
+
 ASAP:
 1. Create a comprehensive list of event categories and event types 
 	- Load these into MongoDB
@@ -19,7 +23,7 @@ ASAP:
 	- Login functionality
 	- Change password functionality
 	- JWT Authentication functionality
-5. 
+
 
 Later:
 1. Create an event scraping, cleaning, filtering, and storing pipeline
