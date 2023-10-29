@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import Hash from "../../setup-and-security/hash"
-import { retrieveUserIdAndPassword, signJWT } from "../../utils/auth-helpers"
+import { signJWT, retrieveUserIdAndPassword } from "../../utils/auth-helpers/login-helpers"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
 	const { email, password } = req.body.loginInformationObject as LoginInformationObject

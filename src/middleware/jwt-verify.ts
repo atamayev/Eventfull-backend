@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import { doesUserIdExist, getDecodedId } from "../utils/auth-helpers"
+import { doesUserIdExist, getDecodedId } from "../utils/auth-helpers/jwt-verify-helpers"
 
 export default async function jwtVerify(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {

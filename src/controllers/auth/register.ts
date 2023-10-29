@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import { addUser, doesEmailExist, hashPassword, signJWT } from "../../utils/auth-helpers"
+import { addUser, doesEmailExist, hashPassword, signJWT } from "../../utils/auth-helpers/register-helpers"
 
 export default async function register (req: Request, res: Response): Promise<Response> {
 	const { email, password } = req.body.registerInformationObject as LoginInformationObject

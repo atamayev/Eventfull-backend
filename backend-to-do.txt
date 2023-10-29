@@ -12,12 +12,6 @@ ASAP:
 	- Given the user's credentials/permission, read the user's calendar 
 	- Store the user's future calendar data efficiently.
 ## Basic event scraping pipeline (see #1 in Later)
-## Basic authentication (login, registration)
-	- Creation of a new user, and storage of their personal information (Name, email, etc.)
-	- Login functionality
-	- Change password functionality
-	- JWT Authentication functionality
-
 
 Later:
 ## Create an event scraping, cleaning, filtering, and storing pipeline
