@@ -21,8 +21,6 @@ export default async function register (req: Request, res: Response): Promise<Re
 	const token = signJWT(payload)
 	if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-	// await loginHistory(userId)
-
 	return res
 		.status(200)
 		.json({ authenticated: true, accessToken: token })

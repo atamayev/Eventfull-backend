@@ -1,11 +1,21 @@
 import _ from "lodash"
 import jwt from "jsonwebtoken"
-import { UserModel } from "../models/user-model"
 import Hash from "../setup-and-security/hash"
+import { UserModel } from "../models/user-model"
 
 export async function doesEmailExist(email: string): Promise<boolean> {
 	const user = await UserModel.findOne({ email })
 	return user !== null
+}
+
+export async function retrieveUserIdAndPassword(email: string): Promise<{ userId: string, password: string } | undefined> {
+	const user = await UserModel.findOne({ email })
+	if (_.isNull(user)) return undefined
+
+	return {
+		userId: _.toString(user._id),
+		password: user.password
+	}
 }
 
 export async function hashPassword(password: string): Promise<{ hashedPassword: string, hashError?: string }> {

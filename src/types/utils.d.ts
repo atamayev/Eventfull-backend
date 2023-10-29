@@ -7,7 +7,7 @@ declare global {
 
 	interface JwtPayload {
 		userId: string
-		newUser?: boolean
+		newUser: boolean
 	}
 }
 

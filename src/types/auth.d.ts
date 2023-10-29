@@ -3,6 +3,11 @@ declare global {
 		email: string
 		password: string
 	}
+
+	type UserIdAndPassword = {
+		userId: string
+		password: string
+	}
 }
 
 export {}
