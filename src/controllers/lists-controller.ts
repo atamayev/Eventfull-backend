@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import OperationHandler from "../utils/operation-handler"
-import { EventCategoryModel, EventTypeModel } from "../models/lists-models"
+import { EventCategoryModel } from "../models/event-category-model"
+import { EventTypeModel } from "../models/event-type-model"
 
 export async function fetchEventCategories (req: Request, res: Response): Promise<void> {
 	const operation = async () => {
