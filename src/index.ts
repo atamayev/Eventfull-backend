@@ -25,7 +25,7 @@ app.use(cors({
 app.use(cookieParser())
 app.use(express.json())
 
-//Add Routes here, like this:
+//Add Routes headers here, like this:
 // app.use("/api/auth", authRoutes)
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
