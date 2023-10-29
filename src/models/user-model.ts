@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from "mongoose"
+import { Schema, Types, model } from "mongoose"
 
 const calendarDataSchema = new Schema<CalendarData>({
 	eventName: { type: String, required: true },
@@ -29,4 +29,4 @@ const userSchema = new Schema<User>({
 })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const UserModel = mongoose.model("User", userSchema, "users")
+export const UserModel = model("User", userSchema, "users")

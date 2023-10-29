@@ -38,6 +38,34 @@ declare global {
 			timeZone: string
 		}
 	}
+
+	interface Event extends IDInterface {
+		eventName: string
+		eventTimeStart: Date
+		eventTimeEnd: Date
+		eventPrice: number
+		eventType: string
+		eventURL: string
+		isVirtual: boolean
+		// Categories should be of type eventCategory[]
+		extraEventCategories?: string[]
+		eventDescription?: string
+		eventLocation?: {
+			longitude: string
+			latitude: string
+			address: string
+		}
+		organizerName?: string
+		eventImageURL?: string
+		eventCapacity?: number
+	}
+
+	interface Booking extends IDInterface {
+		userId: number
+		eventId: number
+		reviewRating?: number
+		reviewMessage?: string
+	}
 }
 
 export {}

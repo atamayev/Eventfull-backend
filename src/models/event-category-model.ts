@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose"
+import { Schema, model } from "mongoose"
 
 const eventCategorySchema = new Schema<EventCategory>({
 	eventCategory: { type: String, required: true },
@@ -8,4 +8,4 @@ const eventCategorySchema = new Schema<EventCategory>({
 })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const EventCategoryModel = mongoose.model("EventCategory", eventCategorySchema, "event-categories")
+export const EventCategoryModel = model("EventCategory", eventCategorySchema, "event-categories")

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose"
+import { Schema, model } from "mongoose"
 
 const eventTypeSchema = new Schema<EventType>({
 	name: { type: String, required: true },
@@ -9,4 +9,4 @@ const eventTypeSchema = new Schema<EventType>({
 })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const EventTypeModel = mongoose.model("EventType", eventTypeSchema, "event-types")
+export const EventTypeModel = model("EventType", eventTypeSchema, "event-types")
