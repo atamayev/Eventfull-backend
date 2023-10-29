@@ -1,24 +1,18 @@
 Evendr To-do backend
 
 Short-term technical stuff:
-1. Add request validators and middleware to all endpoints
-2. Add schema validation rules in mongodb
+1. Add schema validation rules in mongodb
 
 ASAP:
-1. Create a comprehensive list of event categories and event types 
-	- Load these into MongoDB
-		- Make sure that each collection has some basic schema validation rules (ie what the type of each value should be (string, array, etc.)
-	- Make it easy to add/delete/modify existing categories/types data in the future 
-		- via mongoose
-2. Connect to Calendars:
+## Connect to Calendars:
 	- Google
 	- Outlook
 	- Apple
 	============
 	- Given the user's credentials/permission, read the user's calendar 
 	- Store the user's future calendar data efficiently.
-3. Basic event scraping pipeline (see #1 in Later)
-4. Basic authentication (login, registration)
+## Basic event scraping pipeline (see #1 in Later)
+## Basic authentication (login, registration)
 	- Creation of a new user, and storage of their personal information (Name, email, etc.)
 	- Login functionality
 	- Change password functionality
@@ -26,12 +20,10 @@ ASAP:
 
 
 Later:
-1. Create an event scraping, cleaning, filtering, and storing pipeline
+## Create an event scraping, cleaning, filtering, and storing pipeline
 	- Scrape events data from various sources.
 	- Normalize/clean the data.
 	- Assign category(ies) to each event (ie Knicks game would be of type 'Basketball game')
 		- May need to utilize an LLM for this - look into Llamma 2 - it's free, and can be pre-trained on our existing categories/types
 	- Before storing the data, make sure the event does not already exist in storage.
-2. Cache the event names/categories in Redis
-3. 
-	
+## Cache the event names/categories in Redis
