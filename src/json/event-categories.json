@@ -1,0 +1,82 @@
+[
+	{
+	  "eventCategory": "Entertainment",
+	  "description": "Events focused on entertaining attendees through various forms of media."
+	},
+	{
+	  "eventCategory": "Educational",
+	  "description": "Events that aim to educate or provide learning opportunities."
+	},
+	{
+	  "eventCategory": "Sports",
+	  "description": "Athletic events including games, matches, and races."
+	},
+	{
+	  "eventCategory": "Relaxation",
+	  "description": "Events geared toward relaxation and personal wellness."
+	},
+	{
+	  "eventCategory": "Cultural",
+	  "description": "Events that celebrate or explore cultural practices and traditions."
+	},
+	{
+	  "eventCategory": "Musical",
+	  "description": "Events featuring music performances or activities."
+	},
+	{
+	  "eventCategory": "Artistic",
+	  "description": "Events showcasing art in various forms."
+	},
+	{
+	  "eventCategory": "Networking",
+	  "description": "Events designed to help people in the same industry or community meet and connect."
+	},
+	{
+	  "eventCategory": "Outdoors",
+	  "description": "Events that take place in outdoor settings."
+	},
+	{
+	  "eventCategory": "Food & Drink",
+	  "description": "Events focused on food and beverages."
+	},
+	{
+	  "eventCategory": "Charity",
+	  "description": "Events aimed at raising funds or awareness for a cause."
+	},
+	{
+	  "eventCategory": "Political",
+	  "description": "Events related to political campaigns, discussions, or activism."
+	},
+	{
+	  "eventCategory": "Religious",
+	  "description": "Events focused on religious or spiritual activities."
+	},
+	{
+	  "eventCategory": "Family-Friendly",
+	  "description": "Events suitable for attendees of all ages."
+	},
+	{
+	  "eventCategory": "Adults-Only",
+	  "description": "Events that are restricted to adult attendees."
+	},
+	{
+	  "eventCategory": "Seasonal",
+	  "description": "Events that are related to a particular season or holiday."
+	},
+	{
+	  "eventCategory": "Technology",
+	  "description": "Events focused on technological innovations or discussions."
+	},
+	{
+	  "eventCategory": "Shopping",
+	  "description": "Events that revolve around buying or selling goods."
+	},
+	{
+	  "eventCategory": "Travel",
+	  "description": "Events that involve exploring new places."
+	},
+	{
+	  "eventCategory": "Health & Wellness",
+	  "description": "Events focused on physical or mental well-being."
+	}
+]

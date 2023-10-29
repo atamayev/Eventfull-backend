@@ -1,0 +1,297 @@
+[
+	{
+	  "name": "Rock Concert",
+	  "description": "A live music event featuring rock bands.",
+	  "categories": ["Entertainment", "Musical"]
+	},
+	{
+	  "name": "Art Gallery Opening",
+	  "description": "The debut of a new art exhibit.",
+	  "categories": ["Entertainment", "Artistic"]
+	},
+	{
+	  "name": "Cooking Class",
+	  "description": "An instructional event for cooking specific dishes.",
+	  "categories": ["Educational", "Food & Drink"]
+	},
+	{
+	  "name": "Basketball Game",
+	  "description": "A competitive basketball match.",
+	  "categories": ["Sports", "Entertainment"]
+	},
+	{
+	  "name": "Yoga Retreat",
+	  "description": "A multi-day event focusing on yoga practices.",
+	  "categories": ["Relaxation", "Health & Wellness"]
+	},
+	{
+	  "name": "Startup Networking",
+	  "description": "An event to connect startups with investors.",
+	  "categories": ["Networking", "Technology"]
+	},
+	{
+	  "name": "Charity Auction",
+	  "description": "An event where items are auctioned for charity.",
+	  "categories": ["Charity", "Entertainment"]
+	},
+	{
+	  "name": "Political Rally",
+	  "description": "A gathering to support a political cause or candidate.",
+	  "categories": ["Political", "Entertainment"]
+	},
+	{
+	  "name": "Film Festival",
+	  "description": "An event showcasing multiple films.",
+	  "categories": ["Entertainment", "Artistic"]
+	},
+	{
+	  "name": "Craft Fair",
+	  "description": "An event where homemade crafts are sold.",
+	  "categories": ["Shopping", "Family-Friendly"]
+	},
+	{
+		"name": "Book Reading",
+		"description": "An author reads excerpts from their book.",
+		"categories": ["Educational", "Entertainment"]
+	  },
+	  {
+		"name": "Car Show",
+		"description": "An exhibition of vintage or new cars.",
+		"categories": ["Entertainment", "Technology"]
+	  },
+	  {
+		"name": "Comedy Night",
+		"description": "Live performances by comedians.",
+		"categories": ["Entertainment"]
+	  },
+	  {
+		"name": "Career Fair",
+		"description": "An event for job seekers and employers.",
+		"categories": ["Educational", "Networking"]
+	  },
+	  {
+		"name": "Science Fair",
+		"description": "Exhibition of science projects and experiments.",
+		"categories": ["Educational", "Family-Friendly"]
+	  },
+	  {
+		"name": "Trivia Night",
+		"description": "A quiz game event.",
+		"categories": ["Entertainment", "Educational"]
+	  },
+	  {
+		"name": "Fashion Show",
+		"description": "Exhibition of clothing and fashion accessories.",
+		"categories": ["Entertainment", "Artistic"]
+	  },
+	  {
+		"name": "Pet Expo",
+		"description": "An event for pet lovers and pet-related products.",
+		"categories": ["Family-Friendly", "Shopping"]
+	  },
+	  {
+		"name": "Boat Race",
+		"description": "A competitive boat racing event.",
+		"categories": ["Sports", "Outdoors"]
+	  },
+	  {
+		"name": "Wine Tasting",
+		"description": "Sampling various wines, often with food pairings.",
+		"categories": ["Food & Drink", "Adults-Only"]
+	  },
+	  {
+		"name": "Magic Show",
+		"description": "Live magic performances.",
+		"categories": ["Entertainment", "Family-Friendly"]
+	  },
+	  {
+		"name": "Zoo Visit",
+		"description": "A day at the zoo with various animal exhibits.",
+		"categories": ["Family-Friendly", "Outdoors"]
+	  },
+	  {
+		"name": "Archery Tournament",
+		"description": "A competitive archery event.",
+		"categories": ["Sports", "Outdoors"]
+	  },
+	  {
+		"name": "Virtual Reality Expo",
+		"description": "Experience the latest in VR technology.",
+		"categories": ["Technology", "Entertainment"]
+	  },
+	  {
+		"name": "Stand-up Paddleboarding",
+		"description": "Paddleboarding on a lake or sea.",
+		"categories": ["Sports", "Outdoors"]
+	  },
+	  {
+		"name": "Fishing Tournament",
+		"description": "A competitive fishing event.",
+		"categories": ["Sports", "Outdoors"]
+	  },
+	  {
+		"name": "Camping Trip",
+		"description": "Spending a night or more in the wilderness.",
+		"categories": ["Outdoors", "Family-Friendly"]
+	  },
+	  {
+		"name": "Hackathon",
+		"description": "Coding competition with specific challenges.",
+		"categories": ["Technology", "Educational"]
+	  },
+	  {
+		"name": "Opera",
+		"description": "A live opera performance.",
+		"categories": ["Entertainment", "Musical"]
+	  },
+	  {
+		"name": "Orchestra",
+		"description": "A live performance by a symphony orchestra.",
+		"categories": ["Entertainment", "Musical"]
+	  },
+	  {
+		"name": "Game Night",
+		"description": "An evening dedicated to playing board games.",
+		"categories": ["Entertainment", "Family-Friendly"]
+	  },
+	  {
+		"name": "Hiking Trip",
+		"description": "A trip through natural terrain, usually mountains or forests.",
+		"categories": ["Outdoors", "Sports"]
+	  },
+	  {
+		"name": "Musical Theater",
+		"description": "A live theater performance involving song and dance.",
+		"categories": ["Entertainment", "Musical"]
+	  },
+	  {
+		"name": "Photography Workshop",
+		"description": "A workshop to improve photography skills.",
+		"categories": ["Educational", "Artistic"]
+	  },
+	  {
+		"name": "Food Festival",
+		"description": "A festival celebrating various kinds of food.",
+		"categories": ["Food & Drink", "Entertainment"]
+	  },
+	  {
+		"name": "Charity Walk",
+		"description": "A walking event to raise money for charity.",
+		"categories": ["Charity", "Health & Wellness"]
+	  },
+	  {
+		"name": "Farmers Market",
+		"description": "A market where farmers sell their produce directly to consumers.",
+		"categories": ["Food & Drink", "Shopping"]
+	  },
+	  {
+		"name": "Tech Conference",
+		"description": "A conference covering various aspects of technology.",
+		"categories": ["Educational", "Technology"]
+	  },
+	  {
+		"name": "History Tour",
+		"description": "A guided tour of a historical area or building.",
+		"categories": ["Educational", "Outdoors"]
+	  },
+	  {
+		"name": "Painting Class",
+		"description": "A class teaching painting techniques.",
+		"categories": ["Educational", "Artistic"]
+	  },
+	  {
+		"name": "Film Screening",
+		"description": "A public or private showing of a film or documentary.",
+		"categories": ["Entertainment", "Artistic"]
+	  },
+	  {
+		"name": "Dog Show",
+		"description": "A competitive event for dogs and their handlers.",
+		"categories": ["Entertainment", "Family-Friendly"]
+	  },
+	  {
+		"name": "Hot Air Balloon Ride",
+		"description": "Riding in a hot air balloon over scenic landscapes.",
+		"categories": ["Outdoors", "Adventure"]
+	  },
+	  {
+		"name": "Cooking Class",
+		"description": "A class where you learn cooking techniques and recipes.",
+		"categories": ["Educational", "Food & Drink"]
+	  },
+	  {
+		"name": "Live Debate",
+		"description": "A formal discussion where opposing arguments are presented.",
+		"categories": ["Educational", "Political"]
+	  },
+	  {
+		"name": "Poetry Slam",
+		"description": "A competition where poets read or recite original work.",
+		"categories": ["Entertainment", "Educational"]
+	  },
+	  {
+		"name": "Scavenger Hunt",
+		"description": "A game where the organizers prepare a list defining specific items for participants to seek out.",
+		"categories": ["Entertainment", "Family-Friendly"]
+	  },
+	  {
+		"name": "Craft Fair",
+		"description": "An event to sell and display crafts.",
+		"categories": ["Artistic", "Shopping"]
+	  },
+	  {
+		"name": "Dance Party",
+		"description": "A social gathering where dancing is the main activity.",
+		"categories": ["Entertainment", "Music"]
+	  },
+	  {
+		"name": "Religious Service",
+		"description": "A public worship ceremony according to prescribed form and order.",
+		"categories": ["Religious", "Community"]
+	  },
+	  {
+		"name": "Boat Tour",
+		"description": "A guided tour on a boat through rivers, lakes, or open seas.",
+		"categories": ["Outdoors", "Educational"]
+	  },
+	  {
+		"name": "Yoga Session",
+		"description": "A session led by a yoga instructor for practicing yoga.",
+		"categories": ["Health & Wellness", "Sports"]
+	  },
+	  {
+		"name": "Art Gallery",
+		"description": "A space where art is exhibited.",
+		"categories": ["Artistic", "Educational"]
+	  },
+	  {
+		"name": "Car Show",
+		"description": "An exhibition featuring various types of cars.",
+		"categories": ["Entertainment", "Technology"]
+	  },
+	  {
+		"name": "Open Mic",
+		"description": "A live show where audience members may perform.",
+		"categories": ["Entertainment", "Music"]
+	  },
+	  {
+		"name": "Flea Market",
+		"description": "A market with various vendors selling used or handmade goods.",
+		"categories": ["Shopping", "Family-Friendly"]
+	  },
+	  {
+		"name": "Nature Walk",
+		"description": "A guided or unguided walk through natural landscapes.",
+		"categories": ["Outdoors", "Educational"]
+	  },
+	  {
+		"name": "Gaming Tournament",
+		"description": "A competitive video or board game event.",
+		"categories": ["Entertainment", "Sports"]
+	  },
+	  {
+		"name": "Business Seminar",
+		"description": "A seminar focused on business-related topics.",
+		"categories": ["Educational", "Business"]
+	  }
+  ]
