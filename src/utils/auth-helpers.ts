@@ -8,6 +8,11 @@ export async function doesEmailExist(email: string): Promise<boolean> {
 	return user !== null
 }
 
+export async function doesUserIdExist(userId: string): Promise<boolean> {
+	const user = await UserModel.findById(userId)
+	return user !== null
+}
+
 export async function retrieveUserIdAndPassword(email: string): Promise<{ userId: string, password: string } | undefined> {
 	const user = await UserModel.findOne({ email })
 	if (_.isNull(user)) return undefined
@@ -39,6 +44,15 @@ export async function addUser(email: string, password: string): Promise<string> 
 export function signJWT(payload: object): string | undefined {
 	try {
 		return jwt.sign(payload, process.env.JWT_KEY)
+	} catch (error: unknown) {
+		return undefined
+	}
+}
+
+export function getDecodedId(accessToken: string): string | undefined {
+	try {
+		const decoded = jwt.verify(accessToken, process.env.JWT_KEY) as JwtPayload
+		return decoded.userId
 	} catch (error: unknown) {
 		return undefined
 	}

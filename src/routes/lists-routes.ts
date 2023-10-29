@@ -3,7 +3,6 @@ import { fetchEventCategories, fetchEventTypes } from "../controllers/lists-cont
 
 const listsRoutes = express.Router()
 
-//Add Middleware to verify JWT here, validate the request body
 listsRoutes.get("/get-event-categories", fetchEventCategories)
 listsRoutes.get("/get-event-types", fetchEventTypes)
 
