@@ -5,7 +5,5 @@ export default function validateGoogleAuthRequest (req: Request, res: Response, 
 		return res.status(400).json({ error: "Bad Request: Missing or invalid body" })
 	}
 
-	console.log("req.query.code",req.query.code)
-
 	next()
 }

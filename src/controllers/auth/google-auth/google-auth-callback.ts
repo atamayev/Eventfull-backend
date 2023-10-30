@@ -29,7 +29,6 @@ export default async function googleAuthCallback (req: Request, res: Response): 
 		})
 
 	} catch (error) {
-		console.log(error)
 		return res.status(500).json({
 			error: "Internal Server Error: Failed to exchange authorization code for access token"
 		})
