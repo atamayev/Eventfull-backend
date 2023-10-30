@@ -15,7 +15,7 @@ declare global {
 
 	interface User extends IDInterface {
 		email: string
-		password: string
+		password?: string
 		createdAt: string
 		updatedAt: string
 		name?: string
@@ -25,6 +25,9 @@ declare global {
 		bio?: string
 		eventPins?: Types.ObjectId[]
 		calendarData?: CalendarData[]
+		googleAccessToken?: string
+		googleRefreshToken?: string
+		authMethod: string
 	}
 
 	interface CalendarData {

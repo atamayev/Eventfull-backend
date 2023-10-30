@@ -5,7 +5,7 @@ export default async function connectDatabase(): Promise<void> {
 	try {
 		let connection: typeof mongoose | undefined
 		if (_.isUndefined(connection)) {
-			connection = await mongoose.connect(process.env.MONGODB_URI as string)
+			connection = await mongoose.connect(process.env.MONGODB_URI)
 			console.log("Connected to MongoDB")
 		}
 	} catch (error) {

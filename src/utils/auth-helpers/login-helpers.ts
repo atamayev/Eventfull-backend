@@ -8,7 +8,7 @@ export async function retrieveUserIdAndPassword(email: string): Promise<{ userId
 
 	return {
 		userId: _.toString(user._id),
-		password: user.password
+		password: user.password as string
 	}
 }
 

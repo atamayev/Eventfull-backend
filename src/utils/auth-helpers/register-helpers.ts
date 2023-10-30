@@ -20,7 +20,8 @@ export async function hashPassword(password: string): Promise<{ hashedPassword: 
 export async function addUser(email: string, password: string): Promise<string> {
 	const newUser = await UserModel.create({
 		email,
-		password
+		password,
+		authMethod: "local",
 	})
 
 	return (_.toString(newUser._id))

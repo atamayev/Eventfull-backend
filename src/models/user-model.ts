@@ -14,7 +14,8 @@ const calendarDataSchema = new Schema<CalendarData>({
 
 const userSchema = new Schema<User>({
 	email: { type: String, required: true, unique: true },
-	password: { type: String, required: true },
+	authMethod: { type: String, required: true },
+	password: { type: String},
 	name: { type: String },
 	gender: { type: String },
 	createdAt: { type: String },
@@ -23,7 +24,9 @@ const userSchema = new Schema<User>({
 	phoneNumber: { type: String },
 	bio: { type: String },
 	eventPins: { type: [Types.ObjectId] },
-	calendarData: { type: [calendarDataSchema] }
+	calendarData: { type: [calendarDataSchema] },
+	googleAccessToken: { type: String },
+	googleRefreshToken: { type: String },
 }, {
 	timestamps: true
 })
