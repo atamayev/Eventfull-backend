@@ -28,6 +28,7 @@ declare global {
 		googleAccessToken?: string
 		googleRefreshToken?: string
 		authMethod: string
+		accessTokenExpiryDate?: Date
 	}
 
 	interface CalendarData {

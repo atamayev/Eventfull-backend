@@ -1,9 +1,9 @@
 import express from "express"
-import { fetchEventCategories, fetchEventTypes } from "../controllers/lists-controller"
+import { getEventCategories, getEventTypes } from "../controllers/lists-controller"
 
 const listsRoutes = express.Router()
 
-listsRoutes.get("/get-event-categories", fetchEventCategories)
-listsRoutes.get("/get-event-types", fetchEventTypes)
+listsRoutes.get("/get-event-categories", getEventCategories)
+listsRoutes.get("/get-event-types", getEventTypes)
 
 export default listsRoutes

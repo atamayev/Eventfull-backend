@@ -1,7 +1,7 @@
 import { google } from "googleapis"
 import { Response, Request } from "express"
-import { saveGoogleTokens } from "../../../utils/auth-helpers/google-auth-helpers"
-import createGoogleAuthClient from "../../../utils/create-google-auth-client"
+import { saveGoogleTokens } from "../../../utils/google/google-auth-helpers"
+import createGoogleAuthClient from "../../../utils/google/create-google-auth-client"
 
 export default async function googleAuthCallback (req: Request, res: Response): Promise<Response> {
 	const code = req.query.code as string

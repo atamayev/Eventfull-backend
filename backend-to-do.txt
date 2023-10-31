@@ -2,6 +2,8 @@ Evendr To-do backend
 
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
+2. Figure out the impporting src/ files problem
+3. Create request validator for the google calendar details
 
 ASAP:
 ## Connect to Calendars:

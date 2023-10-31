@@ -27,6 +27,7 @@ const userSchema = new Schema<User>({
 	calendarData: { type: [calendarDataSchema] },
 	googleAccessToken: { type: String },
 	googleRefreshToken: { type: String },
+	accessTokenExpiryDate: { type: Date }
 }, {
 	timestamps: true
 })

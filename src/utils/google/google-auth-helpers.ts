@@ -15,6 +15,10 @@ export async function saveGoogleTokens(email: string, tokens: Credentials): Prom
 		user.googleRefreshToken = tokens.refresh_token
 	}
 
+	if (!_.isNil(tokens.expiry_date)) {
+		user.accessTokenExpiryDate = new Date(tokens.expiry_date)
+	}
+
 	await user.save()
 }
 

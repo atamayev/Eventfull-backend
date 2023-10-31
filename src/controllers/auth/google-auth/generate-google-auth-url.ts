@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import createGoogleAuthClient from "../../../utils/create-google-auth-client"
+import createGoogleAuthClient from "../../../utils/google/create-google-auth-client"
 
 export default function generateGoogleAuthUrl(req: Request, res: Response): Response {
 	const oauth2Client = createGoogleAuthClient("http://localhost:8080/api/auth/google-auth/callback")
