@@ -15,9 +15,10 @@ declare global {
 
 	interface User extends IDInterface {
 		email: string
+		authMethod: string
 		password?: string
-		createdAt: string
-		updatedAt: string
+		createdAt: Date
+		updatedAt: Date
 		name?: string
 		gender?: string
 		profilePictureURL?: string
@@ -25,10 +26,12 @@ declare global {
 		bio?: string
 		eventPins?: Types.ObjectId[]
 		calendarData?: CalendarData[]
-		googleAccessToken?: string
-		googleRefreshToken?: string
-		authMethod: string
-		accessTokenExpiryDate?: Date
+		googleLoginAccessToken?: string
+		googleLoginRefreshToken?: string
+		googleLoginAccessTokenExpiryDate?: Date
+		googleCalendarAccessToken?: string
+		googleCalendarRefreshToken?: string
+		googleCalendarAccessTokenExpiryDate?: Date
 	}
 
 	interface CalendarData {

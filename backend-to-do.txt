@@ -1,9 +1,13 @@
 Evendr To-do backend
 
+- Test what happens when logging in via google when an account already exists in the db
+	both what happens when the account is of type google, and if the account is of type local
+- Need to add a payload that contains the userId (just like for local login) when logging in with google
+
+
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
-2. Figure out the impporting src/ files problem
-3. Create request validator for the google calendar details
+2. Figure out the importing src/ files problem
 
 ASAP:
 ## Connect to Calendars:

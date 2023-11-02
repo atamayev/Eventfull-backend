@@ -18,16 +18,17 @@ const userSchema = new Schema<User>({
 	password: { type: String},
 	name: { type: String },
 	gender: { type: String },
-	createdAt: { type: String },
-	updatedAt: { type: String },
 	profilePictureURL: { type: String },
 	phoneNumber: { type: String },
 	bio: { type: String },
 	eventPins: { type: [Types.ObjectId] },
 	calendarData: { type: [calendarDataSchema] },
-	googleAccessToken: { type: String },
-	googleRefreshToken: { type: String },
-	accessTokenExpiryDate: { type: Date }
+	googleLoginAccessToken: { type: String },
+	googleLoginRefreshToken: { type: String },
+	googleLoginAccessTokenExpiryDate: { type: Date },
+	googleCalendarAccessToken: { type: String },
+	googleCalendarRefreshToken: { type: String },
+	googleCalendarAccessTokenExpiryDate: { type: Date }
 }, {
 	timestamps: true
 })
