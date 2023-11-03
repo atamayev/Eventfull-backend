@@ -31,6 +31,7 @@ declare global {
 		googleLoginAccessTokenExpiryDate?: Date
 		googleCalendarAccessToken?: string
 		googleCalendarAccessTokenExpiryDate?: Date
+		loginHistory?: LoginHistory[]
 	}
 
 	interface CalendarData {
@@ -43,6 +44,12 @@ declare global {
 			dateTime: string
 			timeZone: string
 		}
+	}
+
+	interface LoginHistory {
+		loginTime: Date
+		// ipAddress: string
+		// device: string
 	}
 
 	interface Event extends IDInterface {

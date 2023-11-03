@@ -12,6 +12,12 @@ const calendarDataSchema = new Schema<CalendarData>({
 	}
 })
 
+const loginHistorySchema = new Schema({
+	loginTime: { type: Date, default: Date.now },
+	// ipAddress: { type: String },
+	// device: { type: String }
+})
+
 const userSchema = new Schema<User>({
 	email: { type: String, required: true, unique: true },
 	authMethod: { type: String, required: true },
@@ -27,7 +33,8 @@ const userSchema = new Schema<User>({
 	googleLoginRefreshToken: { type: String },
 	googleLoginAccessTokenExpiryDate: { type: Date },
 	googleCalendarAccessToken: { type: String },
-	googleCalendarAccessTokenExpiryDate: { type: Date }
+	googleCalendarAccessTokenExpiryDate: { type: Date },
+	loginHistory: { type: [loginHistorySchema] }
 }, {
 	timestamps: true
 })

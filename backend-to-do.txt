@@ -1,7 +1,5 @@
 Evendr To-do backend
 
-2. Add a login-history function - whenever the user logs in, it should note it.
-
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
 2. Figure out the importing src/ files problem
