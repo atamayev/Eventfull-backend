@@ -1,4 +1,5 @@
 import _ from "lodash"
+import dayjs from "dayjs"
 import { Types } from "mongoose"
 import { google } from "googleapis"
 import { Response, Request } from "express"
@@ -17,8 +18,13 @@ export default async function getGoogleCalendarDetails(req: Request, res: Respon
 
 		const calendar = google.calendar({ version: "v3", auth: oauth2Client })
 
-		const calendarList = await calendar.events.list({calendarId: "primary"})
-		return res.status(200).json({ calendarDetails: calendarList.data.items })
+		const startOfMonth = dayjs().startOf("month").toISOString()
+
+		const events = await calendar.events.list({
+			calendarId: "primary",
+			timeMin: startOfMonth
+		})
+		return res.status(200).json({ calendarDetails: events.data.items })
 	} catch (error) {
 		return res.status(500).json({ error: "Failed to fetch Google Calendar data" })
 	}

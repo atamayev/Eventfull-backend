@@ -1,6 +1,5 @@
 Evendr To-do backend
 
-1. Get calendar data working
 2. Add a login-history function - whenever the user logs in, it should note it.
 
 Short-term technical stuff:
