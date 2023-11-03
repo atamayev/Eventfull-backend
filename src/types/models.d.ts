@@ -19,7 +19,8 @@ declare global {
 		password?: string
 		createdAt: Date
 		updatedAt: Date
-		name?: string
+		firstName?: string
+		lastName?: string
 		gender?: string
 		profilePictureURL?: string
 		phoneNumber?: string
@@ -32,6 +33,11 @@ declare global {
 		googleCalendarAccessToken?: string
 		googleCalendarAccessTokenExpiryDate?: Date
 		loginHistory?: LoginHistory[]
+		friends?: Types.ObjectId[]
+		outgoingFriendRequests?: Types.ObjectId[]
+		incomingFriendRequests?: Types.ObjectId[]
+		blockedUsers?: Types.ObjectId[]
+		blockedByUsers?: Types.ObjectId[]
 	}
 
 	interface CalendarData {

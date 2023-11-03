@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Credentials } from "google-auth-library"
-import { UserModel } from "../../../models/user-model"
+import UserModel from "../../../models/user-model"
 
 export default async function updateGoogleCalendarTokensInDB(userId: Types.ObjectId, credentials: Credentials): Promise<void> {
 	try {

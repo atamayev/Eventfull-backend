@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Credentials } from "google-auth-library"
-import { UserModel } from "../../../models/user-model"
+import UserModel from "../../../models/user-model"
 import addGoogleUserToDB from "../add-google-auth-user-to-db"
 
 export default async function saveGoogleLoginTokens(email: string, tokens: Credentials): Promise<Types.ObjectId> {

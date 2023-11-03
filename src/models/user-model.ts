@@ -1,16 +1,5 @@
 import { Schema, Types, model } from "mongoose"
-
-const calendarDataSchema = new Schema<CalendarData>({
-	eventName: { type: String, required: true },
-	start: {
-		dateTime: { type: String, required: true },
-		timeZone: { type: String, required: true },
-	},
-	end: {
-		dateTime: { type: String, required: true },
-		timeZone: { type: String, required: true },
-	}
-})
+import calendarDataSchema from "./calendar-data-model"
 
 const loginHistorySchema = new Schema({
 	loginTime: { type: Date, default: Date.now },
@@ -22,7 +11,8 @@ const userSchema = new Schema<User>({
 	email: { type: String, required: true, unique: true },
 	authMethod: { type: String, required: true },
 	password: { type: String},
-	name: { type: String },
+	firstName: { type: String },
+	lastName: { type: String },
 	gender: { type: String },
 	profilePictureURL: { type: String },
 	phoneNumber: { type: String },
@@ -34,10 +24,17 @@ const userSchema = new Schema<User>({
 	googleLoginAccessTokenExpiryDate: { type: Date },
 	googleCalendarAccessToken: { type: String },
 	googleCalendarAccessTokenExpiryDate: { type: Date },
-	loginHistory: { type: [loginHistorySchema] }
+	loginHistory: { type: [loginHistorySchema] },
+	friends: [{ type: Types.ObjectId, ref: "User" }],
+	outgoingFriendRequests: [{ type: Types.ObjectId, ref: "User" }],
+	incomingFriendRequests: [{ type: Types.ObjectId, ref: "User" }],
+	blockedUsers: [{ type: Types.ObjectId, ref: "User" }],
+	blockedByUsers: [{ type: Types.ObjectId, ref: "User" }],
 }, {
 	timestamps: true
 })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const UserModel = model("User", userSchema, "users")
+const UserModel = model("User", userSchema, "users")
+
+export default UserModel

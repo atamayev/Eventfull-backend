@@ -8,4 +8,6 @@ const eventCategorySchema = new Schema<EventCategory>({
 })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const EventCategoryModel = model("EventCategory", eventCategorySchema, "event-categories")
+const EventCategoryModel = model("EventCategory", eventCategorySchema, "event-categories")
+
+export default EventCategoryModel

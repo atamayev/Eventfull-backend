@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import { UserModel } from "../../../models/user-model"
+import UserModel from "../../../models/user-model"
 import { doesUserIdExist, getDecodedId } from "../../../utils/auth-helpers/jwt-verify-helpers"
 
 export default async function validateGoogleCalendarRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {

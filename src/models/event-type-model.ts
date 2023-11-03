@@ -9,4 +9,6 @@ const eventTypeSchema = new Schema<EventType>({
 })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const EventTypeModel = model("EventType", eventTypeSchema, "event-types")
+const EventTypeModel = model("EventType", eventTypeSchema, "event-types")
+
+export default EventTypeModel

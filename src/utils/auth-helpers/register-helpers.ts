@@ -1,7 +1,7 @@
 import _ from "lodash"
 import jwt from "jsonwebtoken"
 import Hash from "../../setup-and-security/hash"
-import { UserModel } from "../../models/user-model"
+import UserModel from "../../models/user-model"
 
 export async function doesEmailExist(email: string): Promise<boolean> {
 	const user = await UserModel.findOne({ email })
