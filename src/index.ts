@@ -39,5 +39,5 @@ app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
 // Initialization of server:
 app.listen(port, () => {
-	console.log(`Listening on port ${port}`)
+	console.info(`Listening on port ${port}`)
 })

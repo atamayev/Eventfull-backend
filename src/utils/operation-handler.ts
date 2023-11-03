@@ -12,7 +12,7 @@ export default new class OperationHandler {
 			await operation()
 			res.status(200).json(whatToReturnSuccess)
 		} catch (error: any) {
-			console.log(error)
+			console.error(error)
 			return res.status(400).json()
 		}
 	}
@@ -26,7 +26,7 @@ export default new class OperationHandler {
 		try {
 			await operation()
 		} catch (error: any) {
-			console.log(error)
+			console.error(error)
 			return res.status(400).json(whatToReturnFailure)
 		}
 	}
@@ -41,7 +41,7 @@ export default new class OperationHandler {
 			const result = await operation()
 			res.status(200).json(result)
 		} catch (error: any) {
-			console.log(error)
+			console.error(error)
 			return res.status(400).json(whatToReturnFailure)
 		}
 	}
@@ -57,7 +57,7 @@ export default new class OperationHandler {
 		try {
 			return await fn(...args)
 		} catch (error: any) {
-			console.log(error)
+			console.error(error)
 			return res.status(400).json()
 		}
 	}
