@@ -12,10 +12,6 @@ export default async function saveGoogleCalendarTokens(email: string, tokens: Cr
 		user.googleCalendarAccessToken = tokens.access_token
 	}
 
-	if (!_.isNil(tokens.refresh_token)) {
-		user.googleCalendarRefreshToken = tokens.refresh_token
-	}
-
 	if (!_.isNil(tokens.expiry_date)) {
 		user.googleCalendarAccessTokenExpiryDate = new Date(tokens.expiry_date)
 	}

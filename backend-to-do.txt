@@ -1,9 +1,7 @@
 Evendr To-do backend
 
-- Test what happens when logging in via google when an account already exists in the db
-	both what happens when the account is of type google, and if the account is of type local
-- Need to add a payload that contains the userId (just like for local login) when logging in with google
-
+1. Get calendar data working
+2. Add a login-history function - whenever the user logs in, it should note it.
 
 Short-term technical stuff:
 1. Add schema validation rules in mongodb

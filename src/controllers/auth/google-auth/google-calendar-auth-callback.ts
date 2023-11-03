@@ -16,7 +16,6 @@ export default async function googleCalendarAuthCallback (req: Request, res: Res
 		return res.status(200).json()
 
 	} catch (error) {
-		console.log(error)
 		return res.status(500).json({
 			error: "Internal Server Error: Failed to exchange authorization code for access token"
 		})

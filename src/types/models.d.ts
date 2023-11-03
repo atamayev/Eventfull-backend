@@ -30,7 +30,6 @@ declare global {
 		googleLoginRefreshToken?: string
 		googleLoginAccessTokenExpiryDate?: Date
 		googleCalendarAccessToken?: string
-		googleCalendarRefreshToken?: string
 		googleCalendarAccessTokenExpiryDate?: Date
 	}
 

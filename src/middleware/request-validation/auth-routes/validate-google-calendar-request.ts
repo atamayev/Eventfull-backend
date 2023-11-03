@@ -11,14 +11,10 @@ export default async function validateGoogleCalendarRequest (req: Request, res: 
 	let email: string | undefined
 	try {
 		const state = JSON.parse(req.query.state as string)
-		console.log("state",state)
 		const userId = getDecodedId(state.accessToken)
-		console.log(userId)
 		if (_.isUndefined(userId)) return handleUnauthorized()
 
 		const doesRecordExist = await doesUserIdExist(userId)
-
-		console.log(doesRecordExist)
 
 		if (doesRecordExist === false) return handleUnauthorized()
 
@@ -27,7 +23,6 @@ export default async function validateGoogleCalendarRequest (req: Request, res: 
 	} catch (error) {
 		return res.status(400).json({error: "Bad Request: State is not valid JSON"})
 	}
-	console.log("email",email)
 
 	if (_.isUndefined(email)) return handleUnauthorized()
 

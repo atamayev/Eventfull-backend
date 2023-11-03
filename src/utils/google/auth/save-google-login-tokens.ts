@@ -1,9 +1,10 @@
 import _ from "lodash"
+import { Types } from "mongoose"
 import { Credentials } from "google-auth-library"
 import { UserModel } from "../../../models/user-model"
 import addGoogleUserToDB from "../add-google-auth-user-to-db"
 
-export default async function saveGoogleLoginTokens(email: string, tokens: Credentials): Promise<void> {
+export default async function saveGoogleLoginTokens(email: string, tokens: Credentials): Promise<Types.ObjectId> {
 	let user = await UserModel.findOne({ email })
 
 	if (_.isNull(user)) user = await addGoogleUserToDB(email)
@@ -21,4 +22,6 @@ export default async function saveGoogleLoginTokens(email: string, tokens: Crede
 	}
 
 	await user.save()
+
+	return user._id
 }

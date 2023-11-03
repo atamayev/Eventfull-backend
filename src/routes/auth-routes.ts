@@ -24,6 +24,7 @@ authRoutes.post("/change-password", jwtVerify, validateChangePasswordRequest, ch
 
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
 authRoutes.get("/google-auth/generate-calendar-auth-url", validateGetGoogleCalendarUrlRequest, generateGoogleCalendarAuthUrl)
+
 authRoutes.get("/google-auth/login-callback", validateGoogleLoginAuthRequest, googleLoginAuthCallback)
 authRoutes.get("/google-auth/calendar-callback", validateGoogleCalendarRequest, googleCalendarAuthCallback)
 

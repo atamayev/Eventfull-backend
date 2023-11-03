@@ -27,7 +27,6 @@ const userSchema = new Schema<User>({
 	googleLoginRefreshToken: { type: String },
 	googleLoginAccessTokenExpiryDate: { type: Date },
 	googleCalendarAccessToken: { type: String },
-	googleCalendarRefreshToken: { type: String },
 	googleCalendarAccessTokenExpiryDate: { type: Date }
 }, {
 	timestamps: true
