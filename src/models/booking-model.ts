@@ -10,4 +10,6 @@ const bookingSchema = new Schema<Booking>({
 })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const BookingModel = model("Booking", bookingSchema, "bookings")
+const BookingModel = model("Booking", bookingSchema, "bookings")
+
+export default BookingModel

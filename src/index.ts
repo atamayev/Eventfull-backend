@@ -33,11 +33,11 @@ app.use(cookieParser())
 app.use(express.json())
 
 app.use("/api/auth", authRoutes)
-app.use("/api/calendar", jwtVerify, calendarRoutes)
+app.use("/api/calendar", calendarRoutes)
 app.use("/api/lists", jwtVerify, listsRoutes)
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
 // Initialization of server:
 app.listen(port, () => {
-	console.log(`Listening on port ${port}`)
+	console.info(`Listening on port ${port}`)
 })

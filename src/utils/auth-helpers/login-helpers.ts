@@ -1,6 +1,6 @@
 import _ from "lodash"
 import jwt from "jsonwebtoken"
-import { UserModel } from "../../models/user-model"
+import UserModel from "../../models/user-model"
 
 export async function retrieveUserIdAndPassword(email: string): Promise<{ userId: string, password: string } | undefined> {
 	const user = await UserModel.findOne({ email })
@@ -8,7 +8,7 @@ export async function retrieveUserIdAndPassword(email: string): Promise<{ userId
 
 	return {
 		userId: _.toString(user._id),
-		password: user.password
+		password: user.password as string
 	}
 }
 

@@ -1,7 +1,7 @@
 import _ from "lodash"
 import jwt from "jsonwebtoken"
 import Hash from "../../setup-and-security/hash"
-import { UserModel } from "../../models/user-model"
+import UserModel from "../../models/user-model"
 
 export async function doesEmailExist(email: string): Promise<boolean> {
 	const user = await UserModel.findOne({ email })
@@ -20,7 +20,8 @@ export async function hashPassword(password: string): Promise<{ hashedPassword: 
 export async function addUser(email: string, password: string): Promise<string> {
 	const newUser = await UserModel.create({
 		email,
-		password
+		password,
+		authMethod: "local",
 	})
 
 	return (_.toString(newUser._id))

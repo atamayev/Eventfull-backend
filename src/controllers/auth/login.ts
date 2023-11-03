@@ -2,6 +2,7 @@ import _ from "lodash"
 import { Response, Request } from "express"
 import Hash from "../../setup-and-security/hash"
 import { signJWT, retrieveUserIdAndPassword } from "../../utils/auth-helpers/login-helpers"
+import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
 	const { email, password } = req.body.loginInformationObject as LoginInformationObject
@@ -32,6 +33,8 @@ export default async function login (req: Request, res: Response): Promise<Respo
 
 	const token = signJWT(payload)
 	if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
+
+	await addLoginHistory(results.userId)
 
 	return res
 		.status(200)

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { UserModel } from "../../models/user-model"
+import UserModel from "../../models/user-model"
 
 export async function doesUserIdExist(userId: string): Promise<boolean> {
 	const user = await UserModel.findById(userId)

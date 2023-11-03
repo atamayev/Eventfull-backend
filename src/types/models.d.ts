@@ -15,16 +15,29 @@ declare global {
 
 	interface User extends IDInterface {
 		email: string
-		password: string
-		createdAt: string
-		updatedAt: string
-		name?: string
+		authMethod: string
+		password?: string
+		createdAt: Date
+		updatedAt: Date
+		firstName?: string
+		lastName?: string
 		gender?: string
 		profilePictureURL?: string
 		phoneNumber?: string
 		bio?: string
 		eventPins?: Types.ObjectId[]
 		calendarData?: CalendarData[]
+		googleLoginAccessToken?: string
+		googleLoginRefreshToken?: string
+		googleLoginAccessTokenExpiryDate?: Date
+		googleCalendarAccessToken?: string
+		googleCalendarAccessTokenExpiryDate?: Date
+		loginHistory?: LoginHistory[]
+		friends?: Types.ObjectId[]
+		outgoingFriendRequests?: Types.ObjectId[]
+		incomingFriendRequests?: Types.ObjectId[]
+		blockedUsers?: Types.ObjectId[]
+		blockedByUsers?: Types.ObjectId[]
 	}
 
 	interface CalendarData {
@@ -37,6 +50,12 @@ declare global {
 			dateTime: string
 			timeZone: string
 		}
+	}
+
+	interface LoginHistory {
+		loginTime: Date
+		// ipAddress: string
+		// device: string
 	}
 
 	interface Event extends IDInterface {

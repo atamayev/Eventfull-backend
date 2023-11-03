@@ -7,8 +7,14 @@ declare global {
 			// JWT:
 			JWT_KEY: string
 
-			PORT: string
+			// MongoDB:
+			MONGODB_URI: string
 
+			// Google Auth:
+			GOOGLE_CLIENT_ID: string
+			GOOGLE_CLIENT_SECRET: string
+
+			PORT: string
 		}
 	}
 }

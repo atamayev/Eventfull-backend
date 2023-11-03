@@ -1,10 +1,9 @@
 import express from "express"
-// import { connectGoogleCalendar, retrieveCalendarDetails } from "../controllers/calendar-controller"
+import getGoogleCalendarDetails from "../controllers/calendar/get-google-calendar-details"
+import jwtVerify from "../middleware/jwt-verify"
 
 const calendarRoutes = express.Router()
 
-//Add Middleware to verify JWT here, validate the request body
-// calendarRoutes.post("/connect-google-calendar", connectGoogleCalendar)
-// calendarRoutes.get("/retrieve-calendar-details", retrieveCalendarDetails)
+calendarRoutes.get("/get-google-calendar-details", jwtVerify,  getGoogleCalendarDetails)
 
 export default calendarRoutes

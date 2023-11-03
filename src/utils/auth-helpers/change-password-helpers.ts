@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { UserModel } from "../../models/user-model"
+import UserModel from "../../models/user-model"
 
 export async function retrieveUserPassword(userId: string): Promise<string | undefined> {
 	const user = await UserModel.findById(userId)

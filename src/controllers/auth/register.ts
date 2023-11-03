@@ -1,6 +1,7 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import { addUser, doesEmailExist, hashPassword, signJWT } from "../../utils/auth-helpers/register-helpers"
+import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 
 export default async function register (req: Request, res: Response): Promise<Response> {
 	const { email, password } = req.body.registerInformationObject as LoginInformationObject
@@ -20,6 +21,8 @@ export default async function register (req: Request, res: Response): Promise<Re
 
 	const token = signJWT(payload)
 	if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
+
+	await addLoginHistory(userId)
 
 	return res
 		.status(200)
