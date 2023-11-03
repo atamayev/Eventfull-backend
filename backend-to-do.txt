@@ -2,7 +2,6 @@ Evendr To-do backend
 
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
-2. Figure out the importing src/ files problem
 
 ASAP:
 ## Connect to Calendars:

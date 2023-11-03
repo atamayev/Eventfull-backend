@@ -107,8 +107,7 @@
 	  "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
 	},
 	"include": [
-	  "src/types/**/*.d.ts",
-	  "src/",
+	  "src/**/*",
 	  "./.eslintrc.json",
 	  "./webpack.config.js"
 	],
