@@ -4,11 +4,6 @@ Short-term technical stuff:
 1. Add schema validation rules in mongodb
 
 ASAP:
-## Sign-in via:
-	- Google
-	- Apple
-	- Facebook
-
 ## Connect to Calendars:
 	- Google
 	- Outlook
@@ -17,7 +12,7 @@ ASAP:
 	- Import ics?
 	============
 	- Given the user's credentials/permission, read the user's calendar 
-	- Store the user's future calendar data efficiently.
+	- Store the user's calendar data in MongoDB
 
 2FA
 Login with phone vs email
@@ -30,7 +25,10 @@ Later:
 		- May need to utilize an LLM for this - look into Llamma 2 - it's free, and can be pre-trained on our existing categories/types
 	- Before storing the data, make sure the event does not already exist in storage.
 ## Cache the event names/categories in Redis
+
 ## Chat functionality
 
 
 Post-MVP:
+# Sign in via Facebook (import Facebook friends)
+# Apple in via Apple (paid service - $100/year)
