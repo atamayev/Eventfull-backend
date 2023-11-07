@@ -2,7 +2,8 @@ Eventfull To-do backend
 
 Microsoft to-do:
 1. Find the microsoft tenant id
-2.
+2. create getValidGoogleCalendarAccessToken for mcirosoft
+3. go through all google utils, and make seperate ones for microsoft
 
 Short-term technical stuff:
 1. Add schema validation rules in mongodb

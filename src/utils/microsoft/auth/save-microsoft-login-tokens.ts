@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Types } from "mongoose"
-import UserModel from "../../models/user-model"
-import addNonLocalUserToDB from "../auth-helpers/add-non-local-auth-user-to-db"
+import UserModel from "../../../models/user-model"
+import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-db"
 
 export default async function saveMicrosoftLoginTokens(
 	email: string,

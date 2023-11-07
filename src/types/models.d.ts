@@ -35,6 +35,8 @@ declare global {
         microsoftLoginAccessToken?: string
         microsoftLoginRefreshToken?: string
         microsoftLoginAccessTokenExpiryDate?: Date
+		microsoftCalendarAccessToken?: string
+		microsoftCalendarAccessTokenExpiryDate?: Date
 		loginHistory?: LoginHistory[]
 		friends?: Types.ObjectId[]
 		outgoingFriendRequests?: Types.ObjectId[]

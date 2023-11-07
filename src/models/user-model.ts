@@ -27,6 +27,8 @@ const userSchema = new Schema<User>({
 	microsoftLoginAccessToken: { type: String },
 	microsoftLoginRefreshToken: { type: String },
 	microsoftLoginAccessTokenExpiryDate: { type: Date },
+	microsoftCalendarAccessToken: { type: String },
+	microsoftCalendarAccessTokenExpiryDate: { type: Date },
 	loginHistory: { type: [loginHistorySchema] },
 	friends: [{ type: Types.ObjectId, ref: "User" }],
 	outgoingFriendRequests: [{ type: Types.ObjectId, ref: "User" }],

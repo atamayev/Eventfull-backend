@@ -4,7 +4,7 @@ import { signJWT } from "../../../utils/auth-helpers/register-helpers"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import exchangeCodeForToken from "../../../utils/microsoft/exchange-code-for-token"
 import verifyIdToken from "../../../utils/microsoft/verify-id-token"
-import saveMicrosoftLoginTokens from "../../../utils/microsoft/save-microsoft-login-tokens"
+import saveMicrosoftLoginTokens from "../../../utils/microsoft/auth/save-microsoft-login-tokens"
 
 export default async function microsoftLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	const code = req.query.code as string
