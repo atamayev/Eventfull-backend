@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Request, Response } from "express"
 import OperationHandler from "../utils/operation-handler"
 import EventCategoryModel from "../models/event-category-model"

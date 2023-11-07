@@ -10,11 +10,13 @@ import generateGoogleCalendarAuthUrl from "../controllers/auth/google-auth/gener
 import jwtVerify from "../middleware/jwt-verify"
 import validateLoginRequestBody from "../middleware/request-validation/auth-routes/validate-login-request-body"
 import validateRegisterRequestBody from "../middleware/request-validation/auth-routes/validate-register-request-body"
-import validateGoogleLoginAuthRequest from "../middleware/request-validation/auth-routes/validate-google-login-auth-request"
+import validateGoogleAndMicrosoftLoginAuthRequest
+	from "../middleware/request-validation/auth-routes/validate-google-and-microsoft-login-auth-request"
 import validateChangePasswordRequest from "../middleware/request-validation/auth-routes/validate-change-password-request-body"
 import validateGoogleCalendarRequest from "../middleware/request-validation/auth-routes/validate-google-calendar-request"
 import validateGetGoogleCalendarUrlRequest
 	from "../middleware/request-validation/auth-routes/validate-get-google-calendar-url-request-body"
+import generateMicrosoftLoginAuthUrl from "../controllers/auth/microsoft-auth/generate-microsoft-login-auth-url"
 
 const authRoutes = express.Router()
 
@@ -25,7 +27,13 @@ authRoutes.post("/change-password", jwtVerify, validateChangePasswordRequest, ch
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
 authRoutes.get("/google-auth/generate-calendar-auth-url", validateGetGoogleCalendarUrlRequest, generateGoogleCalendarAuthUrl)
 
-authRoutes.get("/google-auth/login-callback", validateGoogleLoginAuthRequest, googleLoginAuthCallback)
+authRoutes.get("/google-auth/login-callback", validateGoogleAndMicrosoftLoginAuthRequest, googleLoginAuthCallback)
 authRoutes.get("/google-auth/calendar-callback", validateGoogleCalendarRequest, googleCalendarAuthCallback)
+
+authRoutes.get("/microsoft-auth/generate-login-auth-url", generateMicrosoftLoginAuthUrl)
+// authRoutes.get("/microsoft-auth/generate-calendar-auth-url", validateGetGoogleCalendarUrlRequest, generateGoogleCalendarAuthUrl)
+
+authRoutes.get("/microsoft-auth/login-callback", validateGoogleAndMicrosoftLoginAuthRequest, googleLoginAuthCallback)
+// authRoutes.get("/microsoft-auth/calendar-callback", validateGoogleCalendarRequest, googleCalendarAuthCallback)
 
 export default authRoutes

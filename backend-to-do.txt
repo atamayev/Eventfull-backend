@@ -1,5 +1,9 @@
 Eventfull To-do backend
 
+Microsoft to-do:
+1. Find the microsoft tenant id
+2.
+
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
 

@@ -2,12 +2,12 @@ import _ from "lodash"
 import { Types } from "mongoose"
 import { Credentials } from "google-auth-library"
 import UserModel from "../../../models/user-model"
-import addGoogleUserToDB from "../add-google-auth-user-to-db"
+import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-db"
 
 export default async function saveGoogleLoginTokens(email: string, tokens: Credentials): Promise<Types.ObjectId> {
 	let user = await UserModel.findOne({ email })
 
-	if (_.isNull(user)) user = await addGoogleUserToDB(email)
+	if (_.isNull(user)) user = await addNonLocalUserToDB(email, "google")
 
 	if (!_.isNil(tokens.access_token)) {
 		user.googleLoginAccessToken = tokens.access_token
