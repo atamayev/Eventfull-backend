@@ -1,4 +1,4 @@
-Evendr To-do backend
+Eventfull To-do backend
 
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
