@@ -8,25 +8,27 @@ export default async function saveMicrosoftLoginTokens(
 	accessToken: string,
 	refreshToken: string,
 	expiresIn: number
-): Promise<Types.ObjectId> {
-	let user = await UserModel.findOne({ email })
+): Promise<Types.ObjectId | null> {
+	try {
+		let user = await UserModel.findOne({ email })
 
-	if (_.isNull(user)) user = await addNonLocalUserToDB(email, "microsoft")
+		if (_.isNull(user)) user = await addNonLocalUserToDB(email, "microsoft")
 
-	if (!_.isNil(accessToken)) {
-		user.microsoftLoginAccessToken = accessToken
+		if (!_.isNil(accessToken)) user.microsoftLoginAccessToken = accessToken
+
+		if (!_.isNil(refreshToken)) user.microsoftLoginRefreshToken = refreshToken
+
+		if (!_.isNil(expiresIn)) {
+			const expirationTime = Math.floor(Date.now() / 1000) + expiresIn
+			user.microsoftLoginAccessTokenExpiryDate = new Date(expirationTime)
+		}
+
+		await user.save()
+
+		return user._id
+
+	} catch (error) {
+		console.error("Error saving user tokens to DB:", error)
+		return null
 	}
-
-	if (!_.isNil(refreshToken)) {
-		user.microsoftLoginRefreshToken = refreshToken
-	}
-
-	if (!_.isNil(expiresIn)) {
-		const expirationTime = Math.floor(Date.now() / 1000) + expiresIn
-		user.microsoftLoginAccessTokenExpiryDate = new Date(expirationTime)
-	}
-
-	await user.save()
-
-	return user._id
 }

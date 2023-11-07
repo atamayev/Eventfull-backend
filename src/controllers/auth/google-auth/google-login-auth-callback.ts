@@ -24,6 +24,8 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		const userId = await saveGoogleLoginTokens(email, tokens)
 
+		if (_.isNull(userId)) return res.status(500).json({ error: "Problem saving Google Login Tokens" })
+
 		const payload: JwtPayload = {
 			userId: _.toString(userId),
 			newUser: false

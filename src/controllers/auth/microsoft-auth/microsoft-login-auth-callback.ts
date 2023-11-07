@@ -21,6 +21,8 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 
 		const userId = await saveMicrosoftLoginTokens(email, access_token, refresh_token, expires_in)
 
+		if (_.isNull(userId)) return res.status(500).json({ error: "Problem saving Microsoft Login Tokens" })
+
 		const payload: JwtPayload = {
 			userId: _.toString(userId),
 			newUser: false
