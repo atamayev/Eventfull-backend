@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios"
 
-export default function exchangeCodeForToken (code: string): Promise<AxiosResponse> {
+export default function exchangeCodeForTokenLoginCallback (code: string): Promise<AxiosResponse> {
 	const url = `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/oauth2/v2.0/token`
 	const params = new URLSearchParams()
 	params.append("client_id", process.env.MICROSOFT_CLIENT_ID)

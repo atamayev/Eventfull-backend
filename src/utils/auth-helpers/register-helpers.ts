@@ -12,7 +12,8 @@ export async function hashPassword(password: string): Promise<{ hashedPassword: 
 	try {
 		const hashedPassword = await Hash.hashCredentials(password)
 		return { hashedPassword }
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return { hashedPassword: "", hashError: "Problem with hashing password" }
 	}
 }
@@ -30,7 +31,8 @@ export async function addUser(email: string, password: string): Promise<string> 
 export function signJWT(payload: object): string | undefined {
 	try {
 		return jwt.sign(payload, process.env.JWT_KEY)
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return undefined
 	}
 }

@@ -3,12 +3,12 @@ import dayjs from "dayjs"
 import { Types } from "mongoose"
 import { google } from "googleapis"
 import { Response, Request } from "express"
-import getValidGoogleLoginAccessToken from "../../utils/google/calendar-retrieval/get-valid-google-calendar-token"
+import getValidGoogleCalendarAccessToken from "../../utils/google/calendar-retrieval/get-valid-google-calendar-token"
 
 export default async function getGoogleCalendarDetails(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.headers.userid as string
-		const googleCalendarAccessToken = await getValidGoogleLoginAccessToken(userId as unknown as Types.ObjectId)
+		const googleCalendarAccessToken = await getValidGoogleCalendarAccessToken(userId as unknown as Types.ObjectId)
 		if (_.isUndefined(googleCalendarAccessToken)) {
 			return res.status(400).json({ error: "No Google Calendar Access Token Found" })
 		}
@@ -26,6 +26,7 @@ export default async function getGoogleCalendarDetails(req: Request, res: Respon
 		})
 		return res.status(200).json({ calendarDetails: events.data.items })
 	} catch (error) {
+		console.error(error)
 		return res.status(500).json({ error: "Failed to fetch Google Calendar data" })
 	}
 }

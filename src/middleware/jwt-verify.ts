@@ -18,8 +18,8 @@ export default async function jwtVerify(req: Request, res: Response, next: NextF
 
 		req.headers.userId = userId
 		next()
-	} catch (error: unknown) {
-		console.error("Error in jwtVerify: ", error)
+	} catch (error) {
+		console.error(error)
 		return handleUnauthorized()
 	}
 

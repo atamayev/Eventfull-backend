@@ -10,7 +10,8 @@ export function getDecodedId(accessToken: string): string | undefined {
 	try {
 		const decoded = jwt.verify(accessToken, process.env.JWT_KEY) as JwtPayload
 		return decoded.userId
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return undefined
 	}
 }

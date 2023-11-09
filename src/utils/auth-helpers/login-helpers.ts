@@ -15,7 +15,8 @@ export async function retrieveUserIdAndPassword(email: string): Promise<{ userId
 export function signJWT(payload: object): string | undefined {
 	try {
 		return jwt.sign(payload, process.env.JWT_KEY)
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return undefined
 	}
 }

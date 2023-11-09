@@ -19,6 +19,5 @@ export default async function saveGoogleCalendarTokens(email: string, tokens: Cr
 
 	} catch (error) {
 		console.error("Error saving user tokens to DB:", error)
-
 	}
 }

@@ -24,7 +24,8 @@ export default async function changePassword (req: Request, res: Response): Prom
 			await updatePassword(newHashedPassword, userId)
 			return res.status(200).json()
 		}
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return res.status(500).json({ error: "Errror in changing password" })
 	}
 }

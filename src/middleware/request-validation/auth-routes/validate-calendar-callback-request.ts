@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express"
 import UserModel from "../../../models/user-model"
 import { doesUserIdExist, getDecodedId } from "../../../utils/auth-helpers/jwt-verify-helpers"
 
-export default async function validateGoogleCalendarRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function validateCalendarRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	if (!req.query || !req.query.code ) {
 		return res.status(400).json({ error: "Bad Request: Missing or invalid body" })
 	}
@@ -21,6 +21,7 @@ export default async function validateGoogleCalendarRequest (req: Request, res: 
 		const user = await UserModel.findById(userId).select("email").lean().exec()
 		email = user?.email
 	} catch (error) {
+		console.error(error)
 		return res.status(400).json({error: "Bad Request: State is not valid JSON"})
 	}
 

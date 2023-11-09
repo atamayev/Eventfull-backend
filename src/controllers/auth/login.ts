@@ -15,14 +15,16 @@ export default async function login (req: Request, res: Response): Promise<Respo
 			return res.status(404).json({ error: "Username not found!" })
 		}
 		else results = results1
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return res.status(500).json({ error: "Problem with email selection" })
 	}
 
 	try {
 		const bool = await Hash.checkPassword(password, results.password)
 		if (bool === false) return res.status(400).json({ error: "Wrong Username or Password!" })
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return res.status(500).json({ error: "Problem with checking password" })
 	}
 

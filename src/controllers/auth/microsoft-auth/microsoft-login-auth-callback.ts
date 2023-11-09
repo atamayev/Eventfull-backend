@@ -2,15 +2,15 @@ import _ from "lodash"
 import { Response, Request } from "express"
 import { signJWT } from "../../../utils/auth-helpers/register-helpers"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
-import exchangeCodeForToken from "../../../utils/microsoft/exchange-code-for-token"
 import verifyIdToken from "../../../utils/microsoft/verify-id-token"
 import saveMicrosoftLoginTokens from "../../../utils/microsoft/auth/save-microsoft-login-tokens"
+import exchangeCodeForTokenLoginCallback from "../../../utils/microsoft/auth/exchange-code-for-token-login-callback"
 
 export default async function microsoftLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	const code = req.query.code as string
 
 	try {
-		const tokenResponse = await exchangeCodeForToken(code)
+		const tokenResponse = await exchangeCodeForTokenLoginCallback(code)
 		// eslint-disable-next-line @typescript-eslint/naming-convention
 		const { access_token, refresh_token, id_token, expires_in } = tokenResponse.data
 
@@ -38,6 +38,7 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 			accessToken: token
 		})
 	} catch (error) {
+		console.error(error)
 		return res.status(500).json({error: "Internal Server Error"})
 	}
 }
