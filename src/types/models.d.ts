@@ -90,8 +90,8 @@ declare global {
 	}
 
 	interface Booking extends IDInterface {
-		userId: number
-		eventId: number
+		userId: Types.ObjectId
+		eventId: Types.ObjectId
 		reviewRating?: number
 		reviewMessage?: string
 	}

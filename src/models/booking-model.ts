@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose"
 
 const bookingSchema = new Schema<Booking>({
-	userId: { type: Number, required: true },
-	eventId: { type: Number, required: true },
+	userId: { type: Schema.Types.ObjectId, required: true },
+	eventId: { type: Schema.Types.ObjectId, required: true },
 	reviewRating: Number,
 	reviewMessage: String,
 }, {

@@ -1,9 +1,10 @@
 import { Schema, model } from "mongoose"
+import trimArray from "../utils/trim-array"
 
 const eventTypeSchema = new Schema<EventType>({
-	name: { type: String, required: true },
-	description: { type: String, required: true },
-	categories: { type: [String], required: true }
+	name: { type: String, required: true, unique: true, trim: true },
+	description: { type: String, required: true, trim: true },
+	categories: { type: [String], required: true, set: trimArray }
 }, {
 	timestamps: true
 })
