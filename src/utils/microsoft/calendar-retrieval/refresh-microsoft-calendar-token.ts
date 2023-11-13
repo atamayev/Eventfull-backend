@@ -13,9 +13,8 @@ export default async function refreshMicrosoftCalendarToken(userId: Types.Object
 		const authenticationResult = await cca.acquireTokenByRefreshToken(tokenRequest)
 		if (_.isNull(authenticationResult)) return null
 
-		const newAccessToken = authenticationResult.accessToken
-
 		await updateMicrosoftCalendarTokensInDB(userId, authenticationResult)
+		const newAccessToken = authenticationResult.accessToken
 
 		return newAccessToken
 	} catch (error) {

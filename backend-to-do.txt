@@ -1,5 +1,7 @@
 Eventfull To-do backend
 
+- microsoft refresh token doesn' work - needs testing
+
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
 
