@@ -11,3 +11,8 @@ export async function retrieveUserPassword(userId: Types.ObjectId): Promise<stri
 export async function updatePassword(newPassword: string, userId: Types.ObjectId): Promise<void> {
 	await UserModel.findByIdAndUpdate(userId, { password: newPassword })
 }
+
+export async function checkIfUserIdMatchesEmail(userId: Types.ObjectId, email: string): Promise<boolean> {
+	const userExists = await UserModel.exists({ _id: userId, email })
+	return !!userExists
+}

@@ -12,7 +12,7 @@ export default function validateChangePasswordRequest(req: Request, res: Respons
 		return res.status(400).json({ error: "Missing required fields" })
 	}
 
-	if (!changePasswordInfo.currentPassword || !changePasswordInfo.newPassword) {
+	if (!changePasswordInfo.email || !changePasswordInfo.currentPassword || !changePasswordInfo.newPassword) {
 		return res.status(400).json({ error: "Incomplete Change Password Information" })
 	}
 
