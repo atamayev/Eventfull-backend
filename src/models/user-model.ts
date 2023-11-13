@@ -19,11 +19,14 @@ const userSchema = new Schema<User>({
 	bio: { type: String },
 	eventPins: { type: [Types.ObjectId] },
 	calendarData: { type: [calendarDataSchema] },
+
 	googleLoginAccessToken: { type: String },
 	googleLoginRefreshToken: { type: String },
 	googleLoginAccessTokenExpiryDate: { type: Date },
 	googleCalendarAccessToken: { type: String },
 	googleCalendarAccessTokenExpiryDate: { type: Date },
+	googleCalendarRefreshToken: { type: String },
+
 	microsoftLoginAccessToken: { type: String },
 	microsoftLoginRefreshToken: { type: String },
 	microsoftLoginAccessTokenExpiryDate: { type: Date },
@@ -31,6 +34,7 @@ const userSchema = new Schema<User>({
 	microsoftCalendarRefreshToken: { type: String },
 	microsoftCalendarAccessTokenExpiryDate: { type: Date },
 	microsoftDefaultCalendarId: { type: String },
+
 	loginHistory: { type: [loginHistorySchema] },
 	friends: [{ type: Types.ObjectId, ref: "User" }],
 	outgoingFriendRequests: [{ type: Types.ObjectId, ref: "User" }],

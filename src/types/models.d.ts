@@ -27,11 +27,14 @@ declare global {
 		bio?: string
 		eventPins?: Types.ObjectId[]
 		calendarData?: CalendarData[]
+
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string
 		googleLoginAccessTokenExpiryDate?: Date
 		googleCalendarAccessToken?: string
 		googleCalendarAccessTokenExpiryDate?: Date
+		googleCalendarRefreshToken?: string
+
         microsoftLoginAccessToken?: string
         microsoftLoginRefreshToken?: string
         microsoftLoginAccessTokenExpiryDate?: Date
