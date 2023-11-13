@@ -2,7 +2,12 @@ import _ from "lodash"
 import UserModel from "../../../models/user-model"
 import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-db"
 
-export default async function saveMicrosoftCalendarTokens(email: string, accessToken: string, expiryDate: Date): Promise<void> {
+export default async function saveMicrosoftCalendarTokens(
+	email: string,
+	accessToken: string,
+	refreshToken: string,
+	expiryDate: number
+): Promise<void> {
 	try {
 		let user = await UserModel.findOne({ email })
 
@@ -10,7 +15,12 @@ export default async function saveMicrosoftCalendarTokens(email: string, accessT
 
 		if (!_.isNil(accessToken)) user.microsoftCalendarAccessToken = accessToken
 
-		if (!_.isNil(expiryDate)) user.microsoftCalendarAccessTokenExpiryDate = expiryDate
+		if (!_.isNil(refreshToken)) user.microsoftCalendarRefreshToken = refreshToken
+
+		if (!_.isNil(expiryDate)) {
+			const expirationTime = Date.now() + expiryDate * 1000
+			user.microsoftCalendarAccessTokenExpiryDate = new Date(expirationTime)
+		}
 
 		await user.save()
 

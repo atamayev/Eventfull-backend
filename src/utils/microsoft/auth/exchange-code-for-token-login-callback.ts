@@ -6,7 +6,7 @@ export default function exchangeCodeForTokenLoginCallback (code: string): Promis
 	params.append("client_id", process.env.MICROSOFT_CLIENT_ID)
 	params.append("scope", "openid profile email")
 	params.append("code", code)
-	params.append("redirect_uri", "http://localhost:8080/auth/microsoft-auth/login-callback")
+	params.append("redirect_uri", "http://localhost:8080/api/auth/microsoft-auth/login-callback")
 	params.append("grant_type", "authorization_code")
 	params.append("client_secret", process.env.MICROSOFT_SECRET_ID)
 

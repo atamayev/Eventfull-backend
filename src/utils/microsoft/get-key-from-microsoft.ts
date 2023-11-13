@@ -4,8 +4,6 @@ import jwksClient from "jwks-rsa"
 
 // Initialize JWKS client
 const client = jwksClient({
-	//Remember to replace 'https://login.microsoftonline.com/common/discovery/v2.0/keys'
-	// with the appropriate endpoint for your tenant if you are not using the common endpoint.
 	jwksUri: "https://login.microsoftonline.com/common/discovery/v2.0/keys"
 })
 

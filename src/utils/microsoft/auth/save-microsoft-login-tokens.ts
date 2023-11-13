@@ -19,7 +19,7 @@ export default async function saveMicrosoftLoginTokens(
 		if (!_.isNil(refreshToken)) user.microsoftLoginRefreshToken = refreshToken
 
 		if (!_.isNil(expiresIn)) {
-			const expirationTime = Math.floor(Date.now() / 1000) + expiresIn
+			const expirationTime = Date.now() + expiresIn * 1000
 			user.microsoftLoginAccessTokenExpiryDate = new Date(expirationTime)
 		}
 
