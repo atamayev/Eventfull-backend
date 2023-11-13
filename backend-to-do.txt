@@ -3,6 +3,9 @@ Eventfull To-do backend
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
 
+Distinguish between creating a new ms/google account, and loggin in with one.
+	if the user doesn't have a google, and tries to login via google  - it shouldn't create an account for them - it should tell them to register
+
 1. Calendar normalization (make a standardized calendar schema that includes all the key/values that google and microsoft have)
 	- first, need to define the type of the google data - fetch the events, and see what their type is 
 	- will need to make a cleaning pipeline - to change the calendar data coming in from google/microsoft to fit the schema
