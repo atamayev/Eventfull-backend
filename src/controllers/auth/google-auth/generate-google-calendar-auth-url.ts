@@ -11,9 +11,7 @@ export default function generateGoogleCalendarAuthUrl(req: Request, res: Respons
 
 	const authUrl = oauth2Client.generateAuthUrl({
 		access_type: "offline",
-		scope: [
-			"https://www.googleapis.com/auth/calendar"
-		],
+		scope: ["https://www.googleapis.com/auth/calendar"],
 		state: JSON.stringify(stateData)
 	})
 

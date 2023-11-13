@@ -2,7 +2,6 @@ import { Types } from "mongoose"
 import createGoogleAuthClient from "../create-google-auth-client"
 import updateGoogleCalendarTokensInDB from "./update-google-calendar-tokens-in-db"
 
-// This function fetches a new access token using a refresh token
 export default async function refreshGoogleCalendarToken(userId: Types.ObjectId, refreshToken: string): Promise<string | null | undefined> {
 	try {
 		const oauth2Client = createGoogleAuthClient()

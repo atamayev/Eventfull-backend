@@ -2,10 +2,10 @@ import UserModel from "../../models/user-model"
 
 type UserDocument = User & Document
 
-export default async function addGoogleUserToDB(email: string): Promise<UserDocument> {
+export default async function addNonLocalUserToDB(email: string, authMethod: "google" | "microsoft"): Promise<UserDocument> {
 	const newUser = await UserModel.create({
 		email,
-		authMethod: "google",
+		authMethod,
 	})
 
 	return newUser as UserDocument

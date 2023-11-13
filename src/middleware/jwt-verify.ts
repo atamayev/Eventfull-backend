@@ -1,4 +1,5 @@
 import _ from "lodash"
+import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 import { doesUserIdExist, getDecodedId } from "../utils/auth-helpers/jwt-verify-helpers"
 
@@ -16,10 +17,10 @@ export default async function jwtVerify(req: Request, res: Response, next: NextF
 
 		if (doesRecordExist === false) return handleUnauthorized()
 
-		req.headers.userId = userId
+		req.userId = new Types.ObjectId(userId)
 		next()
-	} catch (error: unknown) {
-		console.error("Error in jwtVerify: ", error)
+	} catch (error) {
+		console.error(error)
 		return handleUnauthorized()
 	}
 

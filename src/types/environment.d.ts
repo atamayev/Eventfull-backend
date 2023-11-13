@@ -14,6 +14,11 @@ declare global {
 			GOOGLE_CLIENT_ID: string
 			GOOGLE_CLIENT_SECRET: string
 
+			// Microsoft Auth:
+			MICROSOFT_CLIENT_ID: string
+			MICROSOFT_SECRET_ID: string
+			MICROSOFT_TENANT_ID: string
+
 			PORT: string
 		}
 	}

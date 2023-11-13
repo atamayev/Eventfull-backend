@@ -32,6 +32,13 @@ declare global {
 		googleLoginAccessTokenExpiryDate?: Date
 		googleCalendarAccessToken?: string
 		googleCalendarAccessTokenExpiryDate?: Date
+        microsoftLoginAccessToken?: string
+        microsoftLoginRefreshToken?: string
+        microsoftLoginAccessTokenExpiryDate?: Date
+		microsoftCalendarAccessToken?: string
+		microsoftCalendarRefreshToken?: string
+		microsoftCalendarAccessTokenExpiryDate?: Date
+		microsoftDefaultCalendarId?: string
 		loginHistory?: LoginHistory[]
 		friends?: Types.ObjectId[]
 		outgoingFriendRequests?: Types.ObjectId[]

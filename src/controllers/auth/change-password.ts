@@ -5,7 +5,7 @@ import { retrieveUserPassword, updatePassword } from "../../utils/auth-helpers/c
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {
 	const { currentPassword, newPassword } = req.body.changePasswordObject as ChangePasswordObject
-	const userId = req.headers.userId as string
+	const userId = req.userId
 
 	try {
 		const hashedOldPassword = await retrieveUserPassword(userId)
@@ -24,7 +24,8 @@ export default async function changePassword (req: Request, res: Response): Prom
 			await updatePassword(newHashedPassword, userId)
 			return res.status(200).json()
 		}
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return res.status(500).json({ error: "Errror in changing password" })
 	}
 }

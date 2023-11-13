@@ -1,6 +1,7 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import { addUser, doesEmailExist, hashPassword, signJWT } from "../../utils/auth-helpers/register-helpers"
+import { signJWT } from "../../utils/auth-helpers/common-auth-helpers"
+import { addUser, doesEmailExist, hashPassword } from "../../utils/auth-helpers/register-helpers"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 
 export default async function register (req: Request, res: Response): Promise<Response> {
@@ -15,7 +16,7 @@ export default async function register (req: Request, res: Response): Promise<Re
 	const userId = await addUser(email, hashedPassword)
 
 	const payload: JwtPayload = {
-		userId: userId,
+		userId: _.toString(userId),
 		newUser: true
 	}
 

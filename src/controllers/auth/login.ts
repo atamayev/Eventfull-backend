@@ -1,7 +1,8 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import Hash from "../../setup-and-security/hash"
-import { signJWT, retrieveUserIdAndPassword } from "../../utils/auth-helpers/login-helpers"
+import { signJWT } from "../../utils/auth-helpers/common-auth-helpers"
+import { retrieveUserIdAndPassword } from "../../utils/auth-helpers/login-helpers"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
@@ -15,19 +16,21 @@ export default async function login (req: Request, res: Response): Promise<Respo
 			return res.status(404).json({ error: "Username not found!" })
 		}
 		else results = results1
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return res.status(500).json({ error: "Problem with email selection" })
 	}
 
 	try {
 		const bool = await Hash.checkPassword(password, results.password)
 		if (bool === false) return res.status(400).json({ error: "Wrong Username or Password!" })
-	} catch (error: unknown) {
+	} catch (error) {
+		console.error(error)
 		return res.status(500).json({ error: "Problem with checking password" })
 	}
 
 	const payload: JwtPayload = {
-		userId: results.userId,
+		userId: _.toString(results.userId),
 		newUser: false
 	}
 

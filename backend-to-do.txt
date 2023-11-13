@@ -1,14 +1,20 @@
-Evendr To-do backend
+Eventfull To-do backend
+
+Microsoft to-do:
+2. Testing
+	1. test if microsoft calendar access allowed if the user never signed in wiht microsoft (ie local signup or google signup)
+	2. same as 1, but for google
+
+1. Calendar normalization (make a standardized calendar schema that includes all the key/values that google and microsoft have)
+	- first, need to define the type of the google data - fetch the events, and see what their type is 
+	- will need to make a cleaning pipeline - to change the calendar data coming in from google/microsoft to fit the schema
+
+See why google doesn't issue a calendar refresh token?
 
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
 
 ASAP:
-## Sign-in via:
-	- Google
-	- Apple
-	- Facebook
-
 ## Connect to Calendars:
 	- Google
 	- Outlook
@@ -17,7 +23,7 @@ ASAP:
 	- Import ics?
 	============
 	- Given the user's credentials/permission, read the user's calendar 
-	- Store the user's future calendar data efficiently.
+	- Store the user's calendar data in MongoDB
 
 2FA
 Login with phone vs email
@@ -30,7 +36,10 @@ Later:
 		- May need to utilize an LLM for this - look into Llamma 2 - it's free, and can be pre-trained on our existing categories/types
 	- Before storing the data, make sure the event does not already exist in storage.
 ## Cache the event names/categories in Redis
+
 ## Chat functionality
 
 
 Post-MVP:
+# Sign in via Facebook (import Facebook friends)
+# Apple in via Apple (paid service - $100/year)

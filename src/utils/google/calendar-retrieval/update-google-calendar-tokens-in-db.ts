@@ -5,17 +5,15 @@ import UserModel from "../../../models/user-model"
 
 export default async function updateGoogleCalendarTokensInDB(userId: Types.ObjectId, credentials: Credentials): Promise<void> {
 	try {
-		const user = await UserModel.findOne({ userId })
+		// eslint-disable-next-line @typescript-eslint/naming-convention
+		const { access_token, expiry_date } = credentials
+		const user = await UserModel.findById(userId)
 
 		if (_.isNil(user)) return
 
-		if (!_.isNil(credentials.access_token)) {
-			user.googleCalendarAccessToken = credentials.access_token
-		}
+		if (!_.isNil(access_token)) user.googleCalendarAccessToken = access_token
 
-		if (!_.isNil(credentials.expiry_date)) {
-			user.googleCalendarAccessTokenExpiryDate = new Date(credentials.expiry_date)
-		}
+		if (!_.isNil(expiry_date)) user.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
 
 		await user.save()
 	} catch (error) {
