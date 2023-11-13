@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { google } from "googleapis"
 import { Response, Request } from "express"
-import { signJWT } from "../../../utils/auth-helpers/register-helpers"
+import { signJWT } from "../../../utils/auth-helpers/common-auth-helpers"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import createGoogleAuthClient from "../../../utils/google/create-google-auth-client"
 import saveGoogleLoginTokens from "../../../utils/google/auth/save-google-login-tokens"
@@ -34,7 +34,7 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 		const token = signJWT(payload)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-		await addLoginHistory(_.toString(userId))
+		await addLoginHistory(userId)
 
 		return res.status(200).json({
 			authenticated: true,

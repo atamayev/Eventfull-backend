@@ -1,3 +1,5 @@
+import { Types } from "mongoose"
+
 declare global {
 	interface ChangePasswordObject {
 		currentPassword: string
@@ -11,7 +13,7 @@ declare global {
 	}
 
 	type UserIdAndPassword = {
-		userId: string
+		userId: Types.ObjectId
 		password: string
 	}
 }

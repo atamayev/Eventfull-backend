@@ -7,9 +7,9 @@ import getValidMicrosoftCalendarAccessToken from "../utils/microsoft/calendar-re
 
 export default async function assignMicrosoftCalendarId(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
-		const userId = req.headers.userid as string
+		const userId = req.userId
 
-		const user = await UserModel.findOne({ userId }) as User
+		const user = await UserModel.findById(userId) as User
 
 		let microsoftDefaultCalendarId = user.microsoftDefaultCalendarId
 		if (_.isUndefined(microsoftDefaultCalendarId)) {

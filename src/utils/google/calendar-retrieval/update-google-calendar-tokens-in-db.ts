@@ -7,7 +7,7 @@ export default async function updateGoogleCalendarTokensInDB(userId: Types.Objec
 	try {
 		// eslint-disable-next-line @typescript-eslint/naming-convention
 		const { access_token, expiry_date } = credentials
-		const user = await UserModel.findOne({ userId })
+		const user = await UserModel.findById(userId)
 
 		if (_.isNil(user)) return
 

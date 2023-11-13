@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import { signJWT } from "../../../utils/auth-helpers/register-helpers"
+import { signJWT } from "../../../utils/auth-helpers/common-auth-helpers"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import verifyIdToken from "../../../utils/microsoft/verify-id-token"
 import saveMicrosoftLoginTokens from "../../../utils/microsoft/auth/save-microsoft-login-tokens"
@@ -31,7 +31,7 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 		const token = signJWT(payload)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-		await addLoginHistory(_.toString(userId))
+		await addLoginHistory(userId)
 
 		return res.status(200).json({
 			authenticated: true,

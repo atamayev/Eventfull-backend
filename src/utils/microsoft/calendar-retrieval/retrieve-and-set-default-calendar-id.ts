@@ -1,9 +1,10 @@
 import _ from "lodash"
+import { Types } from "mongoose"
 import axios, { AxiosResponse } from "axios"
 import saveDefaultCalendarIdToDb from "./save-default-calendar-id-to-db"
 
 export default async function retrieveAndSetDefaultCalendarId(
-	userId: string,
+	userId: Types.ObjectId,
 	microsoftCalendarAccessToken: string
 ): Promise<string | undefined> {
 	const url = "https://graph.microsoft.com/v1.0/me/calendars"
@@ -16,7 +17,6 @@ export default async function retrieveAndSetDefaultCalendarId(
 	})
 
 	const calendarResponse: MSCalendarResponse = response.data
-	console.log(calendarResponse)
 	const defaultCalendar = calendarResponse.value.find(calendar => calendar.isDefaultCalendar)
 	const id =  defaultCalendar ? defaultCalendar.id : undefined
 

@@ -11,7 +11,7 @@ Promise<
 	} | undefined>
 {
 
-	const user = await UserModel.findOne({ userId })
+	const user = await UserModel.findById(userId)
 
 	if (_.isNull(user)) return undefined
 	return {

@@ -6,7 +6,7 @@ import UserModel from "../../../models/user-model"
 export default async function updateMicrosoftCalendarTokensInDB(userId: Types.ObjectId, credentials: AuthenticationResult): Promise<void> {
 	try {
 		const { accessToken, expiresOn } = credentials
-		const user = await UserModel.findOne({ userId })
+		const user = await UserModel.findById(userId)
 
 		if (_.isNil(user)) return
 

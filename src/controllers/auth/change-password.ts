@@ -5,7 +5,7 @@ import { retrieveUserPassword, updatePassword } from "../../utils/auth-helpers/c
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {
 	const { currentPassword, newPassword } = req.body.changePasswordObject as ChangePasswordObject
-	const userId = req.headers.userId as string
+	const userId = req.userId
 
 	try {
 		const hashedOldPassword = await retrieveUserPassword(userId)

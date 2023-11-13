@@ -1,9 +1,10 @@
 import _ from "lodash"
+import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
 
-export default async function saveDefaultCalendarIdToDb(userId: string, id: string): Promise<void> {
+export default async function saveDefaultCalendarIdToDb(userId: Types.ObjectId, id: string): Promise<void> {
 	try {
-		const user = await UserModel.findOne({ userId }) as User
+		const user = await UserModel.findById(userId) as User
 
 		if (!_.isNil(id)) user.microsoftDefaultCalendarId = id
 

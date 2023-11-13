@@ -5,7 +5,7 @@ import UserModel from "../../../models/user-model"
 export default async function getGoogleCalendarTokensFromDB(userId: Types.ObjectId):
 Promise<{ calendarAccessToken: string | undefined, calendarTokenExpiryDate: Date | undefined} | undefined> {
 
-	const user = await UserModel.findOne({ userId })
+	const user = await UserModel.findById(userId)
 
 	if (_.isNull(user)) return undefined
 	return {

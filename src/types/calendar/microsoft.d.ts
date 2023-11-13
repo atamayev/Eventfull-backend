@@ -22,7 +22,7 @@ declare global {
 	}
 
 	interface MSCalendarResponse {
-		value: Calendar[]
+		value: MSCalendar[]
 	}
 
 	interface MSCalendarEventResponse {

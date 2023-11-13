@@ -1,7 +1,8 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import Hash from "../../setup-and-security/hash"
-import { signJWT, retrieveUserIdAndPassword } from "../../utils/auth-helpers/login-helpers"
+import { signJWT } from "../../utils/auth-helpers/common-auth-helpers"
+import { retrieveUserIdAndPassword } from "../../utils/auth-helpers/login-helpers"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
@@ -29,7 +30,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 	}
 
 	const payload: JwtPayload = {
-		userId: results.userId,
+		userId: _.toString(results.userId),
 		newUser: false
 	}
 
