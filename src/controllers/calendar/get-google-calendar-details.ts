@@ -23,7 +23,9 @@ export default async function getGoogleCalendarDetails(req: Request, res: Respon
 			calendarId: "primary",
 			timeMin: startOfMonth
 		})
-		return res.status(200).json({ calendarDetails: events.data.items })
+
+		const calendarDetails = events.data.items as GoogleCalendarEvent[]
+		return res.status(200).json({ calendarDetails: calendarDetails })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Failed to fetch Google Calendar data" })

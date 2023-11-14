@@ -14,7 +14,7 @@ Promise<{
 	if (_.isNull(user)) return undefined
 	return {
 		calendarAccessToken: user.googleCalendarAccessToken,
-		calendarRefreshToken: user.googleCalendarAccessToken,
+		calendarRefreshToken: user.googleCalendarRefreshToken,
 		calendarTokenExpiryDate: user.googleCalendarAccessTokenExpiryDate
 	}
 }

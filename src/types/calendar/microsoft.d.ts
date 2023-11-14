@@ -1,4 +1,5 @@
 declare global {
+	// Initial Calendar resposne (before specifying the calendar ID)
 	interface MSCalendarOwner {
 		name: string
 		address: string
@@ -24,6 +25,8 @@ declare global {
 	interface MSCalendarResponse {
 		value: MSCalendar[]
 	}
+
+	// Calendar details response (after specifying the calendar ID):
 
 	interface MSCalendarEventResponse {
 		"@odata.etag": string
