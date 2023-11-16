@@ -3,16 +3,15 @@ Eventfull To-do backend
 Short-term technical stuff:
 1. Add schema validation rules in mongodb
 
-1. Calendar normalization (make a standardized calendar schema that includes all the key/values that google and microsoft have)
+2. Calendar normalization (make a standardized calendar schema that includes all the key/values that google and microsoft have)
+	1. create identical events in MS and google, and see if the normalized data is any different (it should be identical)
+		- do this for different cases (ie inviting atendees, repeatable events, full day events, etc.)
+	2. Figure out what to do when a calendar event is deleted by the user - should it delete in the db?
 
-Calendar normalization stuffs:
-1. create identical events in MS and google, and see if the normalized data is any different (it should be identical)
-	- do this for different cases (ie inviting atendees, repeatable events, full day events, etc.)
+When creating an account, user should create a unique username/handle - add username to the user model
 
 ASAP:
 ## Connect to Calendars:
-	- Google
-	- Outlook
 	- Apple
 	- Make my own calendar 
 	- Import ics?
