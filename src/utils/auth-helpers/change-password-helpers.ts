@@ -8,7 +8,7 @@ export async function retrieveUserPassword(userId: Types.ObjectId): Promise<stri
 	return user.password
 }
 
-export async function updatePassword(newPassword: string, userId: Types.ObjectId): Promise<void> {
+export async function updatePassword(userId: Types.ObjectId, newPassword: string): Promise<void> {
 	await UserModel.findByIdAndUpdate(userId, { password: newPassword })
 }
 

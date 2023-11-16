@@ -154,7 +154,6 @@ declare global {
 		numberOfOccurrences: number
 		recurrenceTimeZone: string
 	}
-
 }
 
 export {}

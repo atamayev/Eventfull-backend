@@ -3,6 +3,8 @@ import dayjs from "dayjs"
 import { google } from "googleapis"
 import { Response, Request } from "express"
 import getValidGoogleCalendarAccessToken from "../../utils/google/calendar-retrieval/get-valid-google-calendar-token"
+import { convertGoogleToUnified } from "../../utils/google/calendar-retrieval/convert-google-to-unified"
+import { saveOrUpdateUserCalendarEvents } from "../../utils/save-or-update-incoming-calendar-data"
 
 export default async function getGoogleCalendarDetails(req: Request, res: Response): Promise<Response> {
 	try {
@@ -25,7 +27,10 @@ export default async function getGoogleCalendarDetails(req: Request, res: Respon
 		})
 
 		const calendarDetails = events.data.items as GoogleCalendarEvent[]
-		return res.status(200).json({ calendarDetails: calendarDetails })
+		const unifiedGoogleCalendarDetails = convertGoogleToUnified(calendarDetails)
+		await saveOrUpdateUserCalendarEvents(userId, unifiedGoogleCalendarDetails)
+
+		return res.status(200).json({ calendarDetails: unifiedGoogleCalendarDetails })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Failed to fetch Google Calendar data" })

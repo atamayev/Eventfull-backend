@@ -25,7 +25,7 @@ export default async function changePassword (req: Request, res: Response): Prom
 			}
 
 			const newHashedPassword = await Hash.hashCredentials(newPassword)
-			await updatePassword(newHashedPassword, userId)
+			await updatePassword(userId, newHashedPassword)
 			return res.status(200).json()
 		}
 	} catch (error) {

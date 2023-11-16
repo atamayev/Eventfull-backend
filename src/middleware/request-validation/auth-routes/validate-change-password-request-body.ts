@@ -6,9 +6,8 @@ export default function validateChangePasswordRequest(req: Request, res: Respons
 	}
 
 	const changePasswordInfo = req.body.changePasswordObject
-	const userId = req.userId
 
-	if (!changePasswordInfo || !userId) {
+	if (!changePasswordInfo) {
 		return res.status(400).json({ error: "Missing required fields" })
 	}
 

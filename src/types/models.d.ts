@@ -26,7 +26,7 @@ declare global {
 		phoneNumber?: string
 		bio?: string
 		eventPins?: Types.ObjectId[]
-		calendarData?: CalendarData[]
+		calendarData: UnifiedCalendarEvent[]
 
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string
@@ -48,18 +48,6 @@ declare global {
 		incomingFriendRequests?: Types.ObjectId[]
 		blockedUsers?: Types.ObjectId[]
 		blockedByUsers?: Types.ObjectId[]
-	}
-
-	interface CalendarData {
-		eventName: string
-		start: {
-			dateTime: string
-			timeZone: string
-		}
-		end: {
-			dateTime: string
-			timeZone: string
-		}
 	}
 
 	interface LoginHistory {
