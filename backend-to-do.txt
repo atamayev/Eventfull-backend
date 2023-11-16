@@ -4,9 +4,6 @@ Short-term technical stuff:
 1. Add schema validation rules in mongodb
 
 1. Calendar normalization (make a standardized calendar schema that includes all the key/values that google and microsoft have)
-	- After retrieving a calendar from google/MS:
-		2. save the data - make sure that events don't overwrite eachother
-	- will need to make a cleaning pipeline - to change the calendar data coming in from google/microsoft to fit the schema
 
 Calendar normalization stuffs:
 1. create identical events in MS and google, and see if the normalized data is any different (it should be identical)
