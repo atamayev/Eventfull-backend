@@ -1,4 +1,8 @@
 import _ from "lodash"
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+
+dayjs.extend(utc)
 
 export function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): UnifiedCalendarEvent[] {
 	return events.map(event => {
@@ -8,7 +12,7 @@ export function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): Un
 			description: event.bodyPreview || "",
 			startDateTime: formatMicrosoftDateTime(event.start.dateTime),
 			endDateTime: formatMicrosoftDateTime(event.end.dateTime),
-			timeZone: "UTC",
+			timeZone: event.start.timeZone || "UTC",
 			location: formatMicrosoftLocation(event),
 			organizerEmail: _.get(event, "organizer.emailAddress.address", ""),
 			attendees: _.map(event.attendees, attendee => ({
@@ -23,9 +27,11 @@ export function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): Un
 	})
 }
 
-function formatMicrosoftDateTime(dateTime: string): string {
-	if (dateTime.endsWith("T00:00:00.0000000")) return dateTime.split("T")[0]
-	return dateTime
+function formatMicrosoftDateTime(dateTime: string): UnifiedDateTime {
+	const localDateTime = dayjs.utc(dateTime).local().format("YYYY-MM-DDTHH:mm:ss")
+	const [date, time] = localDateTime.split("T")
+
+	return { date, time }
 }
 
 function getRecurrencePattern(event: MSCalendarEventResponse): UnifiedRecurrence | undefined {
@@ -37,9 +43,8 @@ function getRecurrencePattern(event: MSCalendarEventResponse): UnifiedRecurrence
 	}
 }
 
-// Function to format location for Microsoft events
 function formatMicrosoftLocation(event: MSCalendarEventResponse): string {
-	if (!event.location) return ""
+	if (!event.location.displayName) return ""
 
 	const { displayName, address } = event.location
 	if (address.countryOrRegion === "United States") address.countryOrRegion = "USA"
