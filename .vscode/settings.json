@@ -1,4 +1,8 @@
 {
 	"typescript.preferences.importModuleSpecifier": "relative",
-	"javascript.preferences.importModuleSpecifier": "relative"
+	"javascript.preferences.importModuleSpecifier": "relative",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
+	"eslint.validate": ["typescript", "javascript"]
 }

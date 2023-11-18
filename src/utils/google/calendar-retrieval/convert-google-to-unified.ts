@@ -2,37 +2,53 @@ import _ from "lodash"
 
 export function convertGoogleToUnified(events: GoogleCalendarEvent[]): UnifiedCalendarEvent[] {
 	return events.map(event => {
-		const isAllDayEvent = _.has(event.start, "date") && _.has(event.end, "date")
-		const startDateTime = isAllDayEvent ? _.get(event.start, "date", "") : _.get(event.start, "dateTime", "")
-		const endDateTime = isAllDayEvent ? _.get(event.end, "date", "") : _.get(event.end, "dateTime", "")
-
-		const unifiedEvent: UnifiedCalendarEvent = {
+		return {
 			id: event.id,
 			title: event.summary,
-			description: event.description,
-			startDateTime: startDateTime,
-			endDateTime: endDateTime,
-			timeZone: isAllDayEvent ? "" : _.get(event.start, "timeZone", ""),
+			description: event.description || "",
+			startDateTime: getStartDateTime(event),
+			endDateTime: getEndDateTime(event),
+			timeZone: "UTC",
 			location: event.location,
-			organizerEmail: event.organizer.email,
-			attendees: _.get(event, "attendees", []).map(attendee => ({
+			organizerEmail: _.get(event, "organizer.email", ""),
+			attendees: _.map(event.attendees, attendee => ({
 				email: attendee.email,
-				responseStatus: attendee.responseStatus
+				responseStatus: attendee.responseStatus || "needsAction",
 			})),
-			isAllDay: isAllDayEvent,
-			recurrence: event.recurrence ? {
-				pattern: _.first(event.recurrence) || "N/A",
-				interval: extractInterval(_.first(event.recurrence) || "")
-			} : undefined,
+			isAllDay: isAllDayEvent(event),
+			recurrence: getRecurrencePattern(event),
 			source: "google",
 			link: event.htmlLink
 		}
-
-		return unifiedEvent
 	})
 }
 
-function extractInterval(recurrenceRule: string): number {
-	const match = recurrenceRule.match(/INTERVAL=(\d+)/)
-	return match ? parseInt(match[1], 10) : 1
+function isAllDayEvent(event: GoogleCalendarEvent): boolean {
+	return _.has(event.start, "date") && _.has(event.end, "date")
+}
+
+function getStartDateTime(event: GoogleCalendarEvent): string {
+	return isAllDayEvent(event) ? _.get(event.start, "date", "") : _.get(event.start, "dateTime", "")
+}
+
+function getEndDateTime(event: GoogleCalendarEvent): string {
+	return isAllDayEvent(event) ? _.get(event.end, "date", "") : _.get(event.end, "dateTime", "")
+}
+
+function getRecurrencePattern(event: GoogleCalendarEvent): UnifiedRecurrence | undefined {
+	if (_.isUndefined(event.recurrence)) return undefined
+
+	const recurrenceRule = _.first(event.recurrence) || ""
+	const pattern = standardizeGoogleRecurrence(recurrenceRule)
+	const interval = parseInt(_.get(recurrenceRule.match(/INTERVAL=(\d+)/), "[1]", "1"), 10)
+
+	return { pattern, interval }
+}
+
+function standardizeGoogleRecurrence(pattern: string): string {
+	if (pattern.includes("DAILY")) return "Daily"
+	if (pattern.includes("WEEKLY")) return "Weekly"
+	if (pattern.includes("MONTHLY")) return "Monthly"
+	if (pattern.includes("YEARLY")) return "Yearly"
+	return "Custom"
 }
