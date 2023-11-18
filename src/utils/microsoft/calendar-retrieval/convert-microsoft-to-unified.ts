@@ -23,6 +23,11 @@ export function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): Un
 	})
 }
 
+function formatMicrosoftDateTime(dateTime: string): string {
+	if (dateTime.endsWith("T00:00:00.0000000")) return dateTime.split("T")[0]
+	return dateTime
+}
+
 function getRecurrencePattern(event: MSCalendarEventResponse): UnifiedRecurrence | undefined {
 	if (_.isNull(event.recurrence)) return undefined
 
@@ -42,10 +47,6 @@ function formatMicrosoftLocation(event: MSCalendarEventResponse): string {
 	return `${displayName}, ${address.street}, ${address.city}, ${address.state} ${address.postalCode}, ${address.countryOrRegion}`
 }
 
-function formatMicrosoftDateTime(dateTime: string): string {
-	return dateTime.split(".")[0] + "Z"
-}
-
 function standardizeMicrosoftRecurrence(pattern: string): string {
 	if (pattern === "daily") return "Daily"
 	if (pattern === "weekly") return "Weekly"
@@ -53,4 +54,3 @@ function standardizeMicrosoftRecurrence(pattern: string): string {
 	if (pattern === "absoluteYearly" || pattern === "relativeYearly") return "Yearly"
 	return "Custom"
 }
-

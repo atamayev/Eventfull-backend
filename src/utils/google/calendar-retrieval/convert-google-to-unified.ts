@@ -47,8 +47,8 @@ function getRecurrencePattern(event: GoogleCalendarEvent): UnifiedRecurrence | u
 
 function standardizeGoogleRecurrence(pattern: string): string {
 	if (pattern.includes("DAILY")) return "Daily"
-	if (pattern.includes("WEEKLY")) return "Weekly"
-	if (pattern.includes("MONTHLY")) return "Monthly"
-	if (pattern.includes("YEARLY")) return "Yearly"
+	else if (pattern.includes("WEEKLY")) return "Weekly"
+	else if (pattern.includes("MONTHLY")) return "Monthly"
+	else if (pattern.includes("YEARLY")) return "Yearly"
 	return "Custom"
 }
