@@ -6,13 +6,12 @@ export default function validateChangePasswordRequest(req: Request, res: Respons
 	}
 
 	const changePasswordInfo = req.body.changePasswordObject
-	const userId = req.userId
 
-	if (!changePasswordInfo || !userId) {
+	if (!changePasswordInfo) {
 		return res.status(400).json({ error: "Missing required fields" })
 	}
 
-	if (!changePasswordInfo.currentPassword || !changePasswordInfo.newPassword) {
+	if (!changePasswordInfo.email || !changePasswordInfo.currentPassword || !changePasswordInfo.newPassword) {
 		return res.status(400).json({ error: "Incomplete Change Password Information" })
 	}
 

@@ -1,10 +1,10 @@
 import { Schema, model } from "mongoose"
 
 const bookingSchema = new Schema<Booking>({
-	userId: { type: Number, required: true },
-	eventId: { type: Number, required: true },
-	reviewRating: Number,
-	reviewMessage: String,
+	userId: { type: Schema.Types.ObjectId, required: true },
+	eventId: { type: Schema.Types.ObjectId, required: true },
+	reviewRating: {type: Number, required: false},
+	reviewMessage:{type: String, required: false},
 }, {
 	timestamps: true
 })

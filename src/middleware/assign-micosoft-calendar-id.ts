@@ -1,5 +1,4 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 import UserModel from "../models/user-model"
 import retrieveAndSetDefaultCalendarId from "../utils/microsoft/calendar-retrieval/retrieve-and-set-default-calendar-id"
@@ -12,16 +11,17 @@ export default async function assignMicrosoftCalendarId(req: Request, res: Respo
 		const user = await UserModel.findById(userId) as User
 
 		let microsoftDefaultCalendarId = user.microsoftDefaultCalendarId
-		if (_.isUndefined(microsoftDefaultCalendarId)) {
-			const microsoftCalendarAccessToken = await getValidMicrosoftCalendarAccessToken(userId as unknown as Types.ObjectId)
+		const microsoftCalendarAccessToken =  await getValidMicrosoftCalendarAccessToken(userId)
+		if (_.isUndefined(microsoftDefaultCalendarId) || _.isUndefined(microsoftCalendarAccessToken)) {
 			if (_.isUndefined(microsoftCalendarAccessToken)) {
-				return res.status(401).json({ error: "Prompt user to give calendar access" })
+				return res.status(401).json({ error: "Prompt user to give Microsoft calendar access" })
 			}
 
 			microsoftDefaultCalendarId = await retrieveAndSetDefaultCalendarId(userId, microsoftCalendarAccessToken)
 		}
 
 		req.headers.microsoftDefaultCalendarId = microsoftDefaultCalendarId
+		req.headers.microsoftCalendarAccessToken = microsoftCalendarAccessToken
 		next()
 	} catch (error) {
 		console.error(error)

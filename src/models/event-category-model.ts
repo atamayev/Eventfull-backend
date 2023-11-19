@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose"
 
 const eventCategorySchema = new Schema<EventCategory>({
-	eventCategory: { type: String, required: true },
-	description: { type: String, required: true }
+	eventCategory: { type: String, required: true, unique: true, trim: true },
+	description: { type: String, required: true, trim: true }
 }, {
 	timestamps: true
 })

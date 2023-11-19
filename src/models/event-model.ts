@@ -8,16 +8,16 @@ const eventSchema = new Schema<Event>({
 	eventType: { type: String, required: true },
 	eventURL: { type: String, required: true },
 	isVirtual: { type: Boolean, required: true },
-	extraEventCategories: [String],
-	eventDescription: String,
+	extraEventCategories: {type: [String]},
+	eventDescription: { type: String, required: true },
 	eventLocation: {
 		longitude: String,
 		latitude: String,
 		address: String,
 	},
-	organizerName: String,
-	eventImageURL: String,
-	eventCapacity: Number,
+	organizerName: { type: String },
+	eventImageURL: { type: String },
+	eventCapacity: { type: Number },
 }, {
 	timestamps: true
 })

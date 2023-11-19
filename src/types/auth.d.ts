@@ -2,9 +2,9 @@ import { Types } from "mongoose"
 
 declare global {
 	interface ChangePasswordObject {
+		email: string
 		currentPassword: string
 		newPassword: string
-		newConfirmPassword: string
 	}
 
 	interface LoginInformationObject {

@@ -26,12 +26,15 @@ declare global {
 		phoneNumber?: string
 		bio?: string
 		eventPins?: Types.ObjectId[]
-		calendarData?: CalendarData[]
+		calendarData: UnifiedCalendarEvent[]
+
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string
 		googleLoginAccessTokenExpiryDate?: Date
 		googleCalendarAccessToken?: string
 		googleCalendarAccessTokenExpiryDate?: Date
+		googleCalendarRefreshToken?: string
+
         microsoftLoginAccessToken?: string
         microsoftLoginRefreshToken?: string
         microsoftLoginAccessTokenExpiryDate?: Date
@@ -45,18 +48,6 @@ declare global {
 		incomingFriendRequests?: Types.ObjectId[]
 		blockedUsers?: Types.ObjectId[]
 		blockedByUsers?: Types.ObjectId[]
-	}
-
-	interface CalendarData {
-		eventName: string
-		start: {
-			dateTime: string
-			timeZone: string
-		}
-		end: {
-			dateTime: string
-			timeZone: string
-		}
 	}
 
 	interface LoginHistory {
@@ -87,8 +78,8 @@ declare global {
 	}
 
 	interface Booking extends IDInterface {
-		userId: number
-		eventId: number
+		userId: Types.ObjectId
+		eventId: Types.ObjectId
 		reviewRating?: number
 		reviewMessage?: string
 	}

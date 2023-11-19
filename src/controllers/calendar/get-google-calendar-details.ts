@@ -1,14 +1,15 @@
 import _ from "lodash"
 import dayjs from "dayjs"
-import { Types } from "mongoose"
 import { google } from "googleapis"
 import { Response, Request } from "express"
 import getValidGoogleCalendarAccessToken from "../../utils/google/calendar-retrieval/get-valid-google-calendar-token"
+import { convertGoogleToUnified } from "../../utils/google/calendar-retrieval/convert-google-to-unified"
+import { saveOrUpdateUserCalendarEvents } from "../../utils/save-or-update-incoming-calendar-data"
 
 export default async function getGoogleCalendarDetails(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
-		const googleCalendarAccessToken = await getValidGoogleCalendarAccessToken(userId as unknown as Types.ObjectId)
+		const googleCalendarAccessToken = await getValidGoogleCalendarAccessToken(userId)
 		if (_.isUndefined(googleCalendarAccessToken)) {
 			return res.status(400).json({ error: "No Google Calendar Access Token Found" })
 		}
@@ -24,7 +25,12 @@ export default async function getGoogleCalendarDetails(req: Request, res: Respon
 			calendarId: "primary",
 			timeMin: startOfMonth
 		})
-		return res.status(200).json({ calendarDetails: events.data.items })
+
+		const calendarDetails = events.data.items as GoogleCalendarEvent[]
+		const unifiedGoogleCalendarDetails = convertGoogleToUnified(calendarDetails)
+		await saveOrUpdateUserCalendarEvents(userId, unifiedGoogleCalendarDetails)
+
+		return res.status(200).json({ calendarDetails: unifiedGoogleCalendarDetails })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Failed to fetch Google Calendar data" })
