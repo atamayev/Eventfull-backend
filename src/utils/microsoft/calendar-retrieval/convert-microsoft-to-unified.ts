@@ -1,7 +1,6 @@
 import _ from "lodash"
 import dayjs from "dayjs"
 import utc from "dayjs/plugin/utc"
-
 dayjs.extend(utc)
 
 export function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): UnifiedCalendarEvent[] {
@@ -28,9 +27,13 @@ export function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): Un
 }
 
 function formatMicrosoftDateTime(dateTime: string): UnifiedDateTime {
+	if (dateTime.endsWith("T00:00:00.0000000")) {
+		const date = dateTime.split("T")[0]
+		return { date, time: "00:00:00" }
+	}
+
 	const localDateTime = dayjs.utc(dateTime).local().format("YYYY-MM-DDTHH:mm:ss")
 	const [date, time] = localDateTime.split("T")
-
 	return { date, time }
 }
 

@@ -36,8 +36,9 @@ declare global {
 	}
 
 	interface GoogleCalendarEventDateTime {
-		dateTime: string // ISO date string
-		timeZone: string
+		date?: string // If the event is a full day event
+		dateTime?: string // ISO date string
+		timeZone?: string
 	}
 
 	interface GoogleCalendarEventAttendee {

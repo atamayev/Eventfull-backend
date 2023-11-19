@@ -1,7 +1,6 @@
 import _ from "lodash"
 import dayjs from "dayjs"
 import utc from "dayjs/plugin/utc"
-
 dayjs.extend(utc)
 
 export function convertGoogleToUnified(events: GoogleCalendarEvent[]): UnifiedCalendarEvent[] {
@@ -10,8 +9,8 @@ export function convertGoogleToUnified(events: GoogleCalendarEvent[]): UnifiedCa
 			id: event.id,
 			title: event.summary,
 			description: event.description || "",
-			startDateTime: formatGoogleDateTime(event.start.dateTime),
-			endDateTime: formatGoogleDateTime(event.end.dateTime),
+			startDateTime: formatGoogleDateTime(event.start),
+			endDateTime: formatGoogleDateTime(event.end),
 			timeZone: event.start.timeZone || "UTC",
 			location: event.location,
 			organizerEmail: _.get(event, "organizer.email", ""),
@@ -31,11 +30,17 @@ function isAllDayEvent(event: GoogleCalendarEvent): boolean {
 	return _.has(event.start, "date") && _.has(event.end, "date")
 }
 
-function formatGoogleDateTime(dateTime: string): UnifiedDateTime {
-	const [date, timeWithZ] = dateTime.split("T")
-	const time = timeWithZ.split("Z")[0]
+function formatGoogleDateTime(dateTime: GoogleCalendarEventDateTime): UnifiedDateTime {
+	if (!_.isUndefined(dateTime.date)) return { date: dateTime.date, time: "00:00:00" }
 
-	return { date, time }
+	if (!_.isUndefined(dateTime.dateTime)) {
+		const [date, timeWithZ] = dateTime.dateTime.split("T")
+		const time = timeWithZ.split("Z")[0]
+
+		return { date, time }
+	}
+
+	return { date: "", time: "" }
 }
 
 function getRecurrencePattern(event: GoogleCalendarEvent): UnifiedRecurrence | undefined {
