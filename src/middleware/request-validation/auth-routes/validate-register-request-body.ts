@@ -1,19 +1,18 @@
+import _ from "lodash"
+import Joi from "joi"
 import { Request, Response, NextFunction } from "express"
 
+const registerInformationSchema = Joi.object({
+	registerInformationObject: Joi.object({
+		email: Joi.string().email().required(),
+		password: Joi.string().min(6).required()
+	}).required()
+})
+
 export default function validateRegisterRequestBody (req: Request, res: Response, next: NextFunction): void | Response {
-	if (!req.body || typeof req.body !== "object") {
-		return res.status(400).json({ error: "Bad Request: Missing or invalid body" })
-	}
+	const { error } = registerInformationSchema.validate(req.body)
 
-	const registerInfo = req.body.registerInformationObject
-	if (!registerInfo || typeof registerInfo !== "object") {
-		return res.status(400).json({ error: "Bad Request: Missing or invalid Register Information" })
-	}
-
-	const { email, password } = registerInfo as LoginInformationObject
-	if (!email || !password) {
-		return res.status(400).json({ error: "Bad Request: Missing required fields" })
-	}
+	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 
 	next()
 }
