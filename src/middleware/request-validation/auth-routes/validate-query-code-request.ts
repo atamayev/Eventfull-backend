@@ -3,8 +3,8 @@ import Joi from "joi"
 import { Request, Response, NextFunction } from "express"
 
 const querySchema = Joi.object({
-	code: Joi.string().required()
-}).required()
+	code: Joi.required()
+}).unknown(true)
 
 export default function validateQueryCodeRequest (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = querySchema.validate(req.query)

@@ -1,6 +1,6 @@
 import { Response, Request } from "express"
 import { v4 as uuidv4 } from "uuid"
-import addLocalCalendarEventToDB from "../../utils/local calendar/add-local-calendar-event-to-db"
+import addLocalCalendarEventToDB from "../../../utils/local calendar/add-local-calendar-event-to-db"
 
 export default async function addLocalCalendarData(req: Request, res: Response): Promise<Response> {
 	try {

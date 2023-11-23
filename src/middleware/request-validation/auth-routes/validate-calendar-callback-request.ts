@@ -6,7 +6,7 @@ import { doesUserIdExist, getDecodedId } from "../../../utils/auth-helpers/jwt-v
 
 const querySchema = Joi.object({
 	code: Joi.string().required()
-}).required()
+}).unknown(true)
 
 export default async function validateCalendarRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	const { error } = querySchema.validate(req.query)
