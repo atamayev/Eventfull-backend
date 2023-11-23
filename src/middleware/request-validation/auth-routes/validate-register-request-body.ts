@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 
-export default function validateRegisterRequestBody (req: Request, res: Response, next: NextFunction): void| Response {
+export default function validateRegisterRequestBody (req: Request, res: Response, next: NextFunction): void | Response {
 	if (!req.body || typeof req.body !== "object") {
 		return res.status(400).json({ error: "Bad Request: Missing or invalid body" })
 	}
