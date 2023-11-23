@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { google } from "googleapis"
 import { Response, Request } from "express"
-import { signJWT } from "../../../utils/auth-helpers/common-auth-helpers"
+import signJWT from "../../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import createGoogleAuthClient from "../../../utils/google/create-google-auth-client"
 import saveGoogleLoginTokens from "../../../utils/google/auth/save-google-login-tokens"

@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 import utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
 
-export function convertGoogleToUnified(events: GoogleCalendarEvent[]): UnifiedCalendarEvent[] {
+export default function convertGoogleToUnified(events: GoogleCalendarEvent[]): UnifiedCalendarEvent[] {
 	return events.map(event => {
 		return {
 			id: event.id,
