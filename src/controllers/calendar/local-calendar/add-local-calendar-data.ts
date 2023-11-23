@@ -1,6 +1,7 @@
-import { Response, Request } from "express"
+import _ from "lodash"
 import { v4 as uuidv4 } from "uuid"
-import addLocalCalendarEventToDB from "../../../utils/local calendar/add-local-calendar-event-to-db"
+import { Response, Request } from "express"
+import UserModel from "../../../models/user-model"
 
 export default async function addLocalCalendarData(req: Request, res: Response): Promise<Response> {
 	try {
@@ -12,7 +13,15 @@ export default async function addLocalCalendarData(req: Request, res: Response):
 			event.source = "local"
 		})
 
-		await addLocalCalendarEventToDB(userId, calendarDetails)
+		const user = await UserModel.findById(userId)
+
+		if (_.isNil(user)) return res.status(400).json({ message: "User Not found" })
+
+		for (const event of calendarDetails) {
+			user.calendarData.push(event)
+		}
+
+		await user.save()
 
 		return res.status(200).json({ message: "Successfully added calendar data" })
 	} catch (error) {

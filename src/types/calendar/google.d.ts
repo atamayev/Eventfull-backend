@@ -5,8 +5,8 @@ declare global {
 		id: string
 		status: string
 		htmlLink: string
-		created: string // ISO date string
-		updated: string // ISO date string
+		created: string
+		updated: string
 		summary: string
 		description: string
 		location: string
@@ -36,8 +36,8 @@ declare global {
 	}
 
 	interface GoogleCalendarEventDateTime {
-		date?: string // If the event is a full day event
-		dateTime?: string // ISO date string
+		date?: string
+		dateTime?: string
 		timeZone?: string
 	}
 
