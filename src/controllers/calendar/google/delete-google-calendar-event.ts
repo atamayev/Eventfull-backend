@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { google } from "googleapis"
 import { Response, Request } from "express"
-import getValidGoogleCalendarAccessToken from "../../../utils/google/calendar-retrieval/get-valid-google-calendar-token"
+import getValidGoogleCalendarAccessToken from "../../../utils/google/calendar/calendar-retrieval/get-valid-google-calendar-token"
 import deleteDBCalendarEvent from "../../../utils/delete-db-calendar-event"
 
 export default async function deleteGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {

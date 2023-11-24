@@ -1,8 +1,9 @@
 import _ from "lodash"
 import { google } from "googleapis"
 import { Response, Request } from "express"
-import getValidGoogleCalendarAccessToken from "../../../utils/google/calendar-retrieval/get-valid-google-calendar-token"
-import convertUnifiedToGoogleCalendarEvent from "../../../utils/google/convert-unified-to-google"
+import getValidGoogleCalendarAccessToken from "../../../utils/google/calendar/calendar-retrieval/get-valid-google-calendar-token"
+import convertUnifiedToGoogleCalendarEvent from "../../../utils/google/calendar/calendar-misc/convert-unified-to-google"
+import addGoogleEventToDb from "../../../utils/google/calendar/calendar-misc/add-google-event-to-db"
 
 export default async function createGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
@@ -22,10 +23,13 @@ export default async function createGoogleCalendarEvent(req: Request, res: Respo
 
 		const googleEvent = convertUnifiedToGoogleCalendarEvent(calendarDetails)
 
-		await calendar.events.insert({
+		const response = await calendar.events.insert({
 			calendarId: "primary",
 			requestBody: googleEvent,
 		})
+
+		calendarDetails.id = response.data.id || ""
+		await addGoogleEventToDb(userId, calendarDetails)
 
 		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {

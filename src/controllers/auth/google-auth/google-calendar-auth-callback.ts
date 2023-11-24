@@ -1,6 +1,6 @@
 import { Response, Request } from "express"
 import createGoogleAuthClient from "../../../utils/google/create-google-auth-client"
-import saveGoogleCalendarTokens from "../../../utils/google/calendar-auth/save-google-calendar-tokens"
+import saveGoogleCalendarTokens from "../../../utils/google/calendar/calendar-auth/save-google-calendar-tokens"
 
 export default async function googleCalendarAuthCallback (req: Request, res: Response): Promise<Response> {
 	const code = req.query.code as string

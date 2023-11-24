@@ -15,6 +15,7 @@ export default async function addLocalCalendarData(req: Request, res: Response):
 		calendarDetails.id = uuidv4(),
 		calendarDetails.source = "local"
 		calendarDetails.isActive = true
+		calendarDetails.timeZone ||= "America/New_York"
 
 		user.calendarData.push(calendarDetails)
 

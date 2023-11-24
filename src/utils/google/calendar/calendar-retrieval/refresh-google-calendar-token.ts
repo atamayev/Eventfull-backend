@@ -1,5 +1,5 @@
 import { Types } from "mongoose"
-import createGoogleAuthClient from "../create-google-auth-client"
+import createGoogleAuthClient from "../../create-google-auth-client"
 import updateGoogleCalendarTokensInDB from "./update-google-calendar-tokens-in-db"
 
 export default async function refreshGoogleCalendarToken(userId: Types.ObjectId, refreshToken: string): Promise<string | null | undefined> {
