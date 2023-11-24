@@ -1,8 +1,8 @@
 import _ from "lodash"
-import { google } from "googleapis"
 import { Response, Request } from "express"
 import getValidGoogleCalendarAccessToken from "../../../utils/google/calendar/calendar-retrieval/get-valid-google-calendar-token"
 import deleteDBCalendarEvent from "../../../utils/delete-db-calendar-event"
+import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
 
 export default async function deleteGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
@@ -13,14 +13,10 @@ export default async function deleteGoogleCalendarEvent(req: Request, res: Respo
 			return res.status(400).json({ error: "No Google Calendar Access Token Found" })
 		}
 
-		const oauth2Client = new google.auth.OAuth2()
-		oauth2Client.setCredentials({ access_token: googleCalendarAccessToken })
-
-		const calendar = google.calendar({ version: "v3", auth: oauth2Client })
-
 		const eventId: string = req.params.calendarId
+		const googleClient = createGoogleCalendarClient(googleCalendarAccessToken)
 
-		await calendar.events.delete({
+		await googleClient.events.delete({
 			calendarId: "primary",
 			eventId: eventId
 		})

@@ -1,29 +1,24 @@
 import _ from "lodash"
-import dayjs from "dayjs"
 import { Response, Request } from "express"
-import { google, calendar_v3 } from "googleapis"
+import { calendar_v3 } from "googleapis"
 import getValidGoogleCalendarAccessToken from "../../../utils/google/calendar/calendar-retrieval/get-valid-google-calendar-token"
 import convertGoogleToUnified from "../../../utils/google/calendar/calendar-retrieval/convert-google-to-unified"
 import saveOrUpdateUserCalendarEvents from "../../../utils/save-or-update-incoming-calendar-data"
+import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
 
 export default async function getGoogleCalendarDetails(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
+		//move this to middleware, similar to microsoft's get-microsoft-calendar-details.ts
 		const googleCalendarAccessToken = await getValidGoogleCalendarAccessToken(userId)
 		if (_.isUndefined(googleCalendarAccessToken)) {
 			return res.status(400).json({ error: "No Google Calendar Access Token Found" })
 		}
 
-		const oauth2Client = new google.auth.OAuth2()
-		oauth2Client.setCredentials({ access_token: googleCalendarAccessToken })
+		const googleClient = createGoogleCalendarClient(googleCalendarAccessToken)
 
-		const calendar = google.calendar({ version: "v3", auth: oauth2Client })
-
-		const startOfMonth = dayjs().startOf("month").toISOString()
-
-		const events = await calendar.events.list({
-			calendarId: "primary",
-			timeMin: startOfMonth
+		const events = await googleClient.events.list({
+			calendarId: "primary"
 		})
 
 		const calendarDetails = events.data.items as calendar_v3.Schema$Event[]
