@@ -1,19 +1,19 @@
+import Joi from "joi"
+import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
+const changePasswordSchema = Joi.object({
+	changePasswordObject: Joi.object({
+		email: Joi.string().email().required(),
+		currentPassword: Joi.string().min(6).required(),
+		newPassword: Joi.string().min(6).required()
+	}).required()
+})
+
 export default function validateChangePasswordRequest(req: Request, res: Response, next: NextFunction): void | Response {
-	if (!req.body || typeof req.body !== "object") {
-		return res.status(400).json({ error: "Bad Request: Missing or invalid body" })
-	}
+	const { error } = changePasswordSchema.validate(req.body)
 
-	const changePasswordInfo = req.body.changePasswordObject
-
-	if (!changePasswordInfo) {
-		return res.status(400).json({ error: "Missing required fields" })
-	}
-
-	if (!changePasswordInfo.email || !changePasswordInfo.currentPassword || !changePasswordInfo.newPassword) {
-		return res.status(400).json({ error: "Incomplete Change Password Information" })
-	}
+	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 
 	next()
 }

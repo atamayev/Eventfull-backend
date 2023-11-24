@@ -13,6 +13,7 @@ declare global {
 		isAllDay: boolean // From Microsoft's 'isAllDay', assume false if not present in Google data
 		recurrence?: UnifiedRecurrence
 		link?: string // From Google's 'htmlLink' or Microsoft's 'webLink'
+		isActive: boolean
 	}
 
 	interface UnifiedDateTime {

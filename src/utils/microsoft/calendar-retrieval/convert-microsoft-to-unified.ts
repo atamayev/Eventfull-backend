@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 import utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
 
-export function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): UnifiedCalendarEvent[] {
+export default function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): UnifiedCalendarEvent[] {
 	return events.map(event => {
 		return {
 			id: event.id,
@@ -21,7 +21,8 @@ export function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): Un
 			isAllDay: event.isAllDay || false,
 			recurrence: getRecurrencePattern(event),
 			source: "microsoft",
-			link: event.webLink
+			link: event.webLink,
+			isActive: true,
 		}
 	})
 }

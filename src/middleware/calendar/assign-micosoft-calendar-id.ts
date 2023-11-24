@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import UserModel from "../models/user-model"
-import retrieveAndSetDefaultCalendarId from "../utils/microsoft/calendar-retrieval/retrieve-and-set-default-calendar-id"
-import getValidMicrosoftCalendarAccessToken from "../utils/microsoft/calendar-retrieval/get-valid-microsoft-calendar-token"
+import UserModel from "../../models/user-model"
+import retrieveAndSetDefaultCalendarId from "../../utils/microsoft/calendar-retrieval/retrieve-and-set-default-calendar-id"
+import getValidMicrosoftCalendarAccessToken from "../../utils/microsoft/calendar-retrieval/get-valid-microsoft-calendar-token"
 
 export default async function assignMicrosoftCalendarId(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
