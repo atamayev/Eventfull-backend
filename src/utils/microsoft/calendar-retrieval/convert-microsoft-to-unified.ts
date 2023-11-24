@@ -1,7 +1,9 @@
 import _ from "lodash"
 import dayjs from "dayjs"
 import utc from "dayjs/plugin/utc"
+import timezone from "dayjs/plugin/timezone"
 dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export default function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): UnifiedCalendarEvent[] {
 	return events.map(event => {
@@ -11,7 +13,7 @@ export default function convertMicrosoftToUnified(events: MSCalendarEventRespons
 			description: event.bodyPreview || "",
 			startDateTime: formatMicrosoftDateTime(event.start.dateTime),
 			endDateTime: formatMicrosoftDateTime(event.end.dateTime),
-			timeZone: event.start.timeZone || "UTC",
+			timeZone: event.start.timeZone || "America/New_York",
 			location: formatMicrosoftLocation(event),
 			organizerEmail: _.get(event, "organizer.emailAddress.address", ""),
 			attendees: _.map(event.attendees, attendee => ({
@@ -28,13 +30,15 @@ export default function convertMicrosoftToUnified(events: MSCalendarEventRespons
 }
 
 function formatMicrosoftDateTime(dateTime: string): UnifiedDateTime {
+	const newYorkTimeZone = "America/New_York"
+
 	if (dateTime.endsWith("T00:00:00.0000000")) {
 		const date = dateTime.split("T")[0]
 		return { date, time: "00:00:00" }
 	}
 
-	const localDateTime = dayjs.utc(dateTime).local().format("YYYY-MM-DDTHH:mm:ss")
-	const [date, time] = localDateTime.split("T")
+	const newYorkDateTime = dayjs.utc(dateTime).tz(newYorkTimeZone).format("YYYY-MM-DDTHH:mm:ss")
+	const [date, time] = newYorkDateTime.split("T")
 	return { date, time }
 }
 

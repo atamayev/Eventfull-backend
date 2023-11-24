@@ -11,7 +11,7 @@ export default function convertGoogleToUnified(events: GoogleCalendarEvent[]): U
 			description: event.description || "",
 			startDateTime: formatGoogleDateTime(event.start),
 			endDateTime: formatGoogleDateTime(event.end),
-			timeZone: event.start.timeZone || "UTC",
+			timeZone: event.start.timeZone || "America/New_York",
 			location: event.location,
 			organizerEmail: _.get(event, "organizer.email", ""),
 			attendees: _.map(event.attendees, attendee => ({

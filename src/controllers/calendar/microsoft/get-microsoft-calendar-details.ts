@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import axios, { AxiosResponse } from "axios"
-import convertMicrosoftToUnified from "../../utils/microsoft/calendar-retrieval/convert-microsoft-to-unified"
-import saveOrUpdateUserCalendarEvents from "../../utils/save-or-update-incoming-calendar-data"
+import convertMicrosoftToUnified from "../../../utils/microsoft/calendar-retrieval/convert-microsoft-to-unified"
+import saveOrUpdateUserCalendarEvents from "../../../utils/save-or-update-incoming-calendar-data"
 
 export default async function getMicrosoftCalendarDetails(req: Request, res: Response): Promise<Response> {
 	try {
