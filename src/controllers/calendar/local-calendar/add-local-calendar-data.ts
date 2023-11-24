@@ -6,20 +6,17 @@ import UserModel from "../../../models/user-model"
 export default async function addLocalCalendarData(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
-		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent[]
+		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent
 
-		calendarDetails.map((event: UnifiedCalendarEvent) => {
-			event.id = uuidv4(),
-			event.source = "local"
-		})
+		calendarDetails.id = uuidv4(),
+		calendarDetails.source = "local"
+		calendarDetails.isActive = true
 
 		const user = await UserModel.findById(userId)
 
 		if (_.isNil(user)) return res.status(400).json({ message: "User Not found" })
 
-		for (const event of calendarDetails) {
-			user.calendarData.push(event)
-		}
+		user.calendarData.push(calendarDetails)
 
 		await user.save()
 

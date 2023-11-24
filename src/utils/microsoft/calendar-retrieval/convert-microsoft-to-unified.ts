@@ -21,7 +21,8 @@ export default function convertMicrosoftToUnified(events: MSCalendarEventRespons
 			isAllDay: event.isAllDay || false,
 			recurrence: getRecurrencePattern(event),
 			source: "microsoft",
-			link: event.webLink
+			link: event.webLink,
+			isActive: true,
 		}
 	})
 }

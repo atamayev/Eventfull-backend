@@ -21,7 +21,8 @@ export default function convertGoogleToUnified(events: GoogleCalendarEvent[]): U
 			isAllDay: isAllDayEvent(event),
 			recurrence: getRecurrencePattern(event),
 			source: "google",
-			link: event.htmlLink
+			link: event.htmlLink,
+			isActive: true,
 		}
 	})
 }

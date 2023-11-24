@@ -19,6 +19,8 @@ const unifiedRecurrenceSchema = Joi.object({
 
 const unifiedCalendarEventSchema = Joi.object({
 	calendarDetails: Joi.object({
+		id: Joi.string().required(),
+		source: Joi.string().valid("local").required(),
 		title: Joi.string().required(),
 		description: Joi.string().optional(),
 		startDateTime: unifiedDateTimeSchema.required(),
@@ -33,7 +35,7 @@ const unifiedCalendarEventSchema = Joi.object({
 	}).required()
 })
 
-export default function validateAddLocalCalendarDataRequest (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateUpdateLocalCalendarDataRequest (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = unifiedCalendarEventSchema.validate(req.body)
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
