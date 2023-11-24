@@ -5,6 +5,7 @@ import validateAddLocalCalendarData from "../middleware/request-validation/calen
 import validateUpdateLocalCalendarData from "../middleware/request-validation/calendar-routes/validate-update-local-calendar-data-request"
 import validateCalendarIdInParams from "../middleware/request-validation/calendar-routes/validate-calendarId-in-params"
 import validateCreateGoogleEvent from "../middleware/request-validation/calendar-routes/validate-create-google-event"
+import validateUpdateGoogleCalendarData from "../middleware/request-validation/calendar-routes/validate-update-google-calendar-data-request"
 
 import getGoogleCalendarDetails from "../controllers/calendar/google/get-google-calendar-details"
 import getMicrosoftCalendarDetails from "../controllers/calendar/microsoft/get-microsoft-calendar-details"
@@ -14,11 +15,13 @@ import updateLocalCalendarData from "../controllers/calendar/local-calendar/upda
 import deleteLocalCalendarData from "../controllers/calendar/local-calendar/delete-local-calendar-data"
 import createGoogleCalendarEvent from "../controllers/calendar/google/create-google-calendar-event"
 import deleteGoogleCalendarEvent from "../controllers/calendar/google/delete-google-calendar-event"
+import updateGoogleCalendarEvent from "../controllers/calendar/google/update-google-calendar-event"
 
 const calendarRoutes = express.Router()
 
-calendarRoutes.get("/google-calendar/get-calendar-details", getGoogleCalendarDetails)
 calendarRoutes.post("/google-calendar/add-calendar-data", validateCreateGoogleEvent, createGoogleCalendarEvent)
+calendarRoutes.get("/google-calendar/get-calendar-details", getGoogleCalendarDetails)
+calendarRoutes.post("/google-calendar/update-calendar-data", validateUpdateGoogleCalendarData, updateGoogleCalendarEvent)
 calendarRoutes.delete("/google-calendar/delete-calendar-data/:calendarId", validateCalendarIdInParams, deleteGoogleCalendarEvent)
 
 calendarRoutes.get("/microsoft-calendar/get-calendar-details", assignMicrosoftCalendarId, getMicrosoftCalendarDetails)
