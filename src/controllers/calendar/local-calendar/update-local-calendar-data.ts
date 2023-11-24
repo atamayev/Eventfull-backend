@@ -7,7 +7,7 @@ export default async function updateLocalCalendarData (req: Request, res: Respon
 		const userId = req.userId
 		const user = await UserModel.findById(userId)
 
-		if (_.isNil(user)) return res.status(404).json({ error: "User not found" })
+		if (_.isNull(user)) return res.status(404).json({ error: "User not found" })
 
 		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent
 
