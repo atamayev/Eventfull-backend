@@ -67,7 +67,6 @@ function formatMicrosoftLocation(event: Event): string {
 	if (_.isNil(address)) return displayName
 
 	if (address.countryOrRegion === "United States") address.countryOrRegion = "USA"
-	console.log(event.location)
 
 	return `${displayName}, ${address.street}, ${address.city}, ${address.state} ${address.postalCode}, ${address.countryOrRegion}`
 }
