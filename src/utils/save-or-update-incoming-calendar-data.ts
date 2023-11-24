@@ -5,7 +5,7 @@ import { Types } from "mongoose"
 export default async function saveOrUpdateUserCalendarEvents(userId: Types.ObjectId, events: UnifiedCalendarEvent[]): Promise<void> {
 	const user = await UserModel.findById(userId)
 
-	if (_.isNil(user)) throw new Error("User not found")
+	if (_.isNull(user)) throw new Error("User not found")
 
 	for (const event of events) {
 		const existingEventIndex = user.calendarData.findIndex(e => e.id === event.id)

@@ -2,9 +2,9 @@ import _ from "lodash"
 import { google } from "googleapis"
 import { Response, Request } from "express"
 import getValidGoogleCalendarAccessToken from "../../../utils/google/calendar-retrieval/get-valid-google-calendar-token"
-import convertUnifiedToGoogleCalendarEvent from "../../../utils/google/convert-unified-to-google"
+import deleteDBCalendarEvent from "../../../utils/delete-db-calendar-event"
 
-export default async function createGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {
+export default async function deleteGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
 
@@ -18,18 +18,18 @@ export default async function createGoogleCalendarEvent(req: Request, res: Respo
 
 		const calendar = google.calendar({ version: "v3", auth: oauth2Client })
 
-		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent
+		const eventId: string = req.params.calendarId
 
-		const googleEvent = convertUnifiedToGoogleCalendarEvent(calendarDetails)
-
-		await calendar.events.insert({
+		await calendar.events.delete({
 			calendarId: "primary",
-			requestBody: googleEvent,
+			eventId: eventId
 		})
 
-		return res.status(200).json({ calendarId: calendarDetails.id })
+		await deleteDBCalendarEvent(userId, eventId, "hard")
+
+		return res.status(200).json()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to Create Google Calendar event" })
+		return res.status(500).json({ error: "Failed to Delete Google Calendar event" })
 	}
 }

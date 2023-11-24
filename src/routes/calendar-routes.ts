@@ -13,17 +13,19 @@ import retrieveAllDbCalendarData from "../controllers/calendar/retrieve-all-db-c
 import updateLocalCalendarData from "../controllers/calendar/local-calendar/update-local-calendar-data"
 import deleteLocalCalendarData from "../controllers/calendar/local-calendar/delete-local-calendar-data"
 import createGoogleCalendarEvent from "../controllers/calendar/google/create-google-calendar-event"
+import deleteGoogleCalendarEvent from "../controllers/calendar/google/delete-google-calendar-event"
 
 const calendarRoutes = express.Router()
 
-calendarRoutes.get("/get-google-calendar-details", getGoogleCalendarDetails)
-calendarRoutes.post("/add-google-calendar-data", validateCreateGoogleEvent, createGoogleCalendarEvent)
+calendarRoutes.get("/google-calendar/get-calendar-details", getGoogleCalendarDetails)
+calendarRoutes.post("/google-calendar/add-calendar-data", validateCreateGoogleEvent, createGoogleCalendarEvent)
+calendarRoutes.delete("/google-calendar/delete-calendar-data/:calendarId", validateCalendarIdInParams, deleteGoogleCalendarEvent)
 
-calendarRoutes.get("/get-microsoft-calendar-details", assignMicrosoftCalendarId, getMicrosoftCalendarDetails)
+calendarRoutes.get("/microsoft-calendar/get-calendar-details", assignMicrosoftCalendarId, getMicrosoftCalendarDetails)
 
-calendarRoutes.post("/add-local-calendar-data", validateAddLocalCalendarData, addLocalCalendarData)
-calendarRoutes.get("/get-all-calendar-data", retrieveAllDbCalendarData)
-calendarRoutes.post("/update-local-calendar-data", validateUpdateLocalCalendarData, updateLocalCalendarData)
-calendarRoutes.delete("/delete-local-calendar-data/:calendarId", validateCalendarIdInParams, deleteLocalCalendarData)
+calendarRoutes.post("/local-calendar/add-calendar-data", validateAddLocalCalendarData, addLocalCalendarData)
+calendarRoutes.get("/local-calendar/get-calendar-data", retrieveAllDbCalendarData)
+calendarRoutes.post("/local-calendar/update-calendar-data", validateUpdateLocalCalendarData, updateLocalCalendarData)
+calendarRoutes.delete("/local-calendar/delete-calendar-data/:calendarId", validateCalendarIdInParams, deleteLocalCalendarData)
 
 export default calendarRoutes

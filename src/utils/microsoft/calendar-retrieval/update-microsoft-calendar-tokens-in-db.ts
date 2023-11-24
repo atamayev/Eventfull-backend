@@ -7,7 +7,7 @@ export default async function updateMicrosoftCalendarTokensInDB(userId: Types.Ob
 	try {
 		const user = await UserModel.findById(userId)
 
-		if (_.isNil(user)) return
+		if (_.isNull(user)) return
 
 		const { accessToken, expiresOn } = credentials
 

@@ -8,7 +8,7 @@ export default async function addLocalCalendarData(req: Request, res: Response):
 		const userId = req.userId
 		const user = await UserModel.findById(userId)
 
-		if (_.isNil(user)) return res.status(400).json({ message: "User Not found" })
+		if (_.isNull(user)) return res.status(400).json({ message: "User Not found" })
 
 		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent
 
@@ -20,7 +20,12 @@ export default async function addLocalCalendarData(req: Request, res: Response):
 
 		await user.save()
 
-		return res.status(200).json({ message: "Successfully added calendar data" })
+		return res
+			.status(200)
+			.json({
+				message: "Successfully added calendar data",
+				calendarId: calendarDetails.id
+			})
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Failed to add calendar data" })

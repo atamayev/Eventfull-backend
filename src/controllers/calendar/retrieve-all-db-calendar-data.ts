@@ -6,7 +6,7 @@ export default async function retrieveAllDbCalendarData (req: Request, res: Resp
 	try {
 		const userId = req.userId
 		const user = await UserModel.findById(userId)
-		if (_.isNil(user)) return res.status(400).json({ error: "User not found" })
+		if (_.isNull(user)) return res.status(400).json({ error: "User not found" })
 
 		const activeCalendarDetails = user.calendarData.filter(event => event.isActive === true)
 
