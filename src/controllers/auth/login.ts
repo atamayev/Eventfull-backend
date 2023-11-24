@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Response, Request } from "express"
 import Hash from "../../setup-and-security/hash"
 import signJWT from "../../utils/auth-helpers/sign-jwt"
-import { retrieveUserIdAndPassword } from "../../utils/auth-helpers/login-helpers"
+import retrieveUserIdAndPassword from "../../utils/auth-helpers/retrieve-user-id-and-password"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
