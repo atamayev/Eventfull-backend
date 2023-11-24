@@ -5,12 +5,11 @@ import UserModel from "../../../models/user-model"
 export default async function deleteLocalCalendarData (req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
-
-		const calendarId: string = req.params.calendarId
-
 		const user = await UserModel.findById(userId)
 
 		if (_.isNil(user)) return res.status(404).json({ error: "User not found" })
+
+		const calendarId: string = req.params.calendarId
 
 		const event = user.calendarData.find(calendarEvent => calendarEvent.id === calendarId)
 

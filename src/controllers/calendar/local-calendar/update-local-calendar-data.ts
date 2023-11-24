@@ -5,11 +5,11 @@ import UserModel from "../../../models/user-model"
 export default async function updateLocalCalendarData (req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
-		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent
-
 		const user = await UserModel.findById(userId)
 
 		if (_.isNil(user)) return res.status(404).json({ error: "User not found" })
+
+		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent
 
 		const eventIndex = user.calendarData.findIndex(event => {
 			return _.toString(event.id) === calendarDetails.id
