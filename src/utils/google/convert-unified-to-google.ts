@@ -1,7 +1,6 @@
 import { calendar_v3 } from "googleapis"
 
 export default function convertUnifiedToGoogleCalendarEvent(unifiedEvent: UnifiedCalendarEvent): calendar_v3.Schema$Event {
-	// Helper function to combine date and time into ISO string
 	const combineDateTime = (dateTime: UnifiedDateTime): string => `${dateTime.date}T${dateTime.time}`
 	const defaultTimeZone = "America/New_York"
 

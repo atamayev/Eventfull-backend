@@ -1,7 +1,7 @@
 import _ from "lodash"
 import dayjs from "dayjs"
-import { google } from "googleapis"
 import { Response, Request } from "express"
+import { google, calendar_v3 } from "googleapis"
 import getValidGoogleCalendarAccessToken from "../../../utils/google/calendar-retrieval/get-valid-google-calendar-token"
 import convertGoogleToUnified from "../../../utils/google/calendar-retrieval/convert-google-to-unified"
 import saveOrUpdateUserCalendarEvents from "../../../utils/save-or-update-incoming-calendar-data"
@@ -26,7 +26,7 @@ export default async function getGoogleCalendarDetails(req: Request, res: Respon
 			timeMin: startOfMonth
 		})
 
-		const calendarDetails = events.data.items as GoogleCalendarEvent[]
+		const calendarDetails = events.data.items as calendar_v3.Schema$Event[]
 		const unifiedGoogleCalendarDetails = convertGoogleToUnified(calendarDetails)
 		await saveOrUpdateUserCalendarEvents(userId, unifiedGoogleCalendarDetails)
 

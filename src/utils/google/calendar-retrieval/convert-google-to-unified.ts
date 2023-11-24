@@ -1,40 +1,42 @@
 import _ from "lodash"
-import dayjs from "dayjs"
-import utc from "dayjs/plugin/utc"
-dayjs.extend(utc)
+import { calendar_v3 } from "googleapis"
 
-export default function convertGoogleToUnified(events: GoogleCalendarEvent[]): UnifiedCalendarEvent[] {
+export default function convertGoogleToUnified(events: calendar_v3.Schema$Event[]): UnifiedCalendarEvent[] {
 	return events.map(event => {
+		const timeZone = event.start?.timeZone || "America/New_York"
+
 		return {
-			id: event.id,
-			title: event.summary,
+			id: event.id || "",
+			title: event.summary || "",
 			description: event.description || "",
 			startDateTime: formatGoogleDateTime(event.start),
 			endDateTime: formatGoogleDateTime(event.end),
-			timeZone: event.start.timeZone || "America/New_York",
-			location: event.location,
+			timeZone: timeZone,
+			location: event.location || "",
 			organizerEmail: _.get(event, "organizer.email", ""),
 			attendees: _.map(event.attendees, attendee => ({
-				email: attendee.email,
+				email: attendee.email || "",
 				responseStatus: attendee.responseStatus || "needsAction",
 			})),
 			isAllDay: isAllDayEvent(event),
 			recurrence: getRecurrencePattern(event),
 			source: "google",
-			link: event.htmlLink,
+			link: event.htmlLink || "",
 			isActive: true,
 		}
 	})
 }
 
-function isAllDayEvent(event: GoogleCalendarEvent): boolean {
+function isAllDayEvent(event: calendar_v3.Schema$Event): boolean {
 	return _.has(event.start, "date") && _.has(event.end, "date")
 }
 
-function formatGoogleDateTime(dateTime: GoogleCalendarEventDateTime): UnifiedDateTime {
-	if (!_.isUndefined(dateTime.date)) return { date: dateTime.date, time: "00:00:00" }
+function formatGoogleDateTime(dateTime: calendar_v3.Schema$EventDateTime | undefined): UnifiedDateTime {
+	if (_.isNil(dateTime)) return { date: "", time: "" }
 
-	if (!_.isUndefined(dateTime.dateTime)) {
+	if (!_.isNil(dateTime.date)) return { date: dateTime.date, time: "00:00:00" }
+
+	if (!_.isNil(dateTime.dateTime)) {
 		const [date, timeWithZ] = dateTime.dateTime.split("T")
 		const time = timeWithZ.split("Z")[0]
 
@@ -44,7 +46,7 @@ function formatGoogleDateTime(dateTime: GoogleCalendarEventDateTime): UnifiedDat
 	return { date: "", time: "" }
 }
 
-function getRecurrencePattern(event: GoogleCalendarEvent): UnifiedRecurrence | undefined {
+function getRecurrencePattern(event: calendar_v3.Schema$Event): UnifiedRecurrence | undefined {
 	if (_.isUndefined(event.recurrence)) return undefined
 
 	const recurrenceRule = _.first(event.recurrence) || ""
