@@ -4,17 +4,20 @@ import utc from "dayjs/plugin/utc"
 import timezone from "dayjs/plugin/timezone"
 dayjs.extend(utc)
 dayjs.extend(timezone)
+import { Event } from "@microsoft/microsoft-graph-types"
 
-export default function convertMicrosoftToUnified(events: MSCalendarEventResponse[]): UnifiedCalendarEvent[] {
+export default function convertMicrosoftToUnified(events: Event[]): UnifiedCalendarEvent[] {
 	return events.map(event => {
+		const formattedLocation = formatMicrosoftLocation(event)
+
 		return {
-			id: event.id,
-			title: event.subject,
+			id: event.id || "",
+			title: event.subject || "",
 			description: event.bodyPreview || "",
-			startDateTime: formatMicrosoftDateTime(event.start.dateTime),
-			endDateTime: formatMicrosoftDateTime(event.end.dateTime),
-			timeZone: event.start.timeZone || "America/New_York",
-			location: formatMicrosoftLocation(event),
+			startDateTime: formatMicrosoftDateTime(event.start?.dateTime),
+			endDateTime: formatMicrosoftDateTime(event.end?.dateTime),
+			timeZone: event.start?.timeZone || "America/New_York",
+			...(formattedLocation !== "" && { location: formattedLocation }),
 			organizerEmail: _.get(event, "organizer.emailAddress.address", ""),
 			attendees: _.map(event.attendees, attendee => ({
 				email: _.get(attendee, "emailAddress.address", ""),
@@ -23,13 +26,14 @@ export default function convertMicrosoftToUnified(events: MSCalendarEventRespons
 			isAllDay: event.isAllDay || false,
 			recurrence: getRecurrencePattern(event),
 			source: "microsoft",
-			link: event.webLink,
+			link: event.webLink || "",
 			isActive: true,
 		}
 	})
 }
 
-function formatMicrosoftDateTime(dateTime: string): UnifiedDateTime {
+function formatMicrosoftDateTime(dateTime: string | undefined): UnifiedDateTime {
+	if (_.isUndefined(dateTime)) return { date: "", time: "" }
 	const newYorkTimeZone = "America/New_York"
 
 	if (dateTime.endsWith("T00:00:00.0000000")) {
@@ -42,8 +46,13 @@ function formatMicrosoftDateTime(dateTime: string): UnifiedDateTime {
 	return { date, time }
 }
 
-function getRecurrencePattern(event: MSCalendarEventResponse): UnifiedRecurrence | undefined {
-	if (_.isNull(event.recurrence)) return undefined
+function getRecurrencePattern(event: Event): UnifiedRecurrence | undefined {
+	if (
+		_.isNil(event.recurrence) ||
+		_.isNil(event.recurrence.pattern) ||
+		_.isNil(event.recurrence.pattern.type) ||
+		_.isNil(event.recurrence.pattern.interval)
+	) return undefined
 
 	return {
 		pattern: standardizeMicrosoftRecurrence(event.recurrence.pattern.type),
@@ -51,11 +60,14 @@ function getRecurrencePattern(event: MSCalendarEventResponse): UnifiedRecurrence
 	}
 }
 
-function formatMicrosoftLocation(event: MSCalendarEventResponse): string {
-	if (!event.location.displayName) return ""
+function formatMicrosoftLocation(event: Event): string {
+	if (_.isNil(event.location) || _.isNil(event.location.displayName) || _.isEmpty(event.location.displayName)) return ""
 
 	const { displayName, address } = event.location
+	if (_.isNil(address)) return displayName
+
 	if (address.countryOrRegion === "United States") address.countryOrRegion = "USA"
+	console.log(event.location)
 
 	return `${displayName}, ${address.street}, ${address.city}, ${address.state} ${address.postalCode}, ${address.countryOrRegion}`
 }
