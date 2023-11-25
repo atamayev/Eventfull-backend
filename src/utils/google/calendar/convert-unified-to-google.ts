@@ -1,6 +1,6 @@
 import { calendar_v3 } from "googleapis"
 
-export default function convertUnifiedToGoogleCalendarEvent(unifiedEvent: UnifiedCalendarEvent): calendar_v3.Schema$Event {
+export default function convertUnifiedToGoogle(unifiedEvent: UnifiedCalendarEvent): calendar_v3.Schema$Event {
 	const combineDateTime = (dateTime: UnifiedDateTime): string => `${dateTime.date}T${dateTime.time}`
 	const defaultTimeZone = "America/New_York"
 

@@ -7,6 +7,8 @@ import validateUpdateLocalCalendarData from "../middleware/request-validation/ca
 import validateCalendarIdInParams from "../middleware/request-validation/calendar-routes/validate-calendarId-in-params"
 import validateCreateCloudEvent from "../middleware/request-validation/calendar-routes/validate-create-cloud-event"
 import validateUpdateGoogleCalendarData from "../middleware/request-validation/calendar-routes/validate-update-google-calendar-data-request"
+import validateUpdateMicrosoftCalendarData
+	from "../middleware/request-validation/calendar-routes/validate-update-microsoft-calendar-data-request"
 
 import getGoogleCalendarDetails from "../controllers/calendar/google/get-google-calendar-details"
 import getMicrosoftCalendarDetails from "../controllers/calendar/microsoft/get-microsoft-calendar-details"
@@ -18,9 +20,11 @@ import createGoogleCalendarEvent from "../controllers/calendar/google/create-goo
 import deleteGoogleCalendarEvent from "../controllers/calendar/google/delete-google-calendar-event"
 import updateGoogleCalendarEvent from "../controllers/calendar/google/update-google-calendar-event"
 import createMicrosoftCalendarEvent from "../controllers/calendar/microsoft/create-microsoft-calendar-event"
+import updateMicrosoftCalendarEvent from "../controllers/calendar/microsoft/update-microsoft-calendar-event"
 
 const calendarRoutes = express.Router()
 
+// Google Calendar Routes
 calendarRoutes.post(
 	"/google-calendar/add-calendar-data",
 	assignGoogleCalendarAccessToken,
@@ -41,6 +45,7 @@ calendarRoutes.delete(
 	deleteGoogleCalendarEvent
 )
 
+// Microsoft Calendar Routes
 calendarRoutes.post(
 	"/microsoft-calendar/add-calendar-data",
 	assignMicrosoftCalendarId,
@@ -48,7 +53,14 @@ calendarRoutes.post(
 	createMicrosoftCalendarEvent
 )
 calendarRoutes.get("/microsoft-calendar/get-calendar-details", assignMicrosoftCalendarId, getMicrosoftCalendarDetails)
+calendarRoutes.post(
+	"/microsoft-calendar/update-calendar-data",
+	assignMicrosoftCalendarId,
+	validateUpdateMicrosoftCalendarData,
+	updateMicrosoftCalendarEvent
+)
 
+// Local Calendar Routes
 calendarRoutes.post("/local-calendar/add-calendar-data", validateAddLocalCalendarData, addLocalCalendarData)
 calendarRoutes.get("/local-calendar/get-calendar-data", retrieveAllDbCalendarData)
 calendarRoutes.post("/local-calendar/update-calendar-data", validateUpdateLocalCalendarData, updateLocalCalendarData)
