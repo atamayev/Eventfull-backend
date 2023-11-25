@@ -4,7 +4,9 @@ import UserModel from "../../models/user-model"
 import { Types } from "mongoose"
 
 export async function doesEmailExist(email: string): Promise<boolean> {
-	const user = await UserModel.findOne({ email })
+	const user = await UserModel.findOne({
+		email: { $regex: `^${email}$`, $options: "i" }
+	})
 	return user !== null
 }
 

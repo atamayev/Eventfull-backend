@@ -9,7 +9,9 @@ export default async function saveMicrosoftCalendarTokens(
 	expiryDate: number
 ): Promise<void> {
 	try {
-		let user = await UserModel.findOne({ email })
+		let user = await UserModel.findOne({
+			email: { $regex: `^${email}$`, $options: "i" }
+		})
 
 		if (_.isNull(user)) user = await addNonLocalUserToDB(email, "microsoft")
 
