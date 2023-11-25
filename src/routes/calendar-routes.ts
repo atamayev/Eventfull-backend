@@ -13,7 +13,7 @@ import validateUpdateMicrosoftCalendarEvent
 import getGoogleCalendarEvents from "../controllers/calendar/google/get-google-calendar-events"
 import getMicrosoftCalendarEvents from "../controllers/calendar/microsoft/get-microsoft-calendar-events"
 import addLocalCalendarEvent from "../controllers/calendar/local-calendar/add-local-calendar-event"
-import retrieveAllDbCalendarEvents from "../controllers/calendar/retrieve-all-db-calendar-events"
+import getAllDbCalendarEvents from "../controllers/calendar/get-all-db-calendar-events"
 import updateLocalCalendarEvent from "../controllers/calendar/local-calendar/update-local-calendar-event"
 import deleteLocalCalendarEvent from "../controllers/calendar/local-calendar/delete-local-calendar-event"
 import createGoogleCalendarEvent from "../controllers/calendar/google/create-google-calendar-event"
@@ -69,7 +69,7 @@ calendarRoutes.delete(
 
 // Local Calendar Routes
 calendarRoutes.post("/local-calendar/create-calendar-event", validateAddLocalCalendarEvent, addLocalCalendarEvent)
-calendarRoutes.get("/local-calendar/get-all-calendar-events", retrieveAllDbCalendarEvents)
+calendarRoutes.get("/local-calendar/get-all-calendar-events", getAllDbCalendarEvents)
 calendarRoutes.post("/local-calendar/update-calendar-event", validateUpdateLocalCalendarEvent, updateLocalCalendarEvent)
 calendarRoutes.delete("/local-calendar/delete-calendar-event/:calendarId", validateCalendarIdInParams, deleteLocalCalendarEvent)
 
