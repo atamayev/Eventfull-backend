@@ -15,6 +15,11 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		if (_.isUndefined(results1) || _.isEmpty(results1)) {
 			return res.status(404).json({ error: "Username not found!" })
 		}
+		if (results1.source === "google") {
+			return res.status(400).json({ error: "Username exists, but you must login via Google" })
+		} else if (results1.source === "microsoft") {
+			return res.status(400).json({ error: "Username exists, but you must login via Microsoft" })
+		}
 		else results = results1
 	} catch (error) {
 		console.error(error)
