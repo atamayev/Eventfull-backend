@@ -18,12 +18,15 @@ import validateChangePasswordRequest from "../middleware/request-validation/auth
 import validateGoogleCalendarRequest from "../middleware/request-validation/auth-routes/validate-calendar-callback-request"
 import validateAuthorizationHeader from "../middleware/request-validation/auth-routes/validate-authorization-header"
 import microsoftCalendarAuthCallback from "../controllers/auth/microsoft-auth/microsoft-calendar-auth-callback"
+import checkIfUsernameExists from "../controllers/auth/check-if-username-exists"
+import validateCheckIfUsernameExistsRequest from "../middleware/request-validation/auth-routes/validate-check-if-username-exists-request"
 
 const authRoutes = express.Router()
 
 authRoutes.post("/register", validateRegisterRequest, register)
 authRoutes.post("/login", validateLoginRequest, login)
 authRoutes.post("/change-password", jwtVerify, validateChangePasswordRequest, changePassword)
+authRoutes.get("/does-username-exist/:username", jwtVerify, validateCheckIfUsernameExistsRequest, checkIfUsernameExists)
 
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
 authRoutes.get("/google-auth/generate-calendar-auth-url", validateAuthorizationHeader, generateGoogleCalendarAuthUrl)

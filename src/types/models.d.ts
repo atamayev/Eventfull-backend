@@ -16,6 +16,7 @@ declare global {
 	interface User extends IDInterface {
 		email: string
 		authMethod: string
+		username?: string
 		password?: string
 		createdAt: Date
 		updatedAt: Date

@@ -10,6 +10,7 @@ const loginHistorySchema = new Schema({
 const userSchema = new Schema<User>({
 	email: { type: String, required: true, unique: true, trim: true },
 	authMethod: { type: String, required: true, trim: true },
+	username: { type: String, trim: true },
 	password: { type: String },
 	firstName: { type: String, trim: true },
 	lastName: { type: String, trim: true },
