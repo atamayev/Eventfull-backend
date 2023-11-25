@@ -21,12 +21,7 @@ export default async function addLocalCalendarData(req: Request, res: Response):
 
 		await user.save()
 
-		return res
-			.status(200)
-			.json({
-				message: "Successfully added calendar data",
-				calendarId: calendarDetails.id
-			})
+		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Failed to add calendar data" })
