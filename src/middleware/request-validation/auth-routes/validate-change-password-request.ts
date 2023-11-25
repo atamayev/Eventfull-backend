@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const changePasswordSchema = Joi.object({
 	changePasswordObject: Joi.object({
-		email: Joi.string().email().required(),
+		contact: Joi.string().required(),
 		currentPassword: Joi.string().min(6).required(),
 		newPassword: Joi.string().min(6).required()
 	}).required()

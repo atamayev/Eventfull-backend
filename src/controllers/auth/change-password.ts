@@ -1,14 +1,15 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import Hash from "../../setup-and-security/hash"
-import { checkIfUserIdMatchesEmail, retrieveUserPassword, updatePassword } from "../../utils/auth-helpers/change-password-helpers"
+import { checkIfUserIdMatchesContact, retrieveUserPassword, updatePassword } from "../../utils/auth-helpers/change-password-helpers"
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {
-	const { email, currentPassword, newPassword } = req.body.changePasswordObject as ChangePasswordObject
+	const { contact, currentPassword, newPassword } = req.body.changePasswordObject as ChangePasswordObject
 	const userId = req.userId
+	const contactType = req.contactType
 
 	try {
-		const doesUserIdMatchEmail = await checkIfUserIdMatchesEmail(userId, email)
+		const doesUserIdMatchEmail = await checkIfUserIdMatchesContact(userId, contact, contactType)
 
 		if (doesUserIdMatchEmail === false) return res.status(400).json({ error: "Email does not match user id" })
 

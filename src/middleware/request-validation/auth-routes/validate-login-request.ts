@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const loginInformationSchema = Joi.object({
 	loginInformationObject: Joi.object({
-		email: Joi.string().email().required(),
+		contact: Joi.string().required(),
 		password: Joi.string().min(6).required()
 	}).required()
 })

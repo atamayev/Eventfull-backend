@@ -4,7 +4,10 @@ import { Request, Response, NextFunction } from "express"
 
 const registerInformationSchema = Joi.object({
 	registerInformationObject: Joi.object({
-		email: Joi.string().email().required(),
+		contact: Joi.string().required(),
+		firstName: Joi.string().required(),
+		lastName: Joi.string().required(),
+		username: Joi.string().required(),
 		password: Joi.string().min(6).required()
 	}).required()
 })

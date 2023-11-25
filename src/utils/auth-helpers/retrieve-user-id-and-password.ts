@@ -3,12 +3,21 @@ import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
 export default async function retrieveUserIdAndPassword(
-	email: string
+	contact: string,
+	contactType: EmailOrPhone
 ): Promise<{ userId: Types.ObjectId, password: string, source: "local" | "google" | "microsoft" } | undefined> {
-	const user = await UserModel.findOne({
-		email: { $regex: `^${email}$`, $options: "i" },
-		authMethod: { $in: ["local", "google", "microsoft"] }
-	})
+	let user = null
+	if (contactType === "Email") {
+		user = await UserModel.findOne({
+			email: { $regex: `^${contact}$`, $options: "i" },
+			authMethod: { $in: ["local", "google", "microsoft"] }
+		})
+	} else {
+		user = await UserModel.findOne({
+			phone: { $regex: `^${contact}$`, $options: "i" },
+			authMethod: { $in: ["local", "google", "microsoft"] }
+		})
+	}
 
 	if (_.isNull(user)) return undefined
 

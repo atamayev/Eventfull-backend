@@ -1,18 +1,13 @@
 import { Request, Response } from "express"
-import UserModel from "../../models/user-model"
+import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
 
 export default async function checkIfUsernameExists(req: Request, res: Response): Promise<Response> {
 	try {
 		const username = req.body.username
 
-		// Check if username exists (case insensitive)
-		const user = await UserModel.findOne({
-			username: { $regex: `^${username}$`, $options: "i" }
-		})
+		const exists = await doesUsernameExist(username)
 
-		if (user === null) return res.status(200).json({ exists: false })
-
-		return res.status(200).json({ exists: true })
+		return res.status(200).json({ exists })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json()

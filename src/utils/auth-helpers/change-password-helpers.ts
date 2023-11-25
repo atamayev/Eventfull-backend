@@ -12,7 +12,20 @@ export async function updatePassword(userId: Types.ObjectId, newPassword: string
 	await UserModel.findByIdAndUpdate(userId, { password: newPassword })
 }
 
-export async function checkIfUserIdMatchesEmail(userId: Types.ObjectId, email: string): Promise<boolean> {
+export async function checkIfUserIdMatchesContact (userId: Types.ObjectId, contact: string, contactType: EmailOrPhone): Promise<boolean> {
+	if (contactType === "Email") {
+		return await checkIfUserIdMatchesEmail(userId, contact)
+	} else {
+		return await checkIfUserIdMatchesPhone(userId, contact)
+	}
+}
+
+async function checkIfUserIdMatchesEmail(userId: Types.ObjectId, email: string): Promise<boolean> {
 	const userExists = await UserModel.exists({ _id: userId, email })
+	return !!userExists
+}
+
+async function checkIfUserIdMatchesPhone(userId: Types.ObjectId, phone: string): Promise<boolean> {
+	const userExists = await UserModel.exists({ _id: userId, phone })
 	return !!userExists
 }

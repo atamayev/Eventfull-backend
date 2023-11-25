@@ -58,7 +58,7 @@ declare global {
 		// device: string
 	}
 
-	interface Event extends IDInterface {
+	interface EventfullEvent extends IDInterface {
 		eventName: string
 		eventTimeStart: Date
 		eventTimeEnd: Date
