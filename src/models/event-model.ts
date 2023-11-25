@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose"
 
-const eventSchema = new Schema<Event>({
+const eventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
 	eventTimeStart: { type: Date, required: true },
 	eventTimeEnd: { type: Date, required: true },
