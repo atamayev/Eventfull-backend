@@ -1,6 +1,7 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import { doesContactExist } from "../../utils/auth-helpers/does-contact-exist"
+import doesContactExist from "../../utils/auth-helpers/does-contact-exist"
+import isSameContactMethod from "../../utils/auth-helpers/is-same-contact-method"
 import addSecondaryContactMethodToDb from "../../utils/auth-helpers/add-secondary-contact-method-to-db"
 
 export default async function addSecondaryContactMethod (req: Request, res: Response): Promise<Response> {
@@ -9,6 +10,10 @@ export default async function addSecondaryContactMethod (req: Request, res: Resp
 		const { contact } = req.body
 		const contactType = req.contactType
 
+		const isSameContactMethod1 = await isSameContactMethod(userId, contact, contactType)
+		if (isSameContactMethod1 === true) {
+			return res.status(400).json({ message: `This ${contactType} is already associated with your account.` })
+		}
 		const contactExists = await doesContactExist(contact, contactType)
 		if (contactExists === true) {
 			return res.status(400).json({ message: `This ${contactType} is already associated with another account.` })

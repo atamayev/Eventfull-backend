@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
-import { doesContactExist } from "../../utils/auth-helpers/does-contact-exist"
+import doesContactExist from "../../utils/auth-helpers/does-contact-exist"
 
+// This endpoint will be called as the client types in their email or phone number (in real time)
 export default async function checkIfContactExists(req: Request, res: Response): Promise<Response> {
 	try {
 		const contact = req.body.contact
