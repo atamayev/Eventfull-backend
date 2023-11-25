@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Types } from "mongoose"
 import { AuthenticationResult } from "@azure/msal-node"
-import UserModel from "../../../models/user-model"
+import UserModel from "../../../../models/user-model"
 
 export default async function updateMicrosoftCalendarTokensInDB(userId: Types.ObjectId, credentials: AuthenticationResult): Promise<void> {
 	try {

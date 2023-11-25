@@ -1,5 +1,5 @@
 import _ from "lodash"
-import cca from "../msal-config"
+import cca from "../../msal-config"
 import { Types } from "mongoose"
 import updateMicrosoftCalendarTokensInDB from "./update-microsoft-calendar-tokens-in-db"
 

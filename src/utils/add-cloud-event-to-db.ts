@@ -1,10 +1,14 @@
 import _ from "lodash"
 import { Types } from "mongoose"
-import UserModel from "../../../../models/user-model"
+import UserModel from "../models/user-model"
 
-export default async function addGoogleEventToDb (userId: Types.ObjectId, calendarDetails: UnifiedCalendarEvent): Promise<void> {
+export default async function addCloudEventToDb (
+	userId: Types.ObjectId,
+	calendarDetails: UnifiedCalendarEvent,
+	source: "google" | "microsoft"
+): Promise<void> {
 	try {
-		calendarDetails.source = "google"
+		calendarDetails.source = source
 		calendarDetails.isActive = true
 		calendarDetails.timeZone ||= "America/New_York"
 

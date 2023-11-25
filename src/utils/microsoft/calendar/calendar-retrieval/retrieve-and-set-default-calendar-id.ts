@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Types } from "mongoose"
 import { Calendar } from "@microsoft/microsoft-graph-types"
 import saveDefaultCalendarIdToDb from "./save-default-calendar-id-to-db"
-import createGraphClient from "../create-graph-client"
+import createGraphClient from "../../create-graph-client"
 
 export default async function retrieveAndSetDefaultCalendarId(
 	userId: Types.ObjectId,

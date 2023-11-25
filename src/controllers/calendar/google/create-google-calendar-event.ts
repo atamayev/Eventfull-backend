@@ -1,7 +1,7 @@
 import { Response, Request } from "express"
-import addGoogleEventToDb from "../../../utils/google/calendar/calendar-misc/add-google-event-to-db"
+import addCloudEventToDb from "../../../utils/add-cloud-event-to-db"
 import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
-import convertUnifiedToGoogleCalendarEvent from "../../../utils/google/calendar/calendar-misc/convert-unified-to-google"
+import convertUnifiedToGoogleCalendarEvent from "../../../utils/google/calendar/convert-unified-to-google"
 
 export default async function createGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
@@ -21,7 +21,7 @@ export default async function createGoogleCalendarEvent(req: Request, res: Respo
 		})
 
 		calendarDetails.id = response.data.id || ""
-		await addGoogleEventToDb(userId, calendarDetails)
+		await addCloudEventToDb(userId, calendarDetails, "google")
 
 		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {

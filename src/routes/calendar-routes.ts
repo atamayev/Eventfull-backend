@@ -1,11 +1,11 @@
 import express from "express"
 
-import assignGoogleCalendarId from "../middleware/calendar/assign-google-calendar-id"
+import assignGoogleCalendarAccessToken from "../middleware/calendar/assign-google-calendar-id"
 import assignMicrosoftCalendarId from "../middleware/calendar/assign-microsoft-calendar-id"
 import validateAddLocalCalendarData from "../middleware/request-validation/calendar-routes/validate-add-local-calendar-data-request"
 import validateUpdateLocalCalendarData from "../middleware/request-validation/calendar-routes/validate-update-local-calendar-data-request"
 import validateCalendarIdInParams from "../middleware/request-validation/calendar-routes/validate-calendarId-in-params"
-import validateCreateGoogleEvent from "../middleware/request-validation/calendar-routes/validate-create-google-event"
+import validateCreateCloudEvent from "../middleware/request-validation/calendar-routes/validate-create-cloud-event"
 import validateUpdateGoogleCalendarData from "../middleware/request-validation/calendar-routes/validate-update-google-calendar-data-request"
 
 import getGoogleCalendarDetails from "../controllers/calendar/google/get-google-calendar-details"
@@ -17,24 +17,36 @@ import deleteLocalCalendarData from "../controllers/calendar/local-calendar/dele
 import createGoogleCalendarEvent from "../controllers/calendar/google/create-google-calendar-event"
 import deleteGoogleCalendarEvent from "../controllers/calendar/google/delete-google-calendar-event"
 import updateGoogleCalendarEvent from "../controllers/calendar/google/update-google-calendar-event"
+import createMicrosoftCalendarEvent from "../controllers/calendar/microsoft/create-microsoft-calendar-event"
 
 const calendarRoutes = express.Router()
 
-calendarRoutes.post("/google-calendar/add-calendar-data", assignGoogleCalendarId, validateCreateGoogleEvent, createGoogleCalendarEvent)
-calendarRoutes.get("/google-calendar/get-calendar-details", assignGoogleCalendarId, getGoogleCalendarDetails)
+calendarRoutes.post(
+	"/google-calendar/add-calendar-data",
+	assignGoogleCalendarAccessToken,
+	validateCreateCloudEvent,
+	createGoogleCalendarEvent
+)
+calendarRoutes.get("/google-calendar/get-calendar-details", assignGoogleCalendarAccessToken, getGoogleCalendarDetails)
 calendarRoutes.post(
 	"/google-calendar/update-calendar-data",
-	assignGoogleCalendarId,
+	assignGoogleCalendarAccessToken,
 	validateUpdateGoogleCalendarData,
 	updateGoogleCalendarEvent
 )
 calendarRoutes.delete(
 	"/google-calendar/delete-calendar-data/:calendarId",
-	assignGoogleCalendarId,
+	assignGoogleCalendarAccessToken,
 	validateCalendarIdInParams,
 	deleteGoogleCalendarEvent
 )
 
+calendarRoutes.post(
+	"/microsoft-calendar/add-calendar-data",
+	assignMicrosoftCalendarId,
+	validateCreateCloudEvent,
+	createMicrosoftCalendarEvent
+)
 calendarRoutes.get("/microsoft-calendar/get-calendar-details", assignMicrosoftCalendarId, getMicrosoftCalendarDetails)
 
 calendarRoutes.post("/local-calendar/add-calendar-data", validateAddLocalCalendarData, addLocalCalendarData)

@@ -1,17 +1,13 @@
-import _ from "lodash"
 import { Response, Request } from "express"
 import { Event } from "@microsoft/microsoft-graph-types"
-import convertMicrosoftToUnified from "../../../utils/microsoft/calendar-retrieval/convert-microsoft-to-unified"
+import convertMicrosoftToUnified from "../../../utils/microsoft/calendar/calendar-retrieval/convert-microsoft-to-unified"
 import saveOrUpdateUserCalendarEvents from "../../../utils/save-or-update-incoming-calendar-data"
 import createGraphClient from "../../../utils/microsoft/create-graph-client"
 
 export default async function getMicrosoftCalendarDetails(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
-		const microsoftCalendarAccessToken = req.headers.microsoftCalendarAccessToken
-		if (!_.isString(microsoftCalendarAccessToken)) {
-			return res.status(400).json({ error: "Invalid Microsoft Calendar Access Token" })
-		}
+		const microsoftCalendarAccessToken = req.headers.microsoftCalendarAccessToken as string
 
 		const calendarId = req.headers.microsoftDefaultCalendarId as string
 		const client = createGraphClient(microsoftCalendarAccessToken)

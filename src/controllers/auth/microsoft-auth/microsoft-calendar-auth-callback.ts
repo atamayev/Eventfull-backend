@@ -1,6 +1,6 @@
 import { Response, Request } from "express"
-import saveMicrosoftCalendarTokens from "../../../utils/microsoft/calendar-auth/save-microsoft-calendar-tokens"
-import exchangeCodeForTokenCalendarCallback from "../../../utils/microsoft/calendar-auth/exchange-code-for-token-calendar-callback"
+import saveMicrosoftCalendarTokens from "../../../utils/microsoft/calendar/calendar-auth/save-microsoft-calendar-tokens"
+import exchangeCodeForTokenCalendarCallback from "../../../utils/microsoft/calendar/calendar-auth/exchange-code-for-token-calendar-callback"
 
 export default async function microsoftCalendarAuthCallback (req: Request, res: Response): Promise<Response> {
 	const code = req.query.code as string

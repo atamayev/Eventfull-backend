@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import getValidGoogleCalendarAccessToken from "../../utils/google/calendar/calendar-retrieval/get-valid-google-calendar-token"
 
-export default async function assignGoogleCalendarId(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function assignGoogleCalendarAccessToken(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const userId = req.userId
 		const googleCalendarAccessToken = await getValidGoogleCalendarAccessToken(userId)
