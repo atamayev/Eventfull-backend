@@ -4,7 +4,11 @@ import UserModel from "../../models/user-model"
 import retrieveAndSetDefaultCalendarId from "../../utils/microsoft/calendar/calendar-retrieval/retrieve-and-set-default-calendar-id"
 import getValidMicrosoftCalendarAccessToken from "../../utils/microsoft/calendar/calendar-retrieval/get-valid-microsoft-calendar-token"
 
-export default async function assignMicrosoftCalendarId(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function assignMicrosoftCalendarIdAndAccessTokenAndAccessToken(
+	req: Request,
+	res: Response,
+	next: NextFunction
+): Promise<void | Response> {
 	try {
 		const userId = req.userId
 

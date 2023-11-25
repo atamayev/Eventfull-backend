@@ -1,7 +1,7 @@
 import express from "express"
 
-import assignGoogleCalendarAccessToken from "../middleware/calendar/assign-google-calendar-id"
-import assignMicrosoftCalendarId from "../middleware/calendar/assign-microsoft-calendar-id"
+import assignGoogleCalendarAccessToken from "../middleware/calendar/assign-google-calendar-access-token"
+import assignMicrosoftCalendarIdAndAccessToken from "../middleware/calendar/assign-microsoft-calendar-id-and-access-token"
 import validateAddLocalCalendarData from "../middleware/request-validation/calendar-routes/validate-add-local-calendar-data-request"
 import validateUpdateLocalCalendarData from "../middleware/request-validation/calendar-routes/validate-update-local-calendar-data-request"
 import validateCalendarIdInParams from "../middleware/request-validation/calendar-routes/validate-calendarId-in-params"
@@ -21,6 +21,7 @@ import deleteGoogleCalendarEvent from "../controllers/calendar/google/delete-goo
 import updateGoogleCalendarEvent from "../controllers/calendar/google/update-google-calendar-event"
 import createMicrosoftCalendarEvent from "../controllers/calendar/microsoft/create-microsoft-calendar-event"
 import updateMicrosoftCalendarEvent from "../controllers/calendar/microsoft/update-microsoft-calendar-event"
+import deleteMicrosoftCalendarEvent from "../controllers/calendar/microsoft/delete-microsoft-calendar-event"
 
 const calendarRoutes = express.Router()
 
@@ -48,16 +49,22 @@ calendarRoutes.delete(
 // Microsoft Calendar Routes
 calendarRoutes.post(
 	"/microsoft-calendar/add-calendar-data",
-	assignMicrosoftCalendarId,
+	assignMicrosoftCalendarIdAndAccessToken,
 	validateCreateCloudEvent,
 	createMicrosoftCalendarEvent
 )
-calendarRoutes.get("/microsoft-calendar/get-calendar-details", assignMicrosoftCalendarId, getMicrosoftCalendarDetails)
+calendarRoutes.get("/microsoft-calendar/get-calendar-details", assignMicrosoftCalendarIdAndAccessToken, getMicrosoftCalendarDetails)
 calendarRoutes.post(
 	"/microsoft-calendar/update-calendar-data",
-	assignMicrosoftCalendarId,
+	assignMicrosoftCalendarIdAndAccessToken,
 	validateUpdateMicrosoftCalendarData,
 	updateMicrosoftCalendarEvent
+)
+calendarRoutes.delete(
+	"/microsoft-calendar/delete-calendar-data/:calendarId",
+	assignMicrosoftCalendarIdAndAccessToken,
+	validateCalendarIdInParams,
+	deleteMicrosoftCalendarEvent
 )
 
 // Local Calendar Routes

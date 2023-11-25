@@ -9,6 +9,7 @@ export default async function deleteGoogleCalendarEvent(req: Request, res: Respo
 		const googleCalendarAccessToken = req.headers.googleCalendarAccessToken as string
 
 		const eventId: string = req.params.calendarId
+
 		const googleClient = createGoogleCalendarClient(googleCalendarAccessToken)
 
 		await googleClient.events.delete({
