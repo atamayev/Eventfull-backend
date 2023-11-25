@@ -2,7 +2,7 @@ import express from "express"
 
 import assignGoogleCalendarAccessToken from "../middleware/calendar/assign-google-calendar-access-token"
 import assignMicrosoftCalendarIdAndAccessToken from "../middleware/calendar/assign-microsoft-calendar-id-and-access-token"
-import validateAddLocalCalendarEvent from "../middleware/request-validation/calendar-routes/validate-add-local-calendar-event"
+import validateAddLocalCalendarEvent from "../middleware/request-validation/calendar-routes/validate-create-local-calendar-event"
 import validateUpdateLocalCalendarEvent from "../middleware/request-validation/calendar-routes/validate-update-local-calendar-event"
 import validateCalendarIdInParams from "../middleware/request-validation/calendar-routes/validate-calendarId-in-params"
 import validateCreateCloudEvent from "../middleware/request-validation/calendar-routes/validate-create-cloud-event"
