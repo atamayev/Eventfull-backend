@@ -1,8 +1,8 @@
 import _ from "lodash"
+import Joi from "joi"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 import { doesUserIdExist, getDecodedId } from "../utils/auth-helpers/jwt-verify-helpers"
-import Joi from "joi"
 
 const authorizationSchema = Joi.object({
 	authorization: Joi.string().required()
