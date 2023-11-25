@@ -7,7 +7,7 @@ const usernameSchema = Joi.object({
 })
 
 export default function validateCheckIfUsernameExistsRequest(req: Request, res: Response, next: NextFunction): void | Response {
-	const { error } = usernameSchema.validate(req.params)
+	const { error } = usernameSchema.validate(req.body)
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 

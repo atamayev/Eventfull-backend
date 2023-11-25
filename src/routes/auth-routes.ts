@@ -9,6 +9,9 @@ import generateGoogleCalendarAuthUrl from "../controllers/auth/google-auth/gener
 import generateMicrosoftLoginAuthUrl from "../controllers/auth/microsoft-auth/generate-microsoft-login-auth-url"
 import generateMicrosoftCalendarAuthUrl from "../controllers/auth/microsoft-auth/generate-microsoft-calendar-auth-url"
 import microsoftLoginAuthCallback from "../controllers/auth/microsoft-auth/microsoft-login-auth-callback"
+import microsoftCalendarAuthCallback from "../controllers/auth/microsoft-auth/microsoft-calendar-auth-callback"
+import checkIfUsernameExists from "../controllers/auth/check-if-username-exists"
+import checkIfContactExists from "../controllers/auth/check-if-contact-exists"
 
 import jwtVerify from "../middleware/jwt-verify"
 import validateLoginRequest from "../middleware/request-validation/auth-routes/validate-login-request"
@@ -17,16 +20,17 @@ import validateQueryCode	from "../middleware/request-validation/auth-routes/vali
 import validateChangePasswordRequest from "../middleware/request-validation/auth-routes/validate-change-password-request"
 import validateGoogleCalendarRequest from "../middleware/request-validation/auth-routes/validate-calendar-callback-request"
 import validateAuthorizationHeader from "../middleware/request-validation/auth-routes/validate-authorization-header"
-import microsoftCalendarAuthCallback from "../controllers/auth/microsoft-auth/microsoft-calendar-auth-callback"
-import checkIfUsernameExists from "../controllers/auth/check-if-username-exists"
 import validateCheckIfUsernameExistsRequest from "../middleware/request-validation/auth-routes/validate-check-if-username-exists-request"
+import validateCheckIfContactExistsRequest
+	from "../middleware/request-validation/auth-routes/validate-check-if-contact-exists-request"
 
 const authRoutes = express.Router()
 
 authRoutes.post("/register", validateRegisterRequest, register)
 authRoutes.post("/login", validateLoginRequest, login)
 authRoutes.post("/change-password", jwtVerify, validateChangePasswordRequest, changePassword)
-authRoutes.get("/does-username-exist/:username", jwtVerify, validateCheckIfUsernameExistsRequest, checkIfUsernameExists)
+authRoutes.post("/does-username-exist", jwtVerify, validateCheckIfUsernameExistsRequest, checkIfUsernameExists)
+authRoutes.post("/check-if-email-or-phone-exists",	jwtVerify, validateCheckIfContactExistsRequest, checkIfContactExists)
 
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
 authRoutes.get("/google-auth/generate-calendar-auth-url", validateAuthorizationHeader, generateGoogleCalendarAuthUrl)

@@ -3,7 +3,7 @@ import UserModel from "../../models/user-model"
 
 export default async function checkIfUsernameExists(req: Request, res: Response): Promise<Response> {
 	try {
-		const username = req.params.username
+		const username = req.body.username
 
 		// Check if username exists (case insensitive)
 		const user = await UserModel.findOne({
