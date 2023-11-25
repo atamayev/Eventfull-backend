@@ -1,19 +1,13 @@
-import _ from "lodash"
-import { Response, Request } from "express"
 import { calendar_v3 } from "googleapis"
-import getValidGoogleCalendarAccessToken from "../../../utils/google/calendar/calendar-retrieval/get-valid-google-calendar-token"
-import convertGoogleToUnified from "../../../utils/google/calendar/calendar-retrieval/convert-google-to-unified"
+import { Response, Request } from "express"
 import saveOrUpdateUserCalendarEvents from "../../../utils/save-or-update-incoming-calendar-data"
 import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
+import convertGoogleToUnified from "../../../utils/google/calendar/calendar-retrieval/convert-google-to-unified"
 
 export default async function getGoogleCalendarDetails(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
-		//move this to middleware, similar to microsoft's get-microsoft-calendar-details.ts
-		const googleCalendarAccessToken = await getValidGoogleCalendarAccessToken(userId)
-		if (_.isUndefined(googleCalendarAccessToken)) {
-			return res.status(400).json({ error: "No Google Calendar Access Token Found" })
-		}
+		const googleCalendarAccessToken = req.headers.googleCalendarAccessToken as string
 
 		const googleClient = createGoogleCalendarClient(googleCalendarAccessToken)
 

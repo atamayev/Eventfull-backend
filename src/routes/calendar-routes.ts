@@ -1,6 +1,7 @@
 import express from "express"
 
-import assignMicrosoftCalendarId from "../middleware/calendar/assign-micosoft-calendar-id"
+import assignGoogleCalendarId from "../middleware/calendar/assign-google-calendar-id"
+import assignMicrosoftCalendarId from "../middleware/calendar/assign-microsoft-calendar-id"
 import validateAddLocalCalendarData from "../middleware/request-validation/calendar-routes/validate-add-local-calendar-data-request"
 import validateUpdateLocalCalendarData from "../middleware/request-validation/calendar-routes/validate-update-local-calendar-data-request"
 import validateCalendarIdInParams from "../middleware/request-validation/calendar-routes/validate-calendarId-in-params"
@@ -19,10 +20,20 @@ import updateGoogleCalendarEvent from "../controllers/calendar/google/update-goo
 
 const calendarRoutes = express.Router()
 
-calendarRoutes.post("/google-calendar/add-calendar-data", validateCreateGoogleEvent, createGoogleCalendarEvent)
-calendarRoutes.get("/google-calendar/get-calendar-details", getGoogleCalendarDetails)
-calendarRoutes.post("/google-calendar/update-calendar-data", validateUpdateGoogleCalendarData, updateGoogleCalendarEvent)
-calendarRoutes.delete("/google-calendar/delete-calendar-data/:calendarId", validateCalendarIdInParams, deleteGoogleCalendarEvent)
+calendarRoutes.post("/google-calendar/add-calendar-data", assignGoogleCalendarId, validateCreateGoogleEvent, createGoogleCalendarEvent)
+calendarRoutes.get("/google-calendar/get-calendar-details", assignGoogleCalendarId, getGoogleCalendarDetails)
+calendarRoutes.post(
+	"/google-calendar/update-calendar-data",
+	assignGoogleCalendarId,
+	validateUpdateGoogleCalendarData,
+	updateGoogleCalendarEvent
+)
+calendarRoutes.delete(
+	"/google-calendar/delete-calendar-data/:calendarId",
+	assignGoogleCalendarId,
+	validateCalendarIdInParams,
+	deleteGoogleCalendarEvent
+)
 
 calendarRoutes.get("/microsoft-calendar/get-calendar-details", assignMicrosoftCalendarId, getMicrosoftCalendarDetails)
 

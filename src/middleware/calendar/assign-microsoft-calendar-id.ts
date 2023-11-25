@@ -25,10 +25,6 @@ export default async function assignMicrosoftCalendarId(req: Request, res: Respo
 		next()
 	} catch (error) {
 		console.error(error)
-		return handleUnauthorized()
-	}
-
-	function handleUnauthorized(): Response {
 		return res.status(401).json({ error: "Unauthorized User" })
 	}
 }
