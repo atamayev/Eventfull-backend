@@ -1,7 +1,7 @@
 import { Response, Request } from "express"
 import { Event } from "@microsoft/microsoft-graph-types"
 import convertMicrosoftToUnified from "../../../utils/microsoft/calendar/calendar-retrieval/convert-microsoft-to-unified"
-import saveIncomingUnifiedCalendarData from "../../../utils/save-incoming-unified-calendar-data"
+import saveIncomingUnifiedCalendarEvents from "../../../utils/save-incoming-unified-calendar-events"
 import createGraphClient from "../../../utils/microsoft/create-graph-client"
 
 export default async function getMicrosoftCalendarEvents(req: Request, res: Response): Promise<Response> {
@@ -14,7 +14,7 @@ export default async function getMicrosoftCalendarEvents(req: Request, res: Resp
 
 		const calendarDetails = await client.api(`/me/calendars/${calendarId}/events`).get() as { value: Event[] }
 		const unifiedCalendarEvents = convertMicrosoftToUnified(calendarDetails.value)
-		await saveIncomingUnifiedCalendarData(userId, unifiedCalendarEvents)
+		await saveIncomingUnifiedCalendarEvents(userId, unifiedCalendarEvents)
 
 		return res.status(200).json({ calendarDetails: unifiedCalendarEvents })
 	} catch (error) {

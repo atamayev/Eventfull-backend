@@ -12,7 +12,7 @@ export default async function updateUnifiedEventInDb (userId: Types.ObjectId, ca
 			return _.toString(event.id) === calendarDetails.id
 		})
 
-		if (eventIndex === -1) throw new Error("Calendar event not found")
+		if (eventIndex === -1) throw new Error("Event not found")
 
 		calendarDetails.isActive = true
 
@@ -23,6 +23,6 @@ export default async function updateUnifiedEventInDb (userId: Types.ObjectId, ca
 		return
 	} catch (error) {
 		console.error(error)
-		throw new Error("Failed to update calendar data")
+		throw new Error("Failed to update event")
 	}
 }

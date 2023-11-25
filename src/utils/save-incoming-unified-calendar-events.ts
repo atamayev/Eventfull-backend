@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../models/user-model"
 
-export default async function saveIncomingUnifiedCalendarData(
+export default async function saveIncomingUnifiedCalendarEvents(
 	userId: Types.ObjectId,
 	events: UnifiedCalendarEvent[]
 ): Promise<void> {
