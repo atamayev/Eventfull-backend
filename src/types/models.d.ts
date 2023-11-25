@@ -14,8 +14,9 @@ declare global {
 	}
 
 	interface User extends IDInterface {
-		email: string
-		authMethod: string
+		authMethod: "local" | "google" | "microsoft"
+		email?: string
+		phone?: string
 		username?: string
 		password?: string
 		createdAt: Date
