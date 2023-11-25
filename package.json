@@ -32,6 +32,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.8.9",
     "@types/uuid": "^9.0.7",
+    "@types/validator": "^13.11.7",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
     "eslint": "^8.52.0",
@@ -58,8 +59,10 @@
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.1.0",
+    "libphonenumber-js": "^1.10.51",
     "lodash": "^4.17.21",
     "mongoose": "^7.6.3",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "validator": "^13.11.0"
   }
 }
