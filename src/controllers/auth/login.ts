@@ -4,6 +4,7 @@ import Hash from "../../setup-and-security/hash"
 import signJWT from "../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 import retrieveUserIdAndPassword from "../../utils/auth-helpers/retrieve-user-id-and-password"
+import createJWTPayload from "../../utils/auth-helpers/create-jwt-payload"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
 	const { contact, password } = req.body.loginInformationObject as LoginInformationObject
@@ -35,10 +36,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		return res.status(500).json({ error: "Problem with checking password" })
 	}
 
-	const payload: JwtPayload = {
-		userId: _.toString(results.userId),
-		newUser: false
-	}
+	const payload = createJWTPayload(results.userId)
 
 	const token = signJWT(payload)
 	if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })

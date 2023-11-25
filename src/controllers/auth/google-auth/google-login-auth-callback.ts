@@ -5,6 +5,7 @@ import signJWT from "../../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import createGoogleAuthClient from "../../../utils/google/create-google-auth-client"
 import saveGoogleLoginTokens from "../../../utils/google/auth/save-google-login-tokens"
+import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
 
 export default async function googleLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	const code = req.query.code as string
@@ -26,10 +27,7 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		if (_.isNull(userId)) return res.status(500).json({ error: "Problem saving Google Login Tokens" })
 
-		const payload: JwtPayload = {
-			userId: _.toString(userId),
-			newUser: false
-		}
+		const payload = createJWTPayload(userId)
 
 		const token = signJWT(payload)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })

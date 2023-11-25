@@ -3,8 +3,9 @@ import { Response, Request } from "express"
 import signJWT from "../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
-import { doesContactExist } from "../../utils/auth-helpers/does-contact-exist"
+import doesContactExist from "../../utils/auth-helpers/does-contact-exist"
 import { addLocalUser, hashPassword } from "../../utils/auth-helpers/register-helpers"
+import createJWTPayload from "../../utils/auth-helpers/create-jwt-payload"
 
 export default async function register (req: Request, res: Response): Promise<Response> {
 	try {
@@ -22,10 +23,7 @@ export default async function register (req: Request, res: Response): Promise<Re
 
 		const userId = await addLocalUser(req.body.registerInformationObject, contactType, hashedPassword)
 
-		const payload: JwtPayload = {
-			userId: _.toString(userId),
-			newUser: true
-		}
+		const payload = createJWTPayload(userId, true)
 
 		const token = signJWT(payload)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })

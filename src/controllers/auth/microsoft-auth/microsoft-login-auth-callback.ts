@@ -5,6 +5,7 @@ import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import verifyIdToken from "../../../utils/microsoft/verify-id-token"
 import saveMicrosoftLoginTokens from "../../../utils/microsoft/auth/save-microsoft-login-tokens"
 import exchangeCodeForTokenLoginCallback from "../../../utils/microsoft/auth/exchange-code-for-token-login-callback"
+import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
 
 export default async function microsoftLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	const code = req.query.code as string
@@ -23,10 +24,7 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 
 		if (_.isNull(userId)) return res.status(500).json({ error: "Problem saving Microsoft Login Tokens" })
 
-		const payload: JwtPayload = {
-			userId: _.toString(userId),
-			newUser: false
-		}
+		const payload = createJWTPayload(userId)
 
 		const token = signJWT(payload)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
