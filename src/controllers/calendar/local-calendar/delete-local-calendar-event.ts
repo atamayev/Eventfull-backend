@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import deleteDBCalendarEvent from "../../../utils/delete-db-calendar-event"
+import deleteDBCalendarEvent from "../../../utils/calendar-misc/delete-db-calendar-event"
 
 export default async function deleteLocalCalendarEvent (req: Request, res: Response): Promise<Response> {
 	try {

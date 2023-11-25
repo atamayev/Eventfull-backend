@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import deleteDBCalendarEvent from "../../../utils/delete-db-calendar-event"
+import deleteDBCalendarEvent from "../../../utils/calendar-misc/delete-db-calendar-event"
 import createGraphClient from "../../../utils/microsoft/create-graph-client"
 
 export default async function deleteMicrosoftCalendarEvent(req: Request, res: Response): Promise<Response> {
