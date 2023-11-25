@@ -12,19 +12,20 @@ export async function hashPassword(password: string): Promise<{ hashedPassword: 
 	}
 }
 
-export async function addUser(
+export async function addLocalUser(
 	registerInformationObject: RegisterInformationObject,
 	contactType: EmailOrPhone,
 	hashedPassword: string
 ): Promise<Types.ObjectId> {
 	const { contact, firstName, lastName, username } = registerInformationObject
 
-	const userFields: UserFields = {
+	const userFields: NewLocalUserFields = {
 		firstName,
 		lastName,
 		username,
 		password: hashedPassword,
 		authMethod: "local",
+		primaryContactMethod: contactType,
 	}
 
 	if (contactType === "Email") userFields.email = contact

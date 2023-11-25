@@ -11,6 +11,7 @@ const userSchema = new Schema<User>({
 	email: { type: String, unique: true, trim: true },
 	authMethod: { type: String, required: true, trim: true, enum: ["local", "microsoft", "google"] },
 	phone: { type: String, unique: true, trim: true },
+	primaryContactMethod: { type: String, trim: true, enum: ["Email", "Phone"] },
 	username: { type: String, trim: true, unique: true },
 	password: { type: String },
 	firstName: { type: String, trim: true },

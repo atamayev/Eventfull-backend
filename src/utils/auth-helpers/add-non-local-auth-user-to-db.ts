@@ -6,6 +6,7 @@ export default async function addNonLocalUserToDB(email: string, authMethod: "go
 	const newUser = await UserModel.create({
 		email,
 		authMethod,
+		primaryContactMethod: "Email"
 	})
 
 	return newUser as UserDocument

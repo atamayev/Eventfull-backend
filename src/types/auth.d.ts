@@ -26,12 +26,13 @@ declare global {
 		password: string
 	}
 
-	interface UserFields {
+	interface NewLocalUserFields {
 		firstName: string
 		lastName: string
 		username: string
 		password: string
 		authMethod: string
+		primaryContactMethod: EmailOrPhone
 		email?: string
 		phone?: string
 	}

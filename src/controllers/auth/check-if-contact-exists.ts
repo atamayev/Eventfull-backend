@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { doesContactExist } from "../../utils/auth-helpers/find-one-user-from-contact"
+import { doesContactExist } from "../../utils/auth-helpers/does-contact-exist"
 
 export default async function checkIfContactExists(req: Request, res: Response): Promise<Response> {
 	try {

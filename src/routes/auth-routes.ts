@@ -13,6 +13,7 @@ import microsoftCalendarAuthCallback from "../controllers/auth/microsoft-auth/mi
 import checkIfUsernameExists from "../controllers/auth/check-if-username-exists"
 import checkIfContactExists from "../controllers/auth/check-if-contact-exists"
 import addCloudUserPersonalInfo from "../controllers/auth/add-cloud-user-personal-info"
+import addSecondaryContactMethod from "../controllers/auth/add-secondary-contact-method"
 
 import jwtVerify from "../middleware/jwt-verify"
 import validateLoginRequest from "../middleware/request-validation/auth-routes/validate-login-request"
@@ -55,5 +56,7 @@ authRoutes.get("/microsoft-auth/login-callback", validateQueryCode, microsoftLog
 authRoutes.get("/microsoft-auth/calendar-callback", validateGoogleCalendarRequest, microsoftCalendarAuthCallback)
 
 authRoutes.post("/add-cloud-user-personal-info", jwtVerify, validateAddCloudUserPersonalInfoRequest, addCloudUserPersonalInfo)
+authRoutes.post("/add-secondary-contact", jwtVerify, validateCheckIfContactExistsRequest,
+	determineBodyContactType, addSecondaryContactMethod)
 
 export default authRoutes
