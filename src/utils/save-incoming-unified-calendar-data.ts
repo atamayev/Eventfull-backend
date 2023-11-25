@@ -1,8 +1,11 @@
 import _ from "lodash"
-import UserModel from "../models/user-model"
 import { Types } from "mongoose"
+import UserModel from "../models/user-model"
 
-export default async function saveOrUpdateUserCalendarEvents(userId: Types.ObjectId, events: UnifiedCalendarEvent[]): Promise<void> {
+export default async function saveIncomingUnifiedCalendarData(
+	userId: Types.ObjectId,
+	events: UnifiedCalendarEvent[]
+): Promise<void> {
 	const user = await UserModel.findById(userId)
 
 	if (_.isNull(user)) throw new Error("User not found")

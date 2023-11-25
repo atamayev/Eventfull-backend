@@ -1,6 +1,6 @@
 import { calendar_v3 } from "googleapis"
 import { Response, Request } from "express"
-import saveOrUpdateUserCalendarEvents from "../../../utils/save-or-update-incoming-calendar-data"
+import saveIncomingUnifiedCalendarData from "../../../utils/save-incoming-unified-calendar-data"
 import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
 import convertGoogleToUnified from "../../../utils/google/calendar/calendar-retrieval/convert-google-to-unified"
 
@@ -17,7 +17,7 @@ export default async function getGoogleCalendarDetails(req: Request, res: Respon
 
 		const calendarDetails = events.data.items as calendar_v3.Schema$Event[]
 		const unifiedGoogleCalendarDetails = convertGoogleToUnified(calendarDetails)
-		await saveOrUpdateUserCalendarEvents(userId, unifiedGoogleCalendarDetails)
+		await saveIncomingUnifiedCalendarData(userId, unifiedGoogleCalendarDetails)
 
 		return res.status(200).json({ calendarDetails: unifiedGoogleCalendarDetails })
 	} catch (error) {

@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Types } from "mongoose"
-import UserModel from "../../../../models/user-model"
+import UserModel from "../models/user-model"
 
-export default async function updateGoogleEventInDb (userId: Types.ObjectId, calendarDetails: UnifiedCalendarEvent): Promise<void> {
+export default async function updateUnifiedEventInDb (userId: Types.ObjectId, calendarDetails: UnifiedCalendarEvent): Promise<void> {
 	try {
 		const user = await UserModel.findById(userId)
 
