@@ -1,13 +1,20 @@
 import _ from "lodash"
+import Joi from "joi"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 import { doesUserIdExist, getDecodedId } from "../utils/auth-helpers/jwt-verify-helpers"
 
+const authorizationSchema = Joi.object({
+	authorization: Joi.string().required()
+}).unknown(true)
+
 export default async function jwtVerify(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
+		const { error } = authorizationSchema.validate(req.headers)
+
 		const accessToken = req.headers.authorization
 
-		if (_.isUndefined(accessToken)) return handleUnauthorized()
+		if (!_.isUndefined(error) || _.isUndefined(accessToken)) return handleUnauthorized()
 
 		const userId = getDecodedId(accessToken)
 
