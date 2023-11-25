@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Response, Request } from "express"
 import UserModel from "../../models/user-model"
 
-export default async function retrieveAllDbCalendarData (req: Request, res: Response): Promise<Response> {
+export default async function retrieveAllDbCalendarEvents (req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
 		const user = await UserModel.findById(userId)

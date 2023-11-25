@@ -4,7 +4,7 @@ import saveIncomingUnifiedCalendarData from "../../../utils/save-incoming-unifie
 import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
 import convertGoogleToUnified from "../../../utils/google/calendar/calendar-retrieval/convert-google-to-unified"
 
-export default async function getGoogleCalendarDetails(req: Request, res: Response): Promise<Response> {
+export default async function getGoogleCalendarEvents(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
 		const googleCalendarAccessToken = req.headers.googleCalendarAccessToken as string
@@ -16,10 +16,10 @@ export default async function getGoogleCalendarDetails(req: Request, res: Respon
 		})
 
 		const calendarDetails = events.data.items as calendar_v3.Schema$Event[]
-		const unifiedGoogleCalendarDetails = convertGoogleToUnified(calendarDetails)
-		await saveIncomingUnifiedCalendarData(userId, unifiedGoogleCalendarDetails)
+		const unifiedCalendarEvents = convertGoogleToUnified(calendarDetails)
+		await saveIncomingUnifiedCalendarData(userId, unifiedCalendarEvents)
 
-		return res.status(200).json({ calendarDetails: unifiedGoogleCalendarDetails })
+		return res.status(200).json({ calendarEvents: unifiedCalendarEvents })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Failed to fetch Google Calendar data" })

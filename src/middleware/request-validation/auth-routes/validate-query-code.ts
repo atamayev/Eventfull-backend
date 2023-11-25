@@ -6,7 +6,7 @@ const querySchema = Joi.object({
 	code: Joi.required()
 }).unknown(true)
 
-export default function validateQueryCodeRequest (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateQueryCode (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = querySchema.validate(req.query)
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })

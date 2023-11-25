@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid"
 import { Response, Request } from "express"
 import UserModel from "../../../models/user-model"
 
-export default async function addLocalCalendarData(req: Request, res: Response): Promise<Response> {
+export default async function addLocalCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
 		const user = await UserModel.findById(userId)

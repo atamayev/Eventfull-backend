@@ -15,7 +15,7 @@ export default async function updateGoogleCalendarEvent(req: Request, res: Respo
 
 		const googleClient = createGoogleCalendarClient(googleCalendarAccessToken)
 
-		const updatedEvent = await googleClient.events.update({
+		await googleClient.events.update({
 			calendarId: "primary",
 			eventId: calendarDetails.id,
 			requestBody: googleEvent
@@ -23,7 +23,7 @@ export default async function updateGoogleCalendarEvent(req: Request, res: Respo
 
 		await updateUnifiedEventInDb(userId, calendarDetails)
 
-		return res.status(200).json({ data: updatedEvent.data })
+		return res.status(200).json()
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Failed to Update Google Calendar event" })

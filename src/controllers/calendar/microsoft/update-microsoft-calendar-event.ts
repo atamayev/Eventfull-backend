@@ -1,5 +1,4 @@
 import { Response, Request } from "express"
-import { Event } from "@microsoft/microsoft-graph-types"
 import createGraphClient from "../../../utils/microsoft/create-graph-client"
 import convertUnifiedToMicrosoft from "../../../utils/microsoft/calendar/convert-unified-to-microsoft"
 import updateUnifiedEventInDb from "../../../utils/update-unified-event-in-db"
@@ -18,12 +17,11 @@ export default async function updateMicrosoftCalendarEvent(req: Request, res: Re
 
 		const microsoftEvent = convertUnifiedToMicrosoft(calendarDetails)
 
-		const updatedEvent: Event = await microsoftClient.api(`/me/calendars/${calendarId}/events/${calendarDetails.id}`)
-			.patch(microsoftEvent)
+		await microsoftClient.api(`/me/calendars/${calendarId}/events/${calendarDetails.id}`).patch(microsoftEvent)
 
 		await updateUnifiedEventInDb(userId, calendarDetails)
 
-		return res.status(200).json({ data: updatedEvent })
+		return res.status(200).json()
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Failed to update Microsoft Calendar event" })

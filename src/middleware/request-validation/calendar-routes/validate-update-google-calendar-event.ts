@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import { createFullUnifiedCalendarEventSchema } from "../../joi/unified-calendar-event-schema"
 
-export default function validateUpdateGoogleCalendarData (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateUpdateGoogleCalendarEvent (req: Request, res: Response, next: NextFunction): void | Response {
 	const fullUnifiedCalendarEventSchema = createFullUnifiedCalendarEventSchema("google")
 	const { error } = fullUnifiedCalendarEventSchema.validate(req.body)
 
