@@ -6,6 +6,8 @@ import sendFriendRequest from "../controllers/social/send-friend-request"
 import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
 import retractFriendRequest from "../controllers/social/retract-friend-request"
 import unfriendAnotherUser from "../controllers/social/unfriend-another-user"
+import getIncomingFriendRequests from "../controllers/social/get-incoming-friend-requests"
+import getOutgoingFriendRequests from "../controllers/social/get-outgoing-friend-requests"
 
 const socialRoutes = express.Router()
 
@@ -13,5 +15,8 @@ socialRoutes.post("/send-friend-request", validateFriendIdInRequest, sendFriendR
 socialRoutes.post("/respond-to-friend-request", validateFriendRequestResponse, respondToFriendRequest)
 socialRoutes.post("/retract-friend-request", validateFriendIdInRequest, retractFriendRequest)
 socialRoutes.post("/unfriend-another-user", validateFriendIdInRequest, unfriendAnotherUser)
+
+socialRoutes.get("/get-incoming-friend-requests", getIncomingFriendRequests)
+socialRoutes.get("/get-outgoing-friend-requests", getOutgoingFriendRequests)
 
 export default socialRoutes
