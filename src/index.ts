@@ -3,10 +3,12 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import connectDatabase from "./setup-and-security/db-connect"
-import calendarRoutes from "./routes/calendar-routes"
-import listsRoutes from "./routes/lists-routes"
-import authRoutes from "./routes/auth-routes"
 import jwtVerify from "./middleware/jwt-verify"
+
+import authRoutes from "./routes/auth-routes"
+import listsRoutes from "./routes/lists-routes"
+import searchRoutes from "./routes/search-routes"
+import calendarRoutes from "./routes/calendar-routes"
 
 dotenv.config()
 
@@ -35,6 +37,7 @@ app.use(express.json())
 app.use("/api/auth", authRoutes)
 app.use("/api/calendar", jwtVerify, calendarRoutes)
 app.use("/api/lists", jwtVerify, listsRoutes)
+app.use("/api/search", jwtVerify, searchRoutes)
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
 // Initialization of server:
