@@ -6,6 +6,8 @@ declare global {
 		interface Request {
 			userId: Types.ObjectId
 			friendId: Types.ObjectId
+			blockedUserId: Types.ObjectId
+			unblockedUserId: Types.ObjectId
 			contactType: EmailOrPhone
 		}
 	}

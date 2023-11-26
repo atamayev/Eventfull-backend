@@ -8,6 +8,6 @@ export default async function checkIfOutgoingFriendRequestExists (userId: Types.
 		return !!isOutgoingFriendRequestExists
 	} catch (error) {
 		console.error(error)
-		throw new Error("Check if already friends error")
+		throw new Error("Check if outgoing friend request error")
 	}
 }

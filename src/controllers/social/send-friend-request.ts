@@ -2,11 +2,11 @@ import _ from "lodash"
 import { Request, Response } from "express"
 import checkIfFriendBlockedUser from "../../utils/social/check-if-friend-blocked-user"
 import UserModel from "../../models/user-model"
-import checkIfAlreadyFriends from "../../utils/social/check-if-already-friends"
+import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
 import createOutgoingFriendRequest from "../../utils/social/create-outgoing-friend-request"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outgoing-friend-request-exists"
 import checkIfIncomingFriendRequestExists from "../../utils/social/check-if-incoming-friend-request-exists"
-import checkIfUserBlockedFriend from "../../utils/social/check-if-user-blocked-friend"
+import checkIfUserDoubleBlocking from "../../utils/social/check-if-user-double-blocking"
 
 // eslint-disable-next-line max-lines-per-function, complexity
 export default async function sendFriendRequest (req: Request, res: Response): Promise<Response> {
@@ -25,7 +25,7 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 			}
 		}
 
-		const isFriendBlocked = await checkIfUserBlockedFriend(userId, friendId)
+		const isFriendBlocked = await checkIfUserDoubleBlocking(userId, friendId)
 		if (isFriendBlocked === true) {
 			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
 				return res.status(400).json({ message: `You have blocked ${friendUsername.username}` })
@@ -34,7 +34,7 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 			}
 		}
 
-		const alreadyFriends = await checkIfAlreadyFriends(userId, friendId)
+		const alreadyFriends = await checkIfUsersAreFriends(userId, friendId)
 		if (alreadyFriends === true) {
 			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
 				return res.status(400).json({ message: `${friendUsername.username} is already your friend` })

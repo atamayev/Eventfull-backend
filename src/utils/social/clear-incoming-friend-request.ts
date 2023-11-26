@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
-export default async function acceptFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
+export default async function clearIncomingFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
 	try {
 		const user = await UserModel.findById(userId)
 		if (_.isNull(user)) throw new Error("User not found")
@@ -12,21 +12,21 @@ export default async function acceptFriendRequest (userId: Types.ObjectId, frien
 
 		const userUpdate = UserModel.updateOne(
 			{ _id: userId },
-			{ $push: { friends: friendId } }
+			{ $pull: { incomingFriendRequests: friendId } }
 		)
 
-		const friendUpdate = UserModel.updateOne(
+		const friendUpdate =  UserModel.updateOne(
 			{ _id: friendId },
-			{ $push: { friends: userId } }
+			{ $pull: { outgoingFriendRequests: userId } }
 		)
 
 		const [userResult, friendResult] = await Promise.all([userUpdate, friendUpdate])
 
 		if (userResult.matchedCount === 0) throw new Error("User not found")
 
-		if (friendResult.matchedCount === 0) throw new Error("Friend not found")
+		if (friendResult.matchedCount === 0) throw new Error("Friend User not found")
 	} catch (error) {
 		console.error(error)
-		throw new Error("Accept friend request error")
+		throw new Error("Clear Incoming Friend request error")
 	}
 }

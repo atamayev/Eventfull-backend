@@ -2,12 +2,12 @@ import _ from "lodash"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
 import acceptFriendRequest from "../../utils/social/accept-friend-request"
-import clearFriendRequest from "../../utils/social/clear-friend-request"
 import checkIfFriendBlockedUser from "../../utils/social/check-if-friend-blocked-user"
-import checkIfAlreadyFriends from "../../utils/social/check-if-already-friends"
+import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outgoing-friend-request-exists"
 import checkIfIncomingFriendRequestExists from "../../utils/social/check-if-incoming-friend-request-exists"
-import checkIfUserBlockedFriend from "../../utils/social/check-if-user-blocked-friend"
+import checkIfUserDoubleBlocking from "../../utils/social/check-if-user-double-blocking"
+import clearIncomingFriendRequest from "../../utils/social/clear-incoming-friend-request"
 
 // eslint-disable-next-line max-lines-per-function, complexity
 export default async function respondToFriendRequest(req: Request, res: Response): Promise<Response> {
@@ -27,7 +27,7 @@ export default async function respondToFriendRequest(req: Request, res: Response
 			}
 		}
 
-		const isFriendBlocked = await checkIfUserBlockedFriend(friendId, userId)
+		const isFriendBlocked = await checkIfUserDoubleBlocking(friendId, userId)
 		if (isFriendBlocked === true) {
 			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
 				return res.status(400).json({ message: `You have blocked ${friendUsername.username}` })
@@ -36,7 +36,7 @@ export default async function respondToFriendRequest(req: Request, res: Response
 			}
 		}
 
-		const alreadyFriends = await checkIfAlreadyFriends(userId, friendId)
+		const alreadyFriends = await checkIfUsersAreFriends(userId, friendId)
 		if (alreadyFriends === true) {
 			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
 				return res.status(400).json({ message: `${friendUsername.username} is already your friend` })
@@ -58,8 +58,8 @@ export default async function respondToFriendRequest(req: Request, res: Response
 		if (response === "Accept") {
 			await acceptFriendRequest(userId, friendId)
 		}
-		// The parameters in clearFriendRequest appear to be switched - this is the correct way! Do not change this:
-		await clearFriendRequest(friendId, userId)
+
+		await clearIncomingFriendRequest(friendId, userId)
 
 		return res.status(200).json({ message: "Success" })
 	} catch (error) {

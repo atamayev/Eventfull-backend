@@ -8,6 +8,6 @@ export default async function checkIfFriendBlockedUser (userId: Types.ObjectId, 
 		return !!isUserBlocked
 	} catch (error) {
 		console.error(error)
-		throw new Error("Check user blocked server error")
+		throw new Error("Check user blocked error")
 	}
 }

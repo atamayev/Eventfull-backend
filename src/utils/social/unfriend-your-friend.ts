@@ -28,6 +28,6 @@ export default async function unfriendYourFriend (userId: Types.ObjectId, friend
 	}
 	catch (error) {
 		console.error(error)
-		throw new Error("Internal server error")
+		throw new Error("Unfriend your friend error")
 	}
 }
