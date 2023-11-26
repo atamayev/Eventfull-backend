@@ -3,12 +3,12 @@ import Joi from "joi"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 
-const usernameSchema = Joi.object({
+const friendIdSchema = Joi.object({
 	friendId: Joi.string().required()
-})
+}).required()
 
 export default function validateFriendIdInRequest (req: Request, res: Response, next: NextFunction): void | Response {
-	const { error } = usernameSchema.validate(req.body)
+	const { error } = friendIdSchema.validate(req.body)
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: "Invalid friend Id" })
 
