@@ -1,12 +1,6 @@
-
-import Hash from "../../setup-and-security/hash"
-import UserModel from "../../models/user-model"
 import { Types } from "mongoose"
-
-export async function doesEmailExist(email: string): Promise<boolean> {
-	const user = await UserModel.findOne({ email })
-	return user !== null
-}
+import UserModel from "../../models/user-model"
+import Hash from "../../setup-and-security/hash"
 
 export async function hashPassword(password: string): Promise<{ hashedPassword: string, hashError?: string }> {
 	try {
@@ -18,12 +12,38 @@ export async function hashPassword(password: string): Promise<{ hashedPassword: 
 	}
 }
 
-export async function addUser(email: string, password: string): Promise<Types.ObjectId> {
-	const newUser = await UserModel.create({
-		email,
-		password,
-		authMethod: "local",
-	})
+export async function addLocalUser(
+	registerInformationObject: RegisterInformationObject,
+	contactType: EmailOrPhone,
+	hashedPassword: string
+): Promise<Types.ObjectId> {
+	const { contact, firstName, lastName, username } = registerInformationObject
 
-	return (newUser._id)
+	const userFields: NewLocalUserFields = {
+		firstName,
+		lastName,
+		username,
+		password: hashedPassword,
+		authMethod: "local",
+		primaryContactMethod: contactType,
+	}
+
+	if (contactType === "Email") userFields.email = contact
+	else userFields.phone = contact
+
+	const newUser = await UserModel.create(userFields)
+	return newUser._id
+}
+
+export async function addCloudUser(
+	userId: Types.ObjectId,
+	cloudUserRegisterInformationObject: CloudUserRegisterInformationObject
+): Promise<void> {
+	const { firstName, lastName, username } = cloudUserRegisterInformationObject
+
+	await UserModel.findByIdAndUpdate(userId, {
+		firstName,
+		lastName,
+		username,
+	})
 }

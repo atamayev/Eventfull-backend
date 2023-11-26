@@ -1,7 +1,7 @@
 import { Response, Request } from "express"
 import createGraphClient from "../../../utils/microsoft/create-graph-client"
 import convertUnifiedToMicrosoft from "../../../utils/microsoft/calendar/convert-unified-to-microsoft"
-import updateUnifiedEventInDb from "../../../utils/update-unified-event-in-db"
+import updateUnifiedEventInDb from "../../../utils/calendar-misc/update-unified-event-in-db"
 
 export default async function updateMicrosoftCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {

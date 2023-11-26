@@ -1,6 +1,6 @@
 import { Response, Request } from "express"
 import convertUnifiedToGoogle from "../../../utils/google/calendar/convert-unified-to-google"
-import updateUnifiedEventInDb from "../../../utils/update-unified-event-in-db"
+import updateUnifiedEventInDb from "../../../utils/calendar-misc/update-unified-event-in-db"
 import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
 
 export default async function updateGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {

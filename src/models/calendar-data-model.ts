@@ -16,7 +16,7 @@ const recurrenceSchema = new Schema({
 })
 
 const calendarDataSchema = new Schema<UnifiedCalendarEvent>({
-	id: { type: String, required: true, unique: true },
+	id: { type: String, required: true },
 	title: { type: String, required: true },
 	description: { type: String, required: false },
 	startDateTime: { type: unifiedDateTimeSchema, required: true },

@@ -8,7 +8,9 @@ export default async function saveGoogleLoginTokens(email: string, tokens: Crede
 	try {
 		// eslint-disable-next-line @typescript-eslint/naming-convention
 		const { access_token, refresh_token, expiry_date } = tokens
-		let user = await UserModel.findOne({ email })
+		let user = await UserModel.findOne({
+			email: { $regex: `^${email}$`, $options: "i" }
+		})
 
 		if (_.isNull(user)) user = await addNonLocalUserToDB(email, "google")
 

@@ -9,6 +9,10 @@ declare global {
 		userId: string
 		newUser: boolean
 	}
+
+	type EmailOrPhone = "Email" | "Phone"
+
+	type EmailOrPhoneOrUnknown = EmailOrPhone | "Unknown"
 }
 
 export {}

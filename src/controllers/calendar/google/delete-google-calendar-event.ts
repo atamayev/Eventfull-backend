@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import deleteDBCalendarEvent from "../../../utils/delete-db-calendar-event"
+import deleteDBCalendarEvent from "../../../utils/calendar-misc/delete-db-calendar-event"
 import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
 
 export default async function deleteGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {

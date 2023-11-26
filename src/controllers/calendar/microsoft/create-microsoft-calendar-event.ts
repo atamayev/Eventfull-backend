@@ -1,6 +1,6 @@
 import { Response, Request } from "express"
 import { Event } from "@microsoft/microsoft-graph-types"
-import addCloudEventToDb from "../../../utils/add-cloud-event-to-db"
+import addCloudEventToDb from "../../../utils/calendar-misc/add-cloud-event-to-db"
 import createGraphClient from "../../../utils/microsoft/create-graph-client"
 import convertUnifiedToMicrosoft from "../../../utils/microsoft/calendar/convert-unified-to-microsoft"
 

@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import addCloudEventToDb from "../../../utils/add-cloud-event-to-db"
+import addCloudEventToDb from "../../../utils/calendar-misc/add-cloud-event-to-db"
 import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
 import convertUnifiedToGoogle from "../../../utils/google/calendar/convert-unified-to-google"
 

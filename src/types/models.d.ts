@@ -14,8 +14,11 @@ declare global {
 	}
 
 	interface User extends IDInterface {
-		email: string
-		authMethod: string
+		authMethod: "local" | "google" | "microsoft"
+		primaryContactMethod: EmailOrPhone
+		email?: string
+		phone?: string
+		username?: string
 		password?: string
 		createdAt: Date
 		updatedAt: Date
@@ -56,7 +59,7 @@ declare global {
 		// device: string
 	}
 
-	interface Event extends IDInterface {
+	interface EventfullEvent extends IDInterface {
 		eventName: string
 		eventTimeStart: Date
 		eventTimeEnd: Date
