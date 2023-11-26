@@ -45,12 +45,13 @@ declare global {
 		microsoftCalendarRefreshToken?: string
 		microsoftCalendarAccessTokenExpiryDate?: Date
 		microsoftDefaultCalendarId?: string
-		loginHistory?: LoginHistory[]
-		friends?: Types.ObjectId[]
-		outgoingFriendRequests?: Types.ObjectId[]
-		incomingFriendRequests?: Types.ObjectId[]
-		blockedUsers?: Types.ObjectId[]
-		blockedByUsers?: Types.ObjectId[]
+
+		loginHistory: LoginHistory[]
+		friends: Types.ObjectId[]
+		outgoingFriendRequests: Types.ObjectId[]
+		incomingFriendRequests: Types.ObjectId[]
+		blockedUsers: Types.ObjectId[]
+		blockedByUsers: Types.ObjectId[]
 	}
 
 	interface LoginHistory {

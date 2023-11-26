@@ -8,9 +8,9 @@ const loginHistorySchema = new Schema({
 })
 
 const userSchema = new Schema<User>({
-	email: { type: String, unique: true, trim: true },
+	email: { type: String, unique: true, sparse: true, trim: true },
 	authMethod: { type: String, required: true, trim: true, enum: ["local", "microsoft", "google"] },
-	phone: { type: String, unique: true, trim: true },
+	phone: { type: String, unique: true, sparse: true, trim: true },
 	primaryContactMethod: { type: String, trim: true, enum: ["Email", "Phone"] },
 	username: { type: String, trim: true, unique: true },
 	password: { type: String },
@@ -38,12 +38,27 @@ const userSchema = new Schema<User>({
 	microsoftCalendarAccessTokenExpiryDate: { type: Date, trim: true },
 	microsoftDefaultCalendarId: { type: String, trim: true },
 
-	loginHistory: { type: [loginHistorySchema] },
-	friends: [{ type: Types.ObjectId, ref: "User" }],
-	outgoingFriendRequests: [{ type: Types.ObjectId, ref: "User" }],
-	incomingFriendRequests: [{ type: Types.ObjectId, ref: "User" }],
-	blockedUsers: [{ type: Types.ObjectId, ref: "User" }],
-	blockedByUsers: [{ type: Types.ObjectId, ref: "User" }],
+	loginHistory: { type: [loginHistorySchema], required: true },
+	friends: {
+		type: [{ type: Types.ObjectId, ref: "User" }],
+		required: true
+	},
+	outgoingFriendRequests: {
+		type: [{ type: Types.ObjectId, ref: "User" }],
+		required: true
+	},
+	incomingFriendRequests: {
+		type: [{ type: Types.ObjectId, ref: "User" }],
+		required: true
+	},
+	blockedUsers: {
+		type: [{ type: Types.ObjectId, ref: "User" }],
+		required: true
+	},
+	blockedByUsers: {
+		type: [{ type: Types.ObjectId, ref: "User" }],
+		required: true
+	}
 }, {
 	timestamps: true
 })
