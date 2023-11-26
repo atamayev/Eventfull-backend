@@ -39,7 +39,7 @@ authRoutes.post("/login", validateLoginRequest, determineLoginContactType, login
 authRoutes.post("/register", validateRegisterRequest, determineRegisterContactType, register)
 authRoutes.post("/change-password", jwtVerify, validateChangePasswordRequest, determineChangePasswordContactType, changePassword)
 authRoutes.post("/does-username-exist", jwtVerify, validateCheckIfUsernameExistsRequest, checkIfUsernameExists)
-authRoutes.post("/check-if-email-or-phone-exists", jwtVerify, validateCheckIfContactExistsRequest,
+authRoutes.post("/check-if-contact-exists", jwtVerify, validateCheckIfContactExistsRequest,
 	determineBodyContactType, checkIfContactExists)
 
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
