@@ -1,8 +1,8 @@
 import express from "express"
-import validateFriendIdInRequest from "../middleware/request-validation/social.ts/validate-friend-id-in-request"
-import validateFriendRequestResponse from "../middleware/request-validation/social.ts/validate-friend-request-response"
-import validateBlockedUserIdInRequest from "../middleware/request-validation/social.ts/validate-blocked-user-id-in-request"
-import validateUnblockedUserIdInRequest from "../middleware/request-validation/social.ts/validate-unblocked-user-id-in-request"
+import validateFriendIdInRequest from "../middleware/request-validation/social/validate-friend-id-in-request"
+import validateFriendRequestResponse from "../middleware/request-validation/social/validate-friend-request-response"
+import validateBlockedUserIdInRequest from "../middleware/request-validation/social/validate-blocked-user-id-in-request"
+import validateUnblockedUserIdInRequest from "../middleware/request-validation/social/validate-unblocked-user-id-in-request"
 
 import sendFriendRequest from "../controllers/social/send-friend-request"
 import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
