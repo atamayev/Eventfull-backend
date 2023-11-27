@@ -1,7 +1,6 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
-import UserModel from "../../models/user-model"
 import clearOutgoingFriendRequest from "../../utils/social/clear-outgoing-friend-request"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outgoing-friend-request-exists"
 
@@ -9,13 +8,12 @@ export default async function retractFriendRequest(req: Request, res: Response):
 	try {
 		const userId = req.userId
 		const friendId = req.friendId
-
-		const friendUsername = await UserModel.findById(friendId).select("username")
+		const friendUsername = req.friendUsername
 
 		const alreadyFriends = await checkIfUsersAreFriends(userId, friendId)
 		if (alreadyFriends === true) {
-			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
-				return res.status(400).json({ message: `${friendUsername.username} is already your friend` })
+			if (!_.isEmpty(friendUsername)) {
+				return res.status(400).json({ message: `${friendUsername} is already your friend` })
 			} else {
 				return res.status(400).json({ message: "User is already your friend" })
 			}

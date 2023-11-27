@@ -1,7 +1,6 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import checkIfFriendBlockedUser from "../../utils/social/check-if-friend-blocked-user"
-import UserModel from "../../models/user-model"
 import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
 import createOutgoingFriendRequest from "../../utils/social/create-outgoing-friend-request"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outgoing-friend-request-exists"
@@ -13,13 +12,12 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 	try {
 		const userId = req.userId
 		const friendId = req.friendId
-
-		const friendUsername = await UserModel.findById(friendId).select("username")
+		const friendUsername = req.friendUsername
 
 		const isUserBlocked = await checkIfFriendBlockedUser(userId, friendId)
 		if (isUserBlocked === true) {
-			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
-				return res.status(400).json({ message: `${friendUsername.username} has blocked you` })
+			if (!_.isEmpty(friendUsername)) {
+				return res.status(400).json({ message: `${friendUsername} has blocked you` })
 			} else {
 				return res.status(400).json({ message: "User has blocked you" })
 			}
@@ -27,8 +25,8 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 
 		const isFriendBlocked = await checkIfUserBlocked(userId, friendId)
 		if (isFriendBlocked === true) {
-			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
-				return res.status(400).json({ message: `You have blocked ${friendUsername.username}` })
+			if (!_.isEmpty(friendUsername)) {
+				return res.status(400).json({ message: `You have blocked ${friendUsername}` })
 			} else {
 				return res.status(400).json({ message: "You have blocked the other user" })
 			}
@@ -36,8 +34,8 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 
 		const alreadyFriends = await checkIfUsersAreFriends(userId, friendId)
 		if (alreadyFriends === true) {
-			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
-				return res.status(400).json({ message: `${friendUsername.username} is already your friend` })
+			if (!_.isEmpty(friendUsername)) {
+				return res.status(400).json({ message: `${friendUsername} is already your friend` })
 			} else {
 				return res.status(400).json({ message: "User is already your friend" })
 			}
@@ -45,8 +43,8 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 
 		const outgoingFriendRequestExists = await checkIfOutgoingFriendRequestExists(userId, friendId)
 		if (outgoingFriendRequestExists === true) {
-			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
-				return res.status(400).json({ message: `You have already sent a friend request to ${friendUsername.username}` })
+			if (!_.isEmpty(friendUsername)) {
+				return res.status(400).json({ message: `You have already sent a friend request to ${friendUsername}` })
 			} else {
 				return res.status(400).json({ message: "You have already sent a friend request to this user" })
 			}
@@ -54,8 +52,8 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 
 		const incomingFriendRequestExists = await checkIfIncomingFriendRequestExists(userId, friendId)
 		if (incomingFriendRequestExists === true) {
-			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
-				return res.status(400).json({ message: `${friendUsername.username} has already sent you a friend request` })
+			if (!_.isEmpty(friendUsername)) {
+				return res.status(400).json({ message: `${friendUsername} has already sent you a friend request` })
 			} else {
 				return res.status(400).json({ message: "User has already sent you a friend request" })
 			}

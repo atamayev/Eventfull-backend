@@ -2,24 +2,25 @@ import _ from "lodash"
 import { Request, Response } from "express"
 import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
 import unfriendYourFriend from "../../utils/social/unfriend-your-friend"
-import UserModel from "../../models/user-model"
 
 export default async function unfriendAnotherUser (req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
 		const friendId = req.friendId
-
-		const friendUsername = await UserModel.findById(friendId).select("username")
+		const friendUsername = req.friendUsername
 
 		const isAlreadyFriends = await checkIfUsersAreFriends(userId, friendId)
 		if (isAlreadyFriends === false) {
+			if (!_.isEmpty(friendUsername)) {
+				return res.status(400).json({ message: `${friendUsername} is not your friend` })
+			}
 			return res.status(400).json({ message: "User is not your friend" })
 		}
 
 		await unfriendYourFriend(userId, friendId)
 
-		if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
-			return res.status(200).json({ message: `${friendUsername.username} unfriended` })
+		if (!_.isEmpty(friendUsername)) {
+			return res.status(200).json({ message: `${friendUsername} unfriended` })
 		}
 
 		return res.status(200).json({ message: "User unfriended" })

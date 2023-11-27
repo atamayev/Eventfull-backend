@@ -21,15 +21,6 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 
 		if (userId === blockedUserId) return res.status(400).json({ message: "You cannot block yourself" })
 
-		const isOtherUserAlreadyBlocked = await checkIfUserBlocked(userId, blockedUserId)
-
-		if (isOtherUserAlreadyBlocked === true) {
-			if (!_.isNull(blockedUserUsername) && !_.isUndefined(blockedUserUsername.username)) {
-				return res.status(400).json({ message: `${blockedUserUsername.username} is already blocked` })
-			}
-			return res.status(400).json({ message: "User is already blocked" })
-		}
-
 		const didOtherUserBlockYou = await checkIfFriendBlockedUser(userId, blockedUserId)
 
 		if (didOtherUserBlockYou === true) {
@@ -37,6 +28,15 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 				return res.status(400).json({ message: `${blockedUserUsername.username} has blocked you` })
 			}
 			return res.status(400).json({ message: "User has blocked you" })
+		}
+
+		const isOtherUserAlreadyBlocked = await checkIfUserBlocked(userId, blockedUserId)
+
+		if (isOtherUserAlreadyBlocked === true) {
+			if (!_.isNull(blockedUserUsername) && !_.isUndefined(blockedUserUsername.username)) {
+				return res.status(400).json({ message: `${blockedUserUsername.username} is already blocked` })
+			}
+			return res.status(400).json({ message: "User is already blocked" })
 		}
 
 		await blockUser(userId, blockedUserId)
