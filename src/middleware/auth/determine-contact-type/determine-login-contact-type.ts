@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import emailOrPhone from "../../../../utils/email-or-phone"
+import emailOrPhone from "../../../utils/email-or-phone"
 
 export default function determineLoginContactType (req: Request, res: Response, next: NextFunction): void | Response {
 	const contact = req.body.loginInformationObject.contact

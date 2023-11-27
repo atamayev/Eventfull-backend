@@ -16,22 +16,18 @@ import addCloudUserPersonalInfo from "../controllers/auth/add-cloud-user-persona
 import addSecondaryContactMethod from "../controllers/auth/add-secondary-contact-method"
 
 import jwtVerify from "../middleware/jwt-verify"
-import validateLoginRequest from "../middleware/request-validation/auth-routes/validate-login-request"
-import validateRegisterRequest from "../middleware/request-validation/auth-routes/validate-register-request"
-import validateQueryCode from "../middleware/request-validation/auth-routes/validate-query-code"
-import validateChangePasswordRequest from "../middleware/request-validation/auth-routes/validate-change-password-request"
-import validateGoogleCalendarRequest from "../middleware/request-validation/auth-routes/validate-calendar-callback-request"
-import validateCheckIfUsernameExistsRequest from "../middleware/request-validation/auth-routes/validate-check-if-username-exists-request"
-import validateCheckIfContactExistsRequest
-	from "../middleware/request-validation/auth-routes/validate-check-if-contact-exists-request"
-import determineBodyContactType from "../middleware/request-validation/auth-routes/determine-contact-type/determine-body-contact-type"
-import determineLoginContactType from "../middleware/request-validation/auth-routes/determine-contact-type/determine-login-contact-type"
-import determineRegisterContactType
-	from "../middleware/request-validation/auth-routes/determine-contact-type/determine-register-contact-type"
-import determineChangePasswordContactType
-	from "../middleware/request-validation/auth-routes/determine-contact-type/determine-change-password-contact-type"
-import validateAddCloudUserPersonalInfoRequest
-	from "../middleware/request-validation/auth-routes/validate-add-cloud-user-personal-info-request"
+import validateLoginRequest from "../middleware/request-validation/auth/validate-login-request"
+import validateRegisterRequest from "../middleware/request-validation/auth/validate-register-request"
+import validateQueryCode from "../middleware/request-validation/auth/validate-query-code"
+import validateChangePasswordRequest from "../middleware/request-validation/auth/validate-change-password-request"
+import validateGoogleCalendarRequest from "../middleware/request-validation/auth/validate-calendar-callback-request"
+import validateCheckIfUsernameExistsRequest from "../middleware/request-validation/auth/validate-check-if-username-exists-request"
+import validateCheckIfContactExistsRequest from "../middleware/request-validation/auth/validate-check-if-contact-exists-request"
+import determineBodyContactType from "../middleware/auth/determine-contact-type/determine-body-contact-type"
+import determineLoginContactType from "../middleware/auth/determine-contact-type/determine-login-contact-type"
+import determineRegisterContactType	from "../middleware/auth/determine-contact-type/determine-register-contact-type"
+import determineChangePasswordContactType from "../middleware/auth/determine-contact-type/determine-change-password-contact-type"
+import validateAddCloudUserPersonalInfoRequest from "../middleware/request-validation/auth/validate-add-cloud-user-personal-info-request"
 
 const authRoutes = express.Router()
 
