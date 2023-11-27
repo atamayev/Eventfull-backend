@@ -36,7 +36,6 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 			await clearIncomingFriendRequest(userId, blockedUserId)
 		}
 
-
 		if (!_.isNull(blockedUserUsername) && !_.isUndefined(blockedUserUsername.username)) {
 			return res.status(200).json({ message: `${blockedUserUsername.username} blocked` })
 		}

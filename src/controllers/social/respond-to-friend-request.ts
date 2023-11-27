@@ -24,9 +24,13 @@ export default async function respondToFriendRequest(req: Request, res: Response
 			await acceptFriendRequest(userId, friendId)
 		}
 
-		await clearIncomingFriendRequest(friendId, userId)
+		await clearIncomingFriendRequest(userId, friendId)
 
-		return res.status(200).json({ message: "Success" })
+		if (response === "Accept") {
+			return res.status(200).json({ message: "Friend request accepted" })
+		} else {
+			return res.status(200).json({ message: "Friend request declined" })
+		}
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ message: "Internal Server Error" })
