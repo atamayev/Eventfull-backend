@@ -1,5 +1,5 @@
 import { Types } from "mongoose"
-import UserModel from "../../models/user-model"
+import UserModel from "../../../models/user-model"
 
 export default async function checkIfFriendBlockedUser (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<boolean> {
 	try {

@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
-import unfriendYourFriend from "../../utils/social/unfriend-your-friend"
+import checkIfUsersAreFriends from "../../utils/social/friend/check-if-users-are-friends"
+import unfriendYourFriend from "../../utils/social/friend/unfriend-your-friend"
 
 export default async function unfriendAnotherUser (req: Request, res: Response): Promise<Response> {
 	try {

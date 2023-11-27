@@ -1,12 +1,12 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import acceptFriendRequest from "../../utils/social/accept-friend-request"
-import checkIfFriendBlockedUser from "../../utils/social/check-if-friend-blocked-user"
-import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
-import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outgoing-friend-request-exists"
-import checkIfIncomingFriendRequestExists from "../../utils/social/check-if-incoming-friend-request-exists"
-import checkIfUserBlocked from "../../utils/social/check-if-user-blocked"
-import clearIncomingFriendRequest from "../../utils/social/clear-incoming-friend-request"
+import acceptFriendRequest from "../../utils/social/friend/accept-friend-request"
+import checkIfFriendBlockedUser from "../../utils/social/block/check-if-friend-blocked-user"
+import checkIfUsersAreFriends from "../../utils/social/friend/check-if-users-are-friends"
+import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
+import checkIfIncomingFriendRequestExists from "../../utils/social/friend/check-if-incoming-friend-request-exists"
+import checkIfUserBlockedFriend from "../../utils/social/block/check-if-user-blocked-friend"
+import clearIncomingFriendRequest from "../../utils/social/friend/clear-incoming-friend-request"
 
 // eslint-disable-next-line max-lines-per-function, complexity
 export default async function respondToFriendRequest(req: Request, res: Response): Promise<Response> {
@@ -25,7 +25,7 @@ export default async function respondToFriendRequest(req: Request, res: Response
 			}
 		}
 
-		const isFriendBlocked = await checkIfUserBlocked(userId, friendId)
+		const isFriendBlocked = await checkIfUserBlockedFriend(userId, friendId)
 		if (isFriendBlocked === true) {
 			if (!_.isEmpty(friendUsername)) {
 				return res.status(400).json({ message: `You have blocked ${friendUsername}` })

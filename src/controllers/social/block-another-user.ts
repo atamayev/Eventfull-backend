@@ -1,15 +1,15 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import checkIfUserBlocked from "../../utils/social/check-if-user-blocked"
-import blockUser from "../../utils/social/block-user"
+import checkIfUserBlockedFriend from "../../utils/social/block/check-if-user-blocked-friend"
+import blockUser from "../../utils/social/block/block-user"
 import UserModel from "../../models/user-model"
-import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
-import unfriendYourFriend from "../../utils/social/unfriend-your-friend"
-import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outgoing-friend-request-exists"
-import clearOutgoingFriendRequest from "../../utils/social/clear-outgoing-friend-request"
-import clearIncomingFriendRequest from "../../utils/social/clear-incoming-friend-request"
-import checkIfIncomingFriendRequestExists from "../../utils/social/check-if-incoming-friend-request-exists"
-import checkIfFriendBlockedUser from "../../utils/social/check-if-friend-blocked-user"
+import checkIfUsersAreFriends from "../../utils/social/friend/check-if-users-are-friends"
+import unfriendYourFriend from "../../utils/social/friend/unfriend-your-friend"
+import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
+import clearOutgoingFriendRequest from "../../utils/social/friend/clear-outgoing-friend-request"
+import clearIncomingFriendRequest from "../../utils/social/friend/clear-incoming-friend-request"
+import checkIfIncomingFriendRequestExists from "../../utils/social/friend/check-if-incoming-friend-request-exists"
+import checkIfFriendBlockedUser from "../../utils/social/block/check-if-friend-blocked-user"
 
 // eslint-disable-next-line complexity, max-lines-per-function
 export default async function blockAnotherUser (req: Request, res: Response): Promise<Response> {
@@ -30,7 +30,7 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 			return res.status(400).json({ message: "User has blocked you" })
 		}
 
-		const isOtherUserAlreadyBlocked = await checkIfUserBlocked(userId, blockedUserId)
+		const isOtherUserAlreadyBlocked = await checkIfUserBlockedFriend(userId, blockedUserId)
 
 		if (isOtherUserAlreadyBlocked === true) {
 			if (!_.isNull(blockedUserUsername) && !_.isUndefined(blockedUserUsername.username)) {

@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Types } from "mongoose"
-import UserModel from "../../models/user-model"
+import UserModel from "../../../models/user-model"
 
 export default async function unfriendYourFriend (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
 	try {

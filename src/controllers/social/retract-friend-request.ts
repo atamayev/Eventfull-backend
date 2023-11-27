@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
-import clearOutgoingFriendRequest from "../../utils/social/clear-outgoing-friend-request"
-import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outgoing-friend-request-exists"
+import checkIfUsersAreFriends from "../../utils/social/friend/check-if-users-are-friends"
+import clearOutgoingFriendRequest from "../../utils/social/friend/clear-outgoing-friend-request"
+import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
 
 export default async function retractFriendRequest(req: Request, res: Response): Promise<Response> {
 	try {
