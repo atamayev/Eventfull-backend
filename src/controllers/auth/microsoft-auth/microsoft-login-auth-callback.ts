@@ -12,7 +12,6 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 
 	try {
 		const tokenResponse = await exchangeCodeForTokenLoginCallback(code)
-		// eslint-disable-next-line @typescript-eslint/naming-convention
 		const { access_token, refresh_token, id_token, expires_in } = tokenResponse.data
 
 		const userClaims = await verifyIdToken(id_token)

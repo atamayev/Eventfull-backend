@@ -8,7 +8,6 @@ export default async function microsoftCalendarAuthCallback (req: Request, res: 
 
 	try {
 		const tokenResponse = await exchangeCodeForTokenCalendarCallback(code)
-		// eslint-disable-next-line @typescript-eslint/naming-convention
 		const { access_token, refresh_token, expires_in } = tokenResponse.data
 
 		await saveMicrosoftCalendarTokens(email, access_token, refresh_token, expires_in)
