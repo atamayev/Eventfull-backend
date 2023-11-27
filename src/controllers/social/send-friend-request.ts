@@ -6,7 +6,7 @@ import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friend
 import createOutgoingFriendRequest from "../../utils/social/create-outgoing-friend-request"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outgoing-friend-request-exists"
 import checkIfIncomingFriendRequestExists from "../../utils/social/check-if-incoming-friend-request-exists"
-import checkIfUserDoubleBlocking from "../../utils/social/check-if-user-double-blocking"
+import checkIfUserBlocked from "../../utils/social/check-if-user-blocked"
 
 // eslint-disable-next-line max-lines-per-function, complexity
 export default async function sendFriendRequest (req: Request, res: Response): Promise<Response> {
@@ -25,7 +25,7 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 			}
 		}
 
-		const isFriendBlocked = await checkIfUserDoubleBlocking(userId, friendId)
+		const isFriendBlocked = await checkIfUserBlocked(userId, friendId)
 		if (isFriendBlocked === true) {
 			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
 				return res.status(400).json({ message: `You have blocked ${friendUsername.username}` })

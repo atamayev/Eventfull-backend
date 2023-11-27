@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
 
-export default async function getIncomingFriendRequests (req: Request, res: Response): Promise<Response> {
+export default async function listIncomingFriendRequests (req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
 

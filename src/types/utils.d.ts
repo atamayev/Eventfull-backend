@@ -13,6 +13,8 @@ declare global {
 	type EmailOrPhone = "Email" | "Phone"
 
 	type EmailOrPhoneOrUnknown = EmailOrPhone | "Unknown"
+
+	type AcceptOrDecline = "Accept" | "Decline"
 }
 
 export {}

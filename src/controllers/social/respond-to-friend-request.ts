@@ -6,7 +6,7 @@ import checkIfFriendBlockedUser from "../../utils/social/check-if-friend-blocked
 import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outgoing-friend-request-exists"
 import checkIfIncomingFriendRequestExists from "../../utils/social/check-if-incoming-friend-request-exists"
-import checkIfUserDoubleBlocking from "../../utils/social/check-if-user-double-blocking"
+import checkIfUserBlocked from "../../utils/social/check-if-user-blocked"
 import clearIncomingFriendRequest from "../../utils/social/clear-incoming-friend-request"
 
 // eslint-disable-next-line max-lines-per-function, complexity
@@ -14,7 +14,7 @@ export default async function respondToFriendRequest(req: Request, res: Response
 	try {
 		const userId = req.userId
 		const friendId = req.friendId
-		const response = req.body.response as "Accept" | "Decline"
+		const response = req.body.response as AcceptOrDecline
 
 		const friendUsername = await UserModel.findById(friendId).select("username")
 
@@ -27,7 +27,7 @@ export default async function respondToFriendRequest(req: Request, res: Response
 			}
 		}
 
-		const isFriendBlocked = await checkIfUserDoubleBlocking(friendId, userId)
+		const isFriendBlocked = await checkIfUserBlocked(userId, friendId)
 		if (isFriendBlocked === true) {
 			if (!_.isNull(friendUsername) && !_.isUndefined(friendUsername.username)) {
 				return res.status(400).json({ message: `You have blocked ${friendUsername.username}` })

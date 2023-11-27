@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import checkIfUserDoubleBlocking from "../../utils/social/check-if-user-double-blocking"
+import checkIfUserBlocked from "../../utils/social/check-if-user-blocked"
 import blockUser from "../../utils/social/block-user"
 import UserModel from "../../models/user-model"
 import checkIfUsersAreFriends from "../../utils/social/check-if-users-are-friends"
@@ -9,17 +9,35 @@ import checkIfOutgoingFriendRequestExists from "../../utils/social/check-if-outg
 import clearOutgoingFriendRequest from "../../utils/social/clear-outgoing-friend-request"
 import clearIncomingFriendRequest from "../../utils/social/clear-incoming-friend-request"
 import checkIfIncomingFriendRequestExists from "../../utils/social/check-if-incoming-friend-request-exists"
+import checkIfFriendBlockedUser from "../../utils/social/check-if-friend-blocked-user"
 
+// eslint-disable-next-line complexity, max-lines-per-function
 export default async function blockAnotherUser (req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
 		const blockedUserId = req.blockedUserId
 
+		const blockedUserUsername = await UserModel.findById(blockedUserId).select("username")
+
 		if (userId === blockedUserId) return res.status(400).json({ message: "You cannot block yourself" })
 
-		const isOtherUserBlocked = await checkIfUserDoubleBlocking(userId, blockedUserId)
+		const isOtherUserAlreadyBlocked = await checkIfUserBlocked(userId, blockedUserId)
 
-		if (isOtherUserBlocked === true) return res.status(400).json({ message: "User is already blocked" })
+		if (isOtherUserAlreadyBlocked === true) {
+			if (!_.isNull(blockedUserUsername) && !_.isUndefined(blockedUserUsername.username)) {
+				return res.status(400).json({ message: `${blockedUserUsername.username} is already blocked` })
+			}
+			return res.status(400).json({ message: "User is already blocked" })
+		}
+
+		const didOtherUserBlockYou = await checkIfFriendBlockedUser(userId, blockedUserId)
+
+		if (didOtherUserBlockYou === true) {
+			if (!_.isNull(blockedUserUsername) && !_.isUndefined(blockedUserUsername.username)) {
+				return res.status(400).json({ message: `${blockedUserUsername.username} has blocked you` })
+			}
+			return res.status(400).json({ message: "User has blocked you" })
+		}
 
 		await blockUser(userId, blockedUserId)
 
@@ -39,7 +57,6 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 			await clearIncomingFriendRequest(userId, blockedUserId)
 		}
 
-		const blockedUserUsername = await UserModel.findById(blockedUserId).select("username")
 
 		if (!_.isNull(blockedUserUsername) && !_.isUndefined(blockedUserUsername.username)) {
 			return res.status(200).json({ message: `${blockedUserUsername.username} blocked` })
