@@ -71,7 +71,11 @@
 			"error",
 			{
 				"selector": "variable",
-				"format": ["camelCase"]
+				"format": ["camelCase"],
+				"filter": {
+					"regex": "^(access_token|refresh_token|expires_in|id_token|expiry_date)$",
+					"match": false
+				}
 			},
 			{
 				"selector": "function",

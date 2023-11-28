@@ -4,7 +4,6 @@ import UserModel from "../../../../models/user-model"
 
 export default async function saveGoogleCalendarTokens(email: string, tokens: Credentials): Promise<void> {
 	try {
-		// eslint-disable-next-line @typescript-eslint/naming-convention
 		const { access_token, refresh_token, expiry_date } = tokens
 		const user = await UserModel.findOne({
 			email: { $regex: `^${email}$`, $options: "i" }

@@ -9,7 +9,6 @@ export default async function updateGoogleCalendarTokensInDB(userId: Types.Objec
 
 		if (_.isNull(user)) return
 
-		// eslint-disable-next-line @typescript-eslint/naming-convention
 		const { access_token, expiry_date } = credentials
 
 		if (!_.isNil(access_token)) user.googleCalendarAccessToken = access_token
