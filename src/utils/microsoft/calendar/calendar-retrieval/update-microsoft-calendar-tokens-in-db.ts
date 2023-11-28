@@ -5,17 +5,17 @@ import UserModel from "../../../../models/user-model"
 
 export default async function updateMicrosoftCalendarTokensInDB(userId: Types.ObjectId, credentials: AuthenticationResult): Promise<void> {
 	try {
-		const user = await UserModel.findById(userId)
-
-		if (_.isNull(user)) return
-
 		const { accessToken, expiresOn } = credentials
 
-		if (!_.isNil(accessToken)) user.microsoftCalendarAccessToken = accessToken
+		const updateData: Record<string, unknown> = {}
 
-		if (!_.isNull(expiresOn)) user.microsoftCalendarAccessTokenExpiryDate = expiresOn
+		if (!_.isNil(accessToken)) updateData.microsoftCalendarAccessToken = accessToken
 
-		await user.save()
+		if (!_.isNull(expiresOn)) updateData.microsoftCalendarAccessTokenExpiryDate = expiresOn
+
+		if (!_.isEmpty(updateData)) {
+			await UserModel.updateOne({ _id: userId }, { $set: updateData })
+		}
 	} catch (error) {
 		console.error("Error updating user tokens in DB:", error)
 		return

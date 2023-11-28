@@ -14,6 +14,8 @@ declare global {
 
 	type EmailOrPhoneOrUnknown = EmailOrPhone | "Unknown"
 
+	type EmailOrPhoneOrUsername = EmailOrPhone | "Username"
+
 	type AcceptOrDecline = "Accept" | "Decline"
 }
 

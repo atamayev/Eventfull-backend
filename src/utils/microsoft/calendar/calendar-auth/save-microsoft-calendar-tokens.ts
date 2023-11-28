@@ -13,17 +13,20 @@ export default async function saveMicrosoftCalendarTokens(
 		})
 		if (_.isNull(user)) throw new Error("User not found")
 
-		if (!_.isNil(accessToken)) user.microsoftCalendarAccessToken = accessToken
+		const updateCalendarData: Record<string, unknown> = {}
 
-		if (!_.isNil(refreshToken)) user.microsoftCalendarRefreshToken = refreshToken
+		if (!_.isNil(accessToken)) updateCalendarData.microsoftCalendarAccessToken = accessToken
+
+		if (!_.isNil(refreshToken)) updateCalendarData.microsoftCalendarRefreshToken = refreshToken
 
 		if (!_.isNil(expiryDate)) {
 			const expirationTime = Date.now() + expiryDate * 1000
-			user.microsoftCalendarAccessTokenExpiryDate = new Date(expirationTime)
+			updateCalendarData.microsoftCalendarAccessTokenExpiryDate = new Date(expirationTime)
 		}
 
-		await user.save()
-
+		if (!_.isEmpty(updateCalendarData)) {
+			await UserModel.updateOne({ _id: user._id }, { $set: updateCalendarData })
+		}
 	} catch (error) {
 		console.error("Error saving user tokens to DB:", error)
 	}

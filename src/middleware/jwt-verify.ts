@@ -12,9 +12,9 @@ export default async function jwtVerify(req: Request, res: Response, next: NextF
 	try {
 		const { error } = authorizationSchema.validate(req.headers)
 
-		const accessToken = req.headers.authorization
+		if (!_.isUndefined(error)) return handleUnauthorized()
 
-		if (!_.isUndefined(error) || _.isUndefined(accessToken)) return handleUnauthorized()
+		const accessToken = req.headers.authorization as string
 
 		const userId = getDecodedId(accessToken)
 

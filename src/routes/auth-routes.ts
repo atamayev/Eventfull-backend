@@ -24,14 +24,13 @@ import validateGoogleCalendarRequest from "../middleware/request-validation/auth
 import validateCheckIfUsernameExistsRequest from "../middleware/request-validation/auth/validate-check-if-username-exists-request"
 import validateCheckIfContactExistsRequest from "../middleware/request-validation/auth/validate-check-if-contact-exists-request"
 import determineBodyContactType from "../middleware/auth/determine-contact-type/determine-body-contact-type"
-import determineLoginContactType from "../middleware/auth/determine-contact-type/determine-login-contact-type"
 import determineRegisterContactType	from "../middleware/auth/determine-contact-type/determine-register-contact-type"
 import determineChangePasswordContactType from "../middleware/auth/determine-contact-type/determine-change-password-contact-type"
 import validateAddCloudUserPersonalInfoRequest from "../middleware/request-validation/auth/validate-add-cloud-user-personal-info-request"
 
 const authRoutes = express.Router()
 
-authRoutes.post("/login", validateLoginRequest, determineLoginContactType, login)
+authRoutes.post("/login", validateLoginRequest, login)
 authRoutes.post("/register", validateRegisterRequest, determineRegisterContactType, register)
 authRoutes.post("/change-password", jwtVerify, validateChangePasswordRequest, determineChangePasswordContactType, changePassword)
 authRoutes.post("/does-username-exist", jwtVerify, validateCheckIfUsernameExistsRequest, checkIfUsernameExists)

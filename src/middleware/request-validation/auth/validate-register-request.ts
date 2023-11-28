@@ -7,7 +7,8 @@ const registerInformationSchema = Joi.object({
 		contact: Joi.string().required(),
 		firstName: Joi.string().required(),
 		lastName: Joi.string().required(),
-		username: Joi.string().required(),
+		// Makes sure that the username does not contain an @ symbol
+		username: Joi.string().required().pattern(new RegExp("^[^@]*$")),
 		password: Joi.string().min(6).required()
 	}).required()
 })

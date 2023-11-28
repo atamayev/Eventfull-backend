@@ -11,21 +11,22 @@ export default async function saveIncomingUnifiedCalendarEvents(
 	if (_.isNull(user)) throw new Error("User not found")
 
 	for (const event of events) {
-		const existingEventIndex = user.calendarData.findIndex(e => e.id === event.id)
+		const existingEvent = user.calendarData.find(e => e.id === event.id)
 
-		if (existingEventIndex > -1) {
-			// Compare existing event with new event data
-			if (areEventsEqual(user.calendarData[existingEventIndex], event) === false) {
-				// Update the existing event
-				user.calendarData[existingEventIndex] = event
-			}
+		if (_.isUndefined(existingEvent)) {
+			await UserModel.updateOne(
+				{ _id: userId },
+				{ $push: { calendarData: event } }
+			)
 		} else {
-			// Add new event to user"s calendarData
-			user.calendarData.push(event)
+			if (!areEventsEqual(existingEvent, event)) {
+				await UserModel.updateOne(
+					{ _id: userId, "calendarData.id": event.id },
+					{ $set: { "calendarData.$": event } }
+				)
+			}
 		}
 	}
-
-	await user.save()
 }
 
 function areEventsEqual(existingEvent: UnifiedCalendarEvent, newEvent: UnifiedCalendarEvent): boolean {
