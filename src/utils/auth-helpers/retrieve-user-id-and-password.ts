@@ -4,7 +4,7 @@ import UserModel from "../../models/user-model"
 
 export default async function retrieveUserIdAndPassword(
 	contact: string,
-	contactType: EmailOrPhone
+	contactType: EmailOrPhoneOrUsername
 ): Promise<{ userId: Types.ObjectId, password: string, source: "local" | "google" | "microsoft" } | undefined> {
 	let user = null
 	if (contactType === "Email") {
@@ -12,9 +12,14 @@ export default async function retrieveUserIdAndPassword(
 			email: { $regex: `^${contact}$`, $options: "i" },
 			authMethod: { $in: ["local", "google", "microsoft"] }
 		})
-	} else {
+	} else if (contactType === "Phone") {
 		user = await UserModel.findOne({
 			phone: { $regex: `^${contact}$`, $options: "i" },
+			authMethod: { $in: ["local", "google", "microsoft"] }
+		})
+	} else {
+		user = await UserModel.findOne({
+			username: { $regex: `^${contact}$`, $options: "i" },
 			authMethod: { $in: ["local", "google", "microsoft"] }
 		})
 	}

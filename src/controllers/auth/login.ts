@@ -5,17 +5,18 @@ import signJWT from "../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 import retrieveUserIdAndPassword from "../../utils/auth-helpers/retrieve-user-id-and-password"
 import createJWTPayload from "../../utils/auth-helpers/create-jwt-payload"
+import determineLoginType from "../../utils/auth-helpers/determine-login-type"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
 	const { contact, password } = req.body.loginInformationObject as LoginInformationObject
-	const contactType = req.contactType
+	const contactType = determineLoginType(contact)
 
 	let results: UserIdAndPassword
 
 	try {
 		const results1 = await retrieveUserIdAndPassword(contact, contactType)
 		if (_.isUndefined(results1) || _.isEmpty(results1)) {
-			return res.status(404).json({ error: "Username not found!" })
+			return res.status(404).json({ error: `${contactType} not found!` })
 		}
 		if (results1.source === "google") {
 			return res.status(400).json({ error: "Username exists, but you must login via Google" })
