@@ -9,7 +9,7 @@ export default async function unblockAnotherUser (req: Request, res: Response): 
 		const unblockedUserId = req.unblockedUserId
 		const unblockedUserUsername = req.unblockedUserUsername
 
-		if (userId === unblockedUserId) return res.status(400).json({ message: "You cannot unblock yourself" })
+		if (_.isEqual(userId, unblockedUserId)) return res.status(400).json({ message: "You cannot unblock yourself" })
 
 		const isOtherUserBlocked = await checkIfUserBlockedFriend(userId, unblockedUserId)
 

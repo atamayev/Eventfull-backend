@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import checkIfUsersAreFriends from "../../utils/social/friend/check-if-users-are-friends"
+import checkIfUsersAreFriends from "../../../utils/social/friend/check-if-users-are-friends"
 
 export default async function validateCheckIfUsersAreFriends (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {

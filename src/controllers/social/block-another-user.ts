@@ -1,7 +1,6 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import blockUser from "../../utils/social/block/block-user"
-import UserModel from "../../models/user-model"
 import checkIfUsersAreFriends from "../../utils/social/friend/check-if-users-are-friends"
 import unfriendYourFriend from "../../utils/social/friend/unfriend-your-friend"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
@@ -13,10 +12,9 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 	try {
 		const userId = req.userId
 		const blockedUserId = req.blockedUserId
+		const blockedUserUsername = req.blockedUserUsername
 
-		const blockedUserUsername = await UserModel.findById(blockedUserId).select("username")
-
-		if (userId === blockedUserId) return res.status(400).json({ message: "You cannot block yourself" })
+		if (_.isEqual(userId, blockedUserId)) return res.status(400).json({ message: "You cannot block yourself" })
 
 		await blockUser(userId, blockedUserId)
 
@@ -36,8 +34,8 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 			await clearIncomingFriendRequest(userId, blockedUserId)
 		}
 
-		if (!_.isNull(blockedUserUsername) && !_.isUndefined(blockedUserUsername.username)) {
-			return res.status(200).json({ message: `${blockedUserUsername.username} blocked` })
+		if (!_.isEmpty(blockedUserUsername)) {
+			return res.status(200).json({ message: `${blockedUserUsername} blocked` })
 		}
 
 		return res.status(200).json({ message: "User blocked" })

@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import checkIfFriendBlockedUser from "../../utils/social/block/check-if-friend-blocked-user"
+import checkIfFriendBlockedUser from "../../../utils/social/block/check-if-friend-blocked-user"
 
 export default async function validateCheckIfFriendBlockedUser (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {

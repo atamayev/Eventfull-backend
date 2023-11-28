@@ -4,9 +4,12 @@ import validateFriendRequestResponse from "../middleware/request-validation/soci
 import validateBlockedUserIdInRequest from "../middleware/request-validation/social/validate-blocked-user-id-in-request"
 import validateUnblockedUserIdInRequest from "../middleware/request-validation/social/validate-unblocked-user-id-in-request"
 
-import validateCheckIfUserBlockedFriend from "../middleware/social/validate-check-if-user-blocked-friend"
-import validateCheckIfFriendBlockedUser from "../middleware/social/validate-check-if-friend-blocked-user"
-import validateCheckIfUsersAreFriends from "../middleware/social/validate-check-if-users-are-friends"
+import validateCheckIfUserBlockedFriend from "../middleware/social/friend/validate-check-if-user-blocked-friend"
+import validateCheckIfFriendBlockedUser from "../middleware/social/friend/validate-check-if-friend-blocked-user"
+import validateCheckIfUsersAreFriends from "../middleware/social/friend/validate-check-if-users-are-friends"
+import validateCheckIfUnblockedUserBlockedUser from "../middleware/social/unblock/validate-check-if-unblocked-user-blocked-user"
+import validateCheckIfBlockedUserBlockedUser from "../middleware/social/block/validate-check-if-blocked-user-blocked-user"
+import validateCheckIfUserBlockedBlockedUser from "../middleware/social/block/validate-check-if-user-blocked-blocked-user"
 
 import sendFriendRequest from "../controllers/social/send-friend-request"
 import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
@@ -51,14 +54,14 @@ socialRoutes.get("/get-blocked-users", listBlockedUsers)
 socialRoutes.post(
 	"/block-another-user",
 	validateBlockedUserIdInRequest,
-	validateCheckIfUserBlockedFriend,
-	validateCheckIfFriendBlockedUser,
+	validateCheckIfUserBlockedBlockedUser,
+	validateCheckIfBlockedUserBlockedUser,
 	blockAnotherUser
 )
 socialRoutes.post(
 	"/unblock-another-user",
 	validateUnblockedUserIdInRequest,
-	validateCheckIfFriendBlockedUser,
+	validateCheckIfUnblockedUserBlockedUser,
 	unblockAnotherUser
 )
 
