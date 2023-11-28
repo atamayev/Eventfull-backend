@@ -16,7 +16,6 @@ export default async function updateUnifiedEventInDb (userId: Types.ObjectId, ca
 
 		calendarDetails.isActive = true
 
-		// Update the specific event in the calendarData array
 		const updatePath = `calendarData.${eventIndex}`
 		await UserModel.updateOne(
 			{ _id: userId },
