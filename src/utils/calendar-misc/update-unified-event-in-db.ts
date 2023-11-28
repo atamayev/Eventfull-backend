@@ -16,11 +16,12 @@ export default async function updateUnifiedEventInDb (userId: Types.ObjectId, ca
 
 		calendarDetails.isActive = true
 
-		user.calendarData[eventIndex] = calendarDetails
-
-		await user.save()
-
-		return
+		// Update the specific event in the calendarData array
+		const updatePath = `calendarData.${eventIndex}`
+		await UserModel.updateOne(
+			{ _id: userId },
+			{ $set: { [updatePath]: calendarDetails } }
+		)
 	} catch (error) {
 		console.error(error)
 		throw new Error("Failed to update event")

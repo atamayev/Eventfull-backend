@@ -16,19 +16,20 @@ export default async function saveMicrosoftLoginTokens(
 
 		if (_.isNull(user)) user = await addNonLocalUserToDB(email, "microsoft")
 
-		if (!_.isNil(accessToken)) user.microsoftLoginAccessToken = accessToken
+		const updateData: Record<string, unknown> = {}
 
-		if (!_.isNil(refreshToken)) user.microsoftLoginRefreshToken = refreshToken
-
+		if (!_.isNil(accessToken)) updateData.microsoftLoginAccessToken = accessToken
+		if (!_.isNil(refreshToken)) updateData.microsoftLoginRefreshToken = refreshToken
 		if (!_.isNil(expiresIn)) {
 			const expirationTime = Date.now() + expiresIn * 1000
-			user.microsoftLoginAccessTokenExpiryDate = new Date(expirationTime)
+			updateData.microsoftLoginAccessTokenExpiryDate = new Date(expirationTime)
 		}
 
-		await user.save()
+		if (!_.isEmpty(updateData)) {
+			await UserModel.updateOne({ _id: user._id }, { $set: updateData })
+		}
 
 		return user._id
-
 	} catch (error) {
 		console.error("Error saving user tokens to DB:", error)
 		return null

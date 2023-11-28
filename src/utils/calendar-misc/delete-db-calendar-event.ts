@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
@@ -8,25 +7,17 @@ export default async function deleteDBCalendarEvent (
 	deleteType: "hard" | "soft"
 ): Promise <void> {
 	try {
-		const user = await UserModel.findById(userId)
-
-		if (_.isNull(user)) throw new Error("Failed to delete event")
-
-		const event = user.calendarData.find(calendarEvent => calendarEvent.id === calendarId)
-
-		if (_.isNil(event) || event.isActive === false) throw new Error("Failed to delete event")
-
-		if (deleteType === "soft") event.isActive = false
-
-		else {
-			const eventIndex = user.calendarData.findIndex(calendarEvent => calendarEvent.id === calendarId)
-
-			if (eventIndex === -1) throw new Error("Failed to delete event")
-
-			user.calendarData.splice(eventIndex, 1)
+		if (deleteType === "soft") {
+			await UserModel.updateOne(
+				{ _id: userId, "calendarData.id": calendarId, "calendarData.isActive": true },
+				{ $set: { "calendarData.$.isActive": false } }
+			)
+		} else {
+			await UserModel.updateOne(
+				{ _id: userId },
+				{ $pull: { calendarData: { id: calendarId } } }
+			)
 		}
-
-		await user.save()
 
 		return
 	} catch (error) {

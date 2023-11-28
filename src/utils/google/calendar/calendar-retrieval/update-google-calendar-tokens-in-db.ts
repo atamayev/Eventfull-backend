@@ -5,17 +5,16 @@ import UserModel from "../../../../models/user-model"
 
 export default async function updateGoogleCalendarTokensInDB(userId: Types.ObjectId, credentials: Credentials): Promise<void> {
 	try {
-		const user = await UserModel.findById(userId)
-
-		if (_.isNull(user)) return
-
 		const { access_token, expiry_date } = credentials
 
-		if (!_.isNil(access_token)) user.googleCalendarAccessToken = access_token
+		const updateData: Record<string, unknown> = {}
 
-		if (!_.isNil(expiry_date)) user.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
+		if (!_.isNil(access_token)) updateData.googleCalendarAccessToken = access_token
+		if (!_.isNil(expiry_date)) updateData.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
 
-		await user.save()
+		if (!_.isEmpty(updateData)) {
+			await UserModel.updateOne({ _id: userId }, { $set: updateData })
+		}
 	} catch (error) {
 		console.error("Error updating user tokens in DB:", error)
 		return

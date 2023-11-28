@@ -5,20 +5,22 @@ import UserModel from "../../../../models/user-model"
 export default async function saveGoogleCalendarTokens(email: string, tokens: Credentials): Promise<void> {
 	try {
 		const { access_token, refresh_token, expiry_date } = tokens
+
 		const user = await UserModel.findOne({
 			email: { $regex: `^${email}$`, $options: "i" }
 		})
 
 		if (_.isNull(user)) throw new Error("User not found")
 
-		if (!_.isNil(access_token)) user.googleCalendarAccessToken = access_token
+		const updateCalendarData: Record<string, unknown> = {}
 
-		if (!_.isNil(refresh_token)) user.googleCalendarRefreshToken = refresh_token
+		if (!_.isNil(access_token)) updateCalendarData.googleCalendarAccessToken = access_token
+		if (!_.isNil(refresh_token)) updateCalendarData.googleCalendarRefreshToken = refresh_token
+		if (!_.isNil(expiry_date)) updateCalendarData.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
 
-		if (!_.isNil(expiry_date)) user.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
-
-		await user.save()
-
+		if (!_.isEmpty(updateCalendarData)) {
+			await UserModel.updateOne({ _id: user._id }, { $set: updateCalendarData })
+		}
 	} catch (error) {
 		console.error("Error saving user tokens to DB:", error)
 	}

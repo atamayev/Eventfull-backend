@@ -12,13 +12,11 @@ export default async function addCloudEventToDb (
 		calendarDetails.isActive = true
 		calendarDetails.timeZone ||= "America/New_York"
 
-		const user = await UserModel.findById(userId)
-
-		if (_.isNull(user)) return
-
-		user.calendarData.push(calendarDetails)
-
-		await user.save()
+		await UserModel.findByIdAndUpdate(
+			userId,
+			{ $push: { calendarData: calendarDetails } },
+			{ new: true, runValidators: true }
+		)
 	} catch (error) {
 		console.error(error)
 		throw new Error("Failed to add Google Calendar event to DB")
