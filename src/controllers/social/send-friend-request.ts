@@ -13,9 +13,9 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 		const outgoingFriendRequestExists = await checkIfOutgoingFriendRequestExists(userId, friendId)
 		if (outgoingFriendRequestExists === true) {
 			if (!_.isEmpty(friendUsername)) {
-				return res.status(400).json({ message: `You have already sent a friend request to ${friendUsername}` })
+				return res.status(400).json({ message: `You have already sent ${friendUsername} a friend request.` })
 			} else {
-				return res.status(400).json({ message: "You have already sent a friend request to this user" })
+				return res.status(400).json({ message: "You have already sent this user a friend request" })
 			}
 		}
 

@@ -12,9 +12,9 @@ export default async function validateCheckIfUsersAreFriends (req: Request, res:
 
 		if (alreadyFriends === true) {
 			if (_.isEmpty(friendUsername)) {
-				return res.status(400).json({ message: "User is already your friend" })
+				return res.status(400).json({ message: "You are already friends with this user" })
 			}
-			return res.status(400).json({ message: `${friendUsername} is already your friend` })
+			return res.status(400).json({ message: `You are already friends with ${friendUsername}` })
 		}
 
 		next()

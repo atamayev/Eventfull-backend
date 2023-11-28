@@ -12,9 +12,9 @@ export default async function unfriendAnotherUser (req: Request, res: Response):
 		const isAlreadyFriends = await checkIfUsersAreFriends(userId, friendId)
 		if (isAlreadyFriends === false) {
 			if (!_.isEmpty(friendUsername)) {
-				return res.status(400).json({ message: `${friendUsername} is not your friend` })
+				return res.status(400).json({ message: `You are not friends with ${friendUsername}` })
 			}
-			return res.status(400).json({ message: "User is not your friend" })
+			return res.status(400).json({ message: "You are not friends with this user" })
 		}
 
 		await unfriendYourFriend(userId, friendId)

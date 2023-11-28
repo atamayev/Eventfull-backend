@@ -8,6 +8,6 @@ export default async function checkIfUserBlockedFriend (userId: Types.ObjectId, 
 		return !!doesBlockAlreadyExist
 	} catch (error) {
 		console.error(error)
-		throw new Error("Check double block server")
+		throw new Error("Check if user blocked friend server error")
 	}
 }

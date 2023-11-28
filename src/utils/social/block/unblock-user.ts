@@ -27,6 +27,6 @@ export default async function unblockUser (userId: Types.ObjectId, blockedUserId
 		if (blockedUserResult.matchedCount === 0) throw new Error("Blocked User not found")
 	} catch (error) {
 		console.error(error)
-		throw new Error("Unblock another user error")
+		throw new Error("Unblock user error")
 	}
 }
