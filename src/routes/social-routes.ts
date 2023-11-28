@@ -16,6 +16,7 @@ import listIncomingFriendRequests from "../controllers/social/list-incoming-frie
 import listOutgoingFriendRequests from "../controllers/social/list-outgoing-friend-requests"
 import blockAnotherUser from "../controllers/social/block-another-user"
 import unblockAnotherUser from "../controllers/social/unblock-another-user"
+import listBlockedUsers from "../controllers/social/list-blocked-users"
 
 const socialRoutes = express.Router()
 
@@ -45,6 +46,7 @@ socialRoutes.post("/unfriend-another-user", validateFriendIdInRequest, unfriendA
 
 socialRoutes.get("/get-incoming-friend-requests", listIncomingFriendRequests)
 socialRoutes.get("/get-outgoing-friend-requests", listOutgoingFriendRequests)
+socialRoutes.get("/get-blocked-users", listBlockedUsers)
 
 socialRoutes.post(
 	"/block-another-user",
