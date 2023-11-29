@@ -10,6 +10,8 @@ export const eventfullEventSchema = Joi.object({
 		eventType: Joi.string().required(),
 		isVirtual: Joi.boolean().required(),
 		eventPublic: Joi.boolean().required(),
+		canInvitedUsersInviteOthers: Joi.boolean().optional(),
+		invitees: Joi.array().items(Joi.string()).optional(),
 		eventURL: Joi.string().optional(),
 		extraEventCategories: Joi.array().items(Joi.string()).optional(),
 		eventDescription: Joi.string().optional(),

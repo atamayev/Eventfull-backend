@@ -69,6 +69,9 @@ declare global {
 		isVirtual: boolean
 		organizerId: Types.ObjectId
 		eventPublic: boolean
+		canInvitedUsersInviteOthers?: boolean
+		eventAttendees?: Types.ObjectId[]
+		invitees?: Types.ObjectId[]
 		eventURL?: string
 		// Categories should be of type eventCategory[]
 		extraEventCategories?: string[]
