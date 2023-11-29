@@ -1,6 +1,6 @@
 import { Schema } from "mongoose"
 
-const unifiedDateTimeSchema = new Schema({
+export const unifiedDateTimeSchema = new Schema({
 	date: { type: String, required: true },
 	time: { type: String, required: true }
 })

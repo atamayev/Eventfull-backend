@@ -62,21 +62,20 @@ declare global {
 
 	interface EventfullEvent extends IDInterface {
 		eventName: string
-		eventTimeStart: Date
-		eventTimeEnd: Date
+		eventTimeStart: UnifiedDateTime
+		eventTimeEnd: UnifiedDateTime
 		eventPrice: number
 		eventType: string
-		eventURL: string
 		isVirtual: boolean
+		organizerId: Types.ObjectId
+		eventPublic: boolean
+		eventURL?: string
 		// Categories should be of type eventCategory[]
 		extraEventCategories?: string[]
 		eventDescription?: string
 		eventLocation?: {
-			longitude: string
-			latitude: string
 			address: string
 		}
-		organizerName?: string
 		eventImageURL?: string
 		eventCapacity?: number
 	}
