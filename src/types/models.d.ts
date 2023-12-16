@@ -28,8 +28,9 @@ declare global {
 		profilePictureURL?: string
 		phoneNumber?: string
 		bio?: string
-		eventPins?: Types.ObjectId[]
+		eventPins: Types.ObjectId[]
 		calendarData: UnifiedCalendarEvent[]
+		eventfullEvents: EventfullCalendarEvent[]
 
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string
@@ -60,7 +61,23 @@ declare global {
 		// device: string
 	}
 
-	interface EventfullEvent extends IDInterface {
+	interface EventfullCalendarEvent extends IDInterface {
+		eventId: Types.ObjectId
+		isAttending: AttendingStatuses
+		invitedBy: Types.ObjectId
+		reviewRating?: number
+		reviewText?: string
+	}
+
+	interface EventfullInvitee {
+		userId: Types.ObjectId
+		isAttending: AttendingStatuses
+		invitedBy: Types.ObjectId
+		reviewRating?: number
+		reviewText?: string
+	}
+
+	interface BaseEventfullEvent {
 		eventName: string
 		eventTimeStart: UnifiedDateTime
 		eventTimeEnd: UnifiedDateTime
@@ -69,11 +86,9 @@ declare global {
 		isVirtual: boolean
 		organizerId: Types.ObjectId
 		eventPublic: boolean
-		canInvitedUsersInviteOthers?: boolean
-		eventAttendees?: Types.ObjectId[]
-		invitees?: Types.ObjectId[]
+		eventReviewable: boolean
+		canInvitedUsersInviteOthers: boolean
 		eventURL?: string
-		// Categories should be of type eventCategory[]
 		extraEventCategories?: string[]
 		eventDescription?: string
 		eventLocation?: {
@@ -83,11 +98,12 @@ declare global {
 		eventCapacity?: number
 	}
 
-	interface Booking extends IDInterface {
-		userId: Types.ObjectId
-		eventId: Types.ObjectId
-		reviewRating?: number
-		reviewMessage?: string
+	interface EventfullEvent extends BaseEventfullEvent {
+		invitees?: EventfullInvitee[]
+	}
+
+	interface IncomingEventfullEvent extends BaseEventfullEvent {
+		invitees?: Types.ObjectId[]
 	}
 }
 

@@ -1,7 +1,7 @@
 import Joi from "joi"
 import { unifiedDateTimeSchema } from "./unified-calendar-event-schema"
 
-export const eventfullEventSchema = Joi.object({
+const incomingEventfullEventSchema = Joi.object({
 	eventfullEventData: Joi.object({
 		eventName: Joi.string().required(),
 		eventTimeStart: unifiedDateTimeSchema.required(),
@@ -10,15 +10,17 @@ export const eventfullEventSchema = Joi.object({
 		eventType: Joi.string().required(),
 		isVirtual: Joi.boolean().required(),
 		eventPublic: Joi.boolean().required(),
-		canInvitedUsersInviteOthers: Joi.boolean().optional(),
+		eventReviewable: Joi.boolean().required(),
+		canInvitedUsersInviteOthers: Joi.boolean().required(),
 		invitees: Joi.array().items(Joi.string()).optional(),
 		eventURL: Joi.string().optional(),
 		extraEventCategories: Joi.array().items(Joi.string()).optional(),
 		eventDescription: Joi.string().optional(),
 		eventLocation: Joi.object({
-			latitude: Joi.string().required(),
 			address: Joi.string().required()
 		}).optional(),
 		eventCapacity: Joi.number().optional()
 	}).required()
 })
+
+export default incomingEventfullEventSchema

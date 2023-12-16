@@ -1,6 +1,14 @@
 import { Schema, model } from "mongoose"
 import { unifiedDateTimeSchema } from "./calendar-data-model"
 
+const eventfullInviteesSchema = new Schema<EventfullInvitee>({
+	userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+	isAttending: { type: String, required: true, enum: ["Attending", "Not Attending", "Not Responded"] },
+	invitedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+	reviewRating: { type: Number },
+	reviewText: { type: String },
+})
+
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
 	eventTimeStart: { type: unifiedDateTimeSchema, required: true },
@@ -9,10 +17,10 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventType: { type: String, required: true },
 	isVirtual: { type: Boolean, required: true },
 	eventPublic: { type: Boolean, required: true },
-	organizerId: { type: Schema.Types.ObjectId, required: true },
-	canInvitedUsersInviteOthers: { type: Boolean },
-	eventAttendees: { type: [Schema.Types.ObjectId] },
-	invitees: { type: [Schema.Types.ObjectId] },
+	organizerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+	eventReviewable: { type: Boolean, required: true },
+	canInvitedUsersInviteOthers: { type: Boolean, required: true },
+	invitees: { type: [eventfullInviteesSchema] },
 	eventURL: { type: String },
 	eventDescription: { type: String },
 	extraEventCategories: {type: [String]},
