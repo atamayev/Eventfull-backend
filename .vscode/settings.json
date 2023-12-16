@@ -2,7 +2,7 @@
 	"typescript.preferences.importModuleSpecifier": "relative",
 	"javascript.preferences.importModuleSpecifier": "relative",
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": true
+		"source.fixAll.eslint": "explicit"
 	},
 	"eslint.validate": ["typescript", "javascript"]
 }

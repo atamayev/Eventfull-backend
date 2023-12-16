@@ -17,6 +17,8 @@ declare global {
 	type EmailOrPhoneOrUsername = EmailOrPhone | "Username"
 
 	type AcceptOrDecline = "Accept" | "Decline"
+
+	type AttendingStatuses = "Attending" | "Not Attending" | "Not Responded"
 }
 
 export {}
