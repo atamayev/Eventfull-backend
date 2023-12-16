@@ -3,9 +3,10 @@ import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 import UserModel from "../../../models/user-model"
+import objectIdValidation from "../../../utils/object-id-validation"
 
 const friendIdSchema = Joi.object({
-	friendId: Joi.string().required()
+	friendId: Joi.string().custom(objectIdValidation, "Object ID Validation").required()
 }).required()
 
 export default async function validateFriendIdInRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
