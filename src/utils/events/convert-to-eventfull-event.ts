@@ -5,7 +5,7 @@ export default function convertToEventfullEvent(incomingEvent: IncomingEventfull
 		...incomingEvent,
 		invitees: incomingEvent.invitees?.map(inviteeId => ({
 			userId: inviteeId,
-			isAttending: "Not Responded",
+			attendingStatus: "Not Responded",
 			invitedBy: organizerId,
 		}))
 	}

@@ -9,7 +9,7 @@ const loginHistorySchema = new Schema<LoginHistory>({
 
 const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 	eventId: { type: Schema.Types.ObjectId, ref: "EventfullEvent", required: true },
-	isAttending: { type: String, required: true, enum: ["Attending", "Not Attending", "Not Responded"] },
+	attendingStatus: { type: String, required: true, enum: ["Attending", "Not Attending", "Not Responded"] },
 	invitedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
 	reviewRating: { type: Number },
 	reviewText: { type: String },

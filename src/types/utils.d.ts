@@ -18,7 +18,7 @@ declare global {
 
 	type AcceptOrDecline = "Accept" | "Decline"
 
-	type AttendingStatuses = "Attending" | "Not Attending" | "Not Responded"
+	type AttendingStatuses = "Attending" | "Not Attending" | "Not Responded" | "Hosting" | "Co-Hosting"
 }
 
 export {}

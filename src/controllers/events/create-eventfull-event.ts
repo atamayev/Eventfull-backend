@@ -4,7 +4,8 @@ import UserModel from "../../models/user-model"
 import EventfullEventModel from "../../models/eventfull-event-model"
 import convertToEventfullEvent from "../../utils/events/convert-to-eventfull-event"
 
-export default async function createAnEventfullEvent(req: Request, res: Response): Promise<Response> {
+// eslint-disable-next-line max-lines-per-function
+export default async function createEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.userId
 		const eventfullEventData = req.body.eventfullEventData as IncomingEventfullEvent
@@ -14,9 +15,40 @@ export default async function createAnEventfullEvent(req: Request, res: Response
 		const newEvent = await EventfullEventModel.create({
 			...convertedEvent,
 			organizerId: userId,
+			isActive: true
 		})
 
 		const eventId = newEvent._id
+		await UserModel.updateOne(
+			{ _id: userId},
+			{
+				$push: {
+					eventfullEvents: {
+						eventId,
+						attendingStatus: "Hosting",
+						invitedBy: userId
+					}
+				}
+			}
+		)
+
+		if (!_.isUndefined(convertedEvent.coHosts)) {
+			await Promise.all(convertedEvent.coHosts.map(coHostId =>
+				UserModel.updateOne(
+					{ _id: coHostId},
+					{
+						$push: {
+							eventfullEvents: {
+								eventId: eventId,
+								attendingStatus: "Co-Hosting",
+								invitedBy: userId
+							}
+						}
+					}
+				)
+			))
+		}
+
 		if (!_.isUndefined(convertedEvent.invitees)) {
 			await Promise.all(convertedEvent.invitees.map(invitee =>
 				UserModel.updateOne(
@@ -25,7 +57,7 @@ export default async function createAnEventfullEvent(req: Request, res: Response
 						$push: {
 							eventfullEvents: {
 								eventId: eventId,
-								isAttending: "Not Responded",
+								attendingStatus: "Not Responded",
 								invitedBy: userId
 							}
 						}

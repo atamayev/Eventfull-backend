@@ -22,8 +22,9 @@ export default async function confirmEventOrganizerNotBlockingFriend(
 		const organizer = await UserModel.findById(event.organizerId)
 
 		if (_.isNull(organizer)) return res.status(404).json({ error: "Event organizer not found" })
+		const blockedUsers = organizer.blockedUsers.map(user => user.toString())
 
-		if (organizer.blockedUsers.includes(friendId)) {
+		if (blockedUsers.includes(friendId.toString())) {
 			return res.status(403).json({ error: "You are blocked by the event organizer. Unable to attend event" })
 		}
 

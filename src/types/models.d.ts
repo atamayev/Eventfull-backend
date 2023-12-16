@@ -63,7 +63,7 @@ declare global {
 
 	interface EventfullCalendarEvent extends IDInterface {
 		eventId: Types.ObjectId
-		isAttending: AttendingStatuses
+		attendingStatus: AttendingStatuses
 		invitedBy: Types.ObjectId
 		reviewRating?: number
 		reviewText?: string
@@ -71,7 +71,7 @@ declare global {
 
 	interface EventfullInvitee {
 		userId: Types.ObjectId
-		isAttending: AttendingStatuses
+		attendingStatus: AttendingStatuses
 		invitedBy: Types.ObjectId
 		reviewRating?: number
 		reviewText?: string
@@ -85,6 +85,8 @@ declare global {
 		eventType: string
 		isVirtual: boolean
 		organizerId: Types.ObjectId
+		coHosts: Types.ObjectId[]
+		isActive: boolean
 		eventPublic: boolean
 		eventReviewable: boolean
 		canInvitedUsersInviteOthers: boolean

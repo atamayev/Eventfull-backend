@@ -10,7 +10,7 @@ export default async function respondToEventfullInvite(req: Request, res: Respon
 
 		const updatedEvent = await EventfullEventModel.findOneAndUpdate(
 			{ _id: eventfullEventId, "invitees.userId": userId },
-			{ $set: { "invitees.$.isAttending": response } },
+			{ $set: { "invitees.$.attendingStatus": response } },
 			{ new: true, runValidators: true }
 		)
 
@@ -18,7 +18,7 @@ export default async function respondToEventfullInvite(req: Request, res: Respon
 
 		const updatedUser = await UserModel.findOneAndUpdate(
 			{ _id: userId, "eventfullEvents.eventId": eventfullEventId },
-			{ $set: { "eventfullEvents.$.isAttending": response } },
+			{ $set: { "eventfullEvents.$.attendingStatus": response } },
 			{ new: true, runValidators: true }
 		)
 
