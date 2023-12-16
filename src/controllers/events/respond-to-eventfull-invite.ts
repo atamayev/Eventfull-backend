@@ -14,7 +14,7 @@ export default async function respondToEventfullInvite(req: Request, res: Respon
 			{ new: true, runValidators: true }
 		)
 
-		if (_.isNull(updatedEvent)) return res.status(400).json({ error: "Event not found" })
+		if (_.isNull(updatedEvent)) return res.status(400).json({ error: "Event not responded to. Error" })
 
 		const updatedUser = await UserModel.findOneAndUpdate(
 			{ _id: userId, "eventfullEvents.eventId": eventfullEventId },

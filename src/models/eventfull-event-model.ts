@@ -20,7 +20,7 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	organizerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
 	eventReviewable: { type: Boolean, required: true },
 	canInvitedUsersInviteOthers: { type: Boolean, required: true },
-	invitees: { type: [eventfullInviteesSchema] },
+	invitees: { type: [eventfullInviteesSchema], required: true},
 	eventURL: { type: String },
 	eventDescription: { type: String },
 	extraEventCategories: {type: [String]},

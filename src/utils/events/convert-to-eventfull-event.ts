@@ -7,7 +7,7 @@ export default function convertToEventfullEvent(incomingEvent: IncomingEventfull
 			userId: inviteeId,
 			isAttending: "Not Responded",
 			invitedBy: organizerId,
-		})),
+		}))
 	}
 
 	return event
