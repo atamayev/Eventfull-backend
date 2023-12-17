@@ -9,17 +9,22 @@ export default async function updateEventfullEvent(req: Request, res: Response):
 		const userId = req.userId
 		const eventfullEventId = req.body.eventfullEventId as string
 		const updatedEventData  = req.body.eventfullEventData as IncomingEventfullEvent
+		const organizerOrCoHost = req.organizerOrCoHost as "Organizer" | "Co-Host"
+		// If Organizer, can add/delete co-hosts. If Co-Host, cannot add co-hosts
 
 		const currentEvent = await EventfullEventModel.findById(eventfullEventId)
-		if (_.isNull(currentEvent)) {
-			return res.status(404).json({ error: "Event not found" })
-		}
+		if (_.isNull(currentEvent)) return res.status(404).json({ error: "Event not found" })
 
-		const newInvitees = updatedEventData.invitees.map(inviteeId => ({
-			userId: inviteeId,
-			attendingStatus: "Not Responded",
-			invitedBy: userId,
-		}))
+		const user = await UserModel.findById(userId).select("friends")
+		const friendIds = user?.friends.map(friend => friend.toString()) || []
+
+		const newInvitees = updatedEventData.invitees
+			.filter(inviteeId => friendIds.includes(inviteeId.toString()))
+			.map(inviteeId => ({
+				userId: inviteeId,
+				attendingStatus: "Not Responded",
+				invitedBy: userId,
+			}))
 
 		const inviteesToAdd = newInvitees.filter(newInvitee =>
 			!currentEvent.invitees.some(existingInvitee =>
@@ -35,13 +40,13 @@ export default async function updateEventfullEvent(req: Request, res: Response):
 
 		const { invitees, ...eventDataToUpdate } = updatedEventData
 
-		const updateEventPromise = EventfullEventModel.findByIdAndUpdate(
+		const deleteInviteesPromise = EventfullEventModel.findByIdAndUpdate(
 			eventfullEventId,
 			{ $pull: { invitees: { userId: { $in: inviteesToRemove.map(invitee => invitee.userId) } } } },
 			{ new: true, runValidators: true }
 		)
 
-		const updateEventPromise2 = EventfullEventModel.findByIdAndUpdate(
+		const addInviteesPromise = EventfullEventModel.findByIdAndUpdate(
 			eventfullEventId,
 			{
 				$set: eventDataToUpdate,
@@ -71,7 +76,12 @@ export default async function updateEventfullEvent(req: Request, res: Response):
 			)
 		)
 
-		await Promise.all([updateEventPromise, updateEventPromise2, ...addInviteesPromises, ...removeInviteesPromises])
+		await Promise.all([
+			deleteInviteesPromise,
+			addInviteesPromise,
+			...addInviteesPromises,
+			...removeInviteesPromises
+		])
 
 		return res.status(200).json({ message: "Event Updated" })
 	} catch (error) {
