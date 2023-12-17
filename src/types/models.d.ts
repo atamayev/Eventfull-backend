@@ -101,11 +101,11 @@ declare global {
 	}
 
 	interface EventfullEvent extends BaseEventfullEvent {
-		invitees?: EventfullInvitee[]
+		invitees: EventfullInvitee[]
 	}
 
 	interface IncomingEventfullEvent extends BaseEventfullEvent {
-		invitees?: Types.ObjectId[]
+		invitees: Types.ObjectId[]
 	}
 }
 

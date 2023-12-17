@@ -12,7 +12,7 @@ export default async function confirmUserIsEventOrganizer(req: Request, res: Res
 		const event = await EventfullEventModel.findById(objectEventId)
 		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
 
-		// Consider also giving the co-host the ability to delete the event
+		// Consider also giving the co-host the ability to update/delete the event
 		if (event.organizerId.toString() !== userId.toJSON()) {
 			return res.status(403).json({ error: "You are not the event organizer" })
 		}
