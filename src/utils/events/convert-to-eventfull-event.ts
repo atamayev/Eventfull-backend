@@ -13,7 +13,13 @@ export default function convertToEventfullEvent(
 				userId: inviteeId,
 				attendingStatus: "Not Responded",
 				invitedBy: organizerId,
-			}))
+			})),
+		coHosts: incomingEvent.coHosts.map(
+			coHostId => ({
+				userId: coHostId,
+				invitedBy: organizerId
+			})
+		)
 	}
 	return event
 }

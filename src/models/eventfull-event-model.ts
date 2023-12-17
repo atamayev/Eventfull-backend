@@ -9,6 +9,11 @@ const eventfullInviteesSchema = new Schema<EventfullInvitee>({
 	reviewText: { type: String },
 })
 
+const eventfullCoHostSchema = new Schema<EventfullCoHost>({
+	userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+	invitedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+})
+
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
 	eventTimeStart: { type: unifiedDateTimeSchema, required: true },
@@ -18,7 +23,7 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	isVirtual: { type: Boolean, required: true },
 	eventPublic: { type: Boolean, required: true },
 	organizerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-	coHosts: { type: [Schema.Types.ObjectId], ref: "User", required: true },
+	coHosts: { type: [eventfullCoHostSchema], required: true },
 	isActive: { type: Boolean, required: true },
 	eventReviewable: { type: Boolean, required: true },
 	canInvitedUsersInviteOthers: { type: Boolean, required: true },

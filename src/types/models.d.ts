@@ -77,6 +77,11 @@ declare global {
 		reviewText?: string
 	}
 
+	interface EventfullCoHost {
+		userId: Types.ObjectId
+		invitedBy: Types.ObjectId
+	}
+
 	interface BaseEventfullEvent {
 		eventName: string
 		eventTimeStart: UnifiedDateTime
@@ -85,7 +90,6 @@ declare global {
 		eventType: string
 		isVirtual: boolean
 		organizerId: Types.ObjectId
-		coHosts: Types.ObjectId[]
 		isActive: boolean
 		eventPublic: boolean
 		eventReviewable: boolean
@@ -102,10 +106,12 @@ declare global {
 
 	interface EventfullEvent extends BaseEventfullEvent {
 		invitees: EventfullInvitee[]
+		coHosts: EventfullCoHost[]
 	}
 
 	interface IncomingEventfullEvent extends BaseEventfullEvent {
 		invitees: Types.ObjectId[]
+		coHosts: Types.ObjectId[]
 	}
 }
 

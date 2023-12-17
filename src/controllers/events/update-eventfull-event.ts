@@ -13,7 +13,6 @@ export default async function updateEventfullEvent(req: Request, res: Response):
 
 		const currentEvent = await EventfullEventModel.findById(eventfullEventId)
 		if (_.isNull(currentEvent)) return res.status(404).json({ error: "Event not found" })
-
 		await addInvitees(userId, eventfullEventId, currentEvent, updatedEventData)
 
 		if (organizerOrCoHost === "Organizer") {
