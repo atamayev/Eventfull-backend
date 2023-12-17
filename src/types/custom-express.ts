@@ -15,6 +15,8 @@ declare global {
 			unblockedUserUsername: string
 
 			contactType: EmailOrPhone
+
+			organizerOrCoHost: "Organizer" | "Co-Host"
 		}
 	}
 }

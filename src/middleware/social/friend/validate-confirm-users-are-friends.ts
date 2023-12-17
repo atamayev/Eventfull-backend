@@ -8,6 +8,9 @@ export default async function validateConfirmUsersAreFriends (req: Request, res:
 		const friendId = req.friendId
 		const friendUsername = req.friendUsername
 
+		if (_.isEqual(userId, friendId)) {
+			return res.status(400).json({ message: "You cannot invite yourself" })
+		}
 		const areUsersFriends = await checkIfUsersAreFriends(userId, friendId)
 
 		if (areUsersFriends === false) {

@@ -33,6 +33,7 @@ export default async function confirmInvitedUserHasNotResponded(
 		} else if (invitee.attendingStatus === "Hosting") {
 			return res.status(403).json({ error: "User is the event organizer" })
 		} else {
+			// invitee.attendingStatus === "Not Responded"
 			next()
 		}
 

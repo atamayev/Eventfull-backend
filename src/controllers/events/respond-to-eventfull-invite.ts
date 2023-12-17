@@ -24,6 +24,14 @@ export default async function respondToEventfullInvite(req: Request, res: Respon
 
 		if (_.isNull(updatedUser)) return res.status(400).json({ error: "User not found" })
 
+		if (response === "Attending") {
+			return res.status(200).json({ message: "Accepted Event Invite" })
+		} else if (response === "Not Attending") {
+			return res.status(200).json({ message: "Declined Event Invite" })
+		} else if (response === "Not Responded") {
+			return res.status(200).json({ message: "Unresponded to Event Invite" })
+		}
+
 		return res.status(200).json({ message: "Responded to Event Invite" })
 	} catch (error) {
 		console.error(error)
