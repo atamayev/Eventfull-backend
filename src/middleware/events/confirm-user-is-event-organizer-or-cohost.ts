@@ -21,7 +21,7 @@ export default async function confirmUserIsEventOrganizerOrCohost(
 			next()
 			return
 		}
-		const coHostIds = [...event.coHosts.map(coHost => coHost.toString())]
+		const coHostIds = [...event.coHosts.map(coHost => coHost.userId.toString())]
 
 		if (coHostIds.includes(userId.toString()) === false) {
 			return res.status(403).json({ error: "You are not authorized to modify this event" })
