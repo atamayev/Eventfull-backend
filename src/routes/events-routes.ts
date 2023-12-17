@@ -7,14 +7,14 @@ import validateUpdateEventfullEvent from "../middleware/request-validation/event
 import validateDeleteEventfullEvent from "../middleware/request-validation/events/validate-delete-eventfull-event"
 
 import isEventInviteable from "../middleware/events/is-event-inviteable"
+import confirmEventIsActive from "../middleware/events/confirm-event-is-actve"
 import confirmEventOrganizerNotBlockingUser from "../middleware/events/confirm-event-organizer-not-blocking-user"
 import validateConfirmUsersAreFriends from "../middleware/social/friend/validate-confirm-users-are-friends"
 import confirmEventOrganizerNotBlockingFriend from "../middleware/events/confirm-event-organizer-not-blocking-friend"
 import confirmInviterIsAlreadyInvitedOrHost from "../middleware/events/confirm-inviter-is-already-invited-or-host"
 import confirmFriendNotAlreadyInvited from "../middleware/events/confirm-friend-not-already-invited"
-import confirmUserIsEventOrganizer from "../middleware/events/confirm-user-is-event-organizer"
+import confirmUserIsEventOrganizerOrCohost from "../middleware/events/confirm-user-is-event-organizer-or-cohost"
 import confirmInvitedUserHasNotResponded from "../middleware/events/confirm-invited-user-has-not-responded"
-import confirmEventIsActive from "../middleware/events/confirm-event-is-actve"
 
 import createEventfullEvent from "../controllers/events/create-eventfull-event"
 import respondToEventfullInvite from "../controllers/events/respond-to-eventfull-invite"
@@ -57,14 +57,14 @@ eventsRoutes.post(
 eventsRoutes.post(
 	"/update-eventfull-event",
 	validateUpdateEventfullEvent,
-	confirmUserIsEventOrganizer,
+	confirmUserIsEventOrganizerOrCohost,
 	updateEventfullEvent
 )
 
 eventsRoutes.post(
 	"/delete-eventfull-event",
 	validateDeleteEventfullEvent,
-	confirmUserIsEventOrganizer,
+	confirmUserIsEventOrganizerOrCohost,
 	deleteEventfullEvent
 )
 

@@ -3,7 +3,11 @@ import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
-export default async function confirmUserIsEventOrganizer(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function confirmUserIsEventOrganizerOrCohost(
+	req: Request,
+	res: Response,
+	next: NextFunction
+): Promise<void | Response> {
 	try {
 		const userId = req.userId
 		const eventfullEventId = req.body.eventfullEventId as string
@@ -12,9 +16,10 @@ export default async function confirmUserIsEventOrganizer(req: Request, res: Res
 		const event = await EventfullEventModel.findById(objectEventId)
 		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
 
-		// Consider also giving the co-host the ability to update/delete the event
-		if (event.organizerId.toString() !== userId.toJSON()) {
-			return res.status(403).json({ error: "You are not the event organizer" })
+		const authorizedUserIds = [event.organizerId.toString(), ...event.coHosts.map(coHost => coHost.toString())]
+
+		if (authorizedUserIds.includes(userId.toString()) === false) {
+			return res.status(403).json({ error: "You are not authorized to modify this event" })
 		}
 
 		next()
