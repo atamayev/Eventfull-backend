@@ -68,7 +68,7 @@ export default async function createEventfullEvent(req: Request, res: Response):
 			))
 		}
 
-		return res.status(200).json({ message: "Event Created" })
+		return res.status(200).json({ message: "Event Created", eventId: eventId.toString() })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error" })

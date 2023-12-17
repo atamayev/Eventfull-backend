@@ -4,7 +4,7 @@ import validateInviteResponseRequest from "../middleware/request-validation/even
 import validateEventfullInviteRequest from "../middleware/request-validation/events/validate-eventfull-invite-request"
 import validateCreateEventfullEvent from "../middleware/request-validation/events/validate-create-eventfull-event"
 import validateUpdateEventfullEvent from "../middleware/request-validation/events/validate-update-an-eventfull-event"
-import validateDeleteEventfullEvent from "../middleware/request-validation/events/validate-delete-eventfull-event"
+import validateEventfullEventId from "../middleware/request-validation/events/validate-eventfull-event-id"
 
 import isEventInviteable from "../middleware/events/is-event-inviteable"
 import confirmEventIsActive from "../middleware/events/confirm-event-is-actve"
@@ -22,6 +22,8 @@ import inviteFriendToEventfullEvent from "../controllers/events/invite-friend-to
 import retractInviteToEventfullEvent from "../controllers/events/retract-invite-to-eventfull-event"
 import deleteEventfullEvent from "../controllers/events/delete-eventfull-event"
 import updateEventfullEvent from "../controllers/events/update-eventfull-event"
+import pinEventfullEvent from "../controllers/events/pin-eventfull-event"
+import removePinnedEventfullEvent from "../controllers/events/remove-pinned-eventfull-event"
 
 const eventsRoutes = express.Router()
 
@@ -57,15 +59,20 @@ eventsRoutes.post(
 eventsRoutes.post(
 	"/update-eventfull-event",
 	validateUpdateEventfullEvent,
+	confirmEventIsActive,
 	confirmUserIsEventOrganizerOrCohost,
 	updateEventfullEvent
 )
 
 eventsRoutes.post(
 	"/delete-eventfull-event",
-	validateDeleteEventfullEvent,
+	validateEventfullEventId,
 	confirmUserIsEventOrganizerOrCohost,
 	deleteEventfullEvent
 )
+
+eventsRoutes.post("/pin-eventfull-event", validateEventfullEventId, confirmEventIsActive, pinEventfullEvent)
+
+eventsRoutes.post("/remove-pinned-eventfull-event", validateEventfullEventId, removePinnedEventfullEvent)
 
 export default eventsRoutes
