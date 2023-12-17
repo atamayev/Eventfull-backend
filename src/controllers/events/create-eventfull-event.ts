@@ -10,7 +10,9 @@ export default async function createEventfullEvent(req: Request, res: Response):
 		const userId = req.userId
 		const eventfullEventData = req.body.eventfullEventData as IncomingEventfullEvent
 
-		const convertedEvent = convertToEventfullEvent(eventfullEventData, userId)
+		const user = await UserModel.findById(userId).select("friends")
+		const friendIds = user?.friends.map(friend => friend.toString()) || []
+		const convertedEvent = convertToEventfullEvent(eventfullEventData, userId, friendIds)
 
 		const newEvent = await EventfullEventModel.create({
 			...convertedEvent,
