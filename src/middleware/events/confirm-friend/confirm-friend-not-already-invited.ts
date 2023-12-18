@@ -1,9 +1,9 @@
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
-import EventfullEventModel from "../../models/eventfull-event-model"
+import EventfullEventModel from "../../../models/eventfull-event-model"
 
-export default async function confirmFriendNotAlreadyAttending(
+export default async function confirmFriendNotAlreadyInvited(
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -16,14 +16,14 @@ export default async function confirmFriendNotAlreadyAttending(
 		const event = await EventfullEventModel.findById(objectEventId)
 		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
 
-		if (_.isUndefined(event.attendees)) {
+		if (_.isUndefined(event.invitees)) {
 			return res.status(404).json({ error: "Event has no invitees" })
 		}
-		const attendeeIds = event.attendees.map(attendee => attendee.userId.toString())
-		attendeeIds.push(event.organizerId.toString())
+		const inviteesIds = event.invitees.map(invitee => invitee.userId.toString())
+		inviteesIds.push(event.organizerId.toString())
 
-		if (attendeeIds.includes(friendId.toString()) === true) {
-			return res.status(403).json({ error: "Friend is already attending Event" })
+		if (inviteesIds.includes(friendId.toString()) === true) {
+			return res.status(403).json({ error: "Friend is already invited" })
 		}
 
 		next()

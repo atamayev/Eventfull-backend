@@ -12,11 +12,13 @@ import confirmEventOrganizerNotBlockingUser from "../middleware/events/confirm-e
 import validateConfirmUsersAreFriends from "../middleware/social/friend/validate-confirm-users-are-friends"
 import confirmEventOrganizerNotBlockingFriend from "../middleware/events/confirm-event-organizer-not-blocking-friend"
 import confirmInviterIsAlreadyInvitedOrHost from "../middleware/events/confirm-inviter-is-already-invited-or-host"
-import confirmFriendNotAlreadyInvited from "../middleware/events/confirm-friend-not-already-invited"
+import confirmFriendNotAlreadyInvited from "../middleware/events/confirm-friend/confirm-friend-not-already-invited"
 import confirmUserIsEventOrganizerOrCohost from "../middleware/events/confirm-user-is-event-organizer-or-cohost"
 import confirmInvitedUserHasNotResponded from "../middleware/events/confirm-invited-user-has-not-responded"
 import confirmEventIsPublic from "../middleware/events/confirm-event-is-public"
-import confirmFriendNotAlreadyAttending from "../middleware/events/confirm-friend-not-already-attending"
+import confirmFriendNotAlreadyAttending from "../middleware/events/confirm-friend/confirm-friend-not-already-attending"
+import confirmFriendHasNotAlreadyRespondedNotAttending
+	from "../middleware/events/confirm-friend/confirm-friend-has-not-already-responded-not-attending"
 
 import createEventfullEvent from "../controllers/events/create-eventfull-event"
 import respondToEventfullInvite from "../controllers/events/respond-to-eventfull-invite"
@@ -49,8 +51,9 @@ eventsRoutes.post(
 	confirmEventOrganizerNotBlockingFriend,
 	validateConfirmUsersAreFriends,
 	confirmInviterIsAlreadyInvitedOrHost,
-	confirmFriendNotAlreadyInvited,
 	confirmFriendNotAlreadyAttending,
+	confirmFriendHasNotAlreadyRespondedNotAttending,
+	confirmFriendNotAlreadyInvited,
 	inviteFriendToEventfullEvent
 )
 

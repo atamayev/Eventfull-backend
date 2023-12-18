@@ -17,8 +17,6 @@ export default async function confirmEventOrganizerNotBlockingFriend(
 		const event = await EventfullEventModel.findById(objectEventId)
 		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
 
-		req.body.eventfullEventId = objectEventId
-
 		const organizer = await UserModel.findById(event.organizerId)
 
 		if (_.isNull(organizer)) return res.status(404).json({ error: "Event organizer not found" })
