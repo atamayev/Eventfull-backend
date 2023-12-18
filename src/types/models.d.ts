@@ -31,6 +31,7 @@ declare global {
 		eventPins: Types.ObjectId[]
 		calendarData: UnifiedCalendarEvent[]
 		eventfullEvents: EventfullCalendarEvent[]
+		colorTheme: "Light" | "Dark" | "System Default"
 
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string

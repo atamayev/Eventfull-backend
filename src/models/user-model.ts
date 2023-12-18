@@ -31,6 +31,7 @@ const userSchema = new Schema<User>({
 	eventPins: { type: [Schema.Types.ObjectId] },
 	calendarData: { type: [calendarDataSchema] },
 	eventfullEvents: { type: [eventfullEventsSchema] },
+	colorTheme: { type: String, default: "System Default", enum: ["Dark", "Light", "System Default"] },
 
 	googleLoginAccessToken: { type: String, trim: true },
 	googleLoginRefreshToken: { type: String, trim: true },
