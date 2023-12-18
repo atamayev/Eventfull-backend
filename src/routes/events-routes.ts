@@ -15,6 +15,8 @@ import confirmInviterIsAlreadyInvitedOrHost from "../middleware/events/confirm-i
 import confirmFriendNotAlreadyInvited from "../middleware/events/confirm-friend-not-already-invited"
 import confirmUserIsEventOrganizerOrCohost from "../middleware/events/confirm-user-is-event-organizer-or-cohost"
 import confirmInvitedUserHasNotResponded from "../middleware/events/confirm-invited-user-has-not-responded"
+import confirmEventIsPublic from "../middleware/events/confirm-event-is-public"
+import confirmFriendNotAlreadyAttending from "../middleware/events/confirm-friend-not-already-attending"
 
 import createEventfullEvent from "../controllers/events/create-eventfull-event"
 import respondToEventfullInvite from "../controllers/events/respond-to-eventfull-invite"
@@ -24,6 +26,8 @@ import deleteEventfullEvent from "../controllers/events/delete-eventfull-event"
 import updateEventfullEvent from "../controllers/events/update-eventfull-event"
 import pinEventfullEvent from "../controllers/events/pin-eventfull-event"
 import removePinnedEventfullEvent from "../controllers/events/remove-pinned-eventfull-event"
+import signUpForEventfullEvent from "../controllers/events/sign-up-for-eventfull-event"
+import confirmUserNotAlreadyAttending from "../middleware/events/confirm-user-not-already-attending"
 
 const eventsRoutes = express.Router()
 
@@ -45,6 +49,7 @@ eventsRoutes.post(
 	validateConfirmUsersAreFriends,
 	confirmInviterIsAlreadyInvitedOrHost,
 	confirmFriendNotAlreadyInvited,
+	confirmFriendNotAlreadyAttending,
 	inviteFriendToEventfullEvent
 )
 
@@ -74,5 +79,14 @@ eventsRoutes.post(
 eventsRoutes.post("/pin-eventfull-event", validateEventfullEventId, confirmEventIsActive, pinEventfullEvent)
 
 eventsRoutes.post("/remove-pinned-eventfull-event", validateEventfullEventId, removePinnedEventfullEvent)
+
+eventsRoutes.post("/sign-up-for-eventfull-event",
+	validateEventfullEventId,
+	confirmEventIsActive,
+	confirmEventIsPublic,
+	confirmEventOrganizerNotBlockingUser,
+	confirmUserNotAlreadyAttending,
+	signUpForEventfullEvent
+)
 
 export default eventsRoutes

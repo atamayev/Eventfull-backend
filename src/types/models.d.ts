@@ -64,15 +64,20 @@ declare global {
 	interface EventfullCalendarEvent extends IDInterface {
 		eventId: Types.ObjectId
 		attendingStatus: AttendingStatuses
-		invitedBy: Types.ObjectId
+		invitedBy?: Types.ObjectId
 		reviewRating?: number
 		reviewText?: string
 	}
 
 	interface EventfullInvitee {
 		userId: Types.ObjectId
-		attendingStatus: AttendingStatuses
+		attendingStatus: "Not Attending" | "Not Responded"
 		invitedBy: Types.ObjectId
+	}
+
+	interface EventfullAttendee {
+		userId: Types.ObjectId
+		invitedBy?: Types.ObjectId
 		reviewRating?: number
 		reviewText?: string
 	}
@@ -107,6 +112,7 @@ declare global {
 	interface EventfullEvent extends BaseEventfullEvent {
 		invitees: EventfullInvitee[]
 		coHosts: EventfullCoHost[]
+		attendees: EventfullAttendee[]
 	}
 
 	interface IncomingEventfullEvent extends BaseEventfullEvent {

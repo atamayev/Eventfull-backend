@@ -18,6 +18,8 @@ export default async function addInvitees(
 		.filter(inviteeId => friendIds.includes(inviteeId.toString()))
 		.filter(inviteeId => !currentEvent.invitees.some(existingInvitee =>
 			existingInvitee.userId.toString() === inviteeId.toString()))
+		.filter(inviteeId => !currentEvent.attendees.some(existingAttendee =>
+			existingAttendee.userId.toString() === inviteeId.toString()))
 		.map(inviteeId => ({
 			userId: inviteeId,
 			attendingStatus: "Not Responded",

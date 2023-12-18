@@ -3,7 +3,7 @@ import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
-export default async function confirmInvitedUserHasNotResponded(
+export default async function confirmFriendNotAlreadyAttending(
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -16,21 +16,17 @@ export default async function confirmInvitedUserHasNotResponded(
 		const event = await EventfullEventModel.findById(objectEventId)
 		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
 
-		if (_.isUndefined(event.invitees)) {
+		if (_.isUndefined(event.attendees)) {
 			return res.status(404).json({ error: "Event has no invitees" })
 		}
+		const attendeeIds = event.attendees.map(attendee => attendee.userId.toString())
+		attendeeIds.push(event.organizerId.toString())
 
-		const invitee = event.invitees.find(inv => inv.userId.toString() === friendId.toString())
-
-		if (_.isUndefined(invitee)) return res.status(403).json({ error: "User is not invited" })
-
-		if (invitee.attendingStatus === "Not Attending") {
-			return res.status(403).json({ error: "User already declined the invitation" })
-		} else {
-			// invitee.attendingStatus === "Not Responded"
-			next()
+		if (attendeeIds.includes(friendId.toString()) === true) {
+			return res.status(403).json({ error: "Friend is already attending Event" })
 		}
 
+		next()
 	} catch (error) {
 		console.error(error)
 		return res.status(401).json({ error: "Interal Server Error" })

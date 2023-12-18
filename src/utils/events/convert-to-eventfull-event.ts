@@ -18,8 +18,9 @@ export default function convertToEventfullEvent(
 			coHostId => ({
 				userId: coHostId,
 				invitedBy: organizerId
-			})
-		)
+			}),
+		),
+		attendees: []
 	}
 	return event
 }

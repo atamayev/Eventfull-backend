@@ -3,8 +3,13 @@ import { unifiedDateTimeSchema } from "./calendar-data-model"
 
 const eventfullInviteesSchema = new Schema<EventfullInvitee>({
 	userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-	attendingStatus: { type: String, required: true, enum: ["Attending", "Not Attending", "Not Responded"] },
+	attendingStatus: { type: String, required: true, enum: ["Not Attending", "Not Responded"] },
 	invitedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+})
+
+const eventfullAttendeesSchema = new Schema<EventfullAttendee>({
+	userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+	invitedBy: { type: Schema.Types.ObjectId, ref: "User" },
 	reviewRating: { type: Number },
 	reviewText: { type: String },
 })
@@ -28,6 +33,8 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventReviewable: { type: Boolean, required: true },
 	canInvitedUsersInviteOthers: { type: Boolean, required: true },
 	invitees: { type: [eventfullInviteesSchema], required: true},
+	attendees: { type: [eventfullAttendeesSchema], required: true},
+
 	eventURL: { type: String },
 	eventDescription: { type: String },
 	extraEventCategories: {type: [String]},
