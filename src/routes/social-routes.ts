@@ -4,6 +4,9 @@ import validateResponseToFriendRequest from "../middleware/request-validation/so
 import validateBlockedUserId from "../middleware/request-validation/social/validate-blocked-user-id"
 import validateUnblockedUserId from "../middleware/request-validation/social/validate-unblocked-user-id"
 
+import attachFriendToRequest from "../middleware/attach-to-request/attach-friend-to-request"
+import attachBlockedUserToRequest from "../middleware/attach-to-request/attach-blocked-user-to-request"
+
 import checkIfUserBlockedFriend from "../middleware/social/friend/check-if-user-blocked-friend"
 import checkIfFriendBlockedUser from "../middleware/social/friend/check-if-friend-blocked-user"
 import checkIfUsersAreFriends from "../middleware/social/friend/check-if-users-are-friends"
@@ -20,7 +23,6 @@ import listOutgoingFriendRequests from "../controllers/social/list-outgoing-frie
 import blockAnotherUser from "../controllers/social/block-another-user"
 import unblockAnotherUser from "../controllers/social/unblock-another-user"
 import listBlockedUsers from "../controllers/social/list-blocked-users"
-import attachFriendToRequest from "../middleware/attach-to-request/attach-friend-to-request"
 
 const socialRoutes = express.Router()
 
@@ -58,6 +60,7 @@ socialRoutes.get("/get-blocked-users", listBlockedUsers)
 socialRoutes.post(
 	"/block-another-user",
 	validateBlockedUserId,
+	attachBlockedUserToRequest,
 	checkIfUserBlockedBlockedUser,
 	checkIfBlockedUserBlockedUser,
 	blockAnotherUser

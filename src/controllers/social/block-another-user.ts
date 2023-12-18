@@ -11,31 +11,30 @@ import checkIfIncomingFriendRequestExists from "../../utils/social/friend/check-
 export default async function blockAnotherUser (req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const blockedUserId = req.blockedUserId
-		const blockedUserUsername = req.blockedUserUsername
+		const blockedUser = req.blockedUser
 
-		if (_.isEqual(user._id, blockedUserId)) return res.status(400).json({ message: "You cannot block yourself" })
+		if (_.isEqual(user._id, blockedUser._id)) return res.status(400).json({ message: "You cannot block yourself" })
 
-		await blockUser(user._id, blockedUserId)
+		await blockUser(user._id, blockedUser.id)
 
-		const areUsersFriends = areUsersAreFriends(user, blockedUserId)
+		const areUsersFriends = areUsersAreFriends(user, blockedUser.id)
 
 		if (areUsersFriends === true) {
-			await unfriendYourFriend(user._id, blockedUserId)
+			await unfriendYourFriend(user._id, blockedUser.id)
 		}
 
-		const doesOutgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, blockedUserId)
+		const doesOutgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, blockedUser.id)
 		if (doesOutgoingFriendRequestExists === true) {
-			await clearOutgoingFriendRequest(user._id, blockedUserId)
+			await clearOutgoingFriendRequest(user._id, blockedUser.id)
 		}
 
-		const doesIncomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, blockedUserId)
+		const doesIncomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, blockedUser.id)
 		if (doesIncomingFriendRequestExists === true) {
-			await clearIncomingFriendRequest(user._id, blockedUserId)
+			await clearIncomingFriendRequest(user._id, blockedUser.id)
 		}
 
-		if (!_.isEmpty(blockedUserUsername)) {
-			return res.status(200).json({ message: `${blockedUserUsername} blocked` })
+		if (!_.isEmpty(blockedUser.username)) {
+			return res.status(200).json({ message: `${blockedUser.username} blocked` })
 		}
 
 		return res.status(200).json({ message: "User blocked" })

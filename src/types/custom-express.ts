@@ -8,7 +8,7 @@ declare global {
 			friendId: Types.ObjectId
 
 			blockedUserId: Types.ObjectId
-			blockedUserUsername: string
+			blockedUser: User
 
 			unblockedUserId: Types.ObjectId
 			unblockedUserUsername: string
