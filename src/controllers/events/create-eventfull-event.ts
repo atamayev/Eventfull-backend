@@ -7,28 +7,26 @@ import convertToEventfullEvent from "../../utils/events/convert-to-eventfull-eve
 // eslint-disable-next-line max-lines-per-function
 export default async function createEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const eventfullEventData = req.body.eventfullEventData as IncomingEventfullEvent
 
-		const user = await UserModel.findById(userId).select("friends")
-		const friendIds = user?.friends.map(friend => friend.toString()) || []
-		const convertedEvent = convertToEventfullEvent(eventfullEventData, userId, friendIds)
+		const friendIds = user.friends.map(friend => friend.toString())
+		const convertedEvent = convertToEventfullEvent(eventfullEventData, user._id, friendIds)
 
 		const newEvent = await EventfullEventModel.create({
 			...convertedEvent,
-			organizerId: userId,
+			organizerId: user._id,
 			isActive: true
 		})
 
 		const eventId = newEvent._id
 		await UserModel.updateOne(
-			{ _id: userId},
+			{ _id: user._id},
 			{
 				$push: {
 					eventfullEvents: {
 						eventId,
-						attendingStatus: "Hosting",
-						invitedBy: userId
+						attendingStatus: "Hosting"
 					}
 				}
 			}
@@ -43,7 +41,7 @@ export default async function createEventfullEvent(req: Request, res: Response):
 							eventfullEvents: {
 								eventId: eventId,
 								attendingStatus: "Co-Hosting",
-								invitedBy: userId
+								invitedBy: user._id
 							}
 						}
 					}
@@ -60,7 +58,7 @@ export default async function createEventfullEvent(req: Request, res: Response):
 							eventfullEvents: {
 								eventId: eventId,
 								attendingStatus: "Not Responded",
-								invitedBy: userId
+								invitedBy: user._id
 							}
 						}
 					}

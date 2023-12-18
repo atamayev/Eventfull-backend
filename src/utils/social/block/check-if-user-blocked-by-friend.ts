@@ -1,11 +1,11 @@
+import _ from "lodash"
 import { Types } from "mongoose"
-import UserModel from "../../../models/user-model"
 
-export default async function checkIfUserBlockedByFriend (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<boolean> {
+export default function checkIfUserBlockedByFriend (user: User, friendId: Types.ObjectId): boolean {
 	try {
-		const isUserBlocked = await UserModel.exists({ _id: friendId, blockedUsers: userId })
+		if (_.isEmpty(user.blockedByUsers)) return false
 
-		return !!isUserBlocked
+		return user.blockedByUsers.some(blockedByUser => blockedByUser.equals(friendId))
 	} catch (error) {
 		console.error(error)
 		throw new Error("Check user blocked error")

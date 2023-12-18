@@ -1,7 +1,5 @@
-import { Types, Document } from "mongoose"
-
 export default function checkIfUserHasContactType (
-	user: Document<unknown, unknown, User> & User & Required<{_id: Types.ObjectId}>,
+	user: User,
 	contact: string,
 	contactType: EmailOrPhone
 ): boolean {

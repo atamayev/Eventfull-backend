@@ -1,11 +1,12 @@
+import _ from "lodash"
 import { Types } from "mongoose"
-import UserModel from "../../../models/user-model"
 
-export default async function areUsersAreFriends (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<boolean> {
+export default function areUsersAreFriends (user: User, friendId: Types.ObjectId): boolean {
 	try {
-		const isAlreadyFriends = await UserModel.exists({ _id: userId, friends: friendId })
+		if (_.isEmpty(user.friends)) return false
 
-		return !!isAlreadyFriends
+		return user.friends.some(friend => friend.equals(friendId))
+
 	} catch (error) {
 		console.error(error)
 		throw new Error("Check if users are friends error")

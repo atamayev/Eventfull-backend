@@ -1,11 +1,11 @@
+import _ from "lodash"
 import { Types } from "mongoose"
-import UserModel from "../../../models/user-model"
 
-export default async function checkIfOutgoingFriendRequestExists (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<boolean> {
+export default function checkIfOutgoingFriendRequestExists (user: User, friendId: Types.ObjectId): boolean {
 	try {
-		const isOutgoingFriendRequestExists = await UserModel.exists({ _id: userId, outgoingFriendRequests: friendId })
+		if (_.isEmpty(user.outgoingFriendRequests)) return false
 
-		return !!isOutgoingFriendRequestExists
+		return user.outgoingFriendRequests.some(outgoingFriendRequest => outgoingFriendRequest.equals(friendId))
 	} catch (error) {
 		console.error(error)
 		throw new Error("Check if outgoing friend request error")

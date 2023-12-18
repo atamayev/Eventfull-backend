@@ -1,19 +1,20 @@
+import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
 export default async function deleteDBCalendarEvent (
-	user: User,
+	userId: Types.ObjectId,
 	calendarId: string,
 	deleteType: "hard" | "soft"
 ): Promise <void> {
 	try {
 		if (deleteType === "soft") {
 			await UserModel.updateOne(
-				{ _id: user._id, "calendarData.id": calendarId, "calendarData.isActive": true },
+				{ _id: userId, "calendarData.id": calendarId, "calendarData.isActive": true },
 				{ $set: { "calendarData.$.isActive": false } }
 			)
 		} else {
 			await UserModel.updateOne(
-				{ _id: user._id },
+				{ _id: userId },
 				{ $pull: { calendarData: { id: calendarId } } }
 			)
 		}

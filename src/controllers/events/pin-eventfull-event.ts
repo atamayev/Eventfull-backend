@@ -3,11 +3,11 @@ import UserModel from "../../models/user-model"
 
 export default async function pinEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const event = req.event
 
 		await UserModel.updateOne(
-			{ _id: userId },
+			{ _id: user._id },
 			{ $addToSet: { eventPins: event._id } }
 		)
 

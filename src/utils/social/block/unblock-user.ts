@@ -4,9 +4,6 @@ import UserModel from "../../../models/user-model"
 
 export default async function unblockUser (userId: Types.ObjectId, blockedUserId: Types.ObjectId): Promise<void> {
 	try {
-		const user = await UserModel.findById(userId)
-		if (_.isNull(user)) throw new Error("User not found")
-
 		const blockedUser = await UserModel.findById(blockedUserId)
 		if (_.isNull(blockedUser)) throw new Error("Blocked user not found")
 

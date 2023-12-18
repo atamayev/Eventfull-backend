@@ -1,23 +1,17 @@
-import _ from "lodash"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
 
 export default async function listOutgoingFriendRequests (req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 
-		const outgoingFriendRequests = await UserModel.findById(userId).select("outgoingFriendRequests")
-
-		if (_.isNull(outgoingFriendRequests)) {
-			return res.status(400).json({ message: "User not found" })
-		}
-		const requestIds = outgoingFriendRequests.outgoingFriendRequests
+		const outgoingFriendRequestIds = user.outgoingFriendRequests
 
 		const userRequests = await UserModel.find({
-			"_id": { $in: requestIds }
+			"_id": { $in: outgoingFriendRequestIds }
 		}).select("username -_id")
 
-		const usernames = userRequests.map(user => user.username)
+		const usernames = userRequests.map(user1 => user1.username)
 
 		return res.status(200).json({ usernames })
 	} catch (error) {

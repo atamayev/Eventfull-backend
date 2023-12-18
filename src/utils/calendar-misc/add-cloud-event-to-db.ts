@@ -1,7 +1,8 @@
+import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
 export default async function addCloudEventToDb (
-	user: User,
+	userId: Types.ObjectId,
 	calendarDetails: UnifiedCalendarEvent,
 	source: "google" | "microsoft"
 ): Promise<void> {
@@ -11,7 +12,7 @@ export default async function addCloudEventToDb (
 		calendarDetails.timeZone ||= "America/New_York"
 
 		await UserModel.findByIdAndUpdate(
-			user._id,
+			userId,
 			{ $push: { calendarData: calendarDetails } },
 			{ new: true, runValidators: true }
 		)

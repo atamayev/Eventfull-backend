@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express"
 
 export default function confirmInviterIsAlreadyInvitedOrHost(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const event = req.event
 
 		if (_.isEmpty(event.invitees)) {
@@ -11,7 +11,7 @@ export default function confirmInviterIsAlreadyInvitedOrHost(req: Request, res: 
 		}
 		const inviteesIds = event.invitees.map(invitee => invitee.userId.toString())
 		inviteesIds.push(event.organizerId.toString())
-		const stringUserId = userId.toString()
+		const stringUserId = user._id.toString()
 
 		if (inviteesIds.includes(stringUserId) === false) {
 			return res.status(403).json({ error: "You cannot invite someone to an event that you are not invited to" })

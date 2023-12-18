@@ -1,8 +1,9 @@
 import _ from "lodash"
+import { Types } from "mongoose"
 import cca from "../../msal-config"
 import updateMicrosoftCalendarTokensInDB from "./update-microsoft-calendar-tokens-in-db"
 
-export default async function refreshMicrosoftCalendarToken(user: User, refreshToken: string): Promise<string | null> {
+export default async function refreshMicrosoftCalendarToken(userId: Types.ObjectId, refreshToken: string): Promise<string | null> {
 	try {
 		const tokenRequest = {
 			refreshToken,
@@ -12,7 +13,7 @@ export default async function refreshMicrosoftCalendarToken(user: User, refreshT
 		const authenticationResult = await cca.acquireTokenByRefreshToken(tokenRequest)
 		if (_.isNull(authenticationResult)) return null
 
-		await updateMicrosoftCalendarTokensInDB(user, authenticationResult)
+		await updateMicrosoftCalendarTokensInDB(userId, authenticationResult)
 		const newAccessToken = authenticationResult.accessToken
 
 		return newAccessToken

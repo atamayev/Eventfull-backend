@@ -5,13 +5,12 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function addCohosts(
-	userId: Types.ObjectId,
+	user: User,
 	eventfullEventId: Types.ObjectId,
 	currentEvent: EventfullEvent,
 	updatedEventData: IncomingEventfullEvent
 ): Promise<void> {
-	const user = await UserModel.findById(userId).select("friends")
-	const friendIds = user?.friends.map(friend => friend.toString()) || []
+	const friendIds = user.friends.map(friend => friend.toString())
 
 	const updatedCoHostIds = updatedEventData.coHosts.map(coHost => coHost.toString())
 
@@ -21,7 +20,7 @@ export default async function addCohosts(
 			existingCohost.userId.toString() === hostId.toString()))
 		.map(hostId => ({
 			userId: hostId,
-			invitedBy: userId
+			invitedBy: user._id
 		}))
 
 	const coHostsToRemove = currentEvent.coHosts.filter(existingCoHost =>
@@ -63,7 +62,7 @@ export default async function addCohosts(
 						eventfullEvents: {
 							eventId: eventfullEventId,
 							attendingStatus: "Co-Hosting",
-							invitedBy: userId
+							invitedBy: user._id
 						}
 					}
 				})

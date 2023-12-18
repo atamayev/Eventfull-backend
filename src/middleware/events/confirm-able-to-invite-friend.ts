@@ -5,8 +5,8 @@ import UserModel from "../../models/user-model"
 export default async function confirmAbleToInviteFriend(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const friendId = req.friendId
-		const user = await UserModel.findById(friendId)
-		if (_.isNull(user)) return res.status(404).json({ error: "User not found" })
+		const friend = await UserModel.findById(friendId)
+		if (_.isNull(friend)) return res.status(404).json({ error: "User not found" })
 		const event = req.event
 
 		// Check if friend is already attending event
@@ -21,7 +21,7 @@ export default async function confirmAbleToInviteFriend(req: Request, res: Respo
 		}
 
 		// Check if friend has already responded "Not Attending"
-		const hasRespondedNotAttending = user.eventfullEvents.some(event1 =>
+		const hasRespondedNotAttending = friend.eventfullEvents.some(event1 =>
 			event1.eventId.toString() === event._id.toString() && event1.attendingStatus === "Not Attending"
 		)
 

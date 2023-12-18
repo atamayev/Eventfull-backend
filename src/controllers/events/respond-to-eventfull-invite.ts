@@ -6,22 +6,22 @@ import respondAttendingToInvitedEvent from "../../utils/events/respond-attending
 
 export default async function respondToEventfullInvite(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const { response } = req.body
 		const event = req.event
 
 		if (response === "Not Attending" || response === "Not Responded") {
 			await EventfullEventModel.findOneAndUpdate(
-				{ _id: event._id, "invitees.userId": userId },
+				{ _id: event._id, "invitees.userId": user._id },
 				{ $set: { "invitees.$.attendingStatus": response } },
 				{ new: true, runValidators: true }
 			)
 		} else if (response === "Attending") {
-			await respondAttendingToInvitedEvent(userId, event._id)
+			await respondAttendingToInvitedEvent(user._id, event)
 		}
 
 		const updatedUser = await UserModel.findOneAndUpdate(
-			{ _id: userId, "eventfullEvents.eventId": event._id },
+			{ _id: user._id, "eventfullEvents.eventId": event._id },
 			{ $set: { "eventfullEvents.$.attendingStatus": response } },
 			{ new: true, runValidators: true }
 		)

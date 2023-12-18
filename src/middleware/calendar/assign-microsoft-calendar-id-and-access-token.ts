@@ -20,7 +20,7 @@ export default async function assignMicrosoftCalendarIdAndAccessToken(
 		let microsoftDefaultCalendarId = user.microsoftDefaultCalendarId
 
 		if (_.isUndefined(microsoftDefaultCalendarId)) {
-			microsoftDefaultCalendarId = await retrieveAndSetDefaultCalendarId(user, microsoftCalendarAccessToken)
+			microsoftDefaultCalendarId = await retrieveAndSetDefaultCalendarId(user._id, microsoftCalendarAccessToken)
 
 			if (_.isUndefined(microsoftDefaultCalendarId)) {
 				return res.status(400).json({ error: "No Microsoft Calendar Id Found" })

@@ -1,10 +1,4 @@
-import { Types, Document } from "mongoose"
-
-export default function isSameContactMethod(
-	user: Document<unknown, unknown, User> & User & Required<{_id: Types.ObjectId}>,
-	contact: string,
-	contactType: EmailOrPhone
-): boolean {
+export default function isSameContactMethod(user: User, contact: string, contactType: EmailOrPhone): boolean {
 	try {
 		if (contactType === "Email" && (user.email === contact)) {
 			return true

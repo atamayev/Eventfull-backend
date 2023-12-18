@@ -16,7 +16,7 @@ export default async function getValidGoogleCalendarAccessToken(user: User): Pro
 	if (_.isUndefined(calendarTokenExpiryDate)) return undefined
 
 	if (currentTime >= calendarTokenExpiryDate) {
-		const response = await refreshGoogleCalendarToken(user, calendarRefreshToken)
+		const response = await refreshGoogleCalendarToken(user._id, calendarRefreshToken)
 		if (_.isNil(response)) return undefined
 		calendarAccessToken = response
 	}

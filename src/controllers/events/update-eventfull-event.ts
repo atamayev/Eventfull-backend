@@ -4,15 +4,15 @@ import addInvitees from "../../utils/events/add-invitees"
 
 export default async function updateEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const event = req.event
 		const updatedEventData  = req.body.eventfullEventData as IncomingEventfullEvent
 		const organizerOrCoHost = req.organizerOrCoHost as "Organizer" | "Co-Host"
 
-		await addInvitees(userId, event._id, event, updatedEventData)
+		await addInvitees(user, event._id, event, updatedEventData)
 
 		if (organizerOrCoHost === "Organizer") {
-			await addCohosts(userId, event._id, event, updatedEventData)
+			await addCohosts(user, event._id, event, updatedEventData)
 		}
 
 		return res.status(200).json({ message: "Event Updated" })

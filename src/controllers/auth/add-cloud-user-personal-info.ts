@@ -4,13 +4,13 @@ import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
 
 export default async function addCloudUserPersonalInfo (req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const { username } = req.body.cloudUserRegisterInformationObject as CloudUserRegisterInformationObject
 
 		const usernameExists = await doesUsernameExist(username)
 		if (usernameExists === true) return res.status(400).json({ message: "Username taken" })
 
-		await addCloudUser(userId, req.body.cloudUserRegisterInformationObject)
+		await addCloudUser(user._id, req.body.cloudUserRegisterInformationObject)
 
 		return res.status(200).json()
 	} catch (error) {

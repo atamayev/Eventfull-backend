@@ -16,7 +16,7 @@ export default async function deleteMicrosoftCalendarEvent(req: Request, res: Re
 
 		await microsoftClient.api(`/me/calendars/${calendarId}/events/${eventId}`).delete()
 
-		await deleteDBCalendarEvent(user, eventId, "hard")
+		await deleteDBCalendarEvent(user._id, eventId, "hard")
 
 		return res.status(200).json()
 	} catch (error) {

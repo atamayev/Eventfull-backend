@@ -16,7 +16,7 @@ export default async function getValidMicrosoftCalendarAccessToken(user: User): 
 	const currentTime = new Date()
 
 	if (currentTime >= calendarTokenExpiryDate) {
-		const response = await refreshMicrosoftCalendarToken(user, calendarRefreshToken)
+		const response = await refreshMicrosoftCalendarToken(user._id, calendarRefreshToken)
 		if (_.isNull(response)) return undefined
 		calendarAccessToken = response
 	}

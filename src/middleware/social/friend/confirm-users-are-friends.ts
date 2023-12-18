@@ -4,14 +4,14 @@ import areUsersAreFriends from "../../../utils/social/friend/are-users-are-frien
 
 export default async function confirmUsersAreFriends (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const friendId = req.friendId
 		const friendUsername = req.friendUsername
 
-		if (_.isEqual(userId, friendId)) {
+		if (_.isEqual(user._id, friendId)) {
 			return res.status(400).json({ message: "You cannot invite yourself" })
 		}
-		const areUsersFriends = await areUsersAreFriends(userId, friendId)
+		const areUsersFriends = await areUsersAreFriends(user._id, friendId)
 
 		if (areUsersFriends === false) {
 			if (_.isEmpty(friendUsername)) {

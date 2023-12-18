@@ -1,7 +1,8 @@
+import { Types } from "mongoose"
 import createGoogleAuthClient from "../../create-google-auth-client"
 import updateGoogleCalendarTokensInDB from "./update-google-calendar-tokens-in-db"
 
-export default async function refreshGoogleCalendarToken(user: User, refreshToken: string): Promise<string | null | undefined> {
+export default async function refreshGoogleCalendarToken(userId: Types.ObjectId, refreshToken: string): Promise<string | null | undefined> {
 	try {
 		const oauth2Client = createGoogleAuthClient()
 		oauth2Client.setCredentials({
@@ -12,7 +13,7 @@ export default async function refreshGoogleCalendarToken(user: User, refreshToke
 
 		const newAccessToken = credentials.access_token
 
-		await updateGoogleCalendarTokensInDB(user, credentials)
+		await updateGoogleCalendarTokensInDB(userId, credentials)
 
 		return newAccessToken
 	} catch (error) {

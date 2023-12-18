@@ -5,13 +5,13 @@ import unblockUser from "../../utils/social/block/unblock-user"
 
 export default async function unblockAnotherUser (req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const unblockedUserId = req.unblockedUserId
 		const unblockedUserUsername = req.unblockedUserUsername
 
-		if (_.isEqual(userId, unblockedUserId)) return res.status(400).json({ message: "You cannot unblock yourself" })
+		if (_.isEqual(user._id, unblockedUserId)) return res.status(400).json({ message: "You cannot unblock yourself" })
 
-		const isOtherUserBlocked = await checkIfUserHasBlockedFriend(userId, unblockedUserId)
+		const isOtherUserBlocked = checkIfUserHasBlockedFriend(user, unblockedUserId)
 
 		if (isOtherUserBlocked === false) {
 			if (!_.isEmpty(unblockedUserUsername)) {
@@ -20,7 +20,7 @@ export default async function unblockAnotherUser (req: Request, res: Response): 
 			return res.status(400).json({ message: "User is already unblocked" })
 		}
 
-		await unblockUser(userId, unblockedUserId)
+		await unblockUser(user._id, unblockedUserId)
 
 		if (!_.isEmpty(unblockedUserUsername)) {
 			return res.status(200).json({ message: `${unblockedUserUsername} unblocked` })

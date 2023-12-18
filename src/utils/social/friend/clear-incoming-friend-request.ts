@@ -4,9 +4,6 @@ import UserModel from "../../../models/user-model"
 
 export default async function clearIncomingFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
 	try {
-		const user = await UserModel.findById(userId)
-		if (_.isNull(user)) throw new Error("User not found")
-
 		const friend = await UserModel.findById(friendId)
 		if (_.isNull(friend)) throw new Error("Friend not found")
 

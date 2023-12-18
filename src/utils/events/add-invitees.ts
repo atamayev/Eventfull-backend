@@ -4,13 +4,12 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function addInvitees(
-	userId: Types.ObjectId,
+	user: User,
 	eventfullEventId: Types.ObjectId,
 	currentEvent: EventfullEvent,
 	updatedEventData: IncomingEventfullEvent
 ): Promise<void> {
-	const user = await UserModel.findById(userId).select("friends")
-	const friendIds = user?.friends.map(friend => friend.toString()) || []
+	const friendIds = user.friends.map(friend => friend.toString())
 
 	const updatedInviteeIds = updatedEventData.invitees.map(invitee => invitee.toString())
 
@@ -23,7 +22,7 @@ export default async function addInvitees(
 		.map(inviteeId => ({
 			userId: inviteeId,
 			attendingStatus: "Not Responded",
-			invitedBy: userId
+			invitedBy: user._id
 		}))
 
 	const inviteesToRemove = currentEvent.invitees.filter(existingInvitee =>
@@ -63,7 +62,7 @@ export default async function addInvitees(
 					eventfullEvents: {
 						eventId: eventfullEventId,
 						attendingStatus: "Not Responded",
-						invitedBy: userId
+						invitedBy: user._id
 					}
 				}
 			})

@@ -4,7 +4,7 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 
 export default async function inviteFriendToEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const friendId = req.friendId
 		const event = req.event
 
@@ -15,7 +15,7 @@ export default async function inviteFriendToEventfullEvent(req: Request, res: Re
 					invitees: {
 						userId: friendId,
 						attendingStatus: "Not Responded",
-						invitedBy: userId
+						invitedBy: user._id
 					}
 				}
 			},
@@ -29,7 +29,7 @@ export default async function inviteFriendToEventfullEvent(req: Request, res: Re
 					eventfullEvents: {
 						eventId: event._id,
 						attendingStatus: "Not Responded",
-						invitedBy: userId
+						invitedBy: user._id
 					}
 				}
 			}

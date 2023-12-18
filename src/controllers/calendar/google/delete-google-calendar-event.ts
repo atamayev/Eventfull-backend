@@ -17,7 +17,7 @@ export default async function deleteGoogleCalendarEvent(req: Request, res: Respo
 			eventId: eventId
 		})
 
-		await deleteDBCalendarEvent(user, eventId, "hard")
+		await deleteDBCalendarEvent(user._id, eventId, "hard")
 
 		return res.status(200).json()
 	} catch (error) {

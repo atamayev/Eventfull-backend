@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express"
 
 export default function checkIfUserAttendingEventfullEvent(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const event = req.event
 
 		if (_.isEmpty(event.attendees)) {
@@ -12,7 +12,7 @@ export default function checkIfUserAttendingEventfullEvent(req: Request, res: Re
 		const attendeeIds = event.attendees.map(attendee => attendee.userId.toString())
 		attendeeIds.push(event.organizerId.toString())
 
-		req.isUserAttendingEvent = attendeeIds.includes(userId.toString())
+		req.isUserAttendingEvent = attendeeIds.includes(user._id.toString())
 
 		next()
 	} catch (error) {
