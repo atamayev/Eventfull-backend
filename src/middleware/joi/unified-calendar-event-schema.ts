@@ -1,6 +1,6 @@
 import Joi from "joi"
 
-const unifiedDateTimeSchema = Joi.object({
+export const unifiedDateTimeSchema = Joi.object({
 	date: Joi.string().required(),
 	time: Joi.string().required()
 }).unknown(true)

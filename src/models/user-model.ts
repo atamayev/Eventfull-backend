@@ -1,10 +1,18 @@
-import { Schema, Types, model } from "mongoose"
+import { Schema, model } from "mongoose"
 import calendarDataSchema from "./calendar-data-model"
 
-const loginHistorySchema = new Schema({
+const loginHistorySchema = new Schema<LoginHistory>({
 	loginTime: { type: Date, default: Date.now },
 	// ipAddress: { type: String },
 	// device: { type: String }
+})
+
+const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
+	eventId: { type: Schema.Types.ObjectId, ref: "EventfullEvent", required: true },
+	attendingStatus: { type: String, required: true, enum: ["Attending", "Not Attending", "Not Responded", "Hosting", "Co-Hosting"] },
+	invitedBy: { type: Schema.Types.ObjectId, ref: "User" },
+	reviewRating: { type: Number },
+	reviewText: { type: String },
 })
 
 const userSchema = new Schema<User>({
@@ -20,8 +28,9 @@ const userSchema = new Schema<User>({
 	profilePictureURL: { type: String, trim: true },
 	phoneNumber: { type: String, trim: true },
 	bio: { type: String, trim: true },
-	eventPins: { type: [Types.ObjectId] },
+	eventPins: { type: [Schema.Types.ObjectId] },
 	calendarData: { type: [calendarDataSchema] },
+	eventfullEvents: { type: [eventfullEventsSchema] },
 
 	googleLoginAccessToken: { type: String, trim: true },
 	googleLoginRefreshToken: { type: String, trim: true },
@@ -40,23 +49,23 @@ const userSchema = new Schema<User>({
 
 	loginHistory: { type: [loginHistorySchema], required: true },
 	friends: {
-		type: [{ type: Types.ObjectId, ref: "User" }],
+		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
 	},
 	outgoingFriendRequests: {
-		type: [{ type: Types.ObjectId, ref: "User" }],
+		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
 	},
 	incomingFriendRequests: {
-		type: [{ type: Types.ObjectId, ref: "User" }],
+		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
 	},
 	blockedUsers: {
-		type: [{ type: Types.ObjectId, ref: "User" }],
+		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
 	},
 	blockedByUsers: {
-		type: [{ type: Types.ObjectId, ref: "User" }],
+		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
 	}
 }, {

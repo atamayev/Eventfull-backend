@@ -1,16 +1,16 @@
 import { Schema } from "mongoose"
 
-const unifiedDateTimeSchema = new Schema({
+export const unifiedDateTimeSchema = new Schema<UnifiedDateTime>({
 	date: { type: String, required: true },
 	time: { type: String, required: true }
 })
 
-const unifiedCalendarAttendeeSchema = new Schema({
+const unifiedCalendarAttendeeSchema = new Schema<UnifiedCalendarAttendee>({
 	email: { type: String, required: true },
 	responseStatus: { type: String, required: false }
 })
 
-const recurrenceSchema = new Schema({
+const recurrenceSchema = new Schema<UnifiedRecurrence>({
 	pattern: { type: String, required: true },
 	interval: { type: Number, required: true }
 })

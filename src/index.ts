@@ -10,6 +10,7 @@ import calendarRoutes from "./routes/calendar-routes"
 import listsRoutes from "./routes/lists-routes"
 import searchRoutes from "./routes/search-routes"
 import socialRoutes from "./routes/social-routes"
+import eventsRoutes from "./routes/events-routes"
 
 dotenv.config()
 
@@ -37,6 +38,7 @@ app.use(express.json())
 
 app.use("/api/auth", authRoutes)
 app.use("/api/calendar", jwtVerify, calendarRoutes)
+app.use("/api/events", jwtVerify, eventsRoutes)
 app.use("/api/lists", jwtVerify, listsRoutes)
 app.use("/api/search", jwtVerify, searchRoutes)
 app.use("/api/social", jwtVerify, socialRoutes)

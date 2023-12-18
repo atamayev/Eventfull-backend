@@ -28,8 +28,9 @@ declare global {
 		profilePictureURL?: string
 		phoneNumber?: string
 		bio?: string
-		eventPins?: Types.ObjectId[]
+		eventPins: Types.ObjectId[]
 		calendarData: UnifiedCalendarEvent[]
+		eventfullEvents: EventfullCalendarEvent[]
 
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string
@@ -60,32 +61,63 @@ declare global {
 		// device: string
 	}
 
-	interface EventfullEvent extends IDInterface {
+	interface EventfullCalendarEvent extends IDInterface {
+		eventId: Types.ObjectId
+		attendingStatus: AttendingStatuses
+		invitedBy?: Types.ObjectId
+		reviewRating?: number
+		reviewText?: string
+	}
+
+	interface EventfullInvitee {
+		userId: Types.ObjectId
+		attendingStatus: "Not Attending" | "Not Responded"
+		invitedBy: Types.ObjectId
+	}
+
+	interface EventfullAttendee {
+		userId: Types.ObjectId
+		invitedBy?: Types.ObjectId
+		reviewRating?: number
+		reviewText?: string
+	}
+
+	interface EventfullCoHost {
+		userId: Types.ObjectId
+		invitedBy: Types.ObjectId
+	}
+
+	interface BaseEventfullEvent {
 		eventName: string
-		eventTimeStart: Date
-		eventTimeEnd: Date
+		eventTimeStart: UnifiedDateTime
+		eventTimeEnd: UnifiedDateTime
 		eventPrice: number
 		eventType: string
-		eventURL: string
 		isVirtual: boolean
-		// Categories should be of type eventCategory[]
+		organizerId: Types.ObjectId
+		isActive: boolean
+		eventPublic: boolean
+		eventReviewable: boolean
+		canInvitedUsersInviteOthers: boolean
+		eventURL?: string
 		extraEventCategories?: string[]
 		eventDescription?: string
 		eventLocation?: {
-			longitude: string
-			latitude: string
 			address: string
 		}
-		organizerName?: string
 		eventImageURL?: string
 		eventCapacity?: number
 	}
 
-	interface Booking extends IDInterface {
-		userId: Types.ObjectId
-		eventId: Types.ObjectId
-		reviewRating?: number
-		reviewMessage?: string
+	interface EventfullEvent extends BaseEventfullEvent {
+		invitees: EventfullInvitee[]
+		coHosts: EventfullCoHost[]
+		attendees: EventfullAttendee[]
+	}
+
+	interface IncomingEventfullEvent extends BaseEventfullEvent {
+		invitees: Types.ObjectId[]
+		coHosts: Types.ObjectId[]
 	}
 }
 
