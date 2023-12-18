@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
-import EventfullEventModel from "../../models/eventfull-event-model"
 import convertToEventfullEvent from "../../utils/events/convert-to-eventfull-event"
+import addEventfullEvent from "../../utils/events/add-eventfull-event"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function createEventfullEvent(req: Request, res: Response): Promise<Response> {
@@ -13,13 +13,7 @@ export default async function createEventfullEvent(req: Request, res: Response):
 		const friendIds = user.friends.map(friend => friend.toString())
 		const convertedEvent = convertToEventfullEvent(eventfullEventData, user._id, friendIds)
 
-		const newEvent = await EventfullEventModel.create({
-			...convertedEvent,
-			organizerId: user._id,
-			isActive: true
-		})
-
-		const eventId = newEvent._id
+		const eventId = await addEventfullEvent(convertedEvent, user._id)
 		await UserModel.updateOne(
 			{ _id: user._id},
 			{
