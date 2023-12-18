@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import checkIfUsersAreFriends from "../../../utils/social/friend/check-if-users-are-friends"
+import areUsersAreFriends from "../../../utils/social/friend/are-users-are-friends"
 
-export default async function validateConfirmUsersAreFriends (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function confirmUsersAreFriends (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const userId = req.userId
 		const friendId = req.friendId
@@ -11,7 +11,7 @@ export default async function validateConfirmUsersAreFriends (req: Request, res:
 		if (_.isEqual(userId, friendId)) {
 			return res.status(400).json({ message: "You cannot invite yourself" })
 		}
-		const areUsersFriends = await checkIfUsersAreFriends(userId, friendId)
+		const areUsersFriends = await areUsersAreFriends(userId, friendId)
 
 		if (areUsersFriends === false) {
 			if (_.isEmpty(friendUsername)) {

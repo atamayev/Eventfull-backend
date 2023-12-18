@@ -4,12 +4,12 @@ import validateFriendRequestResponse from "../middleware/request-validation/soci
 import validateBlockedUserIdInRequest from "../middleware/request-validation/social/validate-blocked-user-id-in-request"
 import validateUnblockedUserIdInRequest from "../middleware/request-validation/social/validate-unblocked-user-id-in-request"
 
-import validateCheckIfUserBlockedFriend from "../middleware/social/friend/validate-check-if-user-blocked-friend"
-import validateCheckIfFriendBlockedUser from "../middleware/social/friend/validate-check-if-friend-blocked-user"
-import validateCheckIfUsersAreFriends from "../middleware/social/friend/validate-check-if-users-are-friends"
-import validateCheckIfUnblockedUserBlockedUser from "../middleware/social/unblock/validate-check-if-unblocked-user-blocked-user"
-import validateCheckIfBlockedUserBlockedUser from "../middleware/social/block/validate-check-if-blocked-user-blocked-user"
-import validateCheckIfUserBlockedBlockedUser from "../middleware/social/block/validate-check-if-user-blocked-blocked-user"
+import checkIfUserBlockedFriend from "../middleware/social/friend/check-if-user-blocked-friend"
+import checkIfFriendBlockedUser from "../middleware/social/friend/check-if-friend-blocked-user"
+import checkIfUsersAreFriends from "../middleware/social/friend/check-if-users-are-friends"
+import checkIfUnblockedUserBlockedUser from "../middleware/social/unblock/check-if-unblocked-user-blocked-user"
+import checkIfBlockedUserBlockedUser from "../middleware/social/block/check-if-blocked-user-blocked-user"
+import checkIfUserBlockedBlockedUser from "../middleware/social/block/check-if-user-blocked-blocked-user"
 
 import sendFriendRequest from "../controllers/social/send-friend-request"
 import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
@@ -26,23 +26,23 @@ const socialRoutes = express.Router()
 socialRoutes.post(
 	"/send-friend-request",
 	validateFriendIdInRequest,
-	validateCheckIfUserBlockedFriend,
-	validateCheckIfFriendBlockedUser,
-	validateCheckIfUsersAreFriends,
+	checkIfUserBlockedFriend,
+	checkIfFriendBlockedUser,
+	checkIfUsersAreFriends,
 	sendFriendRequest
 )
 socialRoutes.post(
 	"/respond-to-friend-request",
 	validateFriendRequestResponse,
-	validateCheckIfUserBlockedFriend,
-	validateCheckIfFriendBlockedUser,
-	validateCheckIfUsersAreFriends,
+	checkIfUserBlockedFriend,
+	checkIfFriendBlockedUser,
+	checkIfUsersAreFriends,
 	respondToFriendRequest
 )
 socialRoutes.post(
 	"/retract-friend-request",
 	validateFriendIdInRequest,
-	validateCheckIfUsersAreFriends,
+	checkIfUsersAreFriends,
 	retractFriendRequest
 )
 socialRoutes.post("/unfriend-another-user", validateFriendIdInRequest, unfriendAnotherUser)
@@ -54,14 +54,14 @@ socialRoutes.get("/get-blocked-users", listBlockedUsers)
 socialRoutes.post(
 	"/block-another-user",
 	validateBlockedUserIdInRequest,
-	validateCheckIfUserBlockedBlockedUser,
-	validateCheckIfBlockedUserBlockedUser,
+	checkIfUserBlockedBlockedUser,
+	checkIfBlockedUserBlockedUser,
 	blockAnotherUser
 )
 socialRoutes.post(
 	"/unblock-another-user",
 	validateUnblockedUserIdInRequest,
-	validateCheckIfUnblockedUserBlockedUser,
+	checkIfUnblockedUserBlockedUser,
 	unblockAnotherUser
 )
 

@@ -9,7 +9,7 @@ import validateEventfullEventId from "../middleware/request-validation/events/va
 import confirmEventIsInviteable from "../middleware/events/confirm-event-is-inviteable"
 import confirmEventIsActive from "../middleware/events/confirm-event-is-actve"
 import confirmEventOrganizerNotBlockingUser from "../middleware/events/confirm-event-organizer-not-blocking-user"
-import validateConfirmUsersAreFriends from "../middleware/social/friend/validate-confirm-users-are-friends"
+import confirmUsersAreFriends from "../middleware/social/friend/confirm-users-are-friends"
 import confirmEventOrganizerNotBlockingFriend from "../middleware/events/confirm-event-organizer-not-blocking-friend"
 import confirmInviterIsAlreadyInvitedOrHost from "../middleware/events/confirm-inviter-is-already-invited-or-host"
 import confirmUserIsEventOrganizerOrCohost from "../middleware/events/confirm-user-is-event-organizer-or-cohost"
@@ -46,7 +46,7 @@ eventsRoutes.post(
 	confirmEventIsInviteable,
 	confirmEventIsActive,
 	confirmEventOrganizerNotBlockingFriend,
-	validateConfirmUsersAreFriends,
+	confirmUsersAreFriends,
 	confirmInviterIsAlreadyInvitedOrHost,
 	confirmAbleToInviteFriend,
 	inviteFriendToEventfullEvent

@@ -1,7 +1,7 @@
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
 
-export default async function checkIfUsersAreFriends (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<boolean> {
+export default async function areUsersAreFriends (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<boolean> {
 	try {
 		const isAlreadyFriends = await UserModel.exists({ _id: userId, friends: friendId })
 

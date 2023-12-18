@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import checkIfUserBlockedFriend from "../../../utils/social/block/check-if-user-blocked-friend"
+import checkIfUserBlockedByFriend from "../../../utils/social/block/check-if-user-blocked-by-friend"
 
-export default async function validateCheckIfUserBlockedBlockedUser (
+export default async function checkIfBlockedUserBlockedUser (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -12,13 +12,13 @@ export default async function validateCheckIfUserBlockedBlockedUser (
 		const blockedUserId = req.blockedUserId
 		const blockedUserUsername = req.blockedUserUsername
 
-		const isOtherUserBlocked = await checkIfUserBlockedFriend(userId, blockedUserId)
+		const hasOtherUserBlockedMe = await checkIfUserBlockedByFriend(userId, blockedUserId)
 
-		if (isOtherUserBlocked === true) {
+		if (hasOtherUserBlockedMe === true) {
 			if (_.isEmpty(blockedUserUsername)) {
-				return res.status(400).json({ message: "You have already blocked the other user" })
+				return res.status(400).json({ message: "User has blocked you" })
 			}
-			return res.status(400).json({ message: `${blockedUserUsername} is already blocked` })
+			return res.status(400).json({ message: `${blockedUserUsername} has blocked you` })
 		}
 
 		next()

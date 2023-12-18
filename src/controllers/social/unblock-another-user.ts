@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import checkIfUserBlockedFriend from "../../utils/social/block/check-if-user-blocked-friend"
+import checkIfUserHasBlockedFriend from "../../utils/social/block/check-if-user-has-blocked-friend"
 import unblockUser from "../../utils/social/block/unblock-user"
 
 export default async function unblockAnotherUser (req: Request, res: Response): Promise<Response> {
@@ -11,7 +11,7 @@ export default async function unblockAnotherUser (req: Request, res: Response): 
 
 		if (_.isEqual(userId, unblockedUserId)) return res.status(400).json({ message: "You cannot unblock yourself" })
 
-		const isOtherUserBlocked = await checkIfUserBlockedFriend(userId, unblockedUserId)
+		const isOtherUserBlocked = await checkIfUserHasBlockedFriend(userId, unblockedUserId)
 
 		if (isOtherUserBlocked === false) {
 			if (!_.isEmpty(unblockedUserUsername)) {
