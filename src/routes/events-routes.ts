@@ -27,7 +27,8 @@ import updateEventfullEvent from "../controllers/events/update-eventfull-event"
 import pinEventfullEvent from "../controllers/events/pin-eventfull-event"
 import removePinnedEventfullEvent from "../controllers/events/remove-pinned-eventfull-event"
 import signUpForEventfullEvent from "../controllers/events/sign-up-for-eventfull-event"
-import confirmUserNotAlreadyAttending from "../middleware/events/confirm-user-not-already-attending"
+import checkIfUserAttendingEventfullEvent from "../middleware/events/check-if-user-attending-eventfull-event"
+import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
 
 const eventsRoutes = express.Router()
 
@@ -85,8 +86,13 @@ eventsRoutes.post("/sign-up-for-eventfull-event",
 	confirmEventIsActive,
 	confirmEventIsPublic,
 	confirmEventOrganizerNotBlockingUser,
-	confirmUserNotAlreadyAttending,
+	checkIfUserAttendingEventfullEvent,
 	signUpForEventfullEvent
 )
 
+eventsRoutes.post("/cancel-eventfull-event-registration",
+	validateEventfullEventId,
+	checkIfUserAttendingEventfullEvent,
+	cancelEventfullEventRegistration
+)
 export default eventsRoutes

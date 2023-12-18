@@ -17,6 +17,7 @@ declare global {
 			contactType: EmailOrPhone
 
 			organizerOrCoHost: "Organizer" | "Co-Host"
+			isUserAttendingEvent: boolean
 		}
 	}
 }

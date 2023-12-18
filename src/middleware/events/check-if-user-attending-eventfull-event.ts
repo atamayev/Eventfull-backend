@@ -3,7 +3,7 @@ import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
-export default async function confirmUserNotAlreadyAttending(
+export default async function checkIfUserAttendingEventfullEvent(
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -22,9 +22,7 @@ export default async function confirmUserNotAlreadyAttending(
 		const attendeeIds = event.attendees.map(attendee => attendee.userId.toString())
 		attendeeIds.push(event.organizerId.toString())
 
-		if (attendeeIds.includes(userId.toString()) === true) {
-			return res.status(403).json({ error: "You are already attending Event" })
-		}
+		req.isUserAttendingEvent = attendeeIds.includes(userId.toString())
 
 		next()
 	} catch (error) {
