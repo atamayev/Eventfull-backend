@@ -3,7 +3,7 @@ import UserModel from "../../models/user-model"
 
 export default async function updateUserAttendingStatus(
 	userId: Types.ObjectId,
-	eventfullEventId: string,
+	eventfullEventId: Types.ObjectId,
 	eventIndex: number
 ): Promise<void> {
 	if (eventIndex !== -1) {

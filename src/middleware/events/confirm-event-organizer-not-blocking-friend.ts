@@ -1,6 +1,5 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import EventfullEventModel from "../../models/eventfull-event-model"
 import UserModel from "../../models/user-model"
 
 export default async function confirmEventOrganizerNotBlockingFriend(
@@ -10,10 +9,7 @@ export default async function confirmEventOrganizerNotBlockingFriend(
 ): Promise<void | Response> {
 	try {
 		const friendId = req.friendId
-		const eventfullEventId = req.body.eventfullEventId as string
-
-		const event = await EventfullEventModel.findById(eventfullEventId)
-		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
+		const event = req.event
 
 		const organizer = await UserModel.findById(event.organizerId)
 

@@ -11,21 +11,18 @@ export default async function cancelEventfullEventRegistration(req: Request, res
 			return res.status(200).json({ message: "User is not attending event" })
 		}
 		const userId = req.userId
-		const eventfullEventId = req.body.eventfullEventId as string
-
-		const event = await EventfullEventModel.findById(eventfullEventId)
-		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
+		const event = req.event
 
 		if (_.isEqual(event.organizerId, userId)) return res.status(200).json({ message: "You are the event organizer" })
 
 		const user = await UserModel.findById(userId)
 		if (_.isNull(user)) return res.status(404).json({ error: "User not found" })
 
-		const eventIndex = user.eventfullEvents.findIndex(event1 => event1.eventId.toString() === eventfullEventId)
-		await cancelEventRegistration(userId, eventfullEventId, eventIndex)
+		const eventIndex = user.eventfullEvents.findIndex(event1 => event1.eventId.toString() === event._id.toString())
+		await cancelEventRegistration(userId, event._id, eventIndex)
 
 		await EventfullEventModel.updateOne(
-			{ _id: eventfullEventId },
+			{ _id: event._id },
 			{ $pull: {
 				attendees: { userId	}
 			}}

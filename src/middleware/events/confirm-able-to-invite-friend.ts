@@ -1,18 +1,13 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import UserModel from "../../models/user-model"
-import EventfullEventModel from "../../models/eventfull-event-model"
 
 export default async function confirmAbleToInviteFriend(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const friendId = req.friendId
 		const user = await UserModel.findById(friendId)
 		if (_.isNull(user)) return res.status(404).json({ error: "User not found" })
-
-		const eventfullEventId = req.body.eventfullEventId as string
-
-		const event = await EventfullEventModel.findById(eventfullEventId)
-		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
+		const event = req.event
 
 		// Check if friend is already attending event
 		if (_.isEmpty(event.attendees)) {
@@ -27,7 +22,7 @@ export default async function confirmAbleToInviteFriend(req: Request, res: Respo
 
 		// Check if friend has already responded "Not Attending"
 		const hasRespondedNotAttending = user.eventfullEvents.some(event1 =>
-			event1.eventId.toString() === eventfullEventId && event1.attendingStatus === "Not Attending"
+			event1.eventId.toString() === event._id.toString() && event1.attendingStatus === "Not Attending"
 		)
 
 		if (hasRespondedNotAttending === true) {

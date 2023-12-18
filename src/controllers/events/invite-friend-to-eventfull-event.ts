@@ -6,10 +6,10 @@ export default async function inviteFriendToEventfullEvent(req: Request, res: Re
 	try {
 		const userId = req.userId
 		const friendId = req.friendId
-		const { eventfullEventId } = req.body
+		const event = req.event
 
 		await EventfullEventModel.findByIdAndUpdate(
-			eventfullEventId,
+			event._id,
 			{
 				$push: {
 					invitees: {
@@ -27,7 +27,7 @@ export default async function inviteFriendToEventfullEvent(req: Request, res: Re
 			{
 				$push: {
 					eventfullEvents: {
-						eventId: eventfullEventId,
+						eventId: event._id,
 						attendingStatus: "Not Responded",
 						invitedBy: userId
 					}

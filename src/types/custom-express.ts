@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { Types } from "mongoose"
+import { Types, Document } from "mongoose"
 
 declare global {
 	namespace Express {
@@ -18,6 +18,11 @@ declare global {
 
 			organizerOrCoHost: "Organizer" | "Co-Host"
 			isUserAttendingEvent: boolean
+
+            event: Document<unknown, unknown, EventfullEvent> & EventfullEvent & {
+                _id: Types.ObjectId;
+            }
+
 		}
 	}
 }

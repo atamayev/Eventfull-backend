@@ -1,17 +1,8 @@
-import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import EventfullEventModel from "../../models/eventfull-event-model"
 
-export default async function confirmEventIsActive(
-	req: Request,
-	res: Response,
-	next: NextFunction
-): Promise<void | Response> {
+export default function confirmEventIsActive(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const eventfullEventId = req.body.eventfullEventId as string
-
-		const event = await EventfullEventModel.findById(eventfullEventId)
-		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
+		const event = req.event
 
 		if (event.isActive === false) {
 			return res.status(403).json({ error: "Event has been deleted." })

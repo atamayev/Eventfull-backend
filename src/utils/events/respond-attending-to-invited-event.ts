@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Types } from "mongoose"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
-export default async function respondAttendingToInvitedEvent(userId: Types.ObjectId, eventfullEventId: string): Promise<void> {
+export default async function respondAttendingToInvitedEvent(userId: Types.ObjectId, eventfullEventId: Types.ObjectId): Promise<void> {
 	const event = await EventfullEventModel.findById(eventfullEventId)
 
 	const invitee = event?.invitees.find(inv => _.isEqual(inv.userId, userId))

@@ -5,7 +5,7 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 // eslint-disable-next-line max-lines-per-function
 export default async function addInvitees(
 	userId: Types.ObjectId,
-	eventfullEventId: string,
+	eventfullEventId: Types.ObjectId,
 	currentEvent: EventfullEvent,
 	updatedEventData: IncomingEventfullEvent
 ): Promise<void> {
