@@ -1,12 +1,10 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function addCohosts(
 	user: User,
-	eventfullEventId: Types.ObjectId,
 	currentEvent: EventfullEvent,
 	updatedEventData: IncomingEventfullEvent
 ): Promise<void> {
@@ -32,14 +30,14 @@ export default async function addCohosts(
 
 	if (!_.isEmpty(coHostsToRemove)) {
 		const removeCoHostsPromise = EventfullEventModel.findByIdAndUpdate(
-			eventfullEventId,
+			currentEvent._id,
 			{ $pull: { coHosts: { userId: { $in: coHostsToRemove.map(coHost => coHost.userId) } } } },
 			{ new: true, runValidators: true }
 		)
 		const removeCoHostsPromises = coHostsToRemove.map(coHost =>
 			UserModel.updateOne(
 				{ _id: coHost.userId },
-				{ $pull: { eventfullEvents: { eventId: eventfullEventId } } }
+				{ $pull: { eventfullEvents: { eventId: currentEvent._id } } }
 			)
 		)
 		await Promise.all([removeCoHostsPromise, ...removeCoHostsPromises])
@@ -47,7 +45,7 @@ export default async function addCohosts(
 
 	if (!_.isEmpty(coHostsToAdd)) {
 		const addCoHostsPromise = EventfullEventModel.findByIdAndUpdate(
-			eventfullEventId,
+			currentEvent._id,
 			{
 				$set: eventDataToUpdate,
 				$push: { coHosts: { $each: coHostsToAdd } } },
@@ -60,7 +58,7 @@ export default async function addCohosts(
 				{
 					$push: {
 						eventfullEvents: {
-							eventId: eventfullEventId,
+							eventId: currentEvent._id,
 							attendingStatus: "Co-Hosting",
 							invitedBy: user._id
 						}

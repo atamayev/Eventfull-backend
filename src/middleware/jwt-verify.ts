@@ -25,7 +25,6 @@ export default async function jwtVerify(req: Request, res: Response, next: NextF
 
 		if (_.isNull(user)) return handleUnauthorized()
 
-		console.log(user)
 		req.userId = new Types.ObjectId(userId)
 		req.user = user
 		next()

@@ -1,11 +1,9 @@
-import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function addInvitees(
 	user: User,
-	eventfullEventId: Types.ObjectId,
 	currentEvent: EventfullEvent,
 	updatedEventData: IncomingEventfullEvent
 ): Promise<void> {
@@ -33,7 +31,7 @@ export default async function addInvitees(
 	const { invitees, coHosts, ...eventDataToUpdate } = updatedEventData
 
 	const deleteInviteesPromise = EventfullEventModel.findByIdAndUpdate(
-		eventfullEventId,
+		currentEvent._id,
 		{ $pull: { invitees: { userId: { $in: inviteesToRemove.map(invitee => invitee.userId) } } } },
 		{ new: true, runValidators: true }
 	)
@@ -41,12 +39,12 @@ export default async function addInvitees(
 	const removeInviteesPromises = inviteesToRemove.map(invitee =>
 		UserModel.updateOne(
 			{ _id: invitee.userId },
-			{ $pull: { eventfullEvents: { eventId: eventfullEventId } } }
+			{ $pull: { eventfullEvents: { eventId: currentEvent._id } } }
 		)
 	)
 
 	const addInviteesPromise = EventfullEventModel.findByIdAndUpdate(
-		eventfullEventId,
+		currentEvent._id,
 		{
 			$set: eventDataToUpdate,
 			$push: { invitees: { $each: inviteesToAdd } }
@@ -60,7 +58,7 @@ export default async function addInvitees(
 			{
 				$push: {
 					eventfullEvents: {
-						eventId: eventfullEventId,
+						eventId: currentEvent._id,
 						attendingStatus: "Not Responded",
 						invitedBy: user._id
 					}
