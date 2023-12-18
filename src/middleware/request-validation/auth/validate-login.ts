@@ -9,7 +9,7 @@ const loginInformationSchema = Joi.object({
 	}).required()
 })
 
-export default function validateLoginRequest (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateLogin (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = loginInformationSchema.validate(req.body)
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })

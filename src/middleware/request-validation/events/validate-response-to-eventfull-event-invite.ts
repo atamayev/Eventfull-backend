@@ -8,7 +8,7 @@ const inviteResponseSchema = Joi.object({
 	response: Joi.string().valid("Attending", "Not Attending", "Not Responded").required(),
 }).required()
 
-export default function validateInviteResponseRequest (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateResponseToEventfullEventInvite (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const { error } = inviteResponseSchema.validate(req.body)
 

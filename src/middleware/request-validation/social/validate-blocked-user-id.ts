@@ -9,7 +9,7 @@ const blockedUserIdSchema = Joi.object({
 	blockedUserId: Joi.string().custom(objectIdValidation, "Object ID Validation").required()
 }).required()
 
-export default async function validateBlockedUserIdInRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function validateBlockedUserId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const { error } = blockedUserIdSchema.validate(req.body)
 

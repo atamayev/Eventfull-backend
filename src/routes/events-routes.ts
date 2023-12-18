@@ -1,7 +1,7 @@
 import express from "express"
 
-import validateInviteResponseRequest from "../middleware/request-validation/events/validate-invite-response-request"
-import validateEventfullInviteRequest from "../middleware/request-validation/events/validate-eventfull-invite-request"
+import validateResponseToEventfullEventInvite from "../middleware/request-validation/events/validate-response-to-eventfull-event-invite"
+import validateEventfullInvite from "../middleware/request-validation/events/validate-eventfull-invite"
 import validateCreateEventfullEvent from "../middleware/request-validation/events/validate-create-eventfull-event"
 import validateUpdateEventfullEvent from "../middleware/request-validation/events/validate-update-an-eventfull-event"
 import validateEventfullEventId from "../middleware/request-validation/events/validate-eventfull-event-id"
@@ -34,7 +34,7 @@ const eventsRoutes = express.Router()
 eventsRoutes.post("/create-eventfull-event", validateCreateEventfullEvent, createEventfullEvent)
 eventsRoutes.post(
 	"/respond-to-eventfull-invite",
-	validateInviteResponseRequest,
+	validateResponseToEventfullEventInvite,
 	confirmEventOrganizerNotBlockingUser,
 	confirmEventIsActive,
 	respondToEventfullInvite
@@ -42,7 +42,7 @@ eventsRoutes.post(
 
 eventsRoutes.post(
 	"/invite-friend-to-eventfull-event",
-	validateEventfullInviteRequest,
+	validateEventfullInvite,
 	confirmEventIsInviteable,
 	confirmEventIsActive,
 	confirmEventOrganizerNotBlockingFriend,
@@ -54,7 +54,7 @@ eventsRoutes.post(
 
 eventsRoutes.post(
 	"/retract-invite-to-eventfull-event",
-	validateEventfullInviteRequest,
+	validateEventfullInvite,
 	confirmEventIsActive,
 	confirmInvitedUserHasNotResponded,
 	retractInviteToEventfullEvent

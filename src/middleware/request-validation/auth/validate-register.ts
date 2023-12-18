@@ -13,7 +13,7 @@ const registerInformationSchema = Joi.object({
 	}).required()
 })
 
-export default function validateRegisterRequest (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateRegister (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = registerInformationSchema.validate(req.body)
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })

@@ -10,7 +10,7 @@ const inviteFriendSchema = Joi.object({
 	friendId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 }).required()
 
-export default async function validateEventfullInviteRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function validateEventfullInvite (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const { error } = inviteFriendSchema.validate(req.body)
 

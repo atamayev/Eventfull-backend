@@ -5,15 +5,16 @@ import { Request, Response, NextFunction } from "express"
 import UserModel from "../../../models/user-model"
 import objectIdValidation from "../../../utils/object-id-validation"
 
-const friendIdSchema = Joi.object({
-	friendId: Joi.string().custom(objectIdValidation, "Object ID Validation").required()
+const friendRequestResponseSchema = Joi.object({
+	friendId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
+	response: Joi.string().valid("Accept", "Decline").required()
 }).required()
 
-export default async function validateFriendIdInRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function validateResponseToFriendRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
-		const { error } = friendIdSchema.validate(req.body)
+		const { error } = friendRequestResponseSchema.validate(req.body)
 
-		if (!_.isUndefined(error)) return res.status(400).json({ error: "Invalid friend Id" })
+		if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 
 		req.friendId = new Types.ObjectId(req.body.friendId as string)
 
@@ -21,7 +22,7 @@ export default async function validateFriendIdInRequest (req: Request, res: Resp
 		req.friendUsername = friendUsername?.username || ""
 
 		next()
-	} catch (error ) {
+	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal server error" })
 	}

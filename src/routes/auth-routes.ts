@@ -16,41 +16,41 @@ import addCloudUserPersonalInfo from "../controllers/auth/add-cloud-user-persona
 import addSecondaryContactMethod from "../controllers/auth/add-secondary-contact-method"
 
 import jwtVerify from "../middleware/jwt-verify"
-import validateLoginRequest from "../middleware/request-validation/auth/validate-login-request"
-import validateRegisterRequest from "../middleware/request-validation/auth/validate-register-request"
+import validateLogin from "../middleware/request-validation/auth/validate-login"
+import validateRegister from "../middleware/request-validation/auth/validate-register"
 import validateQueryCode from "../middleware/request-validation/auth/validate-query-code"
-import validateChangePasswordRequest from "../middleware/request-validation/auth/validate-change-password-request"
-import validateGoogleCalendarRequest from "../middleware/request-validation/auth/validate-calendar-callback-request"
-import validateCheckIfUsernameExistsRequest from "../middleware/request-validation/auth/validate-check-if-username-exists-request"
-import validateCheckIfContactExistsRequest from "../middleware/request-validation/auth/validate-check-if-contact-exists-request"
+import validateChangePassword from "../middleware/request-validation/auth/validate-change-password"
+import validateCalendarCallback from "../middleware/request-validation/auth/validate-calendar-callback"
+import validateUsernameInBody from "../middleware/request-validation/auth/validate-username-in-body"
+import validateContact from "../middleware/request-validation/auth/validate-contact"
 import determineBodyContactType from "../middleware/auth/determine-contact-type/determine-body-contact-type"
 import determineRegisterContactType	from "../middleware/auth/determine-contact-type/determine-register-contact-type"
 import determineChangePasswordContactType from "../middleware/auth/determine-contact-type/determine-change-password-contact-type"
-import validateAddCloudUserPersonalInfoRequest from "../middleware/request-validation/auth/validate-add-cloud-user-personal-info-request"
+import validateAddCloudUserPersonalInfo from "../middleware/request-validation/auth/validate-add-cloud-user-personal-info"
 
 const authRoutes = express.Router()
 
-authRoutes.post("/login", validateLoginRequest, login)
-authRoutes.post("/register", validateRegisterRequest, determineRegisterContactType, register)
-authRoutes.post("/change-password", jwtVerify, validateChangePasswordRequest, determineChangePasswordContactType, changePassword)
-authRoutes.post("/does-username-exist", jwtVerify, validateCheckIfUsernameExistsRequest, checkIfUsernameExists)
-authRoutes.post("/check-if-contact-exists", jwtVerify, validateCheckIfContactExistsRequest,
+authRoutes.post("/login", validateLogin, login)
+authRoutes.post("/register", validateRegister, determineRegisterContactType, register)
+authRoutes.post("/change-password", jwtVerify, validateChangePassword, determineChangePasswordContactType, changePassword)
+authRoutes.post("/does-username-exist", jwtVerify, validateUsernameInBody, checkIfUsernameExists)
+authRoutes.post("/check-if-contact-exists", jwtVerify, validateContact,
 	determineBodyContactType, checkIfContactExists)
 
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
 authRoutes.get("/google-auth/generate-calendar-auth-url", jwtVerify, generateGoogleCalendarAuthUrl)
 
 authRoutes.get("/google-auth/login-callback", validateQueryCode, googleLoginAuthCallback)
-authRoutes.get("/google-auth/calendar-callback", validateGoogleCalendarRequest, googleCalendarAuthCallback)
+authRoutes.get("/google-auth/calendar-callback", validateCalendarCallback, googleCalendarAuthCallback)
 
 authRoutes.get("/microsoft-auth/generate-login-auth-url", generateMicrosoftLoginAuthUrl)
 authRoutes.get("/microsoft-auth/generate-calendar-auth-url", jwtVerify, generateMicrosoftCalendarAuthUrl)
 
 authRoutes.get("/microsoft-auth/login-callback", validateQueryCode, microsoftLoginAuthCallback)
-authRoutes.get("/microsoft-auth/calendar-callback", validateGoogleCalendarRequest, microsoftCalendarAuthCallback)
+authRoutes.get("/microsoft-auth/calendar-callback", validateCalendarCallback, microsoftCalendarAuthCallback)
 
-authRoutes.post("/add-cloud-user-personal-info", jwtVerify, validateAddCloudUserPersonalInfoRequest, addCloudUserPersonalInfo)
-authRoutes.post("/add-secondary-contact", jwtVerify, validateCheckIfContactExistsRequest,
+authRoutes.post("/add-cloud-user-personal-info", jwtVerify, validateAddCloudUserPersonalInfo, addCloudUserPersonalInfo)
+authRoutes.post("/add-secondary-contact", jwtVerify, validateContact,
 	determineBodyContactType, addSecondaryContactMethod)
 
 export default authRoutes

@@ -4,7 +4,7 @@ import assignGoogleCalendarAccessToken from "../middleware/calendar/assign-googl
 import assignMicrosoftCalendarIdAndAccessToken from "../middleware/calendar/assign-microsoft-calendar-id-and-access-token"
 import validateCreateLocalCalendarEvent from "../middleware/request-validation/calendar/validate-create-local-calendar-event"
 import validateUpdateLocalCalendarEvent from "../middleware/request-validation/calendar/validate-update-local-calendar-event"
-import validateCalendarIdInParams from "../middleware/request-validation/calendar/validate-calendarId-in-params"
+import validateCalendarId from "../middleware/request-validation/calendar/validate-calendar-id"
 import validateCreateCloudEvent from "../middleware/request-validation/calendar/validate-create-cloud-event"
 import validateUpdateGoogleCalendarEvent from "../middleware/request-validation/calendar/validate-update-google-calendar-event"
 import validateUpdateMicrosoftCalendarEvent from "../middleware/request-validation/calendar/validate-update-microsoft-calendar-event"
@@ -41,7 +41,7 @@ calendarRoutes.post(
 calendarRoutes.delete(
 	"/google-calendar/delete-calendar-event/:calendarId",
 	assignGoogleCalendarAccessToken,
-	validateCalendarIdInParams,
+	validateCalendarId,
 	deleteGoogleCalendarEvent
 )
 
@@ -62,7 +62,7 @@ calendarRoutes.post(
 calendarRoutes.delete(
 	"/microsoft-calendar/delete-calendar-event/:calendarId",
 	assignMicrosoftCalendarIdAndAccessToken,
-	validateCalendarIdInParams,
+	validateCalendarId,
 	deleteMicrosoftCalendarEvent
 )
 
@@ -70,6 +70,6 @@ calendarRoutes.delete(
 calendarRoutes.post("/local-calendar/create-calendar-event", validateCreateLocalCalendarEvent, addLocalCalendarEvent)
 calendarRoutes.get("/local-calendar/get-all-calendar-events", getAllDbCalendarEvents)
 calendarRoutes.post("/local-calendar/update-calendar-event", validateUpdateLocalCalendarEvent, updateLocalCalendarEvent)
-calendarRoutes.delete("/local-calendar/delete-calendar-event/:calendarId", validateCalendarIdInParams, deleteLocalCalendarEvent)
+calendarRoutes.delete("/local-calendar/delete-calendar-event/:calendarId", validateCalendarId, deleteLocalCalendarEvent)
 
 export default calendarRoutes
