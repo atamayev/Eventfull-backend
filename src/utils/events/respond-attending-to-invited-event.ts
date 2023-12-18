@@ -5,7 +5,7 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 export default async function respondAttendingToInvitedEvent(userId: Types.ObjectId, eventfullEventId: string): Promise<void> {
 	const event = await EventfullEventModel.findById(eventfullEventId)
 
-	const invitee = event?.invitees.find(inv => inv.userId.equals(userId))
+	const invitee = event?.invitees.find(inv => _.isEqual(inv.userId, userId))
 
 	const invitedById = invitee ? invitee.invitedBy : null
 

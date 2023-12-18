@@ -10,6 +10,7 @@ const msalConfig: Configuration = {
 	},
 	system: {
 		loggerOptions: {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			loggerCallback(loglevel, message, containsPii) {
 				console.info(message)
 			},
