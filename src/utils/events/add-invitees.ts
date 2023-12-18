@@ -30,6 +30,7 @@ export default async function addInvitees(
 		!updatedInviteeIds.includes(existingInvitee.userId.toString()) &&
     existingInvitee.attendingStatus === "Not Responded")
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { invitees, coHosts, ...eventDataToUpdate } = updatedEventData
 
 	const deleteInviteesPromise = EventfullEventModel.findByIdAndUpdate(

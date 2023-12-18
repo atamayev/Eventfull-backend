@@ -11,7 +11,7 @@ const incomingEventfullEventSchema = Joi.object({
 	isVirtual: Joi.boolean().required(),
 	eventPublic: Joi.boolean().required(),
 	eventReviewable: Joi.boolean().required(),
-	coHosts: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation")),
+	coHosts: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation")).required(),
 	canInvitedUsersInviteOthers: Joi.boolean().required(),
 	invitees: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation")).required(),
 	eventURL: Joi.string().optional(),

@@ -28,6 +28,7 @@ export default async function addCohosts(
 		!updatedCoHostIds.includes(existingCoHost.userId.toString())
 	)
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { coHosts, invitees, ...eventDataToUpdate } = updatedEventData
 
 	if (!_.isEmpty(coHostsToRemove)) {

@@ -9,7 +9,7 @@ export default async function respondToEventfullInvite(req: Request, res: Respon
 		const userId = req.userId
 		const { response, eventfullEventId } = req.body
 
-		if (response === "Not Attending") {
+		if (response === "Not Attending" || response === "Not Responded") {
 			await EventfullEventModel.findOneAndUpdate(
 				{ _id: eventfullEventId, "invitees.userId": userId },
 				{ $set: { "invitees.$.attendingStatus": response } },

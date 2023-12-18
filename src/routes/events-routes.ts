@@ -93,4 +93,5 @@ eventsRoutes.post("/cancel-eventfull-event-registration",
 	checkIfUserAttendingEventfullEvent,
 	cancelEventfullEventRegistration
 )
+
 export default eventsRoutes

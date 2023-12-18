@@ -15,7 +15,7 @@ export default async function confirmAbleToInviteFriend(req: Request, res: Respo
 		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
 
 		// Check if friend is already attending event
-		if (_.isUndefined(event.attendees)) {
+		if (_.isEmpty(event.attendees)) {
 			return res.status(404).json({ error: "Event has no invitees" })
 		}
 		const attendeeIds = event.attendees.map(attendee => attendee.userId.toString())
@@ -35,7 +35,7 @@ export default async function confirmAbleToInviteFriend(req: Request, res: Respo
 		}
 
 		// Check if friend is already invited
-		if (_.isUndefined(event.invitees)) {
+		if (_.isEmpty(event.invitees)) {
 			return res.status(404).json({ error: "Event has no invitees" })
 		}
 		const inviteesIds = event.invitees.map(invitee => invitee.userId.toString())

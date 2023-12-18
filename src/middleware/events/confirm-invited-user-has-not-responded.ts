@@ -14,7 +14,7 @@ export default async function confirmInvitedUserHasNotResponded(
 		const event = await EventfullEventModel.findById(eventfullEventId)
 		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
 
-		if (_.isUndefined(event.invitees)) {
+		if (_.isEmpty(event.invitees)) {
 			return res.status(404).json({ error: "Event has no invitees" })
 		}
 
