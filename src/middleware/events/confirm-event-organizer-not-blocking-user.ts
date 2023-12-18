@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import UserModel from "../../models/user-model"
+import findUser from "../../utils/find-user"
 
 export default async function confirmEventOrganizerNotBlockingUser(
 	req: Request,
@@ -12,7 +12,7 @@ export default async function confirmEventOrganizerNotBlockingUser(
 
 		const event = req.event
 
-		const organizer = await UserModel.findById(event.organizerId)
+		const organizer = await findUser(event.organizerId)
 
 		if (_.isNull(organizer)) return res.status(404).json({ error: "Event organizer not found" })
 		const blockedUsers = organizer.blockedUsers.map(user1 => user1.toString())

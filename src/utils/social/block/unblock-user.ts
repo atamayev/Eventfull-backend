@@ -1,10 +1,11 @@
 import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
+import findUser from "../../find-user"
 
 export default async function unblockUser (userId: Types.ObjectId, blockedUserId: Types.ObjectId): Promise<void> {
 	try {
-		const blockedUser = await UserModel.findById(blockedUserId)
+		const blockedUser = await findUser(blockedUserId)
 		if (_.isNull(blockedUser)) throw new Error("Blocked user not found")
 
 		const userUpdate = UserModel.updateOne(

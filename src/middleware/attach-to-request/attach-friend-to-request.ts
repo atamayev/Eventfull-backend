@@ -1,11 +1,11 @@
 import _ from "lodash"
 import { NextFunction, Request, Response } from "express"
-import UserModel from "../../models/user-model"
+import findUser from "../../utils/find-user"
 
 export default async function attachFriendToRequest(req: Request, res: Response, next: NextFunction) : Promise<void | Response> {
 	try {
 		const friendId = req.friendId
-		const friend = await UserModel.findById(friendId)
+		const friend = await findUser(friendId)
 
 		if (_.isNull(friend)) return res.status(404).json({ error: "Friend not found" })
 
