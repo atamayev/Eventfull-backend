@@ -5,16 +5,15 @@ import checkIfUserHasBlockedFriend from "../../../utils/social/block/check-if-us
 export default function checkIfUserBlockedFriend (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
-		const friendId = req.friendId
-		const friendUsername = req.friendUsername
+		const friend = req.friend
 
-		const isOtherUserBlocked = checkIfUserHasBlockedFriend(user, friendId)
+		const isOtherUserBlocked = checkIfUserHasBlockedFriend(user, friend._id)
 
 		if (isOtherUserBlocked === true) {
-			if (_.isEmpty(friendUsername)) {
+			if (_.isEmpty(friend.username)) {
 				return res.status(400).json({ message: "You have already blocked the other user" })
 			}
-			return res.status(400).json({ message: `${friendUsername} is already blocked` })
+			return res.status(400).json({ message: `${friend.username} is already blocked` })
 		}
 
 		next()

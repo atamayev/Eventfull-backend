@@ -1,12 +1,8 @@
-import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
 
 export default async function acceptFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
 	try {
-		const friend = await UserModel.findById(friendId)
-		if (_.isNull(friend)) throw new Error("Friend not found")
-
 		const userUpdate = UserModel.updateOne(
 			{ _id: userId },
 			{ $push: { friends: friendId } }

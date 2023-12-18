@@ -20,12 +20,14 @@ import listOutgoingFriendRequests from "../controllers/social/list-outgoing-frie
 import blockAnotherUser from "../controllers/social/block-another-user"
 import unblockAnotherUser from "../controllers/social/unblock-another-user"
 import listBlockedUsers from "../controllers/social/list-blocked-users"
+import attachFriendToRequest from "../middleware/attach-to-request/attach-friend-to-request"
 
 const socialRoutes = express.Router()
 
 socialRoutes.post(
 	"/send-friend-request",
 	validateFriendId,
+	attachFriendToRequest,
 	checkIfUserBlockedFriend,
 	checkIfFriendBlockedUser,
 	checkIfUsersAreFriends,
@@ -34,6 +36,7 @@ socialRoutes.post(
 socialRoutes.post(
 	"/respond-to-friend-request",
 	validateResponseToFriendRequest,
+	attachFriendToRequest,
 	checkIfUserBlockedFriend,
 	checkIfFriendBlockedUser,
 	checkIfUsersAreFriends,
@@ -42,10 +45,11 @@ socialRoutes.post(
 socialRoutes.post(
 	"/retract-friend-request",
 	validateFriendId,
+	attachFriendToRequest,
 	checkIfUsersAreFriends,
 	retractFriendRequest
 )
-socialRoutes.post("/unfriend-another-user", validateFriendId, unfriendAnotherUser)
+socialRoutes.post("/unfriend-another-user", validateFriendId, attachFriendToRequest, unfriendAnotherUser)
 
 socialRoutes.get("/get-incoming-friend-requests", listIncomingFriendRequests)
 socialRoutes.get("/get-outgoing-friend-requests", listOutgoingFriendRequests)

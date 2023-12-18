@@ -6,21 +6,20 @@ import unfriendYourFriend from "../../utils/social/friend/unfriend-your-friend"
 export default async function unfriendAnotherUser (req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const friendId = req.friendId
-		const friendUsername = req.friendUsername
+		const friend = req.friend
 
-		const isAlreadyFriends = areUsersAreFriends(user, friendId)
+		const isAlreadyFriends = areUsersAreFriends(user, friend._id)
 		if (isAlreadyFriends === false) {
-			if (!_.isEmpty(friendUsername)) {
-				return res.status(400).json({ message: `You are not friends with ${friendUsername}` })
+			if (!_.isEmpty(friend.username)) {
+				return res.status(400).json({ message: `You are not friends with ${friend.username}` })
 			}
 			return res.status(400).json({ message: "You are not friends with this user" })
 		}
 
-		await unfriendYourFriend(user._id, friendId)
+		await unfriendYourFriend(user._id, friend._id)
 
-		if (!_.isEmpty(friendUsername)) {
-			return res.status(200).json({ message: `${friendUsername} unfriended` })
+		if (!_.isEmpty(friend.username)) {
+			return res.status(200).json({ message: `${friend.username} unfriended` })
 		}
 
 		return res.status(200).json({ message: "User unfriended" })

@@ -4,9 +4,6 @@ import UserModel from "../../../models/user-model"
 
 export default async function clearOutgoingFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
 	try {
-		const friend = await UserModel.findById(friendId)
-		if (_.isNull(friend)) throw new Error("Friend not found")
-
 		const userUpdate = UserModel.updateOne(
 			{ _id: userId },
 			{ $pull: { outgoingFriendRequests: friendId } }

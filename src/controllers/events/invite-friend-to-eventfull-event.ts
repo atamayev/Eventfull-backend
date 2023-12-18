@@ -5,7 +5,7 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 export default async function inviteFriendToEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const friendId = req.friendId
+		const friend = req.friend
 		const event = req.event
 
 		await EventfullEventModel.findByIdAndUpdate(
@@ -13,7 +13,7 @@ export default async function inviteFriendToEventfullEvent(req: Request, res: Re
 			{
 				$push: {
 					invitees: {
-						userId: friendId,
+						userId: friend._id,
 						attendingStatus: "Not Responded",
 						invitedBy: user._id
 					}
@@ -23,7 +23,7 @@ export default async function inviteFriendToEventfullEvent(req: Request, res: Re
 		)
 
 		await UserModel.updateOne(
-			{ _id: friendId },
+			{ _id: friend._id },
 			{
 				$push: {
 					eventfullEvents: {

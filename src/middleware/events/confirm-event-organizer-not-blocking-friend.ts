@@ -8,7 +8,7 @@ export default async function confirmEventOrganizerNotBlockingFriend(
 	next: NextFunction
 ): Promise<void | Response> {
 	try {
-		const friendId = req.friendId
+		const friend = req.friend
 		const event = req.event
 
 		const organizer = await UserModel.findById(event.organizerId)
@@ -16,7 +16,7 @@ export default async function confirmEventOrganizerNotBlockingFriend(
 		if (_.isNull(organizer)) return res.status(404).json({ error: "Event organizer not found" })
 		const blockedUsers = organizer.blockedUsers.map(user => user.toString())
 
-		if (blockedUsers.includes(friendId.toString())) {
+		if (blockedUsers.includes(friend._id.toString())) {
 			return res.status(403).json({ error: "You are blocked by the event organizer. Unable to attend event" })
 		}
 

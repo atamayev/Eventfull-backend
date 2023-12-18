@@ -3,14 +3,14 @@ import { Request, Response, NextFunction } from "express"
 
 export default function confirmInvitedUserHasNotResponded(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const friendId = req.friendId
+		const friend = req.friend
 		const event = req.event
 
 		if (_.isEmpty(event.invitees)) {
 			return res.status(404).json({ error: "Event has no invitees" })
 		}
 
-		const invitee = event.invitees.find(inv => inv.userId.toString() === friendId.toString())
+		const invitee = event.invitees.find(inv => inv.userId.toString() === friend._id.toString())
 
 		if (_.isUndefined(invitee)) return res.status(403).json({ error: "User is not invited" })
 

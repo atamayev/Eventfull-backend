@@ -5,16 +5,15 @@ import areUsersAreFriends from "../../../utils/social/friend/are-users-are-frien
 export default function checkIfUsersAreFriends (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
-		const friendId = req.friendId
-		const friendUsername = req.friendUsername
+		const friend = req.friend
 
-		const alreadyFriends = areUsersAreFriends(user, friendId)
+		const alreadyFriends = areUsersAreFriends(user, friend._id)
 
 		if (alreadyFriends === true) {
-			if (_.isEmpty(friendUsername)) {
+			if (_.isEmpty(friend.username)) {
 				return res.status(400).json({ message: "You are already friends with this user" })
 			}
-			return res.status(400).json({ message: `You are already friends with ${friendUsername}` })
+			return res.status(400).json({ message: `You are already friends with ${friend.username}` })
 		}
 
 		next()

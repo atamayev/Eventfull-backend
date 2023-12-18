@@ -30,6 +30,7 @@ import removePinnedEventfullEvent from "../controllers/events/remove-pinned-even
 import signUpForEventfullEvent from "../controllers/events/sign-up-for-eventfull-event"
 import checkIfUserAttendingEventfullEvent from "../middleware/events/check-if-user-attending-eventfull-event"
 import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
+import attachFriendToRequest from "../middleware/attach-to-request/attach-friend-to-request"
 
 const eventsRoutes = express.Router()
 
@@ -47,6 +48,7 @@ eventsRoutes.post(
 	"/invite-friend-to-eventfull-event",
 	validateEventfullInvite,
 	attachEventToRequest,
+	attachFriendToRequest,
 	confirmEventIsInviteable,
 	confirmEventIsActive,
 	confirmEventOrganizerNotBlockingFriend,
@@ -60,6 +62,7 @@ eventsRoutes.post(
 	"/retract-invite-to-eventfull-event",
 	validateEventfullInvite,
 	attachEventToRequest,
+	attachFriendToRequest,
 	confirmEventIsActive,
 	confirmInvitedUserHasNotResponded,
 	retractInviteToEventfullEvent

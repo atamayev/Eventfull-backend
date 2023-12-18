@@ -7,28 +7,27 @@ import checkIfIncomingFriendRequestExists from "../../utils/social/friend/check-
 export default async function sendFriendRequest (req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const friendId = req.friendId
-		const friendUsername = req.friendUsername
+		const friend = req.friend
 
-		const outgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, friendId)
+		const outgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, friend._id)
 		if (outgoingFriendRequestExists === true) {
-			if (!_.isEmpty(friendUsername)) {
-				return res.status(400).json({ message: `You have already sent ${friendUsername} a friend request.` })
+			if (!_.isEmpty(friend.username)) {
+				return res.status(400).json({ message: `You have already sent ${friend.username} a friend request.` })
 			} else {
 				return res.status(400).json({ message: "You have already sent this user a friend request" })
 			}
 		}
 
-		const incomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, friendId)
+		const incomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, friend._id)
 		if (incomingFriendRequestExists === true) {
-			if (!_.isEmpty(friendUsername)) {
-				return res.status(400).json({ message: `${friendUsername} has already sent you a friend request` })
+			if (!_.isEmpty(friend.username)) {
+				return res.status(400).json({ message: `${friend.username} has already sent you a friend request` })
 			} else {
 				return res.status(400).json({ message: "User has already sent you a friend request" })
 			}
 		}
 
-		await createOutgoingFriendRequest(user._id, friendId)
+		await createOutgoingFriendRequest(user._id, friend._id)
 
 		return res.status(200).json({ message: "Friend request sent" })
 	} catch (error) {

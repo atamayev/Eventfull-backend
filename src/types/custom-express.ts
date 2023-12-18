@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { Types, Document } from "mongoose"
+import { Types } from "mongoose"
 
 declare global {
 	namespace Express {
 		interface Request {
 			userId: Types.ObjectId
 			friendId: Types.ObjectId
-			friendUsername: string
+			// friendUsername: string
 
 			blockedUserId: Types.ObjectId
 			blockedUserUsername: string
@@ -23,6 +23,7 @@ declare global {
 
 			user: User
 
+			friend: User
 		}
 	}
 }

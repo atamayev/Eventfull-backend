@@ -4,21 +4,21 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 
 export default async function retractInviteToEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const friendId = req.friendId
+		const friend = req.friend
 		const event = req.event
 
 		await EventfullEventModel.findByIdAndUpdate(
 			event._id,
 			{
 				$pull: {
-					invitees: { userId: friendId }
+					invitees: { userId: friend._id }
 				}
 			},
 			{ new: true, runValidators: true }
 		)
 
 		await UserModel.updateOne(
-			{ _id: friendId },
+			{ _id: friend._id },
 			{
 				$pull: {
 					eventfullEvents: { eventId: event._id }

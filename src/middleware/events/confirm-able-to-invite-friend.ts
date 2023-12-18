@@ -1,12 +1,9 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import UserModel from "../../models/user-model"
 
-export default async function confirmAbleToInviteFriend(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default function confirmAbleToInviteFriend(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const friendId = req.friendId
-		const friend = await UserModel.findById(friendId)
-		if (_.isNull(friend)) return res.status(404).json({ error: "User not found" })
+		const friend = req.friend
 		const event = req.event
 
 		// Check if friend is already attending event
@@ -16,7 +13,7 @@ export default async function confirmAbleToInviteFriend(req: Request, res: Respo
 		const attendeeIds = event.attendees.map(attendee => attendee.userId.toString())
 		attendeeIds.push(event.organizerId.toString())
 
-		if (attendeeIds.includes(friendId.toString()) === true) {
+		if (attendeeIds.includes(friend._id.toString()) === true) {
 			return res.status(403).json({ error: "Friend is already attending Event" })
 		}
 
@@ -36,7 +33,7 @@ export default async function confirmAbleToInviteFriend(req: Request, res: Respo
 		const inviteesIds = event.invitees.map(invitee => invitee.userId.toString())
 		inviteesIds.push(event.organizerId.toString())
 
-		if (inviteesIds.includes(friendId.toString()) === true) {
+		if (inviteesIds.includes(friend._id.toString()) === true) {
 			return res.status(403).json({ error: "Friend is already invited" })
 		}
 

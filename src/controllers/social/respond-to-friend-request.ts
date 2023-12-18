@@ -6,19 +6,19 @@ import clearIncomingFriendRequest from "../../utils/social/friend/clear-incoming
 export default async function respondToFriendRequest(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const friendId = req.friendId
+		const friend = req.friend
 		const response = req.body.response as AcceptOrDecline
 
-		const incomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, friendId)
+		const incomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, friend._id)
 		if (incomingFriendRequestExists === false) {
 			return res.status(400).json({ message: "Friend request does not exist" })
 		}
 
 		if (response === "Accept") {
-			await acceptFriendRequest(user._id, friendId)
+			await acceptFriendRequest(user._id, friend._id)
 		}
 
-		await clearIncomingFriendRequest(user._id, friendId)
+		await clearIncomingFriendRequest(user._id, friend._id)
 
 		if (response === "Accept") {
 			return res.status(200).json({ message: "Friend request accepted" })
