@@ -2,7 +2,7 @@ import _ from "lodash"
 import { NextFunction, Request, Response } from "express"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
-export default async function isEventInviteable(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+export default async function confirmEventIsInviteable(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
 	try {
 		const { eventfullEventId } = req.body
 		const event = await EventfullEventModel.findById(eventfullEventId).select("canInvitedUsersInviteOthers")

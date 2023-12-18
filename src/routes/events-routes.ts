@@ -6,19 +6,16 @@ import validateCreateEventfullEvent from "../middleware/request-validation/event
 import validateUpdateEventfullEvent from "../middleware/request-validation/events/validate-update-an-eventfull-event"
 import validateEventfullEventId from "../middleware/request-validation/events/validate-eventfull-event-id"
 
-import isEventInviteable from "../middleware/events/is-event-inviteable"
+import confirmEventIsInviteable from "../middleware/events/confirm-event-is-inviteable"
 import confirmEventIsActive from "../middleware/events/confirm-event-is-actve"
 import confirmEventOrganizerNotBlockingUser from "../middleware/events/confirm-event-organizer-not-blocking-user"
 import validateConfirmUsersAreFriends from "../middleware/social/friend/validate-confirm-users-are-friends"
 import confirmEventOrganizerNotBlockingFriend from "../middleware/events/confirm-event-organizer-not-blocking-friend"
 import confirmInviterIsAlreadyInvitedOrHost from "../middleware/events/confirm-inviter-is-already-invited-or-host"
-import confirmFriendNotAlreadyInvited from "../middleware/events/confirm-friend/confirm-friend-not-already-invited"
 import confirmUserIsEventOrganizerOrCohost from "../middleware/events/confirm-user-is-event-organizer-or-cohost"
 import confirmInvitedUserHasNotResponded from "../middleware/events/confirm-invited-user-has-not-responded"
 import confirmEventIsPublic from "../middleware/events/confirm-event-is-public"
-import confirmFriendNotAlreadyAttending from "../middleware/events/confirm-friend/confirm-friend-not-already-attending"
-import confirmFriendHasNotAlreadyRespondedNotAttending
-	from "../middleware/events/confirm-friend/confirm-friend-has-not-already-responded-not-attending"
+import confirmAbleToInviteFriend from "../middleware/events/confirm-able-to-invite-friend"
 
 import createEventfullEvent from "../controllers/events/create-eventfull-event"
 import respondToEventfullInvite from "../controllers/events/respond-to-eventfull-invite"
@@ -46,14 +43,12 @@ eventsRoutes.post(
 eventsRoutes.post(
 	"/invite-friend-to-eventfull-event",
 	validateEventfullInviteRequest,
-	isEventInviteable,
+	confirmEventIsInviteable,
 	confirmEventIsActive,
 	confirmEventOrganizerNotBlockingFriend,
 	validateConfirmUsersAreFriends,
 	confirmInviterIsAlreadyInvitedOrHost,
-	confirmFriendNotAlreadyAttending,
-	confirmFriendHasNotAlreadyRespondedNotAttending,
-	confirmFriendNotAlreadyInvited,
+	confirmAbleToInviteFriend,
 	inviteFriendToEventfullEvent
 )
 
