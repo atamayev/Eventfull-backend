@@ -5,7 +5,7 @@ import createGoogleCalendarClient from "../../../utils/google/calendar/create-go
 
 export default async function updateGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 
 		const googleCalendarAccessToken = req.headers.googleCalendarAccessToken as string
 
@@ -21,7 +21,7 @@ export default async function updateGoogleCalendarEvent(req: Request, res: Respo
 			requestBody: googleEvent
 		})
 
-		await updateUnifiedEventInDb(userId, calendarDetails)
+		await updateUnifiedEventInDb(user, calendarDetails)
 
 		return res.status(200).json()
 	} catch (error) {

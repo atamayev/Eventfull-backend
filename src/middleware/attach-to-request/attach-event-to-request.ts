@@ -9,9 +9,8 @@ export default async function attachEventToRequest(req: Request, res: Response, 
 
 		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
 
-		req.event = event
+		req.event = event as EventfullEvent
 		next()
-
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal server error" })

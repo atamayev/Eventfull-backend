@@ -19,9 +19,9 @@ declare global {
 			organizerOrCoHost: "Organizer" | "Co-Host"
 			isUserAttendingEvent: boolean
 
-            event: Document<unknown, unknown, EventfullEvent> & EventfullEvent & {
-                _id: Types.ObjectId;
-            }
+            event: EventfullEvent
+
+			user: User
 
 		}
 	}

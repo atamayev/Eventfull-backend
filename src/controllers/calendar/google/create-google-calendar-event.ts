@@ -5,7 +5,7 @@ import convertUnifiedToGoogle from "../../../utils/google/calendar/convert-unifi
 
 export default async function createGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 
 		const googleCalendarAccessToken = req.headers.googleCalendarAccessToken as string
 
@@ -21,7 +21,7 @@ export default async function createGoogleCalendarEvent(req: Request, res: Respo
 		})
 
 		calendarDetails.id = response.data.id || ""
-		await addCloudEventToDb(userId, calendarDetails, "google")
+		await addCloudEventToDb(user._id, calendarDetails, "google")
 
 		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {

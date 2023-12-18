@@ -5,7 +5,7 @@ import updateUnifiedEventInDb from "../../../utils/calendar-misc/update-unified-
 
 export default async function updateMicrosoftCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 
 		const microsoftCalendarAccessToken = req.headers.microsoftCalendarAccessToken as string
 
@@ -19,7 +19,7 @@ export default async function updateMicrosoftCalendarEvent(req: Request, res: Re
 
 		await microsoftClient.api(`/me/calendars/${calendarId}/events/${calendarDetails.id}`).patch(microsoftEvent)
 
-		await updateUnifiedEventInDb(userId, calendarDetails)
+		await updateUnifiedEventInDb(user, calendarDetails)
 
 		return res.status(200).json()
 	} catch (error) {

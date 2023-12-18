@@ -87,7 +87,7 @@ declare global {
 		invitedBy: Types.ObjectId
 	}
 
-	interface BaseEventfullEvent {
+	interface BaseEventfullEvent extends IDInterface {
 		eventName: string
 		eventTimeStart: UnifiedDateTime
 		eventTimeEnd: UnifiedDateTime

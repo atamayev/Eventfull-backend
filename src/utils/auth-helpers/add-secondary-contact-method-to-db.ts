@@ -1,5 +1,4 @@
-import _ from "lodash"
-import { Types } from "mongoose"
+import { Types, Document } from "mongoose"
 import UserModel from "../../models/user-model"
 
 interface UserFields {
@@ -8,15 +7,11 @@ interface UserFields {
 }
 
 export default async function addSecondaryContactMethodToDb (
-	userId: Types.ObjectId,
+	user: Document<unknown, unknown, User> & User & Required<{_id: Types.ObjectId}>,
 	contact: string,
 	contactType: EmailOrPhone
 ): Promise<null | void> {
 	try {
-		const user = await UserModel.findById(userId)
-
-		if (_.isNull(user)) throw new Error("User not found")
-
 		if (contactType === user.primaryContactMethod) {
 			throw new Error("Cannot replace primary contact")
 		}
@@ -25,7 +20,7 @@ export default async function addSecondaryContactMethodToDb (
 		if (contactType === "Email") updateFields.email = contact
 		else updateFields.phone = contact
 
-		await UserModel.findByIdAndUpdate(userId, updateFields)
+		await UserModel.findByIdAndUpdate(user._id, updateFields)
 	} catch (error) {
 		console.error(error)
 		return null

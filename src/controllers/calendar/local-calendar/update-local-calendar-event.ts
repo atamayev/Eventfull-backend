@@ -3,10 +3,10 @@ import updateUnifiedEventInDb from "../../../utils/calendar-misc/update-unified-
 
 export default async function updateLocalCalendarEvent (req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent
 
-		await updateUnifiedEventInDb(userId, calendarDetails)
+		await updateUnifiedEventInDb(user, calendarDetails)
 
 		return res.status(200).json()
 	} catch (error) {

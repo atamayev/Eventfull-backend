@@ -1,27 +1,22 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
 export default async function saveIncomingUnifiedCalendarEvents(
-	userId: Types.ObjectId,
+	user: User,
 	events: UnifiedCalendarEvent[]
 ): Promise<void> {
-	const user = await UserModel.findById(userId)
-
-	if (_.isNull(user)) throw new Error("User not found")
-
 	for (const event of events) {
 		const existingEvent = user.calendarData.find(e => e.id === event.id)
 
 		if (_.isUndefined(existingEvent)) {
 			await UserModel.updateOne(
-				{ _id: userId },
+				{ _id: user._id },
 				{ $push: { calendarData: event } }
 			)
 		} else {
-			if (!areEventsEqual(existingEvent, event)) {
+			if (areEventsEqual(existingEvent, event) === false) {
 				await UserModel.updateOne(
-					{ _id: userId, "calendarData.id": event.id },
+					{ _id: user._id, "calendarData.id": event.id },
 					{ $set: { "calendarData.$": event } }
 				)
 			}

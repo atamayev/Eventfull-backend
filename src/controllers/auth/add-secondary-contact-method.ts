@@ -6,11 +6,11 @@ import addSecondaryContactMethodToDb from "../../utils/auth-helpers/add-secondar
 
 export default async function addSecondaryContactMethod (req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const { contact } = req.body
 		const contactType = req.contactType
 
-		const isSameContactMethod1 = await isSameContactMethod(userId, contact, contactType)
+		const isSameContactMethod1 = isSameContactMethod(user, contact, contactType)
 		if (isSameContactMethod1 === true) {
 			return res.status(400).json({ message: `This ${contactType} is already associated with your account.` })
 		}
@@ -19,7 +19,7 @@ export default async function addSecondaryContactMethod (req: Request, res: Resp
 			return res.status(400).json({ message: `This ${contactType} is already associated with another account.` })
 		}
 
-		const response = await addSecondaryContactMethodToDb(userId, contact, contactType)
+		const response = await addSecondaryContactMethodToDb(user, contact, contactType)
 		if (_.isNull(response)) return res.status(400).json({ error: "Cannot change primary contact method" })
 
 		return res.status(200).json()

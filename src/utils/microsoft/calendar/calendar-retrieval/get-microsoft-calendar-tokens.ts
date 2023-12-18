@@ -1,19 +1,10 @@
-import _ from "lodash"
-import { Types } from "mongoose"
-import UserModel from "../../../../models/user-model"
-
-export default async function getMicrosoftCalendarTokensFromDB(userId: Types.ObjectId):
-Promise<
+export default function getMicrosoftCalendarTokens(user: User):
 	{
 		calendarAccessToken: string | undefined,
 		calendarRefreshToken: string | undefined,
 		calendarTokenExpiryDate: Date | undefined
-	} | undefined>
+	}
 {
-
-	const user = await UserModel.findById(userId)
-
-	if (_.isNull(user)) return undefined
 	return {
 		calendarAccessToken: user.microsoftCalendarAccessToken,
 		calendarRefreshToken: user.microsoftCalendarRefreshToken,

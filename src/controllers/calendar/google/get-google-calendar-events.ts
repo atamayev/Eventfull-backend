@@ -6,7 +6,7 @@ import convertGoogleToUnified from "../../../utils/google/calendar/calendar-retr
 
 export default async function getGoogleCalendarEvents(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const googleCalendarAccessToken = req.headers.googleCalendarAccessToken as string
 
 		const googleClient = createGoogleCalendarClient(googleCalendarAccessToken)
@@ -17,7 +17,7 @@ export default async function getGoogleCalendarEvents(req: Request, res: Respons
 
 		const calendarDetails = events.data.items as calendar_v3.Schema$Event[]
 		const unifiedCalendarEvents = convertGoogleToUnified(calendarDetails)
-		await saveIncomingUnifiedCalendarEvents(userId, unifiedCalendarEvents)
+		await saveIncomingUnifiedCalendarEvents(user, unifiedCalendarEvents)
 
 		return res.status(200).json({ calendarEvents: unifiedCalendarEvents })
 	} catch (error) {

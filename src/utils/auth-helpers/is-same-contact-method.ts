@@ -1,16 +1,11 @@
-import _ from "lodash"
-import { Types } from "mongoose"
-import UserModel from "../../models/user-model"
+import { Types, Document } from "mongoose"
 
-export default async function isSameContactMethod(
-	userId: Types.ObjectId,
+export default function isSameContactMethod(
+	user: Document<unknown, unknown, User> & User & Required<{_id: Types.ObjectId}>,
 	contact: string,
 	contactType: EmailOrPhone
-): Promise<boolean> {
+): boolean {
 	try {
-		const user = await UserModel.findById(userId)
-		if (_.isNull(user)) return false
-
 		if (contactType === "Email" && (user.email === contact)) {
 			return true
 		} else if (contactType === "Phone" && (user.phone === contact)) {

@@ -1,9 +1,8 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import { Credentials } from "google-auth-library"
 import UserModel from "../../../../models/user-model"
 
-export default async function updateGoogleCalendarTokensInDB(userId: Types.ObjectId, credentials: Credentials): Promise<void> {
+export default async function updateGoogleCalendarTokensInDB(user: User, credentials: Credentials): Promise<void> {
 	try {
 		const { access_token, expiry_date } = credentials
 
@@ -13,7 +12,7 @@ export default async function updateGoogleCalendarTokensInDB(userId: Types.Objec
 		if (!_.isNil(expiry_date)) updateData.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
 
 		if (!_.isEmpty(updateData)) {
-			await UserModel.updateOne({ _id: userId }, { $set: updateData })
+			await UserModel.updateOne({ _id: user._id }, { $set: updateData })
 		}
 	} catch (error) {
 		console.error("Error updating user tokens in DB:", error)

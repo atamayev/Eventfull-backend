@@ -1,8 +1,8 @@
 import _ from "lodash"
 import Joi from "joi"
 import { Request, Response, NextFunction } from "express"
-import UserModel from "../../../models/user-model"
-import { doesUserIdExist, getDecodedId } from "../../../utils/auth-helpers/jwt-verify-helpers"
+import getDecodedId from "../../../utils/auth-helpers/get-decoded-id"
+import findUser from "../../../utils/find-user"
 
 const querySchema = Joi.object({
 	code: Joi.string().required()
@@ -19,12 +19,11 @@ export default async function validateCalendarRequest (req: Request, res: Respon
 		const userId = getDecodedId(state.accessToken)
 		if (_.isUndefined(userId)) return handleUnauthorized()
 
-		const doesRecordExist = await doesUserIdExist(userId)
+		const user = await findUser(userId)
 
-		if (doesRecordExist === false) return handleUnauthorized()
+		if (_.isNull(user)) return handleUnauthorized()
 
-		const user = await UserModel.findById(userId).select("email").lean().exec()
-		email = user?.email
+		email = user.email
 	} catch (error1) {
 		console.error(error1)
 		return res.status(400).json({error: "Bad Request: State is not valid JSON"})

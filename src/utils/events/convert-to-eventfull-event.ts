@@ -1,11 +1,12 @@
 import { Types } from "mongoose"
+import EventfullEventModel from "../../models/eventfull-event-model"
 
 export default function convertToEventfullEvent(
 	incomingEvent: IncomingEventfullEvent,
 	organizerId: Types.ObjectId,
 	friendIds: string[]
 ): EventfullEvent {
-	const event: EventfullEvent = {
+	const event = new EventfullEventModel ({
 		...incomingEvent,
 		invitees: incomingEvent.invitees
 			.filter(inviteeId => friendIds.includes(inviteeId.toString()))
@@ -21,6 +22,6 @@ export default function convertToEventfullEvent(
 			}),
 		),
 		attendees: []
-	}
+	})
 	return event
 }
