@@ -25,7 +25,7 @@ export default async function signUpForEventfullEvent(req: Request, res: Respons
 
 		await updateUserAttendingStatus(userId, eventfullEventId, eventIndex)
 
-		const isUserInvited = event.invitees.some(invitee => invitee.userId.equals(userId))
+		const isUserInvited = event.invitees.some(invitee => _.isEqual(invitee.userId, userId))
 		if (isUserInvited === false) {
 			await EventfullEventModel.updateOne(
 				{ _id: eventfullEventId },
@@ -36,7 +36,7 @@ export default async function signUpForEventfullEvent(req: Request, res: Respons
 				}}
 			)
 		} else {
-			const invitee = event.invitees.find(inv => inv.userId.equals(userId))
+			const invitee = event.invitees.find(inv => _.isEqual(inv.userId, userId))
 
 			const invitedById = invitee ? invitee.invitedBy : null
 			await EventfullEventModel.updateOne(

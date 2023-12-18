@@ -32,7 +32,8 @@ function mapRecurrenceToGoogle(unifiedRecurrence: UnifiedRecurrence): string[] {
 		"Weekly": "WEEKLY",
 		"Monthly": "MONTHLY",
 		"Yearly": "YEARLY",
-		"Custom": "DAILY" // Placeholder, adjust based on how you handle custom patterns
+		// Placeholder, adjust based on how you handle custom patterns:
+		"Custom": "DAILY"
 	}
 
 	let rrule = "RRULE:FREQ="
