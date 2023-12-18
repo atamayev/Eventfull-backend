@@ -6,6 +6,7 @@ import validateUnblockedUserId from "../middleware/request-validation/social/val
 
 import attachFriendToRequest from "../middleware/attach-to-request/attach-friend-to-request"
 import attachBlockedUserToRequest from "../middleware/attach-to-request/attach-blocked-user-to-request"
+import attachUnblockedUserToRequest from "../middleware/attach-to-request/attach-unblocked-user-to-request"
 
 import checkIfUserBlockedFriend from "../middleware/social/friend/check-if-user-blocked-friend"
 import checkIfFriendBlockedUser from "../middleware/social/friend/check-if-friend-blocked-user"
@@ -68,6 +69,7 @@ socialRoutes.post(
 socialRoutes.post(
 	"/unblock-another-user",
 	validateUnblockedUserId,
+	attachUnblockedUserToRequest,
 	checkIfUnblockedUserBlockedUser,
 	unblockAnotherUser
 )
