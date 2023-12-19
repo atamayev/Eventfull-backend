@@ -5,7 +5,7 @@ export default function checkIfEventCapacityFull(req: Request, res: Response, ne
 	try {
 		const event = req.event
 
-		if (_.isEmpty(event.attendees) || event.eventCapacity === null) {
+		if (_.isNull(event.eventCapacity)) {
 			next()
 			return
 		}
