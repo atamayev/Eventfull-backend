@@ -7,7 +7,9 @@ export default function checkIfUserAttendingEventfullEvent(req: Request, res: Re
 		const event = req.event
 
 		if (_.isEmpty(event.attendees)) {
-			return res.status(404).json({ error: "Event has no invitees" })
+			req.isUserAttendingEvent = false
+			next()
+			return
 		}
 		const attendeeIds = event.attendees.map(attendee => attendee.userId.toString())
 		attendeeIds.push(event.organizerId.toString())
