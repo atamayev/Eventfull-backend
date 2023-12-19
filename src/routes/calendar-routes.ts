@@ -40,8 +40,8 @@ calendarRoutes.post(
 )
 calendarRoutes.delete(
 	"/google-calendar/delete-calendar-event/:calendarId",
-	assignGoogleCalendarAccessToken,
 	validateCalendarId,
+	assignGoogleCalendarAccessToken,
 	deleteGoogleCalendarEvent
 )
 
@@ -61,8 +61,8 @@ calendarRoutes.post(
 )
 calendarRoutes.delete(
 	"/microsoft-calendar/delete-calendar-event/:calendarId",
-	assignMicrosoftCalendarIdAndAccessToken,
 	validateCalendarId,
+	assignMicrosoftCalendarIdAndAccessToken,
 	deleteMicrosoftCalendarEvent
 )
 
