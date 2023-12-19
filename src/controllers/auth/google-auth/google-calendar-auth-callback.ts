@@ -13,7 +13,7 @@ export default async function googleCalendarAuthCallback (req: Request, res: Res
 
 		await saveGoogleCalendarTokens(email, tokens)
 
-		return res.status(200).json()
+		return res.status(200).json({ message: "Successfully connected to Google Calendar" })
 
 	} catch (error) {
 		console.error(error)

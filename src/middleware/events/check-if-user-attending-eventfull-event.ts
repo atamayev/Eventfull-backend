@@ -19,6 +19,6 @@ export default function checkIfUserAttendingEventfullEvent(req: Request, res: Re
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(401).json({ error: "Interal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Check if User Attending Eventfull Event" })
 	}
 }

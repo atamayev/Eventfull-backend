@@ -12,7 +12,7 @@ export default async function microsoftCalendarAuthCallback (req: Request, res: 
 
 		await saveMicrosoftCalendarTokens(email, access_token, refresh_token, expires_in)
 
-		return res.status(200).json()
+		return res.status(200).json({ message: "Successfully connected to Microsoft Calendar"})
 
 	} catch (error) {
 		console.error(error)

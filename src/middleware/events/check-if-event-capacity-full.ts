@@ -14,6 +14,6 @@ export default function checkIfEventCapacityFull(req: Request, res: Response, ne
 		}
 	} catch (error) {
 		console.error(error)
-		return res.status(401).json({ error: "Interal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Check if Event Capacity is Full." })
 	}
 }

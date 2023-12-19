@@ -21,6 +21,6 @@ export default function confirmUserIsEventOrganizerOrCohost(req: Request, res: R
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(401).json({ error: "Internal Server Error: Unable to Verify if User is an Event Organizer or Co-Host" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Verify if User is an Event Organizer or Co-Host" })
 	}
 }

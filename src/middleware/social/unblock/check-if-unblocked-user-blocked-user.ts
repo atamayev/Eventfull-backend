@@ -19,6 +19,6 @@ export default function checkIfUnblockedUserBlockedUser (req: Request, res: Resp
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error" })
+		return res.status(500).json({ error: "Internal server error: Unable to Checkif Unblocked User Blocked User" })
 	}
 }

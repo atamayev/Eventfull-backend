@@ -30,6 +30,6 @@ export default async function cancelEventfullEventRegistration(req: Request, res
 		return res.status(200).json({ message: "Cancelled Event Registration" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Cancel Eventfull Event Registration" })
 	}
 }

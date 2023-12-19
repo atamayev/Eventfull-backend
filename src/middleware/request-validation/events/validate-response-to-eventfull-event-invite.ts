@@ -17,6 +17,6 @@ export default function validateResponseToEventfullEventInvite (req: Request, re
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Response to Eventfull Event Invite" })
 	}
 }

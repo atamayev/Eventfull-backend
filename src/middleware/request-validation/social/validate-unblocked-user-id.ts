@@ -19,6 +19,6 @@ export default function validateUnblockedUserId (req: Request, res: Response, ne
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error" })
+		return res.status(500).json({ error: "Internal server error: Unable to Validate Blocked User Id" })
 	}
 }

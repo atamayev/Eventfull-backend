@@ -12,9 +12,9 @@ export default async function addCloudUserPersonalInfo (req: Request, res: Respo
 
 		await addCloudUser(user._id, req.body.cloudUserRegisterInformationObject)
 
-		return res.status(200).json()
+		return res.status(200).json({ message: "Cloud user Pesonal Info added" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Cloud User Personal Info" })
 	}
 }

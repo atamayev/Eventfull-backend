@@ -14,6 +14,6 @@ export default function confirmEventOrganizerNotBlockingUser(req: Request, res: 
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(401).json({ error: "Internal Server Error: Unable to Verify if Event Organizer is Blocking User" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Verify if Event Organizer is Blocking User" })
 	}
 }
