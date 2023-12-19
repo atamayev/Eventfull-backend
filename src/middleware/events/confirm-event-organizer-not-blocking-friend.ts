@@ -14,6 +14,6 @@ export default function confirmEventOrganizerNotBlockingFriend(req: Request, res
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(401).json({ error: "Unauthorized User" })
+		return res.status(401).json({ error: "Internal Server Error: Unable to Verify if Event Organizer is Blocking Friend" })
 	}
 }
