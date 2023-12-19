@@ -17,7 +17,7 @@ export default async function getGoogleCalendarEvents(req: Request, res: Respons
 
 		const calendarDetails = events.data.items as calendar_v3.Schema$Event[]
 		const unifiedCalendarEvents = convertGoogleToUnified(calendarDetails)
-		await saveIncomingUnifiedCalendarEvents(user, unifiedCalendarEvents)
+		await saveIncomingUnifiedCalendarEvents(user, unifiedCalendarEvents, "google")
 
 		return res.status(200).json({ calendarEvents: unifiedCalendarEvents })
 	} catch (error) {
