@@ -15,22 +15,22 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 
 		if (_.isEqual(user._id, blockedUser._id)) return res.status(400).json({ message: "You cannot block yourself" })
 
-		await blockUser(user._id, blockedUser.id)
+		await blockUser(user._id, blockedUser._id)
 
-		const areUsersFriends = areUsersAreFriends(user, blockedUser.id)
+		const areUsersFriends = areUsersAreFriends(user, blockedUser._id)
 
 		if (areUsersFriends === true) {
-			await unfriendYourFriend(user._id, blockedUser.id)
+			await unfriendYourFriend(user._id, blockedUser._id)
 		}
 
-		const doesOutgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, blockedUser.id)
+		const doesOutgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, blockedUser._id)
 		if (doesOutgoingFriendRequestExists === true) {
-			await clearOutgoingFriendRequest(user._id, blockedUser.id)
+			await clearOutgoingFriendRequest(user._id, blockedUser._id)
 		}
 
-		const doesIncomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, blockedUser.id)
+		const doesIncomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, blockedUser._id)
 		if (doesIncomingFriendRequestExists === true) {
-			await clearIncomingFriendRequest(user._id, blockedUser.id)
+			await clearIncomingFriendRequest(user._id, blockedUser._id)
 		}
 
 		if (!_.isEmpty(blockedUser.username)) {
