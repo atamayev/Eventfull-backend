@@ -11,11 +11,9 @@ export default async function getValidMicrosoftCalendarAccessToken(user: User): 
 	let { calendarAccessToken } = tokens
 	const { calendarTokenExpiryDate, calendarRefreshToken } = tokens
 
-	if (_.isUndefined(calendarTokenExpiryDate)) return undefined
-
 	const currentTime = new Date()
 
-	if (currentTime >= calendarTokenExpiryDate) {
+	if (_.isUndefined(calendarTokenExpiryDate) || currentTime >= calendarTokenExpiryDate) {
 		const response = await refreshMicrosoftCalendarToken(user._id, calendarRefreshToken)
 		if (_.isNull(response)) return undefined
 		calendarAccessToken = response

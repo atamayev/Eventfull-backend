@@ -1,13 +1,13 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import areUsersAreFriends from "../../../utils/social/friend/are-users-are-friends"
+import areUsersFriends from "../../../utils/social/friend/are-users-friends"
 
 export default function checkIfUsersAreFriends (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
 		const friend = req.friend
 
-		const alreadyFriends = areUsersAreFriends(user, friend._id)
+		const alreadyFriends = areUsersFriends(user, friend._id)
 
 		if (alreadyFriends === true) {
 			if (_.isEmpty(friend.username)) {

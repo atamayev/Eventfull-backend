@@ -25,7 +25,7 @@ import validateChangePassword from "../middleware/request-validation/auth/valida
 import validateCalendarCallback from "../middleware/request-validation/auth/validate-calendar-callback"
 import validateUsernameInBody from "../middleware/request-validation/auth/validate-username-in-body"
 import validateContact from "../middleware/request-validation/auth/validate-contact"
-import determineBodyContactType from "../middleware/auth/determine-contact-type/determine-body-contact-type"
+import determineContactType from "../middleware/auth/determine-contact-type/determine-contact-type"
 import determineRegisterContactType	from "../middleware/auth/determine-contact-type/determine-register-contact-type"
 import determineChangePasswordContactType from "../middleware/auth/determine-contact-type/determine-change-password-contact-type"
 import validateAddCloudUserPersonalInfo from "../middleware/request-validation/auth/validate-add-cloud-user-personal-info"
@@ -39,8 +39,7 @@ authRoutes.post("/login", validateLogin, login)
 authRoutes.post("/register", validateRegister, determineRegisterContactType, register)
 authRoutes.post("/change-password", jwtVerify, validateChangePassword, determineChangePasswordContactType, changePassword)
 authRoutes.post("/does-username-exist", jwtVerify, validateUsernameInBody, checkIfUsernameExists)
-authRoutes.post("/check-if-contact-exists", jwtVerify, validateContact,
-	determineBodyContactType, checkIfContactExists)
+authRoutes.post("/check-if-contact-exists", jwtVerify, validateContact,	determineContactType, checkIfContactExists)
 
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
 authRoutes.get("/google-auth/generate-calendar-auth-url", jwtVerify, generateGoogleCalendarAuthUrl)
@@ -63,7 +62,6 @@ authRoutes.post("/microsoft-auth/revoke-microsoft-calendar-access",
 )
 
 authRoutes.post("/add-cloud-user-personal-info", jwtVerify, validateAddCloudUserPersonalInfo, addCloudUserPersonalInfo)
-authRoutes.post("/add-secondary-contact", jwtVerify, validateContact,
-	determineBodyContactType, addSecondaryContactMethod)
+authRoutes.post("/add-secondary-contact", jwtVerify, validateContact, determineContactType, addSecondaryContactMethod)
 
 export default authRoutes

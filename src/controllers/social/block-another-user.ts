@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import blockUser from "../../utils/social/block/block-user"
-import areUsersAreFriends from "../../utils/social/friend/are-users-are-friends"
+import areUsersFriends from "../../utils/social/friend/are-users-friends"
 import unfriendYourFriend from "../../utils/social/friend/unfriend-your-friend"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
 import clearOutgoingFriendRequest from "../../utils/social/friend/clear-outgoing-friend-request"
@@ -17,7 +17,7 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 
 		await blockUser(user._id, blockedUser._id)
 
-		const areUsersFriends = areUsersAreFriends(user, blockedUser._id)
+		const areUsersFriends = areUsersFriends(user, blockedUser._id)
 
 		if (areUsersFriends === true) {
 			await unfriendYourFriend(user._id, blockedUser._id)

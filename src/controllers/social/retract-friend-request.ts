@@ -9,7 +9,7 @@ export default async function retractFriendRequest(req: Request, res: Response):
 
 		const outgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, friend._id)
 		if (outgoingFriendRequestExists === false) {
-			return res.status(400).json({ message: "Friend request does not exist" })
+			return res.status(400).json({ message: "Outgoing Friend request does not exist" })
 		}
 
 		await clearOutgoingFriendRequest(user._id, friend._id)

@@ -1,6 +1,6 @@
+import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
-import _ from "lodash"
 
 export default async function unblockUser (userId: Types.ObjectId, blockedUserId: Types.ObjectId): Promise<void> {
 	try {

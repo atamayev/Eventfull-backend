@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Types } from "mongoose"
 
-export default function areUsersAreFriends (user: User, friendId: Types.ObjectId): boolean {
+export default function areUsersFriends (user: User, friendId: Types.ObjectId): boolean {
 	try {
 		if (_.isEmpty(user.friends)) return false
 
