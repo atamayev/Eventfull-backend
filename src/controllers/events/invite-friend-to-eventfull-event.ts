@@ -39,6 +39,6 @@ export default async function inviteFriendToEventfullEvent(req: Request, res: Re
 		return res.status(200).json({ message: "Friend invited to event" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Invite Friend to Eventfull Event" })
 	}
 }

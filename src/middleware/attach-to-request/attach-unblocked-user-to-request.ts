@@ -13,6 +13,6 @@ export default async function attachUnblockedUserToRequest(req: Request, res: Re
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error" })
+		return res.status(500).json({ error: "Internal server error: Unable to Attach Unblocked User to Request" })
 	}
 }

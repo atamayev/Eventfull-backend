@@ -10,6 +10,6 @@ export default function confirmUserHasMicrosoftCalendar (req: Request, res: Resp
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error" })
+		return res.status(500).json({ error: "Internal server error: Unable to Confirm User has Microsoft Calendar" })
 	}
 }

@@ -15,6 +15,6 @@ export default async function pinEventfullEvent(req: Request, res: Response): Pr
 		return res.status(200).json({ message: "Event Pinned" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Pin Event" })
 	}
 }

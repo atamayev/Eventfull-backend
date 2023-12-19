@@ -14,13 +14,13 @@ const incomingEventfullEventSchema = Joi.object({
 	coHosts: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation")).required(),
 	canInvitedUsersInviteOthers: Joi.boolean().required(),
 	invitees: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation")).required(),
+	eventCapacity: Joi.number().optional(),
 	eventURL: Joi.string().optional(),
 	extraEventCategories: Joi.array().items(Joi.string()).optional(),
 	eventDescription: Joi.string().optional(),
 	eventLocation: Joi.object({
 		address: Joi.string().required()
 	}).optional(),
-	eventCapacity: Joi.number().optional()
 })
 
 export default incomingEventfullEventSchema

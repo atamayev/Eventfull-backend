@@ -11,6 +11,6 @@ export default function validateCreateEventfullEventRequest (req: Request, res: 
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Create Eventfull Event" })
 	}
 }

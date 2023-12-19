@@ -22,9 +22,9 @@ export default async function addSecondaryContactMethod (req: Request, res: Resp
 		const response = await addSecondaryContactMethodToDb(user, contact, contactType)
 		if (_.isNull(response)) return res.status(400).json({ error: "Cannot change primary contact method" })
 
-		return res.status(200).json()
+		return res.status(200).json({ message: `Successfully added ${contactType} to your account`})
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to add Secondary Contact Method" })
 	}
 }

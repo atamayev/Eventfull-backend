@@ -16,6 +16,6 @@ export default function validateEventfullEventId (req: Request, res: Response, n
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Eventfull Event Id" })
 	}
 }

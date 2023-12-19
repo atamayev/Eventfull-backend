@@ -12,6 +12,6 @@ export default function determineContactType (req: Request, res: Response, next:
 		next()
 	} catch (errror) {
 		console.error(errror)
-		return res.status(500).json({ error: "Internal server error" })
+		return res.status(500).json({ error: "Internal server error: Unable to Determine Contact Type" })
 	}
 }

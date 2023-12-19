@@ -22,6 +22,7 @@ import confirmEventIsPublic from "../middleware/events/confirm-event-is-public"
 import confirmAbleToInviteFriend from "../middleware/events/confirm-able-to-invite-friend"
 import confirmUserNotBlockingEventOrganizer from "../middleware/events/confirm-user-not-blocking-event-organizer"
 import checkIfUserAttendingEventfullEvent from "../middleware/events/check-if-user-attending-eventfull-event"
+import checkIfEventCapacityFull from "../middleware/events/check-if-event-capacity-full"
 
 import createEventfullEvent from "../controllers/events/create-eventfull-event"
 import respondToEventfullInvite from "../controllers/events/respond-to-eventfull-invite"
@@ -41,6 +42,8 @@ eventsRoutes.post(
 	"/respond-to-eventfull-invite",
 	validateResponseToEventfullEventInvite,
 	attachEventToRequest,
+	checkIfEventCapacityFull,
+	attachEventOrganizerToRequest,
 	confirmEventOrganizerNotBlockingUser,
 	confirmEventIsActive,
 	respondToEventfullInvite
@@ -97,6 +100,7 @@ eventsRoutes.post("/sign-up-for-eventfull-event",
 	attachEventToRequest,
 	confirmEventIsActive,
 	confirmEventIsPublic,
+	checkIfEventCapacityFull,
 	attachEventOrganizerToRequest,
 	confirmUserNotBlockingEventOrganizer,
 	confirmEventOrganizerNotBlockingUser,

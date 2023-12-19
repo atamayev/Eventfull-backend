@@ -12,6 +12,6 @@ export default function confirmEventIsInviteable(req: Request, res: Response, ne
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm the Event allows for Users to invite others." })
 	}
 }

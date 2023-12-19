@@ -18,6 +18,6 @@ export default function validateUpdateEventfullEvent (req: Request, res: Respons
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Eventfull Event Update" })
 	}
 }

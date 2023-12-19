@@ -13,6 +13,6 @@ export default async function attachEventOrganizerToRequest(req: Request, res: R
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error" })
+		return res.status(500).json({ error: "Internal server error: Unable to Attach Event Organizer to Request" })
 	}
 }

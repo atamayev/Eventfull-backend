@@ -36,6 +36,6 @@ export default async function validateCalendarRequest (req: Request, res: Respon
 	next()
 
 	function handleUnauthorized(): Response {
-		return res.status(401).json({ error: "Unauthorized User" })
+		return res.status(401).json({ error: "Internal Server Error: Unauthorized User" })
 	}
 }

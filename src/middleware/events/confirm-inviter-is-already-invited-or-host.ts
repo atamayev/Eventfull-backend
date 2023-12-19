@@ -17,6 +17,6 @@ export default function confirmInviterIsAlreadyInvitedOrHost(req: Request, res: 
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(401).json({ error: "Interal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm Inviter is Already Invited or Host" })
 	}
 }

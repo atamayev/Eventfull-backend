@@ -32,6 +32,6 @@ export default async function assignMicrosoftCalendarIdAndAccessToken(
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(401).json({ error: "Unauthorized User" })
+		return res.status(401).json({ error: "Internal Server Error: Unable to Assign Microsoft Calendar Access Token" })
 	}
 }

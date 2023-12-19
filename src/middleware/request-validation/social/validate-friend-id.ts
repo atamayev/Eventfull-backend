@@ -19,6 +19,6 @@ export default function validateFriendId (req: Request, res: Response, next: Nex
 		next()
 	} catch (error ) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error" })
+		return res.status(500).json({ error: "Internal server error: Unable to Validate Friend Id " })
 	}
 }
