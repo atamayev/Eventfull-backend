@@ -6,7 +6,9 @@ export default function confirmInviterIsAlreadyInvitedOrHost(req: Request, res: 
 		const event = req.event
 
 		const inviteesIds = event.invitees.map(invitee => invitee.userId.toString())
+		const coHostIds = event.coHosts.map(coHost => coHost.userId.toString())
 		inviteesIds.push(event.organizerId.toString())
+		inviteesIds.push(...coHostIds)
 
 		if (inviteesIds.includes(user._id.toString()) === false) {
 			return res.status(403).json({ error: "You cannot invite someone to an event that you are not invited to" })
