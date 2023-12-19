@@ -22,6 +22,7 @@ declare global {
 			isUserAttendingEvent: boolean
 
             event: EventfullEvent
+			eventOrganizer: User
 		}
 	}
 }
