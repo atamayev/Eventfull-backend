@@ -33,7 +33,7 @@ export default async function addInvitees(
 	const deleteInviteesPromise = EventfullEventModel.findByIdAndUpdate(
 		currentEvent._id,
 		{ $pull: { invitees: { userId: { $in: inviteesToRemove.map(invitee => invitee.userId) } } } },
-		{ new: true, runValidators: true }
+		{ runValidators: true }
 	)
 
 	const removeInviteesPromises = inviteesToRemove.map(invitee =>
@@ -50,7 +50,7 @@ export default async function addInvitees(
 			$set: eventDataToUpdate,
 			$push: { invitees: { $each: inviteesToAdd } }
 		},
-		{ new: true, runValidators: true }
+		{ runValidators: true }
 	)
 
 	const addInviteesPromises = inviteesToAdd.map(invitee =>
