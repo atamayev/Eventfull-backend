@@ -1,4 +1,5 @@
 import express from "express"
+
 import register from "../controllers/auth/register"
 import login from "../controllers/auth/login"
 import changePassword from "../controllers/auth/change-password"
@@ -14,6 +15,7 @@ import checkIfUsernameExists from "../controllers/auth/check-if-username-exists"
 import checkIfContactExists from "../controllers/auth/check-if-contact-exists"
 import addCloudUserPersonalInfo from "../controllers/auth/add-cloud-user-personal-info"
 import addSecondaryContactMethod from "../controllers/auth/add-secondary-contact-method"
+import revokeGoogleCalendarAccess from "../controllers/auth/google-auth/revoke-google-calendar-access"
 
 import jwtVerify from "../middleware/jwt-verify"
 import validateLogin from "../middleware/request-validation/auth/validate-login"
@@ -27,6 +29,7 @@ import determineBodyContactType from "../middleware/auth/determine-contact-type/
 import determineRegisterContactType	from "../middleware/auth/determine-contact-type/determine-register-contact-type"
 import determineChangePasswordContactType from "../middleware/auth/determine-contact-type/determine-change-password-contact-type"
 import validateAddCloudUserPersonalInfo from "../middleware/request-validation/auth/validate-add-cloud-user-personal-info"
+import confirmUserHasGoogleCalendar from "../middleware/auth/confirm-user-has-google-calendar"
 
 const authRoutes = express.Router()
 
@@ -42,6 +45,8 @@ authRoutes.get("/google-auth/generate-calendar-auth-url", jwtVerify, generateGoo
 
 authRoutes.get("/google-auth/login-callback", validateQueryCode, googleLoginAuthCallback)
 authRoutes.get("/google-auth/calendar-callback", validateCalendarCallback, googleCalendarAuthCallback)
+
+authRoutes.post("/google-auth/revoke-google-calendar-access", jwtVerify, confirmUserHasGoogleCalendar, revokeGoogleCalendarAccess)
 
 authRoutes.get("/microsoft-auth/generate-login-auth-url", generateMicrosoftLoginAuthUrl)
 authRoutes.get("/microsoft-auth/generate-calendar-auth-url", jwtVerify, generateMicrosoftCalendarAuthUrl)
