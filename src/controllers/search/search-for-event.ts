@@ -5,7 +5,6 @@ export default async function searchForEventName(req: Request, res: Response): P
 	try {
 		const eventName = req.params.eventName as string
 		const user = req.user
-		console.log(user._id)
 		const blockedIds = [...user.blockedUsers, ...user.blockedByUsers]
 
 		// eslint-disable-next-line security/detect-non-literal-regexp
