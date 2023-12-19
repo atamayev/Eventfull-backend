@@ -5,19 +5,24 @@ declare global {
 	namespace Express {
 		interface Request {
 			userId: Types.ObjectId
+			user: User
+
 			friendId: Types.ObjectId
-			friendUsername: string
+			friend: User
 
 			blockedUserId: Types.ObjectId
-			blockedUserUsername: string
+			blockedUser: User
 
 			unblockedUserId: Types.ObjectId
-			unblockedUserUsername: string
+			unblockedUser: User
 
 			contactType: EmailOrPhone
 
 			organizerOrCoHost: "Organizer" | "Co-Host"
 			isUserAttendingEvent: boolean
+
+            event: EventfullEvent
+			eventOrganizer: User
 		}
 	}
 }

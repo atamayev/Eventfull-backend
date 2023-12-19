@@ -6,7 +6,7 @@ import convertUnifiedToMicrosoft from "../../../utils/microsoft/calendar/convert
 
 export default async function createMicrosoftCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 
 		const microsoftCalendarAccessToken = req.headers.microsoftCalendarAccessToken as string
 
@@ -21,7 +21,7 @@ export default async function createMicrosoftCalendarEvent(req: Request, res: Re
 		const response: Event = await microsoftClient.api(`/me/calendars/${calendarId}/events`).post(microsoftEvent)
 
 		calendarDetails.id = response.id || ""
-		await addCloudEventToDb(userId, calendarDetails, "microsoft")
+		await addCloudEventToDb(user._id, calendarDetails, "microsoft")
 
 		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {

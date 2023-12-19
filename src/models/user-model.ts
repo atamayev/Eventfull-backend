@@ -31,10 +31,12 @@ const userSchema = new Schema<User>({
 	eventPins: { type: [Schema.Types.ObjectId] },
 	calendarData: { type: [calendarDataSchema] },
 	eventfullEvents: { type: [eventfullEventsSchema] },
+	colorTheme: { type: String, default: "System Default", enum: ["Dark", "Light", "System Default"] },
 
 	googleLoginAccessToken: { type: String, trim: true },
 	googleLoginRefreshToken: { type: String, trim: true },
 	googleLoginAccessTokenExpiryDate: { type: Date, trim: true },
+
 	googleCalendarAccessToken: { type: String, trim: true },
 	googleCalendarAccessTokenExpiryDate: { type: Date, trim: true },
 	googleCalendarRefreshToken: { type: String, trim: true },
@@ -42,6 +44,7 @@ const userSchema = new Schema<User>({
 	microsoftLoginAccessToken: { type: String, trim: true },
 	microsoftLoginRefreshToken: { type: String, trim: true },
 	microsoftLoginAccessTokenExpiryDate: { type: Date, trim: true },
+
 	microsoftCalendarAccessToken: { type: String, trim: true },
 	microsoftCalendarRefreshToken: { type: String, trim: true },
 	microsoftCalendarAccessTokenExpiryDate: { type: Date, trim: true },

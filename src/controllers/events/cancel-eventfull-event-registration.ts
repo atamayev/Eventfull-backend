@@ -1,6 +1,5 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import UserModel from "../../models/user-model"
 import EventfullEventModel from "../../models/eventfull-event-model"
 import cancelEventRegistration from "../../utils/events/cancel-event-registration"
 
@@ -10,25 +9,22 @@ export default async function cancelEventfullEventRegistration(req: Request, res
 		if (isUserAttendingEvent === false) {
 			return res.status(200).json({ message: "User is not attending event" })
 		}
-		const userId = req.userId
-		const eventfullEventId = req.body.eventfullEventId as string
+		const user = req.user
+		const event = req.event
 
-		const event = await EventfullEventModel.findById(eventfullEventId)
-		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
+		if (_.isEqual(event.organizerId, user._id)) return res.status(200).json({ message: "You are the event organizer" })
 
-		if (_.isEqual(event.organizerId, userId)) return res.status(200).json({ message: "You are the event organizer" })
+		const eventIndex = user.eventfullEvents.findIndex(event1 => event1.eventId.toString() === event._id.toString())
+		await cancelEventRegistration(user._id, event._id, eventIndex)
 
-		const user = await UserModel.findById(userId)
-		if (_.isNull(user)) return res.status(404).json({ error: "User not found" })
-
-		const eventIndex = user.eventfullEvents.findIndex(event1 => event1.eventId.toString() === eventfullEventId)
-		await cancelEventRegistration(userId, eventfullEventId, eventIndex)
-
-		await EventfullEventModel.updateOne(
-			{ _id: eventfullEventId },
-			{ $pull: {
-				attendees: { userId	}
-			}}
+		await EventfullEventModel.findByIdAndUpdate(
+			event._id,
+			{
+				$pull: {
+					attendees: { userId: user._id }
+				}
+			},
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ message: "Cancelled Event Registration" })

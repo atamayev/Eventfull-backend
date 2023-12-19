@@ -1,28 +1,39 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
 export default async function saveIncomingUnifiedCalendarEvents(
-	userId: Types.ObjectId,
-	events: UnifiedCalendarEvent[]
+	user: User,
+	events: UnifiedCalendarEvent[],
+	source: "microsoft" | "google"
 ): Promise<void> {
-	const user = await UserModel.findById(userId)
+	const eventMap = new Map(events.map(event => [event.id, event]))
 
-	if (_.isNull(user)) throw new Error("User not found")
+	const eventsToDelete = user.calendarData
+		.filter(event => event.source === source && !eventMap.has(event.id))
+
+	if (!_.isEmpty(eventsToDelete)) {
+		await UserModel.findByIdAndUpdate(
+			user._id,
+			{ $pull: { calendarData: { id: { $in: eventsToDelete.map(event => event.id) } } } },
+			{ runValidators: true }
+		)
+	}
 
 	for (const event of events) {
 		const existingEvent = user.calendarData.find(e => e.id === event.id)
 
 		if (_.isUndefined(existingEvent)) {
-			await UserModel.updateOne(
-				{ _id: userId },
-				{ $push: { calendarData: event } }
+			await UserModel.findByIdAndUpdate(
+				user._id,
+				{ $push: { calendarData: event } },
+				{ runValidators: true }
 			)
 		} else {
-			if (!areEventsEqual(existingEvent, event)) {
+			if (areEventsEqual(existingEvent, event) === false) {
 				await UserModel.updateOne(
-					{ _id: userId, "calendarData.id": event.id },
-					{ $set: { "calendarData.$": event } }
+					{ _id: user._id, "calendarData.id": event.id },
+					{ $set: { "calendarData.$": event } },
+					{ runValidators: true }
 				)
 			}
 		}

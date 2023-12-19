@@ -1,16 +1,12 @@
-import _ from "lodash"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
 
 export default async function searchForUsername(req: Request, res: Response): Promise<Response> {
 	try {
 		const username = req.params.username as string
-		const userId = req.userId
+		const user = req.user
 
-		const currentUser = await UserModel.findById(userId).select("blockedUsers blockedByUsers -_id")
-		if (_.isNull(currentUser)) return res.status(404).json({ error: "User not found" })
-
-		const blockedIds = [...currentUser.blockedUsers, ...currentUser.blockedByUsers, userId]
+		const blockedIds = [...user.blockedUsers, ...user.blockedByUsers, user._id]
 
 		// eslint-disable-next-line security/detect-non-literal-regexp
 		const regex = new RegExp(username, "i")

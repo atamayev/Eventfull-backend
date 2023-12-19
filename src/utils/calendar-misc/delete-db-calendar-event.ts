@@ -13,9 +13,10 @@ export default async function deleteDBCalendarEvent (
 				{ $set: { "calendarData.$.isActive": false } }
 			)
 		} else {
-			await UserModel.updateOne(
-				{ _id: userId },
-				{ $pull: { calendarData: { id: calendarId } } }
+			await UserModel.findByIdAndUpdate(
+				userId,
+				{ $pull: { calendarData: { id: calendarId } } },
+				{ runValidators: true }
 			)
 		}
 

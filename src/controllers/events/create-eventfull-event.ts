@@ -1,69 +1,64 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
-import EventfullEventModel from "../../models/eventfull-event-model"
 import convertToEventfullEvent from "../../utils/events/convert-to-eventfull-event"
+import addEventfullEvent from "../../utils/events/add-eventfull-event"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function createEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const eventfullEventData = req.body.eventfullEventData as IncomingEventfullEvent
 
-		const user = await UserModel.findById(userId).select("friends")
-		const friendIds = user?.friends.map(friend => friend.toString()) || []
-		const convertedEvent = convertToEventfullEvent(eventfullEventData, userId, friendIds)
+		const friendIds = user.friends.map(friend => friend.toString())
+		const convertedEvent = convertToEventfullEvent(eventfullEventData, user._id, friendIds)
 
-		const newEvent = await EventfullEventModel.create({
-			...convertedEvent,
-			organizerId: userId,
-			isActive: true
-		})
-
-		const eventId = newEvent._id
-		await UserModel.updateOne(
-			{ _id: userId},
+		const eventId = await addEventfullEvent(convertedEvent, user._id)
+		await UserModel.findByIdAndUpdate(
+			user._id,
 			{
 				$push: {
 					eventfullEvents: {
 						eventId,
-						attendingStatus: "Hosting",
-						invitedBy: userId
+						attendingStatus: "Hosting"
 					}
 				}
-			}
+			},
+			{ runValidators: true }
 		)
 
 		if (!_.isUndefined(convertedEvent.coHosts)) {
 			await Promise.all(convertedEvent.coHosts.map(coHostId =>
-				UserModel.updateOne(
-					{ _id: coHostId},
+				UserModel.findByIdAndUpdate(
+					coHostId,
 					{
 						$push: {
 							eventfullEvents: {
 								eventId: eventId,
 								attendingStatus: "Co-Hosting",
-								invitedBy: userId
+								invitedBy: user._id
 							}
 						}
-					}
+					},
+					{ runValidators: true }
 				)
 			))
 		}
 
 		if (!_.isUndefined(convertedEvent.invitees)) {
 			await Promise.all(convertedEvent.invitees.map(invitee =>
-				UserModel.updateOne(
-					{ _id: invitee.userId},
+				UserModel.findByIdAndUpdate(
+					invitee.userId,
 					{
 						$push: {
 							eventfullEvents: {
 								eventId: eventId,
 								attendingStatus: "Not Responded",
-								invitedBy: userId
+								invitedBy: user._id
 							}
 						}
-					}
+					},
+					{ runValidators: true }
 				)
 			))
 		}

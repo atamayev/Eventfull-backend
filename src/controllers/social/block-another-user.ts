@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import blockUser from "../../utils/social/block/block-user"
-import checkIfUsersAreFriends from "../../utils/social/friend/check-if-users-are-friends"
+import areUsersFriends from "../../utils/social/friend/are-users-friends"
 import unfriendYourFriend from "../../utils/social/friend/unfriend-your-friend"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
 import clearOutgoingFriendRequest from "../../utils/social/friend/clear-outgoing-friend-request"
@@ -10,32 +10,31 @@ import checkIfIncomingFriendRequestExists from "../../utils/social/friend/check-
 
 export default async function blockAnotherUser (req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
-		const blockedUserId = req.blockedUserId
-		const blockedUserUsername = req.blockedUserUsername
+		const user = req.user
+		const blockedUser = req.blockedUser
 
-		if (_.isEqual(userId, blockedUserId)) return res.status(400).json({ message: "You cannot block yourself" })
+		if (_.isEqual(user._id, blockedUser._id)) return res.status(400).json({ message: "You cannot block yourself" })
 
-		await blockUser(userId, blockedUserId)
+		await blockUser(user._id, blockedUser._id)
 
-		const areUsersFriends = await checkIfUsersAreFriends(userId, blockedUserId)
+		const areBothUsersFriends = areUsersFriends(user, blockedUser._id)
 
-		if (areUsersFriends === true) {
-			await unfriendYourFriend(userId, blockedUserId)
+		if (areBothUsersFriends === true) {
+			await unfriendYourFriend(user._id, blockedUser._id)
 		}
 
-		const doesOutgoingFriendRequestExists = await checkIfOutgoingFriendRequestExists(userId, blockedUserId)
+		const doesOutgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, blockedUser._id)
 		if (doesOutgoingFriendRequestExists === true) {
-			await clearOutgoingFriendRequest(userId, blockedUserId)
+			await clearOutgoingFriendRequest(user._id, blockedUser._id)
 		}
 
-		const doesIncomingFriendRequestExists = await checkIfIncomingFriendRequestExists(userId, blockedUserId)
+		const doesIncomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, blockedUser._id)
 		if (doesIncomingFriendRequestExists === true) {
-			await clearIncomingFriendRequest(userId, blockedUserId)
+			await clearIncomingFriendRequest(user._id, blockedUser._id)
 		}
 
-		if (!_.isEmpty(blockedUserUsername)) {
-			return res.status(200).json({ message: `${blockedUserUsername} blocked` })
+		if (!_.isEmpty(blockedUser.username)) {
+			return res.status(200).json({ message: `${blockedUser.username} blocked` })
 		}
 
 		return res.status(200).json({ message: "User blocked" })

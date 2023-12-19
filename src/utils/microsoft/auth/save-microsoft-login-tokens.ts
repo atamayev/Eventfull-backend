@@ -26,7 +26,11 @@ export default async function saveMicrosoftLoginTokens(
 		}
 
 		if (!_.isEmpty(updateData)) {
-			await UserModel.updateOne({ _id: user._id }, { $set: updateData })
+			await UserModel.findByIdAndUpdate(
+				user._id,
+				{ $set: updateData },
+				{ runValidators: true }
+			)
 		}
 
 		return user._id

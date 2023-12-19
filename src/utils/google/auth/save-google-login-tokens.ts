@@ -21,7 +21,11 @@ export default async function saveGoogleLoginTokens(email: string, tokens: Crede
 		if (!_.isNil(expiry_date)) updateLoginData.googleLoginAccessTokenExpiryDate = new Date(expiry_date)
 
 		if (!_.isEmpty(updateLoginData)) {
-			await UserModel.updateOne({ _id: user._id }, { $set: updateLoginData })
+			await UserModel.findByIdAndUpdate(
+				user._id,
+				{ $set: updateLoginData },
+				{ runValidators: true }
+			)
 		}
 
 		return user._id

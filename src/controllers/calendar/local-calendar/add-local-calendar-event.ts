@@ -4,7 +4,7 @@ import UserModel from "../../../models/user-model"
 
 export default async function addLocalCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent
 
 		calendarDetails.id = uuidv4()
@@ -13,9 +13,9 @@ export default async function addLocalCalendarEvent(req: Request, res: Response)
 		calendarDetails.timeZone ||= "America/New_York"
 
 		await UserModel.findByIdAndUpdate(
-			userId,
+			user._id,
 			{ $push: { calendarData: calendarDetails } },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ calendarId: calendarDetails.id })

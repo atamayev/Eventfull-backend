@@ -6,7 +6,6 @@ export default function validateCreateEventfullEventRequest (req: Request, res: 
 	try {
 		const eventfullEventData = req.body.eventfullEventData
 		const { error } = incomingEventfullEventSchema.validate(eventfullEventData)
-
 		if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 
 		next()

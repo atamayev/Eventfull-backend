@@ -31,6 +31,7 @@ declare global {
 		eventPins: Types.ObjectId[]
 		calendarData: UnifiedCalendarEvent[]
 		eventfullEvents: EventfullCalendarEvent[]
+		colorTheme: "Light" | "Dark" | "System Default"
 
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string
@@ -109,7 +110,7 @@ declare global {
 		eventCapacity?: number
 	}
 
-	interface EventfullEvent extends BaseEventfullEvent {
+	interface EventfullEvent extends BaseEventfullEvent, IDInterface {
 		invitees: EventfullInvitee[]
 		coHosts: EventfullCoHost[]
 		attendees: EventfullAttendee[]

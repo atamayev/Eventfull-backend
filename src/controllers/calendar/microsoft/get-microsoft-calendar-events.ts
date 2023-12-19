@@ -6,7 +6,7 @@ import createGraphClient from "../../../utils/microsoft/create-graph-client"
 
 export default async function getMicrosoftCalendarEvents(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const microsoftCalendarAccessToken = req.headers.microsoftCalendarAccessToken as string
 		const calendarId = req.headers.microsoftDefaultCalendarId as string
 
@@ -14,7 +14,7 @@ export default async function getMicrosoftCalendarEvents(req: Request, res: Resp
 
 		const calendarDetails = await client.api(`/me/calendars/${calendarId}/events`).get() as { value: Event[] }
 		const unifiedCalendarEvents = convertMicrosoftToUnified(calendarDetails.value)
-		await saveIncomingUnifiedCalendarEvents(userId, unifiedCalendarEvents)
+		await saveIncomingUnifiedCalendarEvents(user, unifiedCalendarEvents, "microsoft")
 
 		return res.status(200).json({ calendarDetails: unifiedCalendarEvents })
 	} catch (error) {

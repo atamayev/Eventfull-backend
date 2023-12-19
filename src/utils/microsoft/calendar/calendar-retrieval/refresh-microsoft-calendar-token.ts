@@ -1,6 +1,6 @@
 import _ from "lodash"
-import cca from "../../msal-config"
 import { Types } from "mongoose"
+import cca from "../../msal-config"
 import updateMicrosoftCalendarTokensInDB from "./update-microsoft-calendar-tokens-in-db"
 
 export default async function refreshMicrosoftCalendarToken(userId: Types.ObjectId, refreshToken: string): Promise<string | null> {

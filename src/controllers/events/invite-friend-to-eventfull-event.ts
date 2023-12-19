@@ -4,35 +4,36 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 
 export default async function inviteFriendToEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
-		const friendId = req.friendId
-		const { eventfullEventId } = req.body
+		const user = req.user
+		const friend = req.friend
+		const event = req.event
 
 		await EventfullEventModel.findByIdAndUpdate(
-			eventfullEventId,
+			event._id,
 			{
 				$push: {
 					invitees: {
-						userId: friendId,
+						userId: friend._id,
 						attendingStatus: "Not Responded",
-						invitedBy: userId
+						invitedBy: user._id
 					}
 				}
 			},
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
-		await UserModel.updateOne(
-			{ _id: friendId },
+		await UserModel.findByIdAndUpdate(
+			friend._id,
 			{
 				$push: {
 					eventfullEvents: {
-						eventId: eventfullEventId,
+						eventId: event._id,
 						attendingStatus: "Not Responded",
-						invitedBy: userId
+						invitedBy: user._id
 					}
 				}
-			}
+			},
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ message: "Friend invited to event" })

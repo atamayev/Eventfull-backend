@@ -1,19 +1,20 @@
 import _ from "lodash"
 import { Response, Request } from "express"
+import UserModel from "../../models/user-model"
 import Hash from "../../setup-and-security/hash"
-import { checkIfUserIdMatchesContact, retrieveUserPassword, updatePassword } from "../../utils/auth-helpers/change-password-helpers"
+import isSameContactMethod from "../../utils/auth-helpers/is-same-contact-method"
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {
 	const { contact, currentPassword, newPassword } = req.body.changePasswordObject as ChangePasswordObject
-	const userId = req.userId
+	const user = req.user
 	const contactType = req.contactType
 
 	try {
-		const doesUserIdMatchEmail = await checkIfUserIdMatchesContact(userId, contact, contactType)
+		const doesUserHaveContactType = isSameContactMethod(user, contact, contactType)
 
-		if (doesUserIdMatchEmail === false) return res.status(400).json({ error: "Email does not match user id" })
+		if (doesUserHaveContactType === false) return res.status(400).json({ error: `${contactType} does not match what is on file.` })
 
-		const hashedOldPassword = await retrieveUserPassword(userId)
+		const hashedOldPassword = user.password
 		if (_.isUndefined(hashedOldPassword)) return res.status(500).json({ error: "Error in changing password" })
 
 		const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedOldPassword)
@@ -26,8 +27,8 @@ export default async function changePassword (req: Request, res: Response): Prom
 			}
 
 			const newHashedPassword = await Hash.hashCredentials(newPassword)
-			await updatePassword(userId, newHashedPassword)
-			return res.status(200).json()
+			await UserModel.findByIdAndUpdate(user._id, { password: newHashedPassword }, { runValidators: true })
+			return res.status(200).json({ message: "Password changed successfully" })
 		}
 	} catch (error) {
 		console.error(error)

@@ -4,7 +4,7 @@ import createGoogleCalendarClient from "../../../utils/google/calendar/create-go
 
 export default async function deleteGoogleCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 
 		const googleCalendarAccessToken = req.headers.googleCalendarAccessToken as string
 
@@ -17,7 +17,7 @@ export default async function deleteGoogleCalendarEvent(req: Request, res: Respo
 			eventId: eventId
 		})
 
-		await deleteDBCalendarEvent(userId, eventId, "hard")
+		await deleteDBCalendarEvent(user._id, eventId, "hard")
 
 		return res.status(200).json()
 	} catch (error) {

@@ -1,27 +1,14 @@
-import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import EventfullEventModel from "../../models/eventfull-event-model"
-import UserModel from "../../models/user-model"
 
-export default async function confirmEventOrganizerNotBlockingFriend(
-	req: Request,
-	res: Response,
-	next: NextFunction
-): Promise<void | Response> {
+export default function confirmEventOrganizerNotBlockingFriend(req: Request, res: Response,	next: NextFunction): void | Response {
 	try {
-		const friendId = req.friendId
-		const eventfullEventId = req.body.eventfullEventId as string
+		const friend = req.friend
+		const eventOrganizer = req.eventOrganizer
 
-		const event = await EventfullEventModel.findById(eventfullEventId)
-		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
+		const blockedUsers = eventOrganizer.blockedUsers.map(user => user.toString())
 
-		const organizer = await UserModel.findById(event.organizerId)
-
-		if (_.isNull(organizer)) return res.status(404).json({ error: "Event organizer not found" })
-		const blockedUsers = organizer.blockedUsers.map(user => user.toString())
-
-		if (blockedUsers.includes(friendId.toString())) {
-			return res.status(403).json({ error: "You are blocked by the event organizer. Unable to attend event" })
+		if (blockedUsers.includes(friend._id.toString())) {
+			return res.status(403).json({ error: "Your friend is blocked by the event organizer. Unable to invite friend" })
 		}
 
 		next()

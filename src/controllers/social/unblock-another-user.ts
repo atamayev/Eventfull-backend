@@ -1,29 +1,28 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import checkIfUserBlockedFriend from "../../utils/social/block/check-if-user-blocked-friend"
+import checkIfUserHasBlockedFriend from "../../utils/social/block/check-if-user-has-blocked-friend"
 import unblockUser from "../../utils/social/block/unblock-user"
 
 export default async function unblockAnotherUser (req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
-		const unblockedUserId = req.unblockedUserId
-		const unblockedUserUsername = req.unblockedUserUsername
+		const user = req.user
+		const unblockedUser = req.unblockedUser
 
-		if (_.isEqual(userId, unblockedUserId)) return res.status(400).json({ message: "You cannot unblock yourself" })
+		if (_.isEqual(user._id, unblockedUser._id)) return res.status(400).json({ message: "You cannot unblock yourself" })
 
-		const isOtherUserBlocked = await checkIfUserBlockedFriend(userId, unblockedUserId)
+		const isOtherUserBlocked = checkIfUserHasBlockedFriend(user, unblockedUser._id)
 
 		if (isOtherUserBlocked === false) {
-			if (!_.isEmpty(unblockedUserUsername)) {
-				return res.status(400).json({ message: `${unblockedUserUsername} is not blocked` })
+			if (!_.isEmpty(unblockedUser.username)) {
+				return res.status(400).json({ message: `${unblockedUser.username} is not blocked` })
 			}
 			return res.status(400).json({ message: "User is already unblocked" })
 		}
 
-		await unblockUser(userId, unblockedUserId)
+		await unblockUser(user._id, unblockedUser._id)
 
-		if (!_.isEmpty(unblockedUserUsername)) {
-			return res.status(200).json({ message: `${unblockedUserUsername} unblocked` })
+		if (!_.isEmpty(unblockedUser.username)) {
+			return res.status(200).json({ message: `${unblockedUser.username} unblocked` })
 		}
 
 		return res.status(200).json({ message: "User unblocked" })

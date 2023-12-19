@@ -4,8 +4,8 @@ import getValidGoogleCalendarAccessToken from "../../utils/google/calendar/calen
 
 export default async function assignGoogleCalendarAccessToken(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
-		const userId = req.userId
-		const googleCalendarAccessToken = await getValidGoogleCalendarAccessToken(userId)
+		const user = req.user
+		const googleCalendarAccessToken = await getValidGoogleCalendarAccessToken(user)
 		if (_.isUndefined(googleCalendarAccessToken)) {
 			return res.status(400).json({ error: "No Google Calendar Access Token Found" })
 		}

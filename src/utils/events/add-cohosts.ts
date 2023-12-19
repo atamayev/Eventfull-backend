@@ -1,17 +1,14 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function addCohosts(
-	userId: Types.ObjectId,
-	eventfullEventId: string,
+	user: User,
 	currentEvent: EventfullEvent,
 	updatedEventData: IncomingEventfullEvent
 ): Promise<void> {
-	const user = await UserModel.findById(userId).select("friends")
-	const friendIds = user?.friends.map(friend => friend.toString()) || []
+	const friendIds = user.friends.map(friend => friend.toString())
 
 	const updatedCoHostIds = updatedEventData.coHosts.map(coHost => coHost.toString())
 
@@ -21,7 +18,7 @@ export default async function addCohosts(
 			existingCohost.userId.toString() === hostId.toString()))
 		.map(hostId => ({
 			userId: hostId,
-			invitedBy: userId
+			invitedBy: user._id
 		}))
 
 	const coHostsToRemove = currentEvent.coHosts.filter(existingCoHost =>
@@ -33,14 +30,15 @@ export default async function addCohosts(
 
 	if (!_.isEmpty(coHostsToRemove)) {
 		const removeCoHostsPromise = EventfullEventModel.findByIdAndUpdate(
-			eventfullEventId,
+			currentEvent._id,
 			{ $pull: { coHosts: { userId: { $in: coHostsToRemove.map(coHost => coHost.userId) } } } },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 		const removeCoHostsPromises = coHostsToRemove.map(coHost =>
-			UserModel.updateOne(
-				{ _id: coHost.userId },
-				{ $pull: { eventfullEvents: { eventId: eventfullEventId } } }
+			UserModel.findByIdAndUpdate(
+				coHost.userId,
+				{ $pull: { eventfullEvents: { eventId: currentEvent._id } } },
+				{ runValidators: true }
 			)
 		)
 		await Promise.all([removeCoHostsPromise, ...removeCoHostsPromises])
@@ -48,25 +46,26 @@ export default async function addCohosts(
 
 	if (!_.isEmpty(coHostsToAdd)) {
 		const addCoHostsPromise = EventfullEventModel.findByIdAndUpdate(
-			eventfullEventId,
+			currentEvent._id,
 			{
 				$set: eventDataToUpdate,
 				$push: { coHosts: { $each: coHostsToAdd } } },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
 		const addCoHostsPromises = coHostsToAdd.map(coHost =>
-			UserModel.updateOne(
-				{ _id: coHost.userId },
+			UserModel.findByIdAndUpdate(
+				coHost.userId,
 				{
 					$push: {
 						eventfullEvents: {
-							eventId: eventfullEventId,
+							eventId: currentEvent._id,
 							attendingStatus: "Co-Hosting",
-							invitedBy: userId
+							invitedBy: user._id
 						}
 					}
-				})
+				}, { runValidators: true }
+			),
 		)
 
 		await Promise.all([addCoHostsPromise, ...addCoHostsPromises])

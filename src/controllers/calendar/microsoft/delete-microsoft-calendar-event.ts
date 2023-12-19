@@ -4,7 +4,7 @@ import createGraphClient from "../../../utils/microsoft/create-graph-client"
 
 export default async function deleteMicrosoftCalendarEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 
 		const microsoftCalendarAccessToken = req.headers.microsoftCalendarAccessToken as string
 
@@ -16,7 +16,7 @@ export default async function deleteMicrosoftCalendarEvent(req: Request, res: Re
 
 		await microsoftClient.api(`/me/calendars/${calendarId}/events/${eventId}`).delete()
 
-		await deleteDBCalendarEvent(userId, eventId, "hard")
+		await deleteDBCalendarEvent(user._id, eventId, "hard")
 
 		return res.status(200).json()
 	} catch (error) {

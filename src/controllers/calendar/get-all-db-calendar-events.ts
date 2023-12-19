@@ -1,12 +1,8 @@
-import _ from "lodash"
 import { Response, Request } from "express"
-import UserModel from "../../models/user-model"
 
-export default async function getAllDbCalendarEvents (req: Request, res: Response): Promise<Response> {
+export default function getAllDbCalendarEvents (req: Request, res: Response): Response {
 	try {
-		const userId = req.userId
-		const user = await UserModel.findById(userId)
-		if (_.isNull(user)) return res.status(400).json({ error: "User not found" })
+		const user = req.user
 
 		const activeCalendarDetails = user.calendarData.filter(event => event.isActive === true)
 

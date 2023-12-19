@@ -4,27 +4,23 @@ import UserModel from "../../../models/user-model"
 
 export default async function unfriendYourFriend (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
 	try {
-		const user = await UserModel.findById(userId)
-		if (_.isNull(user)) throw new Error("User not found")
-
-		const friend = await UserModel.findById(friendId)
-		if (_.isNull(friend)) throw new Error("Friend not found")
-
-		const userDelete = UserModel.updateOne(
-			{ _id: userId },
-			{ $pull: { friends: friendId } }
+		const userDelete = UserModel.findByIdAndUpdate(
+			userId,
+			{ $pull: { friends: friendId } },
+			{ new: true, runValidators: true }
 		)
 
-		const friendDelete = UserModel.updateOne(
-			{ _id: friendId },
-			{ $pull: { friends: userId } }
+		const friendDelete = UserModel.findByIdAndUpdate(
+			friendId,
+			{ $pull: { friends: userId } },
+			{ new: true, runValidators: true }
 		)
 
 		const [userResult, friendResult] = await Promise.all([userDelete, friendDelete])
 
-		if (userResult.matchedCount === 0) throw new Error("User not found")
+		if (_.isNull(userResult)) throw new Error("User not found")
 
-		if (friendResult.matchedCount === 0) throw new Error("Friend not found")
+		if (_.isNull(friendResult)) throw new Error("Friend not found")
 	}
 	catch (error) {
 		console.error(error)

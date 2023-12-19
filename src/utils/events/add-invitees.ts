@@ -1,16 +1,13 @@
-import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function addInvitees(
-	userId: Types.ObjectId,
-	eventfullEventId: string,
+	user: User,
 	currentEvent: EventfullEvent,
 	updatedEventData: IncomingEventfullEvent
 ): Promise<void> {
-	const user = await UserModel.findById(userId).select("friends")
-	const friendIds = user?.friends.map(friend => friend.toString()) || []
+	const friendIds = user.friends.map(friend => friend.toString())
 
 	const updatedInviteeIds = updatedEventData.invitees.map(invitee => invitee.toString())
 
@@ -23,7 +20,7 @@ export default async function addInvitees(
 		.map(inviteeId => ({
 			userId: inviteeId,
 			attendingStatus: "Not Responded",
-			invitedBy: userId
+			invitedBy: user._id
 		}))
 
 	const inviteesToRemove = currentEvent.invitees.filter(existingInvitee =>
@@ -34,39 +31,42 @@ export default async function addInvitees(
 	const { invitees, coHosts, ...eventDataToUpdate } = updatedEventData
 
 	const deleteInviteesPromise = EventfullEventModel.findByIdAndUpdate(
-		eventfullEventId,
+		currentEvent._id,
 		{ $pull: { invitees: { userId: { $in: inviteesToRemove.map(invitee => invitee.userId) } } } },
-		{ new: true, runValidators: true }
+		{ runValidators: true }
 	)
 
 	const removeInviteesPromises = inviteesToRemove.map(invitee =>
-		UserModel.updateOne(
-			{ _id: invitee.userId },
-			{ $pull: { eventfullEvents: { eventId: eventfullEventId } } }
+		UserModel.findByIdAndUpdate(
+			invitee.userId,
+			{ $pull: { eventfullEvents: { eventId: currentEvent._id } } },
+			{ runValidators: true }
 		)
 	)
 
 	const addInviteesPromise = EventfullEventModel.findByIdAndUpdate(
-		eventfullEventId,
+		currentEvent._id,
 		{
 			$set: eventDataToUpdate,
 			$push: { invitees: { $each: inviteesToAdd } }
 		},
-		{ new: true, runValidators: true }
+		{ runValidators: true }
 	)
 
 	const addInviteesPromises = inviteesToAdd.map(invitee =>
-		UserModel.updateOne(
-			{ _id: invitee.userId },
+		UserModel.findByIdAndUpdate(
+			invitee.userId,
 			{
 				$push: {
 					eventfullEvents: {
-						eventId: eventfullEventId,
+						eventId: currentEvent._id,
 						attendingStatus: "Not Responded",
-						invitedBy: userId
+						invitedBy: user._id
 					}
 				}
-			})
+			},
+			{ runValidators: true }
+		)
 	)
 
 	await Promise.all([

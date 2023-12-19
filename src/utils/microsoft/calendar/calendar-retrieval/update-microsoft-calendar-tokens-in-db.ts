@@ -14,7 +14,11 @@ export default async function updateMicrosoftCalendarTokensInDB(userId: Types.Ob
 		if (!_.isNull(expiresOn)) updateData.microsoftCalendarAccessTokenExpiryDate = expiresOn
 
 		if (!_.isEmpty(updateData)) {
-			await UserModel.updateOne({ _id: userId }, { $set: updateData })
+			await UserModel.findByIdAndUpdate(
+				userId,
+				{ $set: updateData },
+				{ runValidators: true }
+			)
 		}
 	} catch (error) {
 		console.error("Error updating user tokens in DB:", error)

@@ -3,9 +3,9 @@ import deleteDBCalendarEvent from "../../../utils/calendar-misc/delete-db-calend
 
 export default async function deleteLocalCalendarEvent (req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
+		const user = req.user
 		const calendarId: string = req.params.calendarId
-		await deleteDBCalendarEvent(userId, calendarId, "soft")
+		await deleteDBCalendarEvent(user._id, calendarId, "soft")
 
 		return res.status(200).json({ message: "Calendar event deleted successfully" })
 	} catch (error) {

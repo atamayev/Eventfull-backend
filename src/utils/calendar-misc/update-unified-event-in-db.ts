@@ -1,13 +1,8 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
-export default async function updateUnifiedEventInDb (userId: Types.ObjectId, calendarDetails: UnifiedCalendarEvent): Promise<void> {
+export default async function updateUnifiedEventInDb (user: User, calendarDetails: UnifiedCalendarEvent): Promise<void> {
 	try {
-		const user = await UserModel.findById(userId)
-
-		if (_.isNull(user)) throw new Error("User not found")
-
 		const eventIndex = user.calendarData.findIndex(event => {
 			return _.toString(event.id) === calendarDetails.id
 		})
@@ -17,9 +12,10 @@ export default async function updateUnifiedEventInDb (userId: Types.ObjectId, ca
 		calendarDetails.isActive = true
 
 		const updatePath = `calendarData.${eventIndex}`
-		await UserModel.updateOne(
-			{ _id: userId },
-			{ $set: { [updatePath]: calendarDetails } }
+		await UserModel.findByIdAndUpdate(
+			user._id,
+			{ $set: { [updatePath]: calendarDetails } },
+			{ runValidators: true }
 		)
 	} catch (error) {
 		console.error(error)

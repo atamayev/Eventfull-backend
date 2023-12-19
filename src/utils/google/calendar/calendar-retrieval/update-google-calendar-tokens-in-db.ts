@@ -13,7 +13,11 @@ export default async function updateGoogleCalendarTokensInDB(userId: Types.Objec
 		if (!_.isNil(expiry_date)) updateData.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
 
 		if (!_.isEmpty(updateData)) {
-			await UserModel.updateOne({ _id: userId }, { $set: updateData })
+			await UserModel.findByIdAndUpdate(
+				userId,
+				{ $set: updateData },
+				{ runValidators: true }
+			)
 		}
 	} catch (error) {
 		console.error("Error updating user tokens in DB:", error)

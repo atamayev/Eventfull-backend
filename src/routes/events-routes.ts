@@ -1,21 +1,27 @@
 import express from "express"
 
-import validateInviteResponseRequest from "../middleware/request-validation/events/validate-invite-response-request"
-import validateEventfullInviteRequest from "../middleware/request-validation/events/validate-eventfull-invite-request"
+import validateResponseToEventfullEventInvite from "../middleware/request-validation/events/validate-response-to-eventfull-event-invite"
+import validateEventfullInvite from "../middleware/request-validation/events/validate-eventfull-invite"
 import validateCreateEventfullEvent from "../middleware/request-validation/events/validate-create-eventfull-event"
 import validateUpdateEventfullEvent from "../middleware/request-validation/events/validate-update-an-eventfull-event"
 import validateEventfullEventId from "../middleware/request-validation/events/validate-eventfull-event-id"
 
+import attachEventToRequest from "../middleware/attach-to-request/attach-event-to-request"
+import attachFriendToRequest from "../middleware/attach-to-request/attach-friend-to-request"
+import attachEventOrganizerToRequest from "../middleware/attach-to-request/attach-event-organizer-to-request"
+
 import confirmEventIsInviteable from "../middleware/events/confirm-event-is-inviteable"
 import confirmEventIsActive from "../middleware/events/confirm-event-is-actve"
 import confirmEventOrganizerNotBlockingUser from "../middleware/events/confirm-event-organizer-not-blocking-user"
-import validateConfirmUsersAreFriends from "../middleware/social/friend/validate-confirm-users-are-friends"
+import confirmUsersAreFriends from "../middleware/social/friend/confirm-users-are-friends"
 import confirmEventOrganizerNotBlockingFriend from "../middleware/events/confirm-event-organizer-not-blocking-friend"
 import confirmInviterIsAlreadyInvitedOrHost from "../middleware/events/confirm-inviter-is-already-invited-or-host"
 import confirmUserIsEventOrganizerOrCohost from "../middleware/events/confirm-user-is-event-organizer-or-cohost"
 import confirmInvitedUserHasNotResponded from "../middleware/events/confirm-invited-user-has-not-responded"
 import confirmEventIsPublic from "../middleware/events/confirm-event-is-public"
 import confirmAbleToInviteFriend from "../middleware/events/confirm-able-to-invite-friend"
+import confirmUserNotBlockingEventOrganizer from "../middleware/events/confirm-user-not-blocking-event-organizer"
+import checkIfUserAttendingEventfullEvent from "../middleware/events/check-if-user-attending-eventfull-event"
 
 import createEventfullEvent from "../controllers/events/create-eventfull-event"
 import respondToEventfullInvite from "../controllers/events/respond-to-eventfull-invite"
@@ -26,7 +32,6 @@ import updateEventfullEvent from "../controllers/events/update-eventfull-event"
 import pinEventfullEvent from "../controllers/events/pin-eventfull-event"
 import removePinnedEventfullEvent from "../controllers/events/remove-pinned-eventfull-event"
 import signUpForEventfullEvent from "../controllers/events/sign-up-for-eventfull-event"
-import checkIfUserAttendingEventfullEvent from "../middleware/events/check-if-user-attending-eventfull-event"
 import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
 
 const eventsRoutes = express.Router()
@@ -34,7 +39,8 @@ const eventsRoutes = express.Router()
 eventsRoutes.post("/create-eventfull-event", validateCreateEventfullEvent, createEventfullEvent)
 eventsRoutes.post(
 	"/respond-to-eventfull-invite",
-	validateInviteResponseRequest,
+	validateResponseToEventfullEventInvite,
+	attachEventToRequest,
 	confirmEventOrganizerNotBlockingUser,
 	confirmEventIsActive,
 	respondToEventfullInvite
@@ -42,11 +48,14 @@ eventsRoutes.post(
 
 eventsRoutes.post(
 	"/invite-friend-to-eventfull-event",
-	validateEventfullInviteRequest,
+	validateEventfullInvite,
+	attachEventToRequest,
+	attachFriendToRequest,
 	confirmEventIsInviteable,
 	confirmEventIsActive,
+	attachEventOrganizerToRequest,
 	confirmEventOrganizerNotBlockingFriend,
-	validateConfirmUsersAreFriends,
+	confirmUsersAreFriends,
 	confirmInviterIsAlreadyInvitedOrHost,
 	confirmAbleToInviteFriend,
 	inviteFriendToEventfullEvent
@@ -54,7 +63,9 @@ eventsRoutes.post(
 
 eventsRoutes.post(
 	"/retract-invite-to-eventfull-event",
-	validateEventfullInviteRequest,
+	validateEventfullInvite,
+	attachEventToRequest,
+	attachFriendToRequest,
 	confirmEventIsActive,
 	confirmInvitedUserHasNotResponded,
 	retractInviteToEventfullEvent
@@ -63,6 +74,7 @@ eventsRoutes.post(
 eventsRoutes.post(
 	"/update-eventfull-event",
 	validateUpdateEventfullEvent,
+	attachEventToRequest,
 	confirmEventIsActive,
 	confirmUserIsEventOrganizerOrCohost,
 	updateEventfullEvent
@@ -71,18 +83,22 @@ eventsRoutes.post(
 eventsRoutes.post(
 	"/delete-eventfull-event",
 	validateEventfullEventId,
+	attachEventToRequest,
 	confirmUserIsEventOrganizerOrCohost,
 	deleteEventfullEvent
 )
 
-eventsRoutes.post("/pin-eventfull-event", validateEventfullEventId, confirmEventIsActive, pinEventfullEvent)
+eventsRoutes.post("/pin-eventfull-event", validateEventfullEventId, attachEventToRequest, confirmEventIsActive, pinEventfullEvent)
 
-eventsRoutes.post("/remove-pinned-eventfull-event", validateEventfullEventId, removePinnedEventfullEvent)
+eventsRoutes.post("/remove-pinned-eventfull-event", validateEventfullEventId, attachEventToRequest, removePinnedEventfullEvent)
 
 eventsRoutes.post("/sign-up-for-eventfull-event",
 	validateEventfullEventId,
+	attachEventToRequest,
 	confirmEventIsActive,
 	confirmEventIsPublic,
+	attachEventOrganizerToRequest,
+	confirmUserNotBlockingEventOrganizer,
 	confirmEventOrganizerNotBlockingUser,
 	checkIfUserAttendingEventfullEvent,
 	signUpForEventfullEvent
@@ -90,6 +106,7 @@ eventsRoutes.post("/sign-up-for-eventfull-event",
 
 eventsRoutes.post("/cancel-eventfull-event-registration",
 	validateEventfullEventId,
+	attachEventToRequest,
 	checkIfUserAttendingEventfullEvent,
 	cancelEventfullEventRegistration
 )

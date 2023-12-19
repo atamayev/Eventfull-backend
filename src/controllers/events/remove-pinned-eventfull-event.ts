@@ -3,12 +3,13 @@ import UserModel from "../../models/user-model"
 
 export default async function removePinnedEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
-		const eventfullEventId = req.body.eventfullEventId as string
+		const user = req.user
+		const event = req.event
 
-		await UserModel.updateOne(
-			{ _id: userId },
-			{ $pull: { eventPins: eventfullEventId } }
+		await UserModel.findByIdAndUpdate(
+			user._id,
+			{ $pull: { eventPins: event._id } },
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ message: "Event Un-Pinned" })

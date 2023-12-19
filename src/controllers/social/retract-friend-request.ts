@@ -4,15 +4,15 @@ import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-
 
 export default async function retractFriendRequest(req: Request, res: Response): Promise<Response> {
 	try {
-		const userId = req.userId
-		const friendId = req.friendId
+		const user = req.user
+		const friend = req.friend
 
-		const outgoingFriendRequestExists = await checkIfOutgoingFriendRequestExists(userId, friendId)
+		const outgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, friend._id)
 		if (outgoingFriendRequestExists === false) {
-			return res.status(400).json({ message: "Friend request does not exist" })
+			return res.status(400).json({ message: "Outgoing Friend request does not exist" })
 		}
 
-		await clearOutgoingFriendRequest(userId, friendId)
+		await clearOutgoingFriendRequest(user._id, friend._id)
 
 		return res.status(200).json({ message: "Friend request retracted" })
 
