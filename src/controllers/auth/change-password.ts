@@ -12,7 +12,7 @@ export default async function changePassword (req: Request, res: Response): Prom
 	try {
 		const doesUserHaveContactType = isSameContactMethod(user, contact, contactType)
 
-		if (doesUserHaveContactType === false) return res.status(400).json({ error: "Email does not match user id" })
+		if (doesUserHaveContactType === false) return res.status(400).json({ error: `${contactType} does not match what is on file.` })
 
 		const hashedOldPassword = user.password
 		if (_.isUndefined(hashedOldPassword)) return res.status(500).json({ error: "Error in changing password" })
