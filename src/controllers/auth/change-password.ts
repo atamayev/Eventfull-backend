@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import Hash from "../../setup-and-security/hash"
-import doesUserMatchContact from "../../utils/auth-helpers/does-user-match-contact"
 import UserModel from "../../models/user-model"
+import Hash from "../../setup-and-security/hash"
+import isSameContactMethod from "../../utils/auth-helpers/is-same-contact-method"
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {
 	const { contact, currentPassword, newPassword } = req.body.changePasswordObject as ChangePasswordObject
@@ -10,7 +10,7 @@ export default async function changePassword (req: Request, res: Response): Prom
 	const contactType = req.contactType
 
 	try {
-		const doesUserHaveContactType = doesUserMatchContact(user, contact, contactType)
+		const doesUserHaveContactType = isSameContactMethod(user, contact, contactType)
 
 		if (doesUserHaveContactType === false) return res.status(400).json({ error: "Email does not match user id" })
 

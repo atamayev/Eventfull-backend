@@ -1,12 +1,7 @@
 export default function isSameContactMethod(user: User, contact: string, contactType: EmailOrPhone): boolean {
 	try {
-		if (contactType === "Email" && (user.email === contact)) {
-			return true
-		} else if (contactType === "Phone" && (user.phone === contact)) {
-			return true
-		}
-
-		return false
+		if (contactType === "Email") return user.email === contact
+		else return user.phone === contact
 	} catch (error) {
 		console.error(error)
 		return false
