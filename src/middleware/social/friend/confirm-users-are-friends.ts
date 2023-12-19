@@ -10,9 +10,9 @@ export default function confirmUsersAreFriends (req: Request, res: Response, nex
 		if (_.isEqual(user._id, friend._id)) {
 			return res.status(400).json({ message: "You cannot invite yourself" })
 		}
-		const areUsersFriends = areUsersFriends(user, friend._id)
+		const areBothUsersFriends = areUsersFriends(user, friend._id)
 
-		if (areUsersFriends === false) {
+		if (areBothUsersFriends === false) {
 			if (_.isEmpty(friend.username)) {
 				return res.status(400).json({ message: "You are not friends with this user" })
 			}

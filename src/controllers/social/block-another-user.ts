@@ -17,9 +17,9 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 
 		await blockUser(user._id, blockedUser._id)
 
-		const areUsersFriends = areUsersFriends(user, blockedUser._id)
+		const areBothUsersFriends = areUsersFriends(user, blockedUser._id)
 
-		if (areUsersFriends === true) {
+		if (areBothUsersFriends === true) {
 			await unfriendYourFriend(user._id, blockedUser._id)
 		}
 
