@@ -30,6 +30,8 @@ import determineRegisterContactType	from "../middleware/auth/determine-contact-t
 import determineChangePasswordContactType from "../middleware/auth/determine-contact-type/determine-change-password-contact-type"
 import validateAddCloudUserPersonalInfo from "../middleware/request-validation/auth/validate-add-cloud-user-personal-info"
 import confirmUserHasGoogleCalendar from "../middleware/auth/confirm-user-has-google-calendar"
+import confirmUserHasMicrosoftCalendar from "../middleware/auth/confirm-user-has-microsoft-calendar"
+import revokeMicrosoftCalendarAccess from "../controllers/auth/microsoft-auth/revoke-microsoft-calendar-access"
 
 const authRoutes = express.Router()
 
@@ -53,6 +55,12 @@ authRoutes.get("/microsoft-auth/generate-calendar-auth-url", jwtVerify, generate
 
 authRoutes.get("/microsoft-auth/login-callback", validateQueryCode, microsoftLoginAuthCallback)
 authRoutes.get("/microsoft-auth/calendar-callback", validateCalendarCallback, microsoftCalendarAuthCallback)
+
+authRoutes.post("/microsoft-auth/revoke-microsoft-calendar-access",
+	jwtVerify,
+	confirmUserHasMicrosoftCalendar,
+	revokeMicrosoftCalendarAccess
+)
 
 authRoutes.post("/add-cloud-user-personal-info", jwtVerify, validateAddCloudUserPersonalInfo, addCloudUserPersonalInfo)
 authRoutes.post("/add-secondary-contact", jwtVerify, validateContact,
