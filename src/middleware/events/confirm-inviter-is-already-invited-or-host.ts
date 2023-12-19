@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
 export default function confirmInviterIsAlreadyInvitedOrHost(req: Request, res: Response, next: NextFunction): void | Response {
@@ -6,9 +5,6 @@ export default function confirmInviterIsAlreadyInvitedOrHost(req: Request, res: 
 		const user = req.user
 		const event = req.event
 
-		if (_.isEmpty(event.invitees)) {
-			return res.status(404).json({ error: "Event has no invitees" })
-		}
 		const inviteesIds = event.invitees.map(invitee => invitee.userId.toString())
 		inviteesIds.push(event.organizerId.toString())
 
