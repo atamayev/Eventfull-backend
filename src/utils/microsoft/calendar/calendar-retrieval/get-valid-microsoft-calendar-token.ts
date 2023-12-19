@@ -4,9 +4,9 @@ import refreshMicrosoftCalendarToken from "./refresh-microsoft-calendar-token"
 
 export default async function getValidMicrosoftCalendarAccessToken(user: User): Promise<string | undefined> {
 	const tokens = getMicrosoftCalendarTokens(user)
-	if ((_.isUndefined(tokens)) ||
-		(_.isUndefined(tokens.calendarRefreshToken))
-	) return undefined
+	if ((_.isUndefined(tokens.calendarRefreshToken))) {
+		return undefined
+	}
 
 	let { calendarAccessToken } = tokens
 	const { calendarTokenExpiryDate, calendarRefreshToken } = tokens
