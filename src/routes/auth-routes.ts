@@ -23,7 +23,7 @@ import validateRegister from "../middleware/request-validation/auth/validate-reg
 import validateQueryCode from "../middleware/request-validation/auth/validate-query-code"
 import validateChangePassword from "../middleware/request-validation/auth/validate-change-password"
 import validateCalendarCallback from "../middleware/request-validation/auth/validate-calendar-callback"
-import validateUsernameInBody from "../middleware/request-validation/auth/validate-username-in-body"
+import validateUsername from "../middleware/request-validation/auth/validate-username"
 import validateContact from "../middleware/request-validation/auth/validate-contact"
 import determineContactType from "../middleware/auth/determine-contact-type/determine-contact-type"
 import determineRegisterContactType	from "../middleware/auth/determine-contact-type/determine-register-contact-type"
@@ -38,7 +38,7 @@ const authRoutes = express.Router()
 authRoutes.post("/login", validateLogin, login)
 authRoutes.post("/register", validateRegister, determineRegisterContactType, register)
 authRoutes.post("/change-password", jwtVerify, validateChangePassword, determineChangePasswordContactType, changePassword)
-authRoutes.post("/does-username-exist", jwtVerify, validateUsernameInBody, checkIfUsernameExists)
+authRoutes.post("/does-username-exist", jwtVerify, validateUsername, checkIfUsernameExists)
 authRoutes.post("/check-if-contact-exists", jwtVerify, validateContact,	determineContactType, checkIfContactExists)
 
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
