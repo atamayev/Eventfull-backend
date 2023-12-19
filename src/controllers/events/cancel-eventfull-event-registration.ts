@@ -19,9 +19,11 @@ export default async function cancelEventfullEventRegistration(req: Request, res
 
 		await EventfullEventModel.findByIdAndUpdate(
 			event._id,
-			{ $pull: {
-				attendees: { userId: user._id }
-			}},
+			{
+				$pull: {
+					attendees: { userId: user._id }
+				}
+			},
 			{ runValidators: true }
 		)
 

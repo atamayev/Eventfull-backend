@@ -14,7 +14,7 @@ export default async function respondToEventfullInvite(req: Request, res: Respon
 			await EventfullEventModel.findOneAndUpdate(
 				{ _id: event._id, "invitees.userId": user._id },
 				{ $set: { "invitees.$.attendingStatus": response } },
-				{ new: true, runValidators: true }
+				{ runValidators: true }
 			)
 		} else if (response === "Attending") {
 			await respondAttendingToInvitedEvent(user._id, event)

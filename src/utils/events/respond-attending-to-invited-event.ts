@@ -12,14 +12,14 @@ export default async function respondAttendingToInvitedEvent(userId: Types.Objec
 	// First, remove the user from the invitees array
 	await EventfullEventModel.findByIdAndUpdate(
 		event._id,
-		{ $pull: { invitees: { userId: userId } } },
+		{ $pull: { invitees: { userId } } },
 		{ runValidators: true }
 	)
 
 	// Then, add the user to the attendees array
 	await EventfullEventModel.findByIdAndUpdate(
 		event._id,
-		{ $push: { attendees: { userId: userId, invitedBy: invitedById } } },
+		{ $push: { attendees: { userId, invitedBy: invitedById } } },
 		{ runValidators: true }
 	)
 }
