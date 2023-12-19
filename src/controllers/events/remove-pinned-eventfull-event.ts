@@ -6,9 +6,10 @@ export default async function removePinnedEventfullEvent(req: Request, res: Resp
 		const user = req.user
 		const event = req.event
 
-		await UserModel.updateOne(
-			{ _id: user._id },
-			{ $pull: { eventPins: event._id } }
+		await UserModel.findByIdAndUpdate(
+			user._id,
+			{ $pull: { eventPins: event._id } },
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ message: "Event Un-Pinned" })

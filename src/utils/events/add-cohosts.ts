@@ -35,9 +35,10 @@ export default async function addCohosts(
 			{ new: true, runValidators: true }
 		)
 		const removeCoHostsPromises = coHostsToRemove.map(coHost =>
-			UserModel.updateOne(
-				{ _id: coHost.userId },
-				{ $pull: { eventfullEvents: { eventId: currentEvent._id } } }
+			UserModel.findByIdAndUpdate(
+				coHost.userId,
+				{ $pull: { eventfullEvents: { eventId: currentEvent._id } } },
+				{ runValidators: true }
 			)
 		)
 		await Promise.all([removeCoHostsPromise, ...removeCoHostsPromises])
@@ -53,8 +54,8 @@ export default async function addCohosts(
 		)
 
 		const addCoHostsPromises = coHostsToAdd.map(coHost =>
-			UserModel.updateOne(
-				{ _id: coHost.userId },
+			UserModel.findByIdAndUpdate(
+				coHost.userId,
 				{
 					$push: {
 						eventfullEvents: {
@@ -63,7 +64,8 @@ export default async function addCohosts(
 							invitedBy: user._id
 						}
 					}
-				})
+				}, { runValidators: true }
+			),
 		)
 
 		await Promise.all([addCoHostsPromise, ...addCoHostsPromises])

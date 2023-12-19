@@ -19,11 +19,11 @@ export default async function inviteFriendToEventfullEvent(req: Request, res: Re
 					}
 				}
 			},
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
-		await UserModel.updateOne(
-			{ _id: friend._id },
+		await UserModel.findByIdAndUpdate(
+			friend._id,
 			{
 				$push: {
 					eventfullEvents: {
@@ -32,7 +32,8 @@ export default async function inviteFriendToEventfullEvent(req: Request, res: Re
 						invitedBy: user._id
 					}
 				}
-			}
+			},
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ message: "Friend invited to event" })

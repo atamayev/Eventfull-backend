@@ -12,7 +12,9 @@ export default async function signUpForEventfullEvent(req: Request, res: Respons
 		const user = req.user
 		const event = req.event
 
-		if (_.isEqual(event.organizerId, user._id)) return res.status(200).json({ message: "You are the event organizer" })
+		if (_.isEqual(event.organizerId, user._id)) {
+			return res.status(200).json({ message: "You are the event organizer" })
+		}
 
 		const eventIndex = user.eventfullEvents.findIndex(event1 => event1.eventId.toString() === event._id.toString())
 
@@ -20,24 +22,24 @@ export default async function signUpForEventfullEvent(req: Request, res: Respons
 
 		const isUserInvited = event.invitees.some(invitee => _.isEqual(invitee.userId, user._id))
 		if (isUserInvited === false) {
-			await EventfullEventModel.updateOne(
-				{ _id: event._id },
+			await EventfullEventModel.findByIdAndUpdate(
+				event._id,
 				{ $addToSet: {
-					attendees: {
-						userId: user._id
-					}
-				}}
+					attendees: { userId: user._id }
+				}},
+				{ runValidators: true }
 			)
 		} else {
 			const invitee = event.invitees.find(inv => _.isEqual(inv.userId, user._id))
 
 			const invitedById = invitee ? invitee.invitedBy : null
-			await EventfullEventModel.updateOne(
-				{ _id: event._id },
+			await EventfullEventModel.findByIdAndUpdate(
+				event._id,
 				{
 					$pull: { invitees: { userId: user._id } },
 					$addToSet: { attendees: { userId: user._id, invitedBy: invitedById } }
-				}
+				},
+				{ runValidators: true }
 			)
 		}
 		return res.status(200).json({ message: "Signed up for Event" })

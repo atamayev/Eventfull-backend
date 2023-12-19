@@ -19,7 +19,11 @@ export default async function saveGoogleCalendarTokens(email: string, tokens: Cr
 		if (!_.isNil(expiry_date)) updateCalendarData.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
 
 		if (!_.isEmpty(updateCalendarData)) {
-			await UserModel.updateOne({ _id: user._id }, { $set: updateCalendarData })
+			await UserModel.findByIdAndUpdate(
+				user._id,
+				{ $set: updateCalendarData },
+				{ runValidators: true }
+			)
 		}
 	} catch (error) {
 		console.error("Error saving user tokens to DB:", error)

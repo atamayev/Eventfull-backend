@@ -12,9 +12,10 @@ export default async function updateUnifiedEventInDb (user: User, calendarDetail
 		calendarDetails.isActive = true
 
 		const updatePath = `calendarData.${eventIndex}`
-		await UserModel.updateOne(
-			{ _id: user._id },
-			{ $set: { [updatePath]: calendarDetails } }
+		await UserModel.findByIdAndUpdate(
+			user._id,
+			{ $set: { [updatePath]: calendarDetails } },
+			{ runValidators: true }
 		)
 	} catch (error) {
 		console.error(error)

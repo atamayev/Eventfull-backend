@@ -17,11 +17,12 @@ export default async function cancelEventfullEventRegistration(req: Request, res
 		const eventIndex = user.eventfullEvents.findIndex(event1 => event1.eventId.toString() === event._id.toString())
 		await cancelEventRegistration(user._id, event._id, eventIndex)
 
-		await EventfullEventModel.updateOne(
-			{ _id: event._id },
+		await EventfullEventModel.findByIdAndUpdate(
+			event._id,
 			{ $pull: {
 				attendees: { userId: user._id	}
-			}}
+			}},
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ message: "Cancelled Event Registration" })

@@ -14,8 +14,8 @@ export default async function createEventfullEvent(req: Request, res: Response):
 		const convertedEvent = convertToEventfullEvent(eventfullEventData, user._id, friendIds)
 
 		const eventId = await addEventfullEvent(convertedEvent, user._id)
-		await UserModel.updateOne(
-			{ _id: user._id},
+		await UserModel.findByIdAndUpdate(
+			user._id,
 			{
 				$push: {
 					eventfullEvents: {
@@ -23,13 +23,14 @@ export default async function createEventfullEvent(req: Request, res: Response):
 						attendingStatus: "Hosting"
 					}
 				}
-			}
+			},
+			{ runValidators: true }
 		)
 
 		if (!_.isUndefined(convertedEvent.coHosts)) {
 			await Promise.all(convertedEvent.coHosts.map(coHostId =>
-				UserModel.updateOne(
-					{ _id: coHostId},
+				UserModel.findByIdAndUpdate(
+					coHostId,
 					{
 						$push: {
 							eventfullEvents: {
@@ -38,15 +39,16 @@ export default async function createEventfullEvent(req: Request, res: Response):
 								invitedBy: user._id
 							}
 						}
-					}
+					},
+					{ runValidators: true }
 				)
 			))
 		}
 
 		if (!_.isUndefined(convertedEvent.invitees)) {
 			await Promise.all(convertedEvent.invitees.map(invitee =>
-				UserModel.updateOne(
-					{ _id: invitee.userId},
+				UserModel.findByIdAndUpdate(
+					invitee.userId,
 					{
 						$push: {
 							eventfullEvents: {
@@ -55,7 +57,8 @@ export default async function createEventfullEvent(req: Request, res: Response):
 								invitedBy: user._id
 							}
 						}
-					}
+					},
+					{ runValidators: true }
 				)
 			))
 		}

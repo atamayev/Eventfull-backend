@@ -9,20 +9,22 @@ export default async function updateUserAttendingStatus(
 	if (eventIndex !== -1) {
 		// Event found, update attendingStatus
 		const updatePath = `eventfullEvents.${eventIndex}.attendingStatus`
-		await UserModel.updateOne(
-			{ _id: userId },
-			{ $set: { [updatePath]: "Attending" } }
+		await UserModel.findByIdAndUpdate(
+			userId,
+			{ $set: { [updatePath]: "Attending" } },
+			{ runValidators: true }
 		)
 	} else {
 		// Event not found, add new eventfullEvent
-		await UserModel.updateOne(
-			{ _id: userId },
+		await UserModel.findByIdAndUpdate(
+			userId,
 			{ $addToSet: {
 				eventfullEvents: {
 					eventId: eventfullEventId,
 					attendingStatus: "Attending"
 				}
-			} }
+			} },
+			{ runValidators: true }
 		)
 	}
 }

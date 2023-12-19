@@ -12,9 +12,10 @@ export default async function saveIncomingUnifiedCalendarEvents(
 		.filter(event => event.source === source && !eventMap.has(event.id))
 
 	if (!_.isEmpty(eventsToDelete)) {
-		await UserModel.updateOne(
-			{ _id: user._id },
-			{ $pull: { calendarData: { id: { $in: eventsToDelete.map(event => event.id) } } } }
+		await UserModel.findByIdAndUpdate(
+			user._id,
+			{ $pull: { calendarData: { id: { $in: eventsToDelete.map(event => event.id) } } } },
+			{ runValidators: true }
 		)
 	}
 
@@ -22,15 +23,17 @@ export default async function saveIncomingUnifiedCalendarEvents(
 		const existingEvent = user.calendarData.find(e => e.id === event.id)
 
 		if (_.isUndefined(existingEvent)) {
-			await UserModel.updateOne(
-				{ _id: user._id },
-				{ $push: { calendarData: event } }
+			await UserModel.findByIdAndUpdate(
+				user._id,
+				{ $push: { calendarData: event } },
+				{ runValidators: true }
 			)
 		} else {
 			if (areEventsEqual(existingEvent, event) === false) {
 				await UserModel.updateOne(
 					{ _id: user._id, "calendarData.id": event.id },
-					{ $set: { "calendarData.$": event } }
+					{ $set: { "calendarData.$": event } },
+					{ runValidators: true }
 				)
 			}
 		}

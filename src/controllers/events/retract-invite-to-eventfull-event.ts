@@ -14,16 +14,17 @@ export default async function retractInviteToEventfullEvent(req: Request, res: R
 					invitees: { userId: friend._id }
 				}
 			},
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
-		await UserModel.updateOne(
-			{ _id: friend._id },
+		await UserModel.findByIdAndUpdate(
+			friend._id,
 			{
 				$pull: {
 					eventfullEvents: { eventId: event._id }
 				}
-			}
+			},
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ message: "Invitation retracted" })

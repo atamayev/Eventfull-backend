@@ -6,9 +6,10 @@ export default async function pinEventfullEvent(req: Request, res: Response): Pr
 		const user = req.user
 		const event = req.event
 
-		await UserModel.updateOne(
-			{ _id: user._id },
-			{ $addToSet: { eventPins: event._id } }
+		await UserModel.findByIdAndUpdate(
+			user._id,
+			{ $addToSet: { eventPins: event._id } },
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ message: "Event Pinned" })

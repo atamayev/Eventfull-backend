@@ -25,7 +25,11 @@ export default async function saveMicrosoftCalendarTokens(
 		}
 
 		if (!_.isEmpty(updateCalendarData)) {
-			await UserModel.updateOne({ _id: user._id }, { $set: updateCalendarData })
+			await UserModel.findByIdAndUpdate(
+				user._id,
+				{ $set: updateCalendarData },
+				{ runValidators: true }
+			)
 		}
 	} catch (error) {
 		console.error("Error saving user tokens to DB:", error)
