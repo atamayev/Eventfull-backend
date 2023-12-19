@@ -9,7 +9,6 @@ export default async function confirmEventOrganizerNotBlockingUser(
 ): Promise<void | Response> {
 	try {
 		const user = req.user
-
 		const event = req.event
 
 		const organizer = await findUser(event.organizerId)

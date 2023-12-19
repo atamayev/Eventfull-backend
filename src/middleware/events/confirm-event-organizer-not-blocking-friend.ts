@@ -17,7 +17,7 @@ export default async function confirmEventOrganizerNotBlockingFriend(
 		const blockedUsers = organizer.blockedUsers.map(user => user.toString())
 
 		if (blockedUsers.includes(friend._id.toString())) {
-			return res.status(403).json({ error: "You are blocked by the event organizer. Unable to attend event" })
+			return res.status(403).json({ error: "Your friend is blocked by the event organizer. Unable to attend event" })
 		}
 
 		next()
