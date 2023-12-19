@@ -1,5 +1,5 @@
-import _ from "lodash"
 import Joi from "joi"
+import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import getDecodedId from "../../../utils/auth-helpers/get-decoded-id"
 import findUser from "../../../utils/find-user"
@@ -15,7 +15,7 @@ export default async function validateCalendarRequest (req: Request, res: Respon
 
 	let email: string | undefined
 	try {
-		const state = JSON.parse(req.query.state as string)
+		const state = JSON.parse(req.query.state as string) as { accessToken: string }
 		const userId = getDecodedId(state.accessToken)
 		if (_.isUndefined(userId)) return handleUnauthorized()
 
