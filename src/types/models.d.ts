@@ -107,18 +107,19 @@ declare global {
 			address: string
 		}
 		eventImageURL?: string
-		eventCapacity?: number
 	}
 
 	interface EventfullEvent extends BaseEventfullEvent, IDInterface {
 		invitees: EventfullInvitee[]
 		coHosts: EventfullCoHost[]
 		attendees: EventfullAttendee[]
+		eventCapacity: number | null
 	}
 
 	interface IncomingEventfullEvent extends BaseEventfullEvent {
 		invitees: Types.ObjectId[]
 		coHosts: Types.ObjectId[]
+		eventCapacity?: number
 	}
 }
 

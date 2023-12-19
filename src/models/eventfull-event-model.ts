@@ -34,6 +34,7 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	canInvitedUsersInviteOthers: { type: Boolean, required: true },
 	invitees: { type: [eventfullInviteesSchema], required: true},
 	attendees: { type: [eventfullAttendeesSchema], required: true},
+	eventCapacity: { type: Number, default: null },
 
 	eventURL: { type: String },
 	eventDescription: { type: String },
@@ -42,7 +43,6 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 		address: String,
 	},
 	eventImageURL: { type: String },
-	eventCapacity: { type: Number },
 }, {
 	timestamps: true
 })
