@@ -8,7 +8,7 @@ export default async function deleteEventfullEvent(req: Request, res: Response):
 		await EventfullEventModel.findByIdAndUpdate(
 			event._id,
 			{ $set: { isActive: false } },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ message: "Event Deleted" })

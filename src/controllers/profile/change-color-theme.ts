@@ -6,7 +6,7 @@ export default async function changeColorTheme(req: Request, res: Response): Pro
 		const user = req.user
 		const { colorTheme } = req.body
 
-		await UserModel.findByIdAndUpdate(user._id, { colorTheme })
+		await UserModel.findByIdAndUpdate(user._id, { colorTheme }, { runValidators: true })
 		return res.status(200).json({ message: `Color theme changed to ${colorTheme}` })
 	} catch (error) {
 		console.error(error)

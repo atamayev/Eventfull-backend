@@ -15,7 +15,7 @@ export default async function addSecondaryContactMethodToDb (user: User, contact
 		if (contactType === "Email") updateFields.email = contact
 		else updateFields.phone = contact
 
-		await UserModel.findByIdAndUpdate(user._id, updateFields)
+		await UserModel.findByIdAndUpdate(user._id, updateFields, { runValidators: true })
 	} catch (error) {
 		console.error(error)
 		return null

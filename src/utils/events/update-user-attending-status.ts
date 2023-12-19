@@ -18,12 +18,14 @@ export default async function updateUserAttendingStatus(
 		// Event not found, add new eventfullEvent
 		await UserModel.findByIdAndUpdate(
 			userId,
-			{ $addToSet: {
-				eventfullEvents: {
-					eventId: eventfullEventId,
-					attendingStatus: "Attending"
+			{
+				$addToSet: {
+					eventfullEvents: {
+						eventId: eventfullEventId,
+						attendingStatus: "Attending"
+					}
 				}
-			} },
+			},
 			{ runValidators: true }
 		)
 	}

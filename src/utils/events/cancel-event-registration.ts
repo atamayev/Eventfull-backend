@@ -18,12 +18,14 @@ export default async function cancelEventRegistration(
 		// Event not found, add new eventfullEvent
 		await UserModel.findByIdAndUpdate(
 			userId,
-			{ $addToSet: {
-				eventfullEvents: {
-					eventId: eventfullEventId,
-					attendingStatus: "Not Attending"
+			{
+				addToSet: {
+					eventfullEvents: {
+						eventId: eventfullEventId,
+						attendingStatus: "Not Attending"
+					}
 				}
-			} },
+			},
 			{ runValidators: true }
 		)
 	}

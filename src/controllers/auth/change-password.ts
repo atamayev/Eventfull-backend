@@ -27,8 +27,8 @@ export default async function changePassword (req: Request, res: Response): Prom
 			}
 
 			const newHashedPassword = await Hash.hashCredentials(newPassword)
-			await UserModel.findByIdAndUpdate(user._id, { password: newHashedPassword })
-			return res.status(200).json()
+			await UserModel.findByIdAndUpdate(user._id, { password: newHashedPassword }, { runValidators: true })
+			return res.status(200).json({ message: "Password changed successfully" })
 		}
 	} catch (error) {
 		console.error(error)

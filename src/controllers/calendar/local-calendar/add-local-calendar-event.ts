@@ -15,7 +15,7 @@ export default async function addLocalCalendarEvent(req: Request, res: Response)
 		await UserModel.findByIdAndUpdate(
 			user._id,
 			{ $push: { calendarData: calendarDetails } },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
 		return res.status(200).json({ calendarId: calendarDetails.id })

@@ -14,7 +14,7 @@ export default async function addCloudEventToDb (
 		await UserModel.findByIdAndUpdate(
 			userId,
 			{ $push: { calendarData: calendarDetails } },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 	} catch (error) {
 		console.error(error)

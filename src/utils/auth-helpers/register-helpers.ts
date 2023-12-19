@@ -45,5 +45,6 @@ export async function addCloudUser(
 		firstName,
 		lastName,
 		username,
-	})
+	},
+	{ runValidators: true })
 }
