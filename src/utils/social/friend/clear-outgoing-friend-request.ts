@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
 
