@@ -2,7 +2,7 @@ import UserModel from "../../models/user-model"
 
 interface UserFields {
 	email?: string
-	phone?: string
+	phoneNumber?: string
 }
 
 export default async function addSecondaryContactMethodToDb (user: User, contact: string, contactType: EmailOrPhone): Promise<null | void> {
@@ -13,7 +13,7 @@ export default async function addSecondaryContactMethodToDb (user: User, contact
 
 		const updateFields: UserFields = {}
 		if (contactType === "Email") updateFields.email = contact
-		else updateFields.phone = contact
+		else updateFields.phoneNumber = contact
 
 		await UserModel.findByIdAndUpdate(user._id, updateFields, { runValidators: true })
 	} catch (error) {

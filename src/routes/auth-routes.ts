@@ -32,6 +32,11 @@ import validateAddCloudUserPersonalInfo from "../middleware/request-validation/a
 import confirmUserHasGoogleCalendar from "../middleware/auth/confirm-user-has-google-calendar"
 import confirmUserHasMicrosoftCalendar from "../middleware/auth/confirm-user-has-microsoft-calendar"
 import revokeMicrosoftCalendarAccess from "../controllers/auth/microsoft-auth/revoke-microsoft-calendar-access"
+import sendPhoneVerificationCode from "../controllers/auth/twilio/send-phone-verification-code"
+import confirmUserHasPhoneNumber from "../middleware/auth/confirm-user-has-phone-number"
+import confirmUserPhoneNotVerified from "../middleware/auth/confirm-user-phone-not-verified"
+import validatePhoneCode from "../middleware/request-validation/auth/validate-phone-code"
+import verifyUserPhoneCode from "../controllers/auth/twilio/verify-user-phone-code"
 
 const authRoutes = express.Router()
 
@@ -63,5 +68,22 @@ authRoutes.post("/microsoft-auth/revoke-microsoft-calendar-access",
 
 authRoutes.post("/add-cloud-user-personal-info", jwtVerify, validateAddCloudUserPersonalInfo, addCloudUserPersonalInfo)
 authRoutes.post("/add-secondary-contact", jwtVerify, validateContact, determineContactType, addSecondaryContactMethod)
+
+authRoutes.post(
+	"/twilio/send-phone-verification-code",
+	jwtVerify,
+	confirmUserHasPhoneNumber,
+	confirmUserPhoneNotVerified,
+	sendPhoneVerificationCode
+)
+
+authRoutes.post(
+	"/twilio/verify-user-phone-code",
+	jwtVerify,
+	validatePhoneCode,
+	confirmUserHasPhoneNumber,
+	confirmUserPhoneNotVerified,
+	verifyUserPhoneCode
+)
 
 export default authRoutes

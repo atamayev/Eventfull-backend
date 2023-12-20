@@ -62,6 +62,7 @@
     "libphonenumber-js": "^1.10.51",
     "lodash": "^4.17.21",
     "mongoose": "^8.0.3",
+    "twilio": "^4.20.0",
     "uuid": "^9.0.1",
     "validator": "^13.11.0"
   }

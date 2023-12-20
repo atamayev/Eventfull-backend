@@ -18,7 +18,7 @@ const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 const userSchema = new Schema<User>({
 	email: { type: String, unique: true, sparse: true, trim: true },
 	authMethod: { type: String, required: true, trim: true, enum: ["local", "microsoft", "google"] },
-	phone: { type: String, unique: true, sparse: true, trim: true },
+	phoneNumber: { type: String, unique: true, sparse: true, trim: true },
 	primaryContactMethod: { type: String, trim: true, enum: ["Email", "Phone"] },
 	username: { type: String, trim: true, unique: true },
 	password: { type: String },
@@ -26,7 +26,6 @@ const userSchema = new Schema<User>({
 	lastName: { type: String, trim: true },
 	gender: { type: String, trim: true },
 	profilePictureURL: { type: String, trim: true },
-	phoneNumber: { type: String, trim: true },
 	bio: { type: String, trim: true },
 	eventPins: { type: [Schema.Types.ObjectId] },
 	calendarData: { type: [calendarDataSchema] },
@@ -49,6 +48,14 @@ const userSchema = new Schema<User>({
 	microsoftCalendarRefreshToken: { type: String, trim: true },
 	microsoftCalendarAccessTokenExpiryDate: { type: Date, trim: true },
 	microsoftDefaultCalendarId: { type: String, trim: true },
+
+	isPhoneVerified: { type: Boolean },
+	phoneVerificationCode: { type: String },
+	phoneVerificationCodeTimestamp: { type: Date },
+
+	isEmailVerified: { type: Boolean },
+	emailVerificationCode: { type: String },
+	emailVerificationCodeTimestamp: { type: Date },
 
 	loginHistory: { type: [loginHistorySchema], required: true },
 	friends: {
