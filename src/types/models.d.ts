@@ -57,10 +57,12 @@ declare global {
 		isPhoneVerified?: boolean
 		phoneVerificationCode?: string
 		phoneVerificationCodeTimestamp?: Date
+		phoneVerifiedTimestamp?: Date
 
 		isEmailVerified?: boolean
 		emailVerificationCode?: string
 		emailVerificationCodeTimestamp?: Date
+		emailVerifiedTimestamp?: Date
 	}
 
 	interface LoginHistory {

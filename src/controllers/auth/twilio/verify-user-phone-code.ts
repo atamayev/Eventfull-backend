@@ -17,7 +17,10 @@ export default async function verifyUserPhoneCode(req: Request, res: Response): 
 		if (isCodeExpired === false) return res.status(400).json({ error: "Code Expired" })
 
 		await UserModel.findByIdAndUpdate(user._id, {
-			isPhoneVerified: true,
+			$set: {
+				isPhoneVerified: true,
+				phoneVerifiedTimestamp: new Date()
+			},
 			$unset: { phoneVerificationCode: "", phoneVerificationCodeTimestamp: "" }
 		})
 

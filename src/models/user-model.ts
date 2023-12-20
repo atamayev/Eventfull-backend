@@ -52,10 +52,12 @@ const userSchema = new Schema<User>({
 	isPhoneVerified: { type: Boolean },
 	phoneVerificationCode: { type: String },
 	phoneVerificationCodeTimestamp: { type: Date },
+	phoneVerifiedTimestamp: { type: Date },
 
 	isEmailVerified: { type: Boolean },
 	emailVerificationCode: { type: String },
 	emailVerificationCodeTimestamp: { type: Date },
+	emailVerifiedTimestamp: { type: Date },
 
 	loginHistory: { type: [loginHistorySchema], required: true },
 	friends: {

@@ -17,8 +17,11 @@ export default async function verifyUserEmailCode(req: Request, res: Response): 
 		if (isCodeExpired === false) return res.status(400).json({ error: "Code Expired" })
 
 		await UserModel.findByIdAndUpdate(user._id, {
-			isEmailVerified: true,
-			$unset: { emailVerificationCode: "", emailVerificationCodeTimestamp: "" }
+			$set: {
+				isEmailVerified: true,
+				emailVerifiedTimestamp: new Date()
+			},
+			$unset: { emailVerificationCode: "", emailVerificationCodeTimestamp: "" },
 		})
 
 		return res.status(200).json({ message: "Email Verified" })
