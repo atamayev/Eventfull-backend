@@ -21,9 +21,9 @@ export default async function sendPhoneVerificationCode(req: Request, res: Respo
 			phoneVerificationCodeTimestamp: now,
 		})
 
-		return res.status(200).json({ message: "Verification Code Sent" })
+		return res.status(200).json({ message: "Verification Code Sent to Phone" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Send Verification Code" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Send Verification Code to Phone" })
 	}
 }

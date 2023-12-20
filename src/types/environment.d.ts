@@ -24,6 +24,11 @@ declare global {
 			TWILIO_AUTH_TOKEN: string
 			TWILIO_PHONE_NUMBER: string
 
+			// SendGrid Auth
+			SENDGRID_API_KEY: string
+			SENDGRID_FROM_EMAIL: string
+			SENDGRID_FROM_NAME: string
+
 			PORT: string
 		}
 	}

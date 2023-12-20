@@ -35,8 +35,12 @@ import revokeMicrosoftCalendarAccess from "../controllers/auth/microsoft-auth/re
 import sendPhoneVerificationCode from "../controllers/auth/twilio/send-phone-verification-code"
 import confirmUserHasPhoneNumber from "../middleware/auth/confirm-user-has-phone-number"
 import confirmUserPhoneNotVerified from "../middleware/auth/confirm-user-phone-not-verified"
-import validatePhoneCode from "../middleware/request-validation/auth/validate-phone-code"
+import validateContactCode from "../middleware/request-validation/auth/validate-contact-code"
 import verifyUserPhoneCode from "../controllers/auth/twilio/verify-user-phone-code"
+import confirmUserHasEmail from "../middleware/auth/confirm-user-has-email"
+import confirmUserEmailNotVerified from "../middleware/auth/confirm-user-email-not-verified"
+import sendEmailVerificationCode from "../controllers/auth/twilio/send-email-verification-code"
+import verifyUserEmailCode from "../controllers/auth/twilio/verify-user-email-code"
 
 const authRoutes = express.Router()
 
@@ -80,10 +84,27 @@ authRoutes.post(
 authRoutes.post(
 	"/twilio/verify-user-phone-code",
 	jwtVerify,
-	validatePhoneCode,
+	validateContactCode,
 	confirmUserHasPhoneNumber,
 	confirmUserPhoneNotVerified,
 	verifyUserPhoneCode
+)
+
+authRoutes.post(
+	"/twilio/send-email-verification-code",
+	jwtVerify,
+	confirmUserHasEmail,
+	confirmUserEmailNotVerified,
+	sendEmailVerificationCode
+)
+
+authRoutes.post(
+	"/twilio/verify-user-email-code",
+	jwtVerify,
+	validateContactCode,
+	confirmUserHasEmail,
+	confirmUserEmailNotVerified,
+	verifyUserEmailCode
 )
 
 export default authRoutes
