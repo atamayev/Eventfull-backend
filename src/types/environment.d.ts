@@ -27,7 +27,6 @@ declare global {
 			// SendGrid Auth
 			SENDGRID_API_KEY: string
 			SENDGRID_FROM_EMAIL: string
-			SENDGRID_FROM_NAME: string
 
 			PORT: string
 		}
