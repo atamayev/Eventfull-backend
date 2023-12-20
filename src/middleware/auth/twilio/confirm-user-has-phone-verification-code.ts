@@ -10,6 +10,6 @@ export default function confirmUserHasPhoneVerificationCode (req: Request, res: 
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Confirm if User has a Phone Number" })
+		return res.status(500).json({ error: "Internal server error: Unable to Confirm if User has a Phone Verification Code" })
 	}
 }
