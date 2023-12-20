@@ -19,6 +19,15 @@ declare global {
 			MICROSOFT_SECRET_ID: string
 			MICROSOFT_TENANT_ID: string
 
+			// Twilio Auth
+			TWILIO_ACCOUNT_SID: string
+			TWILIO_AUTH_TOKEN: string
+			TWILIO_PHONE_NUMBER: string
+
+			// SendGrid Auth
+			SENDGRID_API_KEY: string
+			SENDGRID_FROM_EMAIL: string
+
 			PORT: string
 		}
 	}

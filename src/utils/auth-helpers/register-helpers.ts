@@ -28,8 +28,13 @@ export async function addLocalUser(
 		primaryContactMethod: contactType,
 	}
 
-	if (contactType === "Email") userFields.email = contact
-	else userFields.phone = contact
+	if (contactType === "Email") {
+		userFields.email = contact
+		userFields.isEmailVerified = false
+	} else {
+		userFields.phoneNumber = contact
+		userFields.isPhoneVerified = false
+	}
 
 	const newUser = await UserModel.create(userFields)
 	return newUser._id

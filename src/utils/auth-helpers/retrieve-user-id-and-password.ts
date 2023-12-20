@@ -14,7 +14,7 @@ export default async function retrieveUserIdAndPassword(
 		})
 	} else if (contactType === "Phone") {
 		user = await UserModel.findOne({
-			phone: { $regex: `^${contact}$`, $options: "i" },
+			phoneNumber: { $regex: `^${contact}$`, $options: "i" },
 			authMethod: { $in: ["local", "google", "microsoft"] }
 		})
 	} else {

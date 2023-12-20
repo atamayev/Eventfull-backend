@@ -34,7 +34,9 @@ declare global {
 		authMethod: string
 		primaryContactMethod: EmailOrPhone
 		email?: string
-		phone?: string
+		phoneNumber?: string
+		isEmailVerified?: boolean
+		isPhoneVerified?: boolean
 	}
 
 	type UserIdAndPassword = {

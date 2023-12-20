@@ -15,9 +15,9 @@ async function doesEmailExist(email: string): Promise<boolean> {
 	return user !== null
 }
 
-async function doesPhoneExist(phone: string): Promise<boolean> {
+async function doesPhoneExist(phoneNumber: string): Promise<boolean> {
 	const user = await UserModel.findOne({
-		phone: { $regex: `^${phone}$`, $options: "i" }
+		phoneNumber: { $regex: `^${phoneNumber}$`, $options: "i" }
 	})
 	return user !== null
 }

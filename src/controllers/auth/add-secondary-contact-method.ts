@@ -20,7 +20,7 @@ export default async function addSecondaryContactMethod (req: Request, res: Resp
 		}
 
 		const response = await addSecondaryContactMethodToDb(user, contact, contactType)
-		if (_.isNull(response)) return res.status(400).json({ error: "Cannot change primary contact method" })
+		if (_.isNull(response)) return res.status(400).json({ error: "Cannot change primary contact" })
 
 		return res.status(200).json({ message: `Successfully added ${contactType} to your account`})
 	} catch (error) {

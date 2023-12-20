@@ -17,7 +17,7 @@ declare global {
 		authMethod: "local" | "google" | "microsoft"
 		primaryContactMethod: EmailOrPhone
 		email?: string
-		phone?: string
+		phoneNumber?: string
 		username?: string
 		password?: string
 		createdAt: Date
@@ -26,7 +26,6 @@ declare global {
 		lastName?: string
 		gender?: string
 		profilePictureURL?: string
-		phoneNumber?: string
 		bio?: string
 		eventPins: Types.ObjectId[]
 		calendarData: UnifiedCalendarEvent[]
@@ -54,6 +53,16 @@ declare global {
 		incomingFriendRequests: Types.ObjectId[]
 		blockedUsers: Types.ObjectId[]
 		blockedByUsers: Types.ObjectId[]
+
+		isPhoneVerified?: boolean
+		phoneVerificationCode?: string
+		phoneVerificationCodeTimestamp?: Date
+		phoneVerifiedTimestamp?: Date
+
+		isEmailVerified?: boolean
+		emailVerificationCode?: string
+		emailVerificationCodeTimestamp?: Date
+		emailVerifiedTimestamp?: Date
 	}
 
 	interface LoginHistory {

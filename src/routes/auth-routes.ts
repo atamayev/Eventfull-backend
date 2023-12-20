@@ -16,6 +16,11 @@ import checkIfContactExists from "../controllers/auth/check-if-contact-exists"
 import addCloudUserPersonalInfo from "../controllers/auth/add-cloud-user-personal-info"
 import addSecondaryContactMethod from "../controllers/auth/add-secondary-contact-method"
 import revokeGoogleCalendarAccess from "../controllers/auth/google-auth/revoke-google-calendar-access"
+import revokeMicrosoftCalendarAccess from "../controllers/auth/microsoft-auth/revoke-microsoft-calendar-access"
+import sendPhoneVerificationCode from "../controllers/auth/twilio/send-phone-verification-code"
+import verifyUserPhoneCode from "../controllers/auth/twilio/verify-user-phone-code"
+import sendEmailVerificationCode from "../controllers/auth/twilio/send-email-verification-code"
+import verifyUserEmailCode from "../controllers/auth/twilio/verify-user-email-code"
 
 import jwtVerify from "../middleware/jwt-verify"
 import validateLogin from "../middleware/request-validation/auth/validate-login"
@@ -31,7 +36,13 @@ import determineChangePasswordContactType from "../middleware/auth/determine-con
 import validateAddCloudUserPersonalInfo from "../middleware/request-validation/auth/validate-add-cloud-user-personal-info"
 import confirmUserHasGoogleCalendar from "../middleware/auth/confirm-user-has-google-calendar"
 import confirmUserHasMicrosoftCalendar from "../middleware/auth/confirm-user-has-microsoft-calendar"
-import revokeMicrosoftCalendarAccess from "../controllers/auth/microsoft-auth/revoke-microsoft-calendar-access"
+import confirmUserHasPhoneNumber from "../middleware/auth/twilio/confirm-user-has-phone-number"
+import confirmUserPhoneNotVerified from "../middleware/auth/twilio/confirm-user-phone-not-verified"
+import validateContactCode from "../middleware/request-validation/auth/validate-contact-code"
+import confirmUserHasEmail from "../middleware/auth/twilio/confirm-user-has-email"
+import confirmUserEmailNotVerified from "../middleware/auth/twilio/confirm-user-email-not-verified"
+import confirmUserHasPhoneVerificationCode from "../middleware/auth/twilio/confirm-user-has-phone-verification-code"
+import confirmUserHasEmailVerificationCode from "../middleware/auth/twilio/confirm-user-has-email-verification-code"
 
 const authRoutes = express.Router()
 
@@ -63,5 +74,41 @@ authRoutes.post("/microsoft-auth/revoke-microsoft-calendar-access",
 
 authRoutes.post("/add-cloud-user-personal-info", jwtVerify, validateAddCloudUserPersonalInfo, addCloudUserPersonalInfo)
 authRoutes.post("/add-secondary-contact", jwtVerify, validateContact, determineContactType, addSecondaryContactMethod)
+
+authRoutes.post(
+	"/twilio/send-phone-verification-code",
+	jwtVerify,
+	confirmUserHasPhoneNumber,
+	confirmUserPhoneNotVerified,
+	sendPhoneVerificationCode
+)
+
+authRoutes.post(
+	"/twilio/verify-user-phone-code",
+	jwtVerify,
+	validateContactCode,
+	confirmUserHasPhoneNumber,
+	confirmUserPhoneNotVerified,
+	confirmUserHasPhoneVerificationCode,
+	verifyUserPhoneCode
+)
+
+authRoutes.post(
+	"/twilio/send-email-verification-code",
+	jwtVerify,
+	confirmUserHasEmail,
+	confirmUserEmailNotVerified,
+	sendEmailVerificationCode
+)
+
+authRoutes.post(
+	"/twilio/verify-user-email-code",
+	jwtVerify,
+	validateContactCode,
+	confirmUserHasEmail,
+	confirmUserEmailNotVerified,
+	confirmUserHasEmailVerificationCode,
+	verifyUserEmailCode
+)
 
 export default authRoutes

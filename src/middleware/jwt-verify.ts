@@ -34,6 +34,6 @@ export default async function jwtVerify(req: Request, res: Response, next: NextF
 	}
 
 	function handleUnauthorized(): Response {
-		return res.status(401).json({ error: "Internal Server Error: Unauthorized User" })
+		return res.status(401).json({ error: "Unauthorized User" })
 	}
 }
