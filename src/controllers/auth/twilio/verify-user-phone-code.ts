@@ -18,8 +18,7 @@ export default async function verifyUserPhoneCode(req: Request, res: Response): 
 
 		await UserModel.findByIdAndUpdate(user._id, {
 			isPhoneVerified: true,
-			phoneVerificationCode: null,
-			phoneVerificationCodeTimestamp: null,
+			$unset: { phoneVerificationCode: "", phoneVerificationCodeTimestamp: "" }
 		})
 
 		return res.status(200).json({ message: "Phone Number Verified" })

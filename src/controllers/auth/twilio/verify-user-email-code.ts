@@ -18,8 +18,7 @@ export default async function verifyUserEmailCode(req: Request, res: Response): 
 
 		await UserModel.findByIdAndUpdate(user._id, {
 			isEmailVerified: true,
-			emailVerificationCode: null,
-			emailVerificationCodeTimestamp: null,
+			$unset: { emailVerificationCode: "", emailVerificationCodeTimestamp: "" }
 		})
 
 		return res.status(200).json({ message: "Email Verified" })
