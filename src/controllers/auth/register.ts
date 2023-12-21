@@ -13,13 +13,13 @@ export default async function register (req: Request, res: Response): Promise<Re
 		const contactType = req.contactType
 
 		const contactExists = await doesContactExist(contact, contactType)
-		if (contactExists === true) return res.status(400).json({ message: `${contactType} already exists` })
+		if (contactExists === true) return res.status(400).json({ error: `${contactType} already exists` })
 
 		const { hashedPassword, hashError } = await hashPassword(password)
 		if (!_.isUndefined(hashError)) return res.status(500).json({ error: hashError })
 
 		const usernameExists = await doesUsernameExist(username)
-		if (usernameExists === true) return res.status(400).json({ message: "Username taken" })
+		if (usernameExists === true) return res.status(400).json({ error: "Username taken" })
 
 		const userId = await addLocalUser(req.body.registerInformationObject, contactType, hashedPassword)
 

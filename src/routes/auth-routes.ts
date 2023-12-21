@@ -49,7 +49,7 @@ const authRoutes = express.Router()
 
 authRoutes.post("/login", validateLogin, login)
 authRoutes.post("/register", validateRegister, determineRegisterContactType, register)
-authRoutes.post("/logout", jwtVerify, logout)
+authRoutes.post("/logout", logout)
 
 authRoutes.post("/change-password", jwtVerify, validateChangePassword, determineChangePasswordContactType, changePassword)
 authRoutes.post("/does-username-exist", jwtVerify, validateUsername, checkIfUsernameExists)
@@ -58,7 +58,7 @@ authRoutes.post("/check-if-contact-exists", jwtVerify, validateContact,	determin
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
 authRoutes.get("/google-auth/generate-calendar-auth-url", jwtVerify, generateGoogleCalendarAuthUrl)
 
-authRoutes.get("/google-auth/login-callback", validateQueryCode, googleLoginAuthCallback)
+authRoutes.post("/google-auth/login-callback", validateQueryCode, googleLoginAuthCallback)
 authRoutes.get("/google-auth/calendar-callback", validateCalendarCallback, googleCalendarAuthCallback)
 
 authRoutes.post("/google-auth/revoke-google-calendar-access", jwtVerify, confirmUserHasGoogleCalendar, revokeGoogleCalendarAccess)
@@ -66,7 +66,7 @@ authRoutes.post("/google-auth/revoke-google-calendar-access", jwtVerify, confirm
 authRoutes.get("/microsoft-auth/generate-login-auth-url", generateMicrosoftLoginAuthUrl)
 authRoutes.get("/microsoft-auth/generate-calendar-auth-url", jwtVerify, generateMicrosoftCalendarAuthUrl)
 
-authRoutes.get("/microsoft-auth/login-callback", validateQueryCode, microsoftLoginAuthCallback)
+// authRoutes.get("/microsoft-auth/login-callback", validateQueryCode, microsoftLoginAuthCallback)
 authRoutes.get("/microsoft-auth/calendar-callback", validateCalendarCallback, microsoftCalendarAuthCallback)
 
 authRoutes.post("/microsoft-auth/revoke-microsoft-calendar-access",

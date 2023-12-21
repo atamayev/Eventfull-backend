@@ -1,18 +1,28 @@
 import _ from "lodash"
 import { Types } from "mongoose"
-import { Credentials } from "google-auth-library"
+import { TokenPayload, Credentials } from "google-auth-library"
 import UserModel from "../../../models/user-model"
 import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-db"
 
-export default async function saveGoogleLoginTokens(email: string, tokens: Credentials): Promise<Types.ObjectId | null> {
+// eslint-disable-next-line complexity
+export default async function saveGoogleLoginTokens(
+	payload: TokenPayload | undefined,
+	tokens: Credentials
+): Promise<Types.ObjectId | null> {
 	try {
 		const { access_token, refresh_token, expiry_date } = tokens
+		const email = payload?.email
+		if (_.isUndefined(email)) throw new Error("No email found in Google Login Callback")
+
+		const firstName = payload?.given_name || ""
+		const lastName = payload?.family_name || ""
 
 		let user = await UserModel.findOne({
-			email: { $regex: `^${email}$`, $options: "i" }
+			email: { $regex: `^${email}$`, $options: "i" },
+			authMethod: "google"
 		})
 
-		if (_.isNull(user)) user = await addNonLocalUserToDB(email, "google")
+		if (_.isNull(user)) user = await addNonLocalUserToDB(email, firstName, lastName, "google")
 
 		const updateLoginData: Record<string, unknown> = {}
 
