@@ -8,9 +8,8 @@ import exchangeCodeForTokenLoginCallback from "../../../utils/microsoft/auth/exc
 import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
 
 export default async function microsoftLoginAuthCallback (req: Request, res: Response): Promise<Response> {
-	const code = req.query.code as string
-
 	try {
+		const code = req.query.code as string
 		const tokenResponse = await exchangeCodeForTokenLoginCallback(code)
 		const { access_token, refresh_token, id_token, expires_in } = tokenResponse.data
 

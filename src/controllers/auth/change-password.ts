@@ -5,11 +5,10 @@ import Hash from "../../setup-and-security/hash"
 import isSameContactMethod from "../../utils/auth-helpers/is-same-contact-method"
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {
-	const { contact, currentPassword, newPassword } = req.body.changePasswordObject as ChangePasswordObject
-	const user = req.user
-	const contactType = req.contactType
-
 	try {
+		const { contact, currentPassword, newPassword } = req.body.changePasswordObject as ChangePasswordObject
+		const user = req.user
+		const contactType = req.contactType
 		const doesUserHaveContactType = isSameContactMethod(user, contact, contactType)
 
 		if (doesUserHaveContactType === false) return res.status(400).json({ error: `${contactType} does not match what is on file.` })

@@ -2,16 +2,21 @@ import { Response, Request } from "express"
 import createGoogleAuthClient from "../../../utils/google/create-google-auth-client"
 
 export default function generateGoogleLoginAuthUrl(req: Request, res: Response): Response {
-	const oauth2Client = createGoogleAuthClient("http://localhost:8080/api/auth/google-auth/login-callback")
+	try {
+		const oauth2Client = createGoogleAuthClient("http://localhost:8080/api/auth/google-auth/login-callback")
 
-	const authUrl = oauth2Client.generateAuthUrl({
-		access_type: "offline",
-		scope: [
-			"https://www.googleapis.com/auth/userinfo.email",
-			"https://www.googleapis.com/auth/userinfo.profile",
-			"openid"
-		]
-	})
+		const authUrl = oauth2Client.generateAuthUrl({
+			access_type: "offline",
+			scope: [
+				"https://www.googleapis.com/auth/userinfo.email",
+				"https://www.googleapis.com/auth/userinfo.profile",
+				"openid"
+			]
+		})
 
-	return res.status(200).json({ authUrl })
+		return res.status(200).json({ authUrl })
+	} catch (error) {
+		console.error(error)
+		return res.status(500).json({ error: "Problem with generating Google Login Auth URL" })
+	}
 }

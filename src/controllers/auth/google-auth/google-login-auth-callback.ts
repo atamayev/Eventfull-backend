@@ -8,9 +8,8 @@ import saveGoogleLoginTokens from "../../../utils/google/auth/save-google-login-
 import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
 
 export default async function googleLoginAuthCallback (req: Request, res: Response): Promise<Response> {
-	const code = req.query.code as string
-
 	try {
+		const code = req.query.code as string
 		const oauth2Client = createGoogleAuthClient("http://localhost:8080/api/auth/google-auth/login-callback")
 		const { tokens } = await oauth2Client.getToken(code)
 		oauth2Client.setCredentials(tokens)
