@@ -2,6 +2,7 @@ import express from "express"
 
 import register from "../controllers/auth/register"
 import login from "../controllers/auth/login"
+import logout from "../controllers/auth/logout"
 import changePassword from "../controllers/auth/change-password"
 import googleLoginAuthCallback from "../controllers/auth/google-auth/google-login-auth-callback"
 import googleCalendarAuthCallback from "../controllers/auth/google-auth/google-calendar-auth-callback"
@@ -48,6 +49,8 @@ const authRoutes = express.Router()
 
 authRoutes.post("/login", validateLogin, login)
 authRoutes.post("/register", validateRegister, determineRegisterContactType, register)
+authRoutes.post("/logout", jwtVerify, logout)
+
 authRoutes.post("/change-password", jwtVerify, validateChangePassword, determineChangePasswordContactType, changePassword)
 authRoutes.post("/does-username-exist", jwtVerify, validateUsername, checkIfUsernameExists)
 authRoutes.post("/check-if-contact-exists", jwtVerify, validateContact,	determineContactType, checkIfContactExists)
