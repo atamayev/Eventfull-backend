@@ -33,7 +33,10 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 		return res.status(200).json({
 			authenticated: true,
 			accessToken: token,
-			isNewUser: tokensResonse.isNewUser
+			isNewUser: tokensResonse.isNewUser,
+			email: tokensResonse.email,
+			firstName: tokensResonse.firstName,
+			lastName: tokensResonse.lastName
 		})
 	} catch (error) {
 		console.error(error)
