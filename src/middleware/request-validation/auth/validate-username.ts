@@ -3,7 +3,7 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
 const usernameSchema = Joi.object({
-	username: Joi.string().required()
+	username: Joi.string().min(4).required()
 })
 
 export default function validateUsername(req: Request, res: Response, next: NextFunction): void | Response {

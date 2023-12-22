@@ -22,6 +22,7 @@ import sendPhoneVerificationCode from "../controllers/auth/twilio/send-phone-ver
 import verifyUserPhoneCode from "../controllers/auth/twilio/verify-user-phone-code"
 import sendEmailVerificationCode from "../controllers/auth/twilio/send-email-verification-code"
 import verifyUserEmailCode from "../controllers/auth/twilio/verify-user-email-code"
+import registerUsername from "../controllers/auth/register-username"
 
 import jwtVerify from "../middleware/jwt-verify"
 import validateLogin from "../middleware/request-validation/auth/validate-login"
@@ -54,6 +55,7 @@ authRoutes.post("/logout", logout)
 
 authRoutes.post("/change-password", jwtVerify, validateChangePassword, determineChangePasswordContactType, changePassword)
 authRoutes.post("/does-username-exist", jwtVerify, validateUsername, checkIfUsernameExists)
+authRoutes.post("/register-username", jwtVerify, validateUsername, registerUsername)
 authRoutes.post("/check-if-contact-exists", jwtVerify, validateContact,	determineContactType, checkIfContactExists)
 
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
