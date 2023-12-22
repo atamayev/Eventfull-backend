@@ -29,7 +29,6 @@ import validateLogin from "../middleware/request-validation/auth/validate-login"
 import validateRegister from "../middleware/request-validation/auth/validate-register"
 import validateGoogleQueryCode from "../middleware/request-validation/auth/validate-google-query-code"
 import validateChangePassword from "../middleware/request-validation/auth/validate-change-password"
-import validateCalendarCallback from "../middleware/request-validation/auth/validate-calendar-callback"
 import validateUsername from "../middleware/request-validation/auth/validate-username"
 import validateContact from "../middleware/request-validation/auth/validate-contact"
 import determineContactType from "../middleware/auth/determine-contact-type/determine-contact-type"
@@ -46,6 +45,8 @@ import confirmUserEmailNotVerified from "../middleware/auth/twilio/confirm-user-
 import confirmUserHasPhoneVerificationCode from "../middleware/auth/twilio/confirm-user-has-phone-verification-code"
 import confirmUserHasEmailVerificationCode from "../middleware/auth/twilio/confirm-user-has-email-verification-code"
 import validateMicrosoftQueryCode from "../middleware/request-validation/auth/validate-microsoft-query-code"
+import validateGoogleCalendarRequest from "../middleware/request-validation/auth/validate-google-calendar-callback"
+import validateMicrosoftCalendarCallback from "../middleware/request-validation/auth/validate-microsoft-calendar-callback"
 
 const authRoutes = express.Router()
 
@@ -54,15 +55,15 @@ authRoutes.post("/register", validateRegister, determineRegisterContactType, reg
 authRoutes.post("/logout", logout)
 
 authRoutes.post("/change-password", jwtVerify, validateChangePassword, determineChangePasswordContactType, changePassword)
-authRoutes.post("/does-username-exist", jwtVerify, validateUsername, checkIfUsernameExists)
 authRoutes.post("/register-username", jwtVerify, validateUsername, registerUsername)
-authRoutes.post("/check-if-contact-exists", jwtVerify, validateContact,	determineContactType, checkIfContactExists)
+authRoutes.post("/does-username-exist", validateUsername, checkIfUsernameExists)
+authRoutes.post("/does-contact-exist", validateContact, determineContactType, checkIfContactExists)
 
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
 authRoutes.get("/google-auth/generate-calendar-auth-url", jwtVerify, generateGoogleCalendarAuthUrl)
 
 authRoutes.post("/google-auth/login-callback", validateGoogleQueryCode, googleLoginAuthCallback)
-authRoutes.get("/google-auth/calendar-callback", validateCalendarCallback, googleCalendarAuthCallback)
+authRoutes.post("/google-auth/calendar-callback", jwtVerify, validateGoogleCalendarRequest, googleCalendarAuthCallback)
 
 authRoutes.post("/google-auth/revoke-google-calendar-access", jwtVerify, confirmUserHasGoogleCalendar, revokeGoogleCalendarAccess)
 
@@ -70,7 +71,7 @@ authRoutes.get("/microsoft-auth/generate-login-auth-url", generateMicrosoftLogin
 authRoutes.get("/microsoft-auth/generate-calendar-auth-url", jwtVerify, generateMicrosoftCalendarAuthUrl)
 
 authRoutes.post("/microsoft-auth/login-callback", validateMicrosoftQueryCode, microsoftLoginAuthCallback)
-authRoutes.get("/microsoft-auth/calendar-callback", validateCalendarCallback, microsoftCalendarAuthCallback)
+authRoutes.get("/microsoft-auth/calendar-callback", validateMicrosoftCalendarCallback, microsoftCalendarAuthCallback)
 
 authRoutes.post("/microsoft-auth/revoke-microsoft-calendar-access",
 	jwtVerify,

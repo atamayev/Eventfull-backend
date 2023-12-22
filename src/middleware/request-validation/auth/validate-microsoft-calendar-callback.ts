@@ -8,7 +8,11 @@ const querySchema = Joi.object({
 	code: Joi.string().required()
 }).unknown(true)
 
-export default async function validateCalendarRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function validateMicrosoftCalendarCallback (
+	req: Request,
+	res: Response,
+	next: NextFunction
+): Promise<void | Response> {
 	const { error } = querySchema.validate(req.query)
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })

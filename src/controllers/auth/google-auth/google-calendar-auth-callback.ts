@@ -4,16 +4,15 @@ import saveGoogleCalendarTokens from "../../../utils/google/calendar/calendar-au
 
 export default async function googleCalendarAuthCallback (req: Request, res: Response): Promise<Response> {
 	try {
-		const code = req.query.code as string
-		const email = req.headers.email as string
-		const oauth2Client = createGoogleAuthClient("http://localhost:8080/api/auth/google-auth/calendar-callback")
-		const { tokens } = await oauth2Client.getToken(code)
-		oauth2Client.setCredentials(tokens)
+		const user = req.user
+		const code = req.body.code as string
+		const client = createGoogleAuthClient()
+		const { tokens } = await client.getToken(code)
 
-		await saveGoogleCalendarTokens(email, tokens)
+		const userEmail = user.email as string
+		await saveGoogleCalendarTokens(userEmail, tokens)
 
 		return res.status(200).json({ message: "Successfully connected to Google Calendar" })
-
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({
