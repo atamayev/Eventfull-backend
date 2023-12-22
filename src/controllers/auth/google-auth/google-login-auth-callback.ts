@@ -19,22 +19,22 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		const { tokens } = await client.getToken(code)
 
-		const userId = await saveGoogleLoginTokens(payload, tokens)
+		const tokensResonse = await saveGoogleLoginTokens(payload, tokens)
 
-		if (_.isNull(userId)) return res.status(500).json({ error: "Problem saving Google Login Tokens" })
+		if (_.isNull(tokensResonse)) return res.status(500).json({ error: "Problem saving Google Login Tokens" })
 
-		const jwtPayload = createJWTPayload(userId)
+		const jwtPayload = createJWTPayload(tokensResonse.userId)
 
 		const token = signJWT(jwtPayload)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-		await addLoginHistory(userId)
+		await addLoginHistory(tokensResonse.userId)
 
 		return res.status(200).json({
 			authenticated: true,
-			accessToken: token
+			accessToken: token,
+			isNewUser: tokensResonse.isNewUser
 		})
-
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({

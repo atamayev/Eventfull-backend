@@ -3,10 +3,9 @@ import { Response, Request } from "express"
 import signJWT from "../../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import verifyIdToken from "../../../utils/microsoft/verify-id-token"
-// import saveMicrosoftLoginTokens from "../../../utils/microsoft/auth/save-microsoft-login-tokens"
+import saveMicrosoftLoginTokens from "../../../utils/microsoft/auth/save-microsoft-login-tokens"
 import exchangeCodeForTokenLoginCallback from "../../../utils/microsoft/auth/exchange-code-for-token-login-callback"
 import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
-import { Types } from "mongoose"
 
 export default async function microsoftLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	try {
@@ -18,9 +17,10 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 		if (_.isUndefined(userClaims)) return res.status(400).json({error: "Problem authenticating Microsoft Token"})
 
 		const email = userClaims["email"] as string
+		console.log(userClaims)
 
-		// const userId = await saveMicrosoftLoginTokens(email, access_token, refresh_token, expires_in)
-		const userId = new Types.ObjectId("123")
+		const userId = await saveMicrosoftLoginTokens(email, access_token, refresh_token, expires_in)
+		// const userId = new Types.ObjectId("123")
 
 		if (_.isNull(userId)) return res.status(500).json({ error: "Problem saving Microsoft Login Tokens" })
 

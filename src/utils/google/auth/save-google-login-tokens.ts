@@ -8,10 +8,11 @@ import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-d
 export default async function saveGoogleLoginTokens(
 	payload: TokenPayload | undefined,
 	tokens: Credentials
-): Promise<Types.ObjectId | null> {
+): Promise<{userId: Types.ObjectId, isNewUser: boolean} | null> {
 	try {
 		const { access_token, refresh_token, expiry_date } = tokens
 		const email = payload?.email
+		let isNewUser = false
 		if (_.isUndefined(email)) throw new Error("No email found in Google Login Callback")
 
 		const firstName = payload?.given_name || ""
@@ -22,7 +23,10 @@ export default async function saveGoogleLoginTokens(
 			authMethod: "google"
 		})
 
-		if (_.isNull(user)) user = await addNonLocalUserToDB(email, firstName, lastName, "google")
+		if (_.isNull(user)) {
+			user = await addNonLocalUserToDB(email, firstName, lastName, "google")
+			isNewUser = true
+		}
 
 		const updateLoginData: Record<string, unknown> = {}
 
@@ -38,7 +42,7 @@ export default async function saveGoogleLoginTokens(
 			)
 		}
 
-		return user._id
+		return { userId: user._id, isNewUser }
 	} catch (error) {
 		console.error("Error saving user tokens to DB:", error)
 		return null

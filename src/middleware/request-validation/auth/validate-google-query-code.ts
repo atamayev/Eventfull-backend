@@ -7,7 +7,7 @@ const querySchema = Joi.object({
 	idToken: Joi.required()
 }).unknown(true)
 
-export default function validateQueryCode (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateGoogleQueryCode (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = querySchema.validate(req.body)
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })

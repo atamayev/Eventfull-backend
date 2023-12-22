@@ -26,7 +26,7 @@ import verifyUserEmailCode from "../controllers/auth/twilio/verify-user-email-co
 import jwtVerify from "../middleware/jwt-verify"
 import validateLogin from "../middleware/request-validation/auth/validate-login"
 import validateRegister from "../middleware/request-validation/auth/validate-register"
-import validateQueryCode from "../middleware/request-validation/auth/validate-query-code"
+import validateGoogleQueryCode from "../middleware/request-validation/auth/validate-google-query-code"
 import validateChangePassword from "../middleware/request-validation/auth/validate-change-password"
 import validateCalendarCallback from "../middleware/request-validation/auth/validate-calendar-callback"
 import validateUsername from "../middleware/request-validation/auth/validate-username"
@@ -44,6 +44,7 @@ import confirmUserHasEmail from "../middleware/auth/twilio/confirm-user-has-emai
 import confirmUserEmailNotVerified from "../middleware/auth/twilio/confirm-user-email-not-verified"
 import confirmUserHasPhoneVerificationCode from "../middleware/auth/twilio/confirm-user-has-phone-verification-code"
 import confirmUserHasEmailVerificationCode from "../middleware/auth/twilio/confirm-user-has-email-verification-code"
+import validateMicrosoftQueryCode from "../middleware/request-validation/auth/validate-microsoft-query-code"
 
 const authRoutes = express.Router()
 
@@ -58,7 +59,7 @@ authRoutes.post("/check-if-contact-exists", jwtVerify, validateContact,	determin
 authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
 authRoutes.get("/google-auth/generate-calendar-auth-url", jwtVerify, generateGoogleCalendarAuthUrl)
 
-authRoutes.post("/google-auth/login-callback", validateQueryCode, googleLoginAuthCallback)
+authRoutes.post("/google-auth/login-callback", validateGoogleQueryCode, googleLoginAuthCallback)
 authRoutes.get("/google-auth/calendar-callback", validateCalendarCallback, googleCalendarAuthCallback)
 
 authRoutes.post("/google-auth/revoke-google-calendar-access", jwtVerify, confirmUserHasGoogleCalendar, revokeGoogleCalendarAccess)
@@ -66,7 +67,7 @@ authRoutes.post("/google-auth/revoke-google-calendar-access", jwtVerify, confirm
 authRoutes.get("/microsoft-auth/generate-login-auth-url", generateMicrosoftLoginAuthUrl)
 authRoutes.get("/microsoft-auth/generate-calendar-auth-url", jwtVerify, generateMicrosoftCalendarAuthUrl)
 
-// authRoutes.get("/microsoft-auth/login-callback", validateQueryCode, microsoftLoginAuthCallback)
+authRoutes.post("/microsoft-auth/login-callback", validateMicrosoftQueryCode, microsoftLoginAuthCallback)
 authRoutes.get("/microsoft-auth/calendar-callback", validateCalendarCallback, microsoftCalendarAuthCallback)
 
 authRoutes.post("/microsoft-auth/revoke-microsoft-calendar-access",
