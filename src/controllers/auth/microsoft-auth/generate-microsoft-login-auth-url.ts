@@ -5,7 +5,8 @@ export default async function generateMicrosoftLoginAuthUrl(req: Request, res: R
 	try {
 		const authUrl = await cca.getAuthCodeUrl({
 			scopes: ["openid", "email", "profile", "offline_access"],
-			redirectUri: "http://localhost:8080/api/auth/microsoft-auth/login-callback",
+			// redirectUri: "http://localhost:8080/api/auth/microsoft-auth/login-callback",
+			redirectUri: "msauth://com.anonymous.eventfullfrontend/Xo8WBi6jzSxKDVR4drqm84yr9iU%3D",
 		})
 
 		return res.status(200).json({ authUrl })

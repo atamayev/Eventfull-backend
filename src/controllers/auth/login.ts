@@ -3,48 +3,54 @@ import { Response, Request } from "express"
 import Hash from "../../setup-and-security/hash"
 import signJWT from "../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
-import retrieveUserIdAndPassword from "../../utils/auth-helpers/retrieve-user-id-and-password"
+import retrieveUserFromContact from "../../utils/auth-helpers/retrieve-user-from-contact"
 import createJWTPayload from "../../utils/auth-helpers/create-jwt-payload"
 import determineLoginType from "../../utils/auth-helpers/determine-login-type"
+import doesUserHaveGoogleCalendar from "../../utils/google/calendar/does-user-have-google-calendar"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
-	const { contact, password } = req.body.loginInformationObject as LoginInformationObject
-	const contactType = determineLoginType(contact)
-
-	let results: UserIdAndPassword
-
 	try {
-		const results1 = await retrieveUserIdAndPassword(contact, contactType)
-		if (_.isUndefined(results1) || _.isEmpty(results1)) {
-			return res.status(404).json({ error: `${contactType} not found!` })
-		}
-		if (results1.source === "google") {
+		const { contact, password } = req.body.loginInformationObject as LoginInformationObject
+		const contactType = determineLoginType(contact)
+
+		const user = await retrieveUserFromContact(contact, contactType)
+		if (_.isNull(user)) return res.status(404).json({ error: `${contactType} not found!` })
+
+		if (user.authMethod === "google") {
 			return res.status(400).json({ error: "Username exists, but you must login via Google" })
-		} else if (results1.source === "microsoft") {
+		} else if (user.authMethod === "microsoft") {
 			return res.status(400).json({ error: "Username exists, but you must login via Microsoft" })
 		}
-		else results = results1
+
+		const savedPassword = user.password as string
+		const doPasswordsMatch = await Hash.checkPassword(password, savedPassword)
+		if (doPasswordsMatch === false) return res.status(400).json({ error: "Wrong Username or Password!" })
+
+		const payload = createJWTPayload(user._id)
+
+		const token = signJWT(payload)
+		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
+
+		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(user._id)
+
+		await addLoginHistory(user._id)
+		const primaryContact = user.primaryContactMethod
+		let userContact
+		if (primaryContact === "Email") userContact = user.email
+		else userContact = user.phoneNumber
+
+		return res.status(200).json({
+			authenticated: true,
+			accessToken: token,
+			isUserConnectedGoogleCalendar,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			username: user.username,
+			primaryContact,
+			userContact
+		})
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Problem with email selection" })
+		return res.status(500).json({ error: "Problem with login" })
 	}
-
-	try {
-		const bool = await Hash.checkPassword(password, results.password)
-		if (bool === false) return res.status(400).json({ error: "Wrong Username or Password!" })
-	} catch (error) {
-		console.error(error)
-		return res.status(500).json({ error: "Problem with checking password" })
-	}
-
-	const payload = createJWTPayload(results.userId)
-
-	const token = signJWT(payload)
-	if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
-
-	await addLoginHistory(results.userId)
-
-	return res
-		.status(200)
-		.json({ authenticated: true, accessToken: token })
 }

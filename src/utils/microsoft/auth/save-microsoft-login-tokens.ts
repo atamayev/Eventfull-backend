@@ -14,7 +14,9 @@ export default async function saveMicrosoftLoginTokens(
 			email: { $regex: `^${email}$`, $options: "i" }
 		})
 
-		if (_.isNull(user)) user = await addNonLocalUserToDB(email, "microsoft")
+		// TODO: FIX THIS
+		// After getting the user details, pass in the email, firstname, lastname, etc.
+		if (_.isNull(user)) user = await addNonLocalUserToDB(email, "bob", "smith1231231", "microsoft")
 
 		const updateData: Record<string, unknown> = {}
 

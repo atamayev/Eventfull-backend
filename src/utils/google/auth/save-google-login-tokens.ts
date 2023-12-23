@@ -1,20 +1,37 @@
 import _ from "lodash"
-import { Types } from "mongoose"
-import { Credentials } from "google-auth-library"
+import { TokenPayload, Credentials } from "google-auth-library"
 import UserModel from "../../../models/user-model"
 import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-db"
 
-export default async function saveGoogleLoginTokens(email: string, tokens: Credentials): Promise<Types.ObjectId | null> {
+// eslint-disable-next-line complexity
+export default async function saveGoogleLoginTokens(
+	payload: TokenPayload | undefined,
+	tokens: Credentials
+): Promise<{googleUser: User, isNewUser: boolean} | null | undefined> {
 	try {
 		const { access_token, refresh_token, expiry_date } = tokens
+		const email = payload?.email
+		let isNewUser = false
+		if (_.isUndefined(email)) throw new Error("No email found in Google Login Callback")
 
-		let user = await UserModel.findOne({
+		const firstName = payload?.given_name || ""
+		const lastName = payload?.family_name || ""
+
+		let googleUser = await UserModel.findOne({
 			email: { $regex: `^${email}$`, $options: "i" }
 		})
 
-		if (_.isNull(user)) user = await addNonLocalUserToDB(email, "google")
+		// This means the user already exists in the DB, but is not a Google User
+		if (!_.isNull(googleUser) && googleUser.authMethod !== "google") {
+			return undefined
+		}
 
-		const updateLoginData: Record<string, unknown> = {}
+		if (_.isNull(googleUser)) {
+			googleUser = await addNonLocalUserToDB(email, firstName, lastName, "google")
+			isNewUser = true
+		}
+
+		const updateLoginData: Record<string, string | Date> = {}
 
 		if (!_.isNil(access_token)) updateLoginData.googleLoginAccessToken = access_token
 		if (!_.isNil(refresh_token)) updateLoginData.googleLoginRefreshToken = refresh_token
@@ -22,15 +39,15 @@ export default async function saveGoogleLoginTokens(email: string, tokens: Crede
 
 		if (!_.isEmpty(updateLoginData)) {
 			await UserModel.findByIdAndUpdate(
-				user._id,
+				googleUser._id,
 				{ $set: updateLoginData },
 				{ runValidators: true }
 			)
 		}
 
-		return user._id
+		return { googleUser, isNewUser }
 	} catch (error) {
-		console.error("Error saving user tokens to DB:", error)
+		console.error("Error saving googleUser tokens to DB:", error)
 		return null
 	}
 }

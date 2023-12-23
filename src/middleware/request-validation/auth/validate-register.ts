@@ -18,5 +18,7 @@ export default function validateRegister (req: Request, res: Response, next: Nex
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 
+	const trimmedContact = req.body.registerInformationObject.contact.trimEnd()
+	req.body.registerInformationObject.contact = trimmedContact
 	next()
 }

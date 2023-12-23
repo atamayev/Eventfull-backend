@@ -14,5 +14,8 @@ export default function validateLogin (req: Request, res: Response, next: NextFu
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 
+	const trimmedContact = req.body.loginInformationObject.contact.trimEnd()
+	req.body.loginInformationObject.contact = trimmedContact
+
 	next()
 }

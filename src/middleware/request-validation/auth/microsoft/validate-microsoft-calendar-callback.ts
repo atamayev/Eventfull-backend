@@ -1,15 +1,19 @@
 import Joi from "joi"
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import getDecodedId from "../../../utils/auth-helpers/get-decoded-id"
-import findUser from "../../../utils/find-user"
+import getDecodedId from "../../../../utils/auth-helpers/get-decoded-id"
+import findUser from "../../../../utils/find-user"
 
-const querySchema = Joi.object({
+const microsoftCalendarCallbackSchema = Joi.object({
 	code: Joi.string().required()
 }).unknown(true)
 
-export default async function validateCalendarRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
-	const { error } = querySchema.validate(req.query)
+export default async function validateMicrosoftCalendarCallback (
+	req: Request,
+	res: Response,
+	next: NextFunction
+): Promise<void | Response> {
+	const { error } = microsoftCalendarCallbackSchema.validate(req.query)
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 

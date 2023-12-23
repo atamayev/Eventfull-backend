@@ -12,6 +12,6 @@ export default async function checkIfContactExists(req: Request, res: Response):
 		return res.status(200).json({ exists })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json()
+		return res.status(500).json({ error: "Internal Server Error: Unable to Check if Contact Exists" })
 	}
 }

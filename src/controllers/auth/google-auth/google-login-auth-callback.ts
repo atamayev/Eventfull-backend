@@ -1,44 +1,52 @@
 import _ from "lodash"
-import { google } from "googleapis"
 import { Response, Request } from "express"
 import signJWT from "../../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import createGoogleAuthClient from "../../../utils/google/create-google-auth-client"
 import saveGoogleLoginTokens from "../../../utils/google/auth/save-google-login-tokens"
 import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
+import doesUserHaveGoogleCalendar from "../../../utils/google/calendar/does-user-have-google-calendar"
 
 export default async function googleLoginAuthCallback (req: Request, res: Response): Promise<Response> {
-	const code = req.query.code as string
-
 	try {
-		const oauth2Client = createGoogleAuthClient("http://localhost:8080/api/auth/google-auth/login-callback")
-		const { tokens } = await oauth2Client.getToken(code)
-		oauth2Client.setCredentials(tokens)
+		const code = req.body.code as string
+		const idToken = req.body.idToken as string
+		const client = createGoogleAuthClient()
+		const ticket = await client.verifyIdToken({
+			idToken,
+			audience: process.env.GOOGLE_CLIENT_ID
+		})
+		const payload = ticket.getPayload()
 
-		const oauth2 = google.oauth2({
-			auth: oauth2Client,
-			version: "v2"
+		const { tokens } = await client.getToken(code)
+
+		const tokensResonse = await saveGoogleLoginTokens(payload, tokens)
+
+		if (_.isUndefined(tokensResonse)) return res.status(500).json({
+			error: "User with this email already exists, but is not a Google User"
 		})
 
-		const userInfo = await oauth2.userinfo.get()
-		const email = userInfo.data.email || ""
+		if (_.isNull(tokensResonse)) return res.status(500).json({ error: "Problem saving Google Login Tokens" })
 
-		const userId = await saveGoogleLoginTokens(email, tokens)
+		const jwtPayload = createJWTPayload(tokensResonse.googleUser._id)
 
-		if (_.isNull(userId)) return res.status(500).json({ error: "Problem saving Google Login Tokens" })
-
-		const payload = createJWTPayload(userId)
-
-		const token = signJWT(payload)
+		const token = signJWT(jwtPayload)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-		await addLoginHistory(userId)
+		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(tokensResonse.googleUser._id)
+
+		await addLoginHistory(tokensResonse.googleUser._id)
 
 		return res.status(200).json({
 			authenticated: true,
-			accessToken: token
+			accessToken: token,
+			isUserConnectedGoogleCalendar,
+			firstName: payload?.given_name,
+			lastName: payload?.family_name,
+			username: tokensResonse.googleUser.username,
+			isNewUser: tokensResonse.isNewUser,
+			email: payload?.email,
 		})
-
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({
