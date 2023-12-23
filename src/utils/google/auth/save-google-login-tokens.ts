@@ -21,6 +21,7 @@ export default async function saveGoogleLoginTokens(
 			email: { $regex: `^${email}$`, $options: "i" }
 		})
 
+		// This means the user already exists in the DB, but is not a Google User
 		if (!_.isNull(googleUser) && googleUser.authMethod !== "google") {
 			return undefined
 		}

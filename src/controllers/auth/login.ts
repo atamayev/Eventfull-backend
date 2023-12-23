@@ -8,16 +8,14 @@ import createJWTPayload from "../../utils/auth-helpers/create-jwt-payload"
 import determineLoginType from "../../utils/auth-helpers/determine-login-type"
 import doesUserHaveGoogleCalendar from "../../utils/google/calendar/does-user-have-google-calendar"
 
-// eslint-disable-next-line max-lines-per-function
 export default async function login (req: Request, res: Response): Promise<Response> {
 	try {
 		const { contact, password } = req.body.loginInformationObject as LoginInformationObject
 		const contactType = determineLoginType(contact)
 
 		const user = await retrieveUserFromContact(contact, contactType)
-		if (_.isNull(user)) {
-			return res.status(404).json({ error: `${contactType} not found!` })
-		}
+		if (_.isNull(user)) return res.status(404).json({ error: `${contactType} not found!` })
+
 		if (user.authMethod === "google") {
 			return res.status(400).json({ error: "Username exists, but you must login via Google" })
 		} else if (user.authMethod === "microsoft") {
@@ -41,18 +39,16 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		if (primaryContact === "Email") userContact = user.email
 		else userContact = user.phoneNumber
 
-		return res
-			.status(200)
-			.json({
-				authenticated: true,
-				accessToken: token,
-				isUserConnectedGoogleCalendar,
-				firstName: user.firstName,
-				lastName: user.lastName,
-				username: user.username,
-				primaryContact,
-				userContact
-			})
+		return res.status(200).json({
+			authenticated: true,
+			accessToken: token,
+			isUserConnectedGoogleCalendar,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			username: user.username,
+			primaryContact,
+			userContact
+		})
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Problem with login" })

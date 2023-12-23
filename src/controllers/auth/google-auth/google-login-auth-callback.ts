@@ -40,12 +40,12 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 		return res.status(200).json({
 			authenticated: true,
 			accessToken: token,
-			isNewUser: tokensResonse.isNewUser,
-			email: payload?.email,
+			isUserConnectedGoogleCalendar,
 			firstName: payload?.given_name,
 			lastName: payload?.family_name,
-			isUserConnectedGoogleCalendar,
-			username: tokensResonse.googleUser.username
+			username: tokensResonse.googleUser.username,
+			isNewUser: tokensResonse.isNewUser,
+			email: payload?.email,
 		})
 	} catch (error) {
 		console.error(error)
