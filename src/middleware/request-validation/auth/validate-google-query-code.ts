@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from "express"
 const querySchema = Joi.object({
 	code: Joi.required(),
 	idToken: Joi.required()
-}).unknown(true)
+})
 
 export default function validateGoogleQueryCode (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = querySchema.validate(req.body)

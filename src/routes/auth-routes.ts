@@ -45,7 +45,7 @@ import confirmUserEmailNotVerified from "../middleware/auth/twilio/confirm-user-
 import confirmUserHasPhoneVerificationCode from "../middleware/auth/twilio/confirm-user-has-phone-verification-code"
 import confirmUserHasEmailVerificationCode from "../middleware/auth/twilio/confirm-user-has-email-verification-code"
 import validateMicrosoftQueryCode from "../middleware/request-validation/auth/validate-microsoft-query-code"
-import validateGoogleCalendarRequest from "../middleware/request-validation/auth/validate-google-calendar-callback"
+import validateGoogleCalendarCallback from "../middleware/request-validation/auth/validate-google-calendar-callback"
 import validateMicrosoftCalendarCallback from "../middleware/request-validation/auth/validate-microsoft-calendar-callback"
 
 const authRoutes = express.Router()
@@ -63,7 +63,7 @@ authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUr
 authRoutes.get("/google-auth/generate-calendar-auth-url", jwtVerify, generateGoogleCalendarAuthUrl)
 
 authRoutes.post("/google-auth/login-callback", validateGoogleQueryCode, googleLoginAuthCallback)
-authRoutes.post("/google-auth/calendar-callback", jwtVerify, validateGoogleCalendarRequest, googleCalendarAuthCallback)
+authRoutes.post("/google-auth/calendar-callback", jwtVerify, validateGoogleCalendarCallback, googleCalendarAuthCallback)
 
 authRoutes.post("/google-auth/revoke-google-calendar-access", jwtVerify, confirmUserHasGoogleCalendar, revokeGoogleCalendarAccess)
 

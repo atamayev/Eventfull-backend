@@ -19,7 +19,6 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 		const email = userClaims["email"] as string
 
 		const userId = await saveMicrosoftLoginTokens(email, access_token, refresh_token, expires_in)
-		// const userId = new Types.ObjectId("123")
 
 		if (_.isNull(userId)) return res.status(500).json({ error: "Problem saving Microsoft Login Tokens" })
 
