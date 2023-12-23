@@ -6,8 +6,6 @@ import logout from "../controllers/auth/logout"
 import changePassword from "../controllers/auth/change-password"
 import googleLoginAuthCallback from "../controllers/auth/google-auth/google-login-auth-callback"
 import googleCalendarAuthCallback from "../controllers/auth/google-auth/google-calendar-auth-callback"
-import generateGoogleLoginAuthUrl from "../controllers/auth/google-auth/generate-google-login-auth-url"
-import generateGoogleCalendarAuthUrl from "../controllers/auth/google-auth/generate-google-calendar-auth-url"
 import generateMicrosoftLoginAuthUrl from "../controllers/auth/microsoft-auth/generate-microsoft-login-auth-url"
 import generateMicrosoftCalendarAuthUrl from "../controllers/auth/microsoft-auth/generate-microsoft-calendar-auth-url"
 import microsoftLoginAuthCallback from "../controllers/auth/microsoft-auth/microsoft-login-auth-callback"
@@ -58,9 +56,6 @@ authRoutes.post("/change-password", jwtVerify, validateChangePassword, determine
 authRoutes.post("/register-username", jwtVerify, validateUsername, registerUsername)
 authRoutes.post("/does-username-exist", validateUsername, checkIfUsernameExists)
 authRoutes.post("/does-contact-exist", validateContact, determineContactType, checkIfContactExists)
-
-authRoutes.get("/google-auth/generate-login-auth-url", generateGoogleLoginAuthUrl)
-authRoutes.get("/google-auth/generate-calendar-auth-url", jwtVerify, generateGoogleCalendarAuthUrl)
 
 authRoutes.post("/google-auth/login-callback", validateGoogleQueryCode, googleLoginAuthCallback)
 authRoutes.post("/google-auth/calendar-callback", jwtVerify, validateGoogleCalendarCallback, googleCalendarAuthCallback)

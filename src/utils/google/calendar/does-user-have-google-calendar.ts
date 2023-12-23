@@ -5,7 +5,6 @@ export default async function doesUserHaveGoogleCalendar (userId: Types.ObjectId
 	try {
 		const user = await UserModel.findById(userId)
 		return user?.googleCalendarAccessToken !== undefined
-
 	} catch (error) {
 		console.error(error)
 		return false
