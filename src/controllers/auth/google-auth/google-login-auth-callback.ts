@@ -22,16 +22,20 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		const tokensResonse = await saveGoogleLoginTokens(payload, tokens)
 
+		if (_.isUndefined(tokensResonse)) return res.status(500).json({
+			error: "User with this email already exists, but is not a Google User"
+		})
+
 		if (_.isNull(tokensResonse)) return res.status(500).json({ error: "Problem saving Google Login Tokens" })
 
-		const jwtPayload = createJWTPayload(tokensResonse.user._id)
+		const jwtPayload = createJWTPayload(tokensResonse.googleUser._id)
 
 		const token = signJWT(jwtPayload)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
 
-		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(tokensResonse.user._id)
+		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(tokensResonse.googleUser._id)
 
-		await addLoginHistory(tokensResonse.user._id)
+		await addLoginHistory(tokensResonse.googleUser._id)
 
 		return res.status(200).json({
 			authenticated: true,
@@ -41,7 +45,7 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 			firstName: payload?.given_name,
 			lastName: payload?.family_name,
 			isUserConnectedGoogleCalendar,
-			username: tokensResonse.user.username
+			username: tokensResonse.googleUser.username
 		})
 	} catch (error) {
 		console.error(error)

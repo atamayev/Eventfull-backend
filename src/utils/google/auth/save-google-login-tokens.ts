@@ -7,7 +7,7 @@ import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-d
 export default async function saveGoogleLoginTokens(
 	payload: TokenPayload | undefined,
 	tokens: Credentials
-): Promise<{user: User, isNewUser: boolean} | null> {
+): Promise<{googleUser: User, isNewUser: boolean} | null | undefined> {
 	try {
 		const { access_token, refresh_token, expiry_date } = tokens
 		const email = payload?.email
@@ -17,13 +17,16 @@ export default async function saveGoogleLoginTokens(
 		const firstName = payload?.given_name || ""
 		const lastName = payload?.family_name || ""
 
-		let user = await UserModel.findOne({
-			email: { $regex: `^${email}$`, $options: "i" },
-			authMethod: "google"
+		let googleUser = await UserModel.findOne({
+			email: { $regex: `^${email}$`, $options: "i" }
 		})
 
-		if (_.isNull(user)) {
-			user = await addNonLocalUserToDB(email, firstName, lastName, "google")
+		if (!_.isNull(googleUser) && googleUser.authMethod !== "google") {
+			return undefined
+		}
+
+		if (_.isNull(googleUser)) {
+			googleUser = await addNonLocalUserToDB(email, firstName, lastName, "google")
 			isNewUser = true
 		}
 
@@ -35,15 +38,15 @@ export default async function saveGoogleLoginTokens(
 
 		if (!_.isEmpty(updateLoginData)) {
 			await UserModel.findByIdAndUpdate(
-				user._id,
+				googleUser._id,
 				{ $set: updateLoginData },
 				{ runValidators: true }
 			)
 		}
 
-		return { user, isNewUser }
+		return { googleUser, isNewUser }
 	} catch (error) {
-		console.error("Error saving user tokens to DB:", error)
+		console.error("Error saving googleUser tokens to DB:", error)
 		return null
 	}
 }
