@@ -1,11 +1,6 @@
-import _ from "lodash"
-import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
-export default async function retrieveUserIdAndPassword(
-	contact: string,
-	contactType: EmailOrPhoneOrUsername
-): Promise<{ userId: Types.ObjectId, password: string, source: "local" | "google" | "microsoft" } | undefined> {
+export default async function retrieveUserFromContact(contact: string, contactType: EmailOrPhoneOrUsername): Promise<User | null> {
 	let user = null
 	if (contactType === "Email") {
 		user = await UserModel.findOne({
@@ -24,11 +19,5 @@ export default async function retrieveUserIdAndPassword(
 		})
 	}
 
-	if (_.isNull(user)) return undefined
-
-	return {
-		userId: user._id,
-		password: user.password as string,
-		source: user.authMethod
-	}
+	return user
 }

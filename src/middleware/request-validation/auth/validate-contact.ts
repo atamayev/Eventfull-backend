@@ -11,5 +11,8 @@ export default function validateContact(req: Request, res: Response, next: NextF
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 
+	const trimmedContact = req.body.contact.trim()
+	req.body.contact = trimmedContact
+
 	next()
 }

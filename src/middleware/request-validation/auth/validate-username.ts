@@ -11,5 +11,8 @@ export default function validateUsername(req: Request, res: Response, next: Next
 
 	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
 
+	const trimmedUsername = req.body.username.trim()
+	req.body.username = trimmedUsername
+
 	next()
 }

@@ -1,5 +1,4 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import { TokenPayload, Credentials } from "google-auth-library"
 import UserModel from "../../../models/user-model"
 import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-db"
@@ -8,7 +7,7 @@ import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-d
 export default async function saveGoogleLoginTokens(
 	payload: TokenPayload | undefined,
 	tokens: Credentials
-): Promise<{userId: Types.ObjectId, isNewUser: boolean, email: string, firstName: string, lastName: string} | null> {
+): Promise<{user: User, isNewUser: boolean} | null> {
 	try {
 		const { access_token, refresh_token, expiry_date } = tokens
 		const email = payload?.email
@@ -28,7 +27,7 @@ export default async function saveGoogleLoginTokens(
 			isNewUser = true
 		}
 
-		const updateLoginData: Record<string, unknown> = {}
+		const updateLoginData: Record<string, string | Date> = {}
 
 		if (!_.isNil(access_token)) updateLoginData.googleLoginAccessToken = access_token
 		if (!_.isNil(refresh_token)) updateLoginData.googleLoginRefreshToken = refresh_token
@@ -42,7 +41,7 @@ export default async function saveGoogleLoginTokens(
 			)
 		}
 
-		return { userId: user._id, isNewUser, email, firstName, lastName }
+		return { user, isNewUser }
 	} catch (error) {
 		console.error("Error saving user tokens to DB:", error)
 		return null
