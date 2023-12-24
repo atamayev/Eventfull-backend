@@ -7,7 +7,7 @@ export default async function updateMicrosoftCalendarTokensInDB(userId: Types.Ob
 	try {
 		const { accessToken, expiresOn } = credentials
 
-		const updateData: Record<string, unknown> = {}
+		const updateData: Record<string, string | Date> = {}
 
 		if (!_.isNil(accessToken)) updateData.microsoftCalendarAccessToken = accessToken
 

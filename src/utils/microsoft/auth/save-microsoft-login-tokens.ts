@@ -18,7 +18,7 @@ export default async function saveMicrosoftLoginTokens(
 		// After getting the user details, pass in the email, firstname, lastname, etc.
 		if (_.isNull(user)) user = await addNonLocalUserToDB(email, "bob", "smith1231231", "microsoft")
 
-		const updateData: Record<string, unknown> = {}
+		const updateData: Record<string, string | Date> = {}
 
 		if (!_.isNil(accessToken)) updateData.microsoftLoginAccessToken = accessToken
 		if (!_.isNil(refreshToken)) updateData.microsoftLoginRefreshToken = refreshToken

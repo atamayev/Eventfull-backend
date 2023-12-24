@@ -7,7 +7,7 @@ export default async function updateGoogleCalendarTokensInDB(userId: Types.Objec
 	try {
 		const { access_token, expiry_date } = credentials
 
-		const updateData: Record<string, unknown> = {}
+		const updateData: Record<string, string | Date> = {}
 
 		if (!_.isNil(access_token)) updateData.googleCalendarAccessToken = access_token
 		if (!_.isNil(expiry_date)) updateData.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
