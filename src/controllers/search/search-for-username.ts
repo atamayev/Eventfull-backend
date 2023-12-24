@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
 
@@ -8,14 +9,16 @@ export default async function searchForUsername(req: Request, res: Response): Pr
 
 		const blockedIds = [...user.blockedUsers, ...user.blockedByUsers, user._id]
 
-		// eslint-disable-next-line security/detect-non-literal-regexp
-		const regex = new RegExp(username, "i")
+		let query
+		if (_.isEqual(username, "")) {
+			query = { _id: { $nin: blockedIds } }
+		} else {
+			// eslint-disable-next-line security/detect-non-literal-regexp
+			const regex = new RegExp(username, "i")
+			query = { _id: { $nin: blockedIds }, username: regex }
+		}
 
-		const users = await UserModel.find({
-			// Exclude users in the blocked lists:
-			_id: { $nin: blockedIds },
-			username: regex
-		})
+		const users = await UserModel.find(query)
 			.select("username -_id")
 			.limit(10)
 

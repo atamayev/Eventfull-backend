@@ -7,6 +7,8 @@ import searchForEventName from "../controllers/search/search-for-event"
 
 const searchRoutes = express.Router()
 
+// For Empty Username Search:
+searchRoutes.get("/username/", validateSearchUsername, searchForUsername)
 searchRoutes.get("/username/:username", validateSearchUsername, searchForUsername)
 searchRoutes.get("/event-name/:eventName", validateSearchEventName, searchForEventName)
 
