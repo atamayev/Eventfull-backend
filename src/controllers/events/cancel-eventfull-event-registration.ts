@@ -7,12 +7,14 @@ export default async function cancelEventfullEventRegistration(req: Request, res
 	try {
 		const isUserAttendingEvent = req.isUserAttendingEvent
 		if (isUserAttendingEvent === false) {
-			return res.status(200).json({ message: "User is not attending event" })
+			return res.status(400).json({ message: "User is not attending event" })
 		}
 		const user = req.user
 		const event = req.event
 
-		if (_.isEqual(event.organizerId, user._id)) return res.status(200).json({ message: "You are the event organizer" })
+		if (_.isEqual(event.organizerId, user._id)) {
+			return res.status(400).json({ message: "You are the event organizer" })
+		}
 
 		const eventIndex = user.eventfullEvents.findIndex(event1 => event1.eventId.toString() === event._id.toString())
 		await cancelEventRegistration(user._id, event._id, eventIndex)
@@ -27,7 +29,7 @@ export default async function cancelEventfullEventRegistration(req: Request, res
 			{ runValidators: true }
 		)
 
-		return res.status(200).json({ message: "Cancelled Event Registration" })
+		return res.status(200).json({ success: "Cancelled Event Registration" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Cancel Eventfull Event Registration" })

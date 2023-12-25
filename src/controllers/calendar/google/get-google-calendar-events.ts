@@ -17,11 +17,11 @@ export default async function getGoogleCalendarEvents(req: Request, res: Respons
 
 		const calendarDetails = events.data.items as calendar_v3.Schema$Event[]
 		const unifiedCalendarEvents = convertGoogleToUnified(calendarDetails)
-		await saveIncomingUnifiedCalendarEvents(user, unifiedCalendarEvents, "google")
+		await saveIncomingUnifiedCalendarEvents(user, unifiedCalendarEvents, "Google")
 
 		return res.status(200).json({ calendarEvents: unifiedCalendarEvents })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to fetch Google Calendar data" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to fetch Google Calendar Data" })
 	}
 }

@@ -12,13 +12,13 @@ export default function validateBlockedUserId (req: Request, res: Response, next
 	try {
 		const { error } = blockedUserIdSchema.validate(req.body)
 
-		if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		req.blockedUserId = new Types.ObjectId(req.body.blockedUserId as string)
 
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Validate Blocked User Id" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Blocked User Id" })
 	}
 }

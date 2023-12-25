@@ -13,7 +13,7 @@ export default function validateUpdateEventfullEvent (req: Request, res: Respons
 	try {
 		const { error } = updateEventfullEventSchema.validate(req.body)
 
-		if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		next()
 	} catch (error) {

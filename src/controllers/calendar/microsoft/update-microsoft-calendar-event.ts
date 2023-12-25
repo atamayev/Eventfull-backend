@@ -21,9 +21,9 @@ export default async function updateMicrosoftCalendarEvent(req: Request, res: Re
 
 		await updateUnifiedEventInDb(user, calendarDetails)
 
-		return res.status(200).json({ message: "Successfully updated Microsoft Calendar event" })
+		return res.status(200).json({ success: "Updated Microsoft Calendar Event" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to update Microsoft Calendar event" })
+		return res.status(500).json({ error: "Unable to Update Microsoft Calendar Event" })
 	}
 }

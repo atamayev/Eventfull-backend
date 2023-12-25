@@ -8,7 +8,7 @@ export async function hashPassword(password: string): Promise<{ hashedPassword: 
 		return { hashedPassword }
 	} catch (error) {
 		console.error(error)
-		return { hashedPassword: "", hashError: "Problem with hashing password" }
+		return { hashedPassword: "", hashError: "Error hashing password" }
 	}
 }
 
@@ -24,7 +24,7 @@ export async function addLocalUser(
 		lastName,
 		username,
 		password: hashedPassword,
-		authMethod: "local",
+		authMethod: "Local",
 		primaryContactMethod: contactType,
 	}
 

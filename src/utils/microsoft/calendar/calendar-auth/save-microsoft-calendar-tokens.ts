@@ -13,7 +13,7 @@ export default async function saveMicrosoftCalendarTokens(
 		})
 		if (_.isNull(user)) throw new Error("User not found")
 
-		const updateCalendarData: Record<string, unknown> = {}
+		const updateCalendarData: Record<string, string | Date> = {}
 
 		if (!_.isNil(accessToken)) updateCalendarData.microsoftCalendarAccessToken = accessToken
 

@@ -21,11 +21,11 @@ export default async function createGoogleCalendarEvent(req: Request, res: Respo
 		})
 
 		calendarDetails.id = response.data.id || ""
-		await addCloudEventToDb(user._id, calendarDetails, "google")
+		await addCloudEventToDb(user._id, calendarDetails, "Google")
 
 		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to Create Google Calendar event" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Create Google Calendar Event" })
 	}
 }

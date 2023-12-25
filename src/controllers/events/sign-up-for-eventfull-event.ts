@@ -7,13 +7,13 @@ export default async function signUpForEventfullEvent(req: Request, res: Respons
 	try {
 		const isUserAttendingEvent = req.isUserAttendingEvent
 		if (isUserAttendingEvent === true) {
-			return res.status(200).json({ message: "User is already attending event" })
+			return res.status(400).json({ message: "User is already attending event" })
 		}
 		const user = req.user
 		const event = req.event
 
 		if (_.isEqual(event.organizerId, user._id)) {
-			return res.status(200).json({ message: "You are the event organizer" })
+			return res.status(400).json({ message: "You are the event organizer" })
 		}
 
 		const eventIndex = user.eventfullEvents.findIndex(event1 => event1.eventId.toString() === event._id.toString())
@@ -42,7 +42,7 @@ export default async function signUpForEventfullEvent(req: Request, res: Respons
 				{ runValidators: true }
 			)
 		}
-		return res.status(200).json({ message: "Signed up for Event" })
+		return res.status(200).json({ success: "Signed up for Event" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Sign Up for Eventfull Event" })

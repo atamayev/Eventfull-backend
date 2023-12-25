@@ -12,11 +12,9 @@ export default async function googleCalendarAuthCallback (req: Request, res: Res
 		const userEmail = user.email as string
 		await saveGoogleCalendarTokens(userEmail, tokens)
 
-		return res.status(200).json({ message: "Successfully connected to Google Calendar" })
+		return res.status(200).json({ success: "Google Calendar Auth Callback Successful" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({
-			error: "Internal Server Error: Failed to exchange authorization code for access token"
-		})
+		return res.status(500).json({ error: "Internal Server Error: Unable to exchange authorization code for access token" })
 	}
 }

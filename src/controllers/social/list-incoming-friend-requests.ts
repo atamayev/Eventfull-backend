@@ -9,13 +9,13 @@ export default async function listIncomingFriendRequests (req: Request, res: Res
 
 		const userRequests = await UserModel.find({
 			"_id": { $in: incomingFriendRequestIds }
-		}).select("username -_id")
+		}).select("username")
 
 		const usernames = userRequests.map(user1 => user1.username)
 
-		return res.status(200).json({ usernames })
+		return res.status(200).json({ incomingFriendRequests: usernames })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ message: "Internal server error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to List Incoming Friend Requests" })
 	}
 }

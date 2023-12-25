@@ -5,11 +5,12 @@ import UserModel from "../../../../models/user-model"
 
 export default async function updateGoogleCalendarTokensInDB(userId: Types.ObjectId, credentials: Credentials): Promise<void> {
 	try {
-		const { access_token, expiry_date } = credentials
+		const { access_token, refresh_token, expiry_date } = credentials
 
-		const updateData: Record<string, unknown> = {}
+		const updateData: Record<string, string | Date> = {}
 
 		if (!_.isNil(access_token)) updateData.googleCalendarAccessToken = access_token
+		if (!_.isNil(refresh_token)) updateData.googleCalendarRefreshToken = refresh_token
 		if (!_.isNil(expiry_date)) updateData.googleCalendarAccessTokenExpiryDate = new Date(expiry_date)
 
 		if (!_.isEmpty(updateData)) {

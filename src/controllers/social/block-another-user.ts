@@ -34,12 +34,12 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 		}
 
 		if (!_.isEmpty(blockedUser.username)) {
-			return res.status(200).json({ message: `${blockedUser.username} blocked` })
+			return res.status(200).json({ success: `${blockedUser.username} blocked` })
 		}
 
-		return res.status(200).json({ message: "User blocked" })
+		return res.status(200).json({ success: "User blocked" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ message: "Internal server error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Block Other user" })
 	}
 }

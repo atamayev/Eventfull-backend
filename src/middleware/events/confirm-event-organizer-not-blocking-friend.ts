@@ -8,7 +8,7 @@ export default function confirmEventOrganizerNotBlockingFriend(req: Request, res
 		const blockedUsers = eventOrganizer.blockedUsers.map(user => user.toString())
 
 		if (blockedUsers.includes(friend._id.toString())) {
-			return res.status(403).json({ error: "Your friend is blocked by the event organizer. Unable to invite friend" })
+			return res.status(400).json({ message: "Your friend is blocked by the event organizer. Unable to invite friend" })
 		}
 
 		next()

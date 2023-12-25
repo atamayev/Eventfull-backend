@@ -11,7 +11,7 @@ export default function validateEventfullEventId (req: Request, res: Response, n
 	try {
 		const { error } = eventfullEventIdSchema.validate(req.body)
 
-		if (!_.isUndefined(error)) return res.status(400).json({ error: error.message })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		next()
 	} catch (error) {

@@ -1,6 +1,6 @@
 declare global {
 	interface UnifiedCalendarEvent {
-		source: "google" | "microsoft" | "local"
+		source: AuthSources
 		id: string
 		title: string // From Google's 'summary' or Microsoft's 'subject'
 		description?: string // From Google's 'description' or Microsoft's 'body.content'

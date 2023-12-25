@@ -18,9 +18,9 @@ export default async function deleteMicrosoftCalendarEvent(req: Request, res: Re
 
 		await deleteDBCalendarEvent(user._id, eventId, "hard")
 
-		return res.status(200).json({ message: "Successfully deleted Microsoft Calendar event" })
+		return res.status(200).json({ success: "Deleted Microsoft Calendar Event" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to delete Microsoft Calendar event" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Delete Microsoft Calendar Event" })
 	}
 }

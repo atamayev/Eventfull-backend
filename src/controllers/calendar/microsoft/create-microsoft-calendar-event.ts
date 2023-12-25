@@ -21,11 +21,11 @@ export default async function createMicrosoftCalendarEvent(req: Request, res: Re
 		const response: Event = await microsoftClient.api(`/me/calendars/${calendarId}/events`).post(microsoftEvent)
 
 		calendarDetails.id = response.id || ""
-		await addCloudEventToDb(user._id, calendarDetails, "microsoft")
+		await addCloudEventToDb(user._id, calendarDetails, "Microsoft")
 
 		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to create Microsoft Calendar event" })
+		return res.status(500).json({ error: "Unable to Create Microsoft Calendar Event" })
 	}
 }

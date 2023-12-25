@@ -8,9 +8,9 @@ export default async function updateLocalCalendarEvent (req: Request, res: Respo
 
 		await updateUnifiedEventInDb(user, calendarDetails)
 
-		return res.status(200).json({ message: "Successfully updated calendar data" })
+		return res.status(200).json({ success: "Updated Calendar Data" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to update calendar data" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Update Local Calendar Data" })
 	}
 }

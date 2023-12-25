@@ -9,11 +9,11 @@ export default async function registerUsername(req: Request, res: Response): Pro
 
 		const exists = await doesUsernameExist(username)
 
-		if (exists === true) return res.status(400).json({ error: "Username taken" })
+		if (exists === true) return res.status(400).json({ message: "Username taken" })
 
 		await UserModel.findByIdAndUpdate(user._id, { username })
 
-		return res.status(200).json({ })
+		return res.status(200).json({ success: "Username added" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Check if Username Exists" })

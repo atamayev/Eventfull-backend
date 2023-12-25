@@ -6,7 +6,7 @@ export default function confirmEventIsInviteable(req: Request, res: Response, ne
 
 		const canInvitedUsersInviteOthers = event.canInvitedUsersInviteOthers
 		if (canInvitedUsersInviteOthers === false) {
-			return res.status(400).json({ error: "This event does not allow invited users to invite others" })
+			return res.status(400).json({ message: "This event does not allow invited users to invite others" })
 		}
 
 		next()

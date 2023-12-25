@@ -25,7 +25,7 @@ export default async function sendEmailVerificationCode(req: Request, res: Respo
 			emailVerificationCodeTimestamp: now,
 		})
 
-		return res.status(200).json({ message: "Verification Code Sent to Email" })
+		return res.status(200).json({ success: "Verification Code Sent to Email" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Send Verification Code to Email" })

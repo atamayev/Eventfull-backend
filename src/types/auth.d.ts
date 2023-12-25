@@ -31,7 +31,7 @@ declare global {
 		lastName: string
 		username: string
 		password: string
-		authMethod: string
+		authMethod: "Local"
 		primaryContactMethod: EmailOrPhone
 		email?: string
 		phoneNumber?: string

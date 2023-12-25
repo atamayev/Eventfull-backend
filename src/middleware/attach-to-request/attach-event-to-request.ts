@@ -7,12 +7,12 @@ export default async function attachEventToRequest(req: Request, res: Response, 
 		const eventfullEventId = req.body.eventfullEventId as string
 		const event = await EventfullEventModel.findById(eventfullEventId)
 
-		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
+		if (_.isNull(event)) return res.status(400).json({ message: "Event not found" })
 
 		req.event = event as EventfullEvent
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Attach Event to Request" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Attach Event to Request" })
 	}
 }

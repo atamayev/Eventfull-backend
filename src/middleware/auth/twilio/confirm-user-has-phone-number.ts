@@ -5,11 +5,11 @@ export default function confirmUserHasPhoneNumber (req: Request, res: Response, 
 	try {
 		const user = req.user
 		if (_.isUndefined(user.phoneNumber)) {
-			return res.status(400).json({ error: "User does not have a Phone Number Registered with Eventfull" })
+			return res.status(400).json({ message: "User does not have a Phone Number Registered with Eventfull" })
 		}
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Confirm if User has a Phone Number" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm if User has a Phone Number" })
 	}
 }

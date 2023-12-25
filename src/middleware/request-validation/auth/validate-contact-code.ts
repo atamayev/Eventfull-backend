@@ -8,9 +8,14 @@ const contactCodeSchema = Joi.object({
 })
 
 export default function validateContactCode (req: Request, res: Response, next: NextFunction): void | Response {
-	const { error } = contactCodeSchema.validate(req.body)
+	try {
+		const { error } = contactCodeSchema.validate(req.body)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-	next()
+		next()
+	} catch (error) {
+		console.error(error)
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Contact Code" })
+	}
 }

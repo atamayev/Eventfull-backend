@@ -22,12 +22,12 @@ export default async function saveGoogleLoginTokens(
 		})
 
 		// This means the user already exists in the DB, but is not a Google User
-		if (!_.isNull(googleUser) && googleUser.authMethod !== "google") {
+		if (!_.isNull(googleUser) && googleUser.authMethod !== "Google") {
 			return undefined
 		}
 
 		if (_.isNull(googleUser)) {
-			googleUser = await addNonLocalUserToDB(email, firstName, lastName, "google")
+			googleUser = await addNonLocalUserToDB(email, firstName, lastName, "Google")
 			isNewUser = true
 		}
 

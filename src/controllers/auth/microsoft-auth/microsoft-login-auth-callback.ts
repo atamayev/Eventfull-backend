@@ -14,18 +14,20 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 		const { access_token, refresh_token, id_token, expires_in } = tokenResponse.data
 
 		const userClaims = await verifyIdToken(id_token)
-		if (_.isUndefined(userClaims)) return res.status(400).json({error: "Problem authenticating Microsoft Token"})
+		if (_.isUndefined(userClaims)) {
+			return res.status(500).json({ error: "Internal Server Error: Unable to Authenticate Microsoft Token"})
+		}
 
 		const email = userClaims["email"] as string
 
 		const userId = await saveMicrosoftLoginTokens(email, access_token, refresh_token, expires_in)
 
-		if (_.isNull(userId)) return res.status(500).json({ error: "Problem saving Microsoft Login Tokens" })
+		if (_.isNull(userId)) return res.status(500).json({ error: "Internal Server Error: Unable to save Microsoft Login Tokens" })
 
 		const payload = createJWTPayload(userId)
 
 		const token = signJWT(payload)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
+		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		await addLoginHistory(userId)
 
@@ -35,8 +37,6 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 		})
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({
-			error: "Internal Server Error: Failed to exchange authorization code for access token"
-		})
+		return res.status(500).json({ error: "Internal Server Error: Unable to Exchange Authorization Code for Access Token" })
 	}
 }

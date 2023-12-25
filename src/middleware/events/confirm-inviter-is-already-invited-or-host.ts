@@ -11,7 +11,7 @@ export default function confirmInviterIsAlreadyInvitedOrHost(req: Request, res: 
 		inviteesIds.push(...coHostIds)
 
 		if (inviteesIds.includes(user._id.toString()) === false) {
-			return res.status(403).json({ error: "You cannot invite someone to an event that you are not invited to" })
+			return res.status(400).json({ message: "You cannot invite someone to an event that you are not invited to" })
 		}
 
 		next()

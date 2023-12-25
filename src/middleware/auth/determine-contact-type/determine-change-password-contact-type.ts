@@ -6,12 +6,12 @@ export default function determineChangePasswordContactType (req: Request, res: R
 		const contact = req.body.changePasswordObject.contact
 		const contactType = emailOrPhone(contact)
 
-		if (contactType === "Unknown") return res.status(400).json({ error: "Please enter a valid email or phone number" })
+		if (contactType === "Unknown") return res.status(400).json({ message: "Please enter a valid Email or Phone Number" })
 
 		req.contactType = contactType
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Determine User's Change Password Contact Type" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Determine Contact Type" })
 	}
 }

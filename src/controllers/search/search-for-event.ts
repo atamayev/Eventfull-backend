@@ -15,12 +15,12 @@ export default async function searchForEventName(req: Request, res: Response): P
 			organizerId: { $nin: blockedIds },
 			eventName: regex
 		})
-			.select("eventName -_id")
+			.select("eventName")
 			.limit(10)
 
 		return res.status(200).json({ events })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Search for Event Name" })
 	}
 }

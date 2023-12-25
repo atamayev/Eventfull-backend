@@ -12,26 +12,26 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 		const outgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, friend._id)
 		if (outgoingFriendRequestExists === true) {
 			if (!_.isEmpty(friend.username)) {
-				return res.status(400).json({ message: `You have already sent ${friend.username} a friend request.` })
+				return res.status(400).json({ message: `You have already sent ${friend.username} a Friend Request.` })
 			} else {
-				return res.status(400).json({ message: "You have already sent this user a friend request" })
+				return res.status(400).json({ message: "You have already sent this user a Friend Request" })
 			}
 		}
 
 		const incomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, friend._id)
 		if (incomingFriendRequestExists === true) {
 			if (!_.isEmpty(friend.username)) {
-				return res.status(400).json({ message: `${friend.username} has already sent you a friend request` })
+				return res.status(400).json({ message: `${friend.username} has already sent you a Friend Request` })
 			} else {
-				return res.status(400).json({ message: "User has already sent you a friend request" })
+				return res.status(400).json({ message: "User has already sent you a Friend Request" })
 			}
 		}
 
 		await createOutgoingFriendRequest(user._id, friend._id)
 
-		return res.status(200).json({ message: "Friend request sent" })
+		return res.status(200).json({ success: "Friend Request Sent" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ message: "Internal server error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Send Frend Request" })
 	}
 }

@@ -7,12 +7,12 @@ export default async function attachBlockedUserToRequest(req: Request, res: Resp
 		const blockedUserId = req.blockedUserId
 		const blockedUser = await findUser(blockedUserId)
 
-		if (_.isNull(blockedUser)) return res.status(404).json({ error: "Blocked User not found" })
+		if (_.isNull(blockedUser)) return res.status(400).json({ message: "Blocked User not found" })
 
 		req.blockedUser = blockedUser as User
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Attach Blocked User to Request" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Attach Blocked User to Request" })
 	}
 }

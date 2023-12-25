@@ -11,7 +11,7 @@ export default async function respondToFriendRequest(req: Request, res: Response
 
 		const incomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, friend._id)
 		if (incomingFriendRequestExists === false) {
-			return res.status(400).json({ message: "Friend request does not exist" })
+			return res.status(400).json({ message: "Friend Request does not exist" })
 		}
 
 		if (response === "Accept") {
@@ -21,12 +21,12 @@ export default async function respondToFriendRequest(req: Request, res: Response
 		await clearIncomingFriendRequest(user._id, friend._id)
 
 		if (response === "Accept") {
-			return res.status(200).json({ message: "Friend request accepted" })
+			return res.status(200).json({ success: "Friend Request Accepted" })
 		} else {
-			return res.status(200).json({ message: "Friend request declined" })
+			return res.status(200).json({ success: "Friend Request Declined" })
 		}
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ message: "Internal Server Error" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Respond to Friend Request" })
 	}
 }

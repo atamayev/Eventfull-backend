@@ -15,7 +15,7 @@ export default async function updateEventfullEvent(req: Request, res: Response):
 			await addCohosts(user, event, updatedEventData)
 		}
 
-		return res.status(200).json({ message: "Event Updated" })
+		return res.status(200).json({ success: "Event Updated" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Update Eventfull Event" })

@@ -10,7 +10,7 @@ export default function checkIfEventCapacityFull(req: Request, res: Response, ne
 			return
 		}
 		if (event.attendees.length >= event.eventCapacity) {
-			return res.status(400).json({ error: "Event capacity full" })
+			return res.status(400).json({ message: "Event capacity full" })
 		}
 	} catch (error) {
 		console.error(error)

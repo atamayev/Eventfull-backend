@@ -5,11 +5,11 @@ export default function confirmUserHasEmailVerificationCode (req: Request, res: 
 	try {
 		const user = req.user
 		if (_.isUndefined(user.emailVerificationCode)) {
-			return res.status(400).json({ error: "User does not have an Email Verification Code" })
+			return res.status(400).json({ message: "User does not have an Email Verification Code" })
 		}
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Confirm if User has an Email Verification Code" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm if User has an Email Verification Code" })
 	}
 }

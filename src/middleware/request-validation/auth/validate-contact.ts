@@ -7,12 +7,17 @@ const contactSchema = Joi.object({
 })
 
 export default function validateContact(req: Request, res: Response, next: NextFunction): void | Response {
-	const { error } = contactSchema.validate(req.body)
+	try {
+		const { error } = contactSchema.validate(req.body)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-	const trimmedContact = req.body.contact.trim()
-	req.body.contact = trimmedContact
+		const trimmedContact = req.body.contact.trim()
+		req.body.contact = trimmedContact
 
-	next()
+		next()
+	} catch (error) {
+		console.error(error)
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Contact" })
+	}
 }

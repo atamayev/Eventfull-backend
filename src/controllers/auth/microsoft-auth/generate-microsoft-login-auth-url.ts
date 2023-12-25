@@ -12,6 +12,6 @@ export default async function generateMicrosoftLoginAuthUrl(req: Request, res: R
 		return res.status(200).json({ authUrl })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Error generating the auth URL" })
+		return res.status(500).json({ error: "Internal Server Error:Error generating the auth URL" })
 	}
 }

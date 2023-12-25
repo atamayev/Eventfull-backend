@@ -17,7 +17,7 @@ const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 
 const userSchema = new Schema<User>({
 	email: { type: String, unique: true, sparse: true, trim: true },
-	authMethod: { type: String, required: true, trim: true, enum: ["local", "microsoft", "google"] },
+	authMethod: { type: String, required: true, trim: true, enum: ["Local", "Microsoft", "Google"] },
 	phoneNumber: { type: String, unique: true, sparse: true, trim: true },
 	primaryContactMethod: { type: String, trim: true, enum: ["Email", "Phone"] },
 	username: { type: String, trim: true, unique: true },

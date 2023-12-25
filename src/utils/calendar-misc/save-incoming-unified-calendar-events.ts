@@ -4,7 +4,7 @@ import UserModel from "../../models/user-model"
 export default async function saveIncomingUnifiedCalendarEvents(
 	user: User,
 	events: UnifiedCalendarEvent[],
-	source: "microsoft" | "google"
+	source: CloudAuthSources
 ): Promise<void> {
 	const eventMap = new Map(events.map(event => [event.id, event]))
 

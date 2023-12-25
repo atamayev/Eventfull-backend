@@ -14,7 +14,7 @@ export default async function assignMicrosoftCalendarIdAndAccessToken(
 		const microsoftCalendarAccessToken = await getValidMicrosoftCalendarAccessToken(user)
 
 		if (_.isUndefined(microsoftCalendarAccessToken)) {
-			return res.status(401).json({ error: "Prompt user to give Microsoft calendar access" })
+			return res.status(400).json({ message: "Prompt user to give Microsoft calendar access" })
 		}
 
 		let microsoftDefaultCalendarId = user.microsoftDefaultCalendarId
@@ -23,7 +23,7 @@ export default async function assignMicrosoftCalendarIdAndAccessToken(
 			microsoftDefaultCalendarId = await retrieveAndSetDefaultCalendarId(user._id, microsoftCalendarAccessToken)
 
 			if (_.isUndefined(microsoftDefaultCalendarId)) {
-				return res.status(400).json({ error: "No Microsoft Calendar Id Found" })
+				return res.status(400).json({ message: "No Microsoft Calendar Id Found" })
 			}
 		}
 
@@ -32,6 +32,6 @@ export default async function assignMicrosoftCalendarIdAndAccessToken(
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(401).json({ error: "Internal Server Error: Unable to Assign Microsoft Calendar Access Token" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Assign Microsoft Calendar Access Token" })
 	}
 }

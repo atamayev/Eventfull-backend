@@ -19,6 +19,6 @@ export default function checkIfUsersAreFriends (req: Request, res: Response, nex
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Check if Users are Friends" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Check if Users are Friends" })
 	}
 }

@@ -7,13 +7,13 @@ export default async function assignGoogleCalendarAccessToken(req: Request, res:
 		const user = req.user
 		const googleCalendarAccessToken = await getValidGoogleCalendarAccessToken(user)
 		if (_.isUndefined(googleCalendarAccessToken)) {
-			return res.status(400).json({ error: "No Google Calendar Access Token Found" })
+			return res.status(400).json({ message: "No Google Calendar Access Token Found" })
 		}
 
 		req.headers.googleCalendarAccessToken = googleCalendarAccessToken
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(401).json({ error: "Internal Server Error: Unable to Assign Google Calendar Access Token" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Assign Google Calendar Access Token" })
 	}
 }

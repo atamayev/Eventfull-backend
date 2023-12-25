@@ -5,11 +5,11 @@ export default function confirmUserHasMicrosoftCalendar (req: Request, res: Resp
 	try {
 		const user = req.user
 		if (_.isUndefined(user.microsoftCalendarAccessToken)) {
-			return res.status(400).json({ error: "User does not have Microsoft Calendar access" })
+			return res.status(400).json({ message: "User does not have Microsoft Calendar access" })
 		}
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Confirm User has Microsoft Calendar" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm User has Microsoft Calendar" })
 	}
 }

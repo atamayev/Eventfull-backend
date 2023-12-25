@@ -12,7 +12,7 @@ export default async function saveGoogleCalendarTokens(email: string, tokens: Cr
 
 		if (_.isNull(user)) throw new Error("User not found")
 
-		const updateCalendarData: Record<string, unknown> = {}
+		const updateCalendarData: Record<string, string | Date> = {}
 
 		if (!_.isNil(access_token)) updateCalendarData.googleCalendarAccessToken = access_token
 		if (!_.isNil(refresh_token)) updateCalendarData.googleCalendarRefreshToken = refresh_token
