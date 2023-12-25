@@ -22,16 +22,16 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		const tokensResonse = await saveGoogleLoginTokens(payload, tokens)
 
-		if (_.isUndefined(tokensResonse)) return res.status(500).json({
-			error: "User with this email already exists, but is not a Google User"
-		})
+		if (_.isUndefined(tokensResonse)) {
+			return res.status(400).json({ message: "User with this email already exists, but is not a Google User"})
+		}
 
-		if (_.isNull(tokensResonse)) return res.status(500).json({ error: "Problem saving Google Login Tokens" })
+		if (_.isNull(tokensResonse)) return res.status(500).json({ error: "Internal Server Error: Error Saving Google Login Tokens" })
 
 		const jwtPayload = createJWTPayload(tokensResonse.googleUser._id)
 
 		const token = signJWT(jwtPayload)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
+		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Error Signing JWT" })
 
 		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(tokensResonse.googleUser._id)
 
@@ -49,8 +49,6 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 		})
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({
-			error: "Internal Server Error: Failed to exchange authorization code for access token"
-		})
+		return res.status(500).json({ error: "Internal Server Error: Unable to exchange authorization code for access token" })
 	}
 }

@@ -9,7 +9,7 @@ const calendarIdSchema = Joi.object({
 export default function validateCalendarIdInParams (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = calendarIdSchema.validate(req.params)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: "Invalid calendar ID" })
+	if (!_.isUndefined(error)) return res.status(400).json({ validationError: "Invalid calendar ID" })
 
 	next()
 }

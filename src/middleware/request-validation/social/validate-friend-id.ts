@@ -12,7 +12,7 @@ export default function validateFriendId (req: Request, res: Response, next: Nex
 	try {
 		const { error } = friendIdSchema.validate(req.body)
 
-		if (!_.isUndefined(error)) return res.status(400).json({ error: "Invalid friend Id" })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: "Invalid friend Id" })
 
 		req.friendId = new Types.ObjectId(req.body.friendId as string)
 

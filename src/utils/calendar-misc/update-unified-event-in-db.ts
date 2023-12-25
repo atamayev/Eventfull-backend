@@ -19,6 +19,6 @@ export default async function updateUnifiedEventInDb (user: User, calendarDetail
 		)
 	} catch (error) {
 		console.error(error)
-		throw new Error("Failed to update event")
+		throw new Error("Unable to update event")
 	}
 }

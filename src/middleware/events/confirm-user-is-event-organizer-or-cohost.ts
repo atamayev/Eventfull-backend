@@ -14,7 +14,7 @@ export default function confirmUserIsEventOrganizerOrCohost(req: Request, res: R
 		const coHostIds = [...event.coHosts.map(coHost => coHost.userId.toString())]
 
 		if (coHostIds.includes(user._id.toString()) === false) {
-			return res.status(403).json({ error: "You are not authorized to modify this event" })
+			return res.status(400).json({ message: "You are not authorized to modify this event" })
 		}
 
 		req.organizerOrCoHost = "Co-Host"

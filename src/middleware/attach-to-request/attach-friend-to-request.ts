@@ -7,7 +7,7 @@ export default async function attachFriendToRequest(req: Request, res: Response,
 		const friendId = req.friendId
 		const friend = await findUser(friendId)
 
-		if (_.isNull(friend)) return res.status(404).json({ error: "Friend not found" })
+		if (_.isNull(friend)) return res.status(400).json({ message: "Friend not found" })
 
 		req.friend = friend as User
 		next()

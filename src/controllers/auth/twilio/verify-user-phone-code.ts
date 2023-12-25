@@ -11,10 +11,10 @@ export default async function verifyUserPhoneCode(req: Request, res: Response): 
 
 		const codeTimestamp = phoneVerificationCodeTimestamp.getTime()
 		const isCodeValid = user.phoneVerificationCode === code
-		if (isCodeValid === false) return res.status(400).json({ error: "Invalid Code" })
+		if (isCodeValid === false) return res.status(400).json({ message: "Invalid Code" })
 
 		const isCodeExpired = new Date().getTime() - codeTimestamp < codeValidityDuration
-		if (isCodeExpired === false) return res.status(400).json({ error: "Code Expired" })
+		if (isCodeExpired === false) return res.status(400).json({ message: "Code Expired" })
 
 		await UserModel.findByIdAndUpdate(user._id, {
 			$set: {
@@ -24,7 +24,7 @@ export default async function verifyUserPhoneCode(req: Request, res: Response): 
 			$unset: { phoneVerificationCode: "", phoneVerificationCodeTimestamp: "" }
 		})
 
-		return res.status(200).json({ message: "Phone Number Verified" })
+		return res.status(200).json({ success: "Phone Number Verified" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Verify Phone Verification Code" })

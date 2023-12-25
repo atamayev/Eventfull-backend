@@ -13,7 +13,7 @@ export default function validateResponseToFriendRequest (req: Request, res: Resp
 	try {
 		const { error } = responseToFriendRequestSchema.validate(req.body)
 
-		if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		req.friendId = new Types.ObjectId(req.body.friendId as string)
 

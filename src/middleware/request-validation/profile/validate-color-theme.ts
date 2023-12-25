@@ -9,7 +9,7 @@ const colorThemeSchema = Joi.object({
 export default function validateColorTheme (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = colorThemeSchema.validate(req.body)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: "Invalid Color Theme" })
+	if (!_.isUndefined(error)) return res.status(400).json({ validationError: "Invalid Color Theme" })
 
 	next()
 }

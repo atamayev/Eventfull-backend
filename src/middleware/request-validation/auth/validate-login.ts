@@ -12,7 +12,7 @@ const loginInformationSchema = Joi.object({
 export default function validateLogin (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = loginInformationSchema.validate(req.body)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+	if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 	const trimmedContact = req.body.loginInformationObject.contact.trimEnd()
 	req.body.loginInformationObject.contact = trimmedContact

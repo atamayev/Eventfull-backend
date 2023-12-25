@@ -22,6 +22,6 @@ export default async function getGoogleCalendarEvents(req: Request, res: Respons
 		return res.status(200).json({ calendarEvents: unifiedCalendarEvents })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to fetch Google Calendar data" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to fetch Google Calendar Data" })
 	}
 }

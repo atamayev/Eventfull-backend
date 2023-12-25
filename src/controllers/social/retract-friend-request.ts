@@ -14,10 +14,9 @@ export default async function retractFriendRequest(req: Request, res: Response):
 
 		await clearOutgoingFriendRequest(user._id, friend._id)
 
-		return res.status(200).json({ message: "Friend request retracted" })
-
+		return res.status(200).json({ success: "Friend request retracted" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ message: "Internal server error" })
+		return res.status(500).json({ error: "Internal server error: Unable to Retract Friend Request" })
 	}
 }

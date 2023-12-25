@@ -23,6 +23,6 @@ export default async function deleteDBCalendarEvent (
 		return
 	} catch (error) {
 		console.error(error)
-		throw new Error("Failed to delete event")
+		throw new Error("Unable to delete event")
 	}
 }

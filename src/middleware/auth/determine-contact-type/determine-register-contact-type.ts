@@ -6,7 +6,7 @@ export default function determineRegisterContactType (req: Request, res: Respons
 		const contact = req.body.registerInformationObject.contact
 		const contactType = emailOrPhone(contact)
 
-		if (contactType === "Unknown") return res.status(400).json({ error: "Please enter a valid email or phone number" })
+		if (contactType === "Unknown") return res.status(400).json({ message: "Please enter a valid email or phone number" })
 
 		req.contactType = contactType
 		next()

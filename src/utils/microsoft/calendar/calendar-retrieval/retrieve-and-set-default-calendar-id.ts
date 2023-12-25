@@ -20,6 +20,6 @@ export default async function retrieveAndSetDefaultCalendarId(
 		return id
 	} catch (error) {
 		console.error(error)
-		throw new Error("Failed to retrieve and set default calendar ID")
+		throw new Error("Unable to retrieve and set default calendar ID")
 	}
 }

@@ -21,6 +21,6 @@ export default async function addLocalCalendarEvent(req: Request, res: Response)
 		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to add calendar data" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to add Calendar Data" })
 	}
 }

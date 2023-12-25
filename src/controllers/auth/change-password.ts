@@ -11,26 +11,26 @@ export default async function changePassword (req: Request, res: Response): Prom
 		const contactType = req.contactType
 		const doesUserHaveContactType = isSameContactMethod(user, contact, contactType)
 
-		if (doesUserHaveContactType === false) return res.status(400).json({ error: `${contactType} does not match what is on file.` })
+		if (doesUserHaveContactType === false) return res.status(400).json({ message: `${contactType} does not match what is on file.` })
 
 		const hashedOldPassword = user.password
-		if (_.isUndefined(hashedOldPassword)) return res.status(500).json({ error: "Error in changing password" })
+		if (_.isUndefined(hashedOldPassword)) return res.status(500).json({ error: "Internal Server Error: Error in changing password" })
 
 		const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedOldPassword)
 		if (isOldPasswordMatch === false) {
-			return res.status(400).json({ error: "Old Password is incorrect" })
-		} else {
-			const isSamePassword = await Hash.checkPassword(newPassword, hashedOldPassword)
-			if (isSamePassword === true) {
-				return res.status(402).json({ error: "New Password cannot be the same as the old password" })
-			}
-
-			const newHashedPassword = await Hash.hashCredentials(newPassword)
-			await UserModel.findByIdAndUpdate(user._id, { password: newHashedPassword }, { runValidators: true })
-			return res.status(200).json({ message: "Password changed successfully" })
+			return res.status(400).json({ message: "Old Password is incorrect" })
 		}
+
+		const isSamePassword = await Hash.checkPassword(newPassword, hashedOldPassword)
+		if (isSamePassword === true) {
+			return res.status(400).json({ message: "New Password cannot be the same as the old password" })
+		}
+
+		const newHashedPassword = await Hash.hashCredentials(newPassword)
+		await UserModel.findByIdAndUpdate(user._id, { password: newHashedPassword }, { runValidators: true })
+		return res.status(200).json({ success: "Password changed successfully" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Errror in changing password" })
+		return res.status(500).json({ error: "Internal Server Error: Error in changing password" })
 	}
 }

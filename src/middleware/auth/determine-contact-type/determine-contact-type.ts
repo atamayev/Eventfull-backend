@@ -6,7 +6,7 @@ export default function determineContactType (req: Request, res: Response, next:
 		const contact = req.body.contact as string
 		const contactType = emailOrPhone(contact)
 
-		if (contactType === "Unknown") return res.status(400).json({ error: "Please enter a valid email or phone number" })
+		if (contactType === "Unknown") return res.status(400).json({ message: "Please enter a valid email or phone number" })
 
 		req.contactType = contactType
 		next()

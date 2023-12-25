@@ -12,7 +12,7 @@ export default function validateUnblockedUserId (req: Request, res: Response, ne
 	try {
 		const { error } = unblockedUserIdSchema.validate(req.body)
 
-		if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		req.unblockedUserId = new Types.ObjectId(req.body.unblockedUserId as string)
 

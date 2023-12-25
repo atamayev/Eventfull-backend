@@ -7,7 +7,7 @@ export default async function attachEventOrganizerToRequest(req: Request, res: R
 		const eventOrganizerId = req.event.organizerId
 		const eventOrganizer = await findUser(eventOrganizerId)
 
-		if (_.isNull(eventOrganizer)) return res.status(404).json({ error: "Event Organizer not found" })
+		if (_.isNull(eventOrganizer)) return res.status(400).json({ message: "Event Organizer not found" })
 
 		req.eventOrganizer = eventOrganizer as User
 		next()

@@ -5,7 +5,7 @@ import { partialUnifiedCalendarEventSchema } from "../../joi/unified-calendar-ev
 export default function validateCreateCloudEvent (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = partialUnifiedCalendarEventSchema.validate(req.body)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+	if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 	next()
 }

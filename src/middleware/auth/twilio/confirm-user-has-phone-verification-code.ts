@@ -5,7 +5,7 @@ export default function confirmUserHasPhoneVerificationCode (req: Request, res: 
 	try {
 		const user = req.user
 		if (_.isUndefined(user.phoneVerificationCode)) {
-			return res.status(400).json({ error: "User does not have a Phone Verification Code" })
+			return res.status(400).json({ message: "User does not have a Phone Verification Code" })
 		}
 		next()
 	} catch (error) {

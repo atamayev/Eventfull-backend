@@ -13,7 +13,7 @@ export default function validateEventfullInvite (req: Request, res: Response, ne
 	try {
 		const { error } = inviteFriendSchema.validate(req.body)
 
-		if (!_.isUndefined(error)) return res.status(400).json({ error: error.message })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		req.friendId = new Types.ObjectId(req.body.friendId as string)
 

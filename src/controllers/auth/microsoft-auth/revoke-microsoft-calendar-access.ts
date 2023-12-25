@@ -14,7 +14,7 @@ export default async function revokeMicrosoftCalendarAccess(req: Request, res: R
 		// Do more research to check to see if Microsoft has a revoke token endpoint
 		await user.save()
 
-		return res.status(200).json({ message: "Successfully revoked Microsoft Calendar access" })
+		return res.status(200).json({ success: "Successfully revoked Microsoft Calendar access" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal server error: Unable to Revoke Microsoft Calendar Access" })

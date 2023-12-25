@@ -14,22 +14,22 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const contactType = determineLoginType(contact)
 
 		const user = await retrieveUserFromContact(contact, contactType)
-		if (_.isNull(user)) return res.status(404).json({ error: `${contactType} not found!` })
+		if (_.isNull(user)) return res.status(400).json({ message: `${contactType} not found!` })
 
 		if (user.authMethod === "google") {
-			return res.status(400).json({ error: "Username exists, but you must login via Google" })
+			return res.status(400).json({ message: "Username exists, but you must login via Google" })
 		} else if (user.authMethod === "microsoft") {
-			return res.status(400).json({ error: "Username exists, but you must login via Microsoft" })
+			return res.status(400).json({ message: "Username exists, but you must login via Microsoft" })
 		}
 
 		const savedPassword = user.password as string
 		const doPasswordsMatch = await Hash.checkPassword(password, savedPassword)
-		if (doPasswordsMatch === false) return res.status(400).json({ error: "Wrong Username or Password!" })
+		if (doPasswordsMatch === false) return res.status(400).json({ message: "Wrong Username or Password!" })
 
 		const payload = createJWTPayload(user._id)
 
 		const token = signJWT(payload)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Problem with Signing JWT" })
+		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Error Signing JWT" })
 
 		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(user._id)
 
@@ -51,6 +51,6 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		})
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Problem with login" })
+		return res.status(500).json({ error: "Internal Server Error: Error login" })
 	}
 }

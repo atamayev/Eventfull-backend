@@ -7,9 +7,9 @@ export default async function deleteLocalCalendarEvent (req: Request, res: Respo
 		const calendarId: string = req.params.calendarId
 		await deleteDBCalendarEvent(user._id, calendarId, "soft")
 
-		return res.status(200).json({ message: "Calendar event deleted successfully" })
+		return res.status(200).json({ success: "Calendar event deleted successfully" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Failed to delete calendar data" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Delete Calendar data" })
 	}
 }

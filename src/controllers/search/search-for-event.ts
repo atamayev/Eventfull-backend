@@ -18,9 +18,9 @@ export default async function searchForEventName(req: Request, res: Response): P
 			.select("eventName")
 			.limit(10)
 
-		return res.status(200).json({ events })
+		return res.status(200).json({ sucess: events })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Search for Event Name" })
 	}
 }

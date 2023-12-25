@@ -11,7 +11,7 @@ export default async function deleteEventfullEvent(req: Request, res: Response):
 			{ runValidators: true }
 		)
 
-		return res.status(200).json({ message: "Event Deleted" })
+		return res.status(200).json({ success: "Event Deleted" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Delete Eventfull Event" })

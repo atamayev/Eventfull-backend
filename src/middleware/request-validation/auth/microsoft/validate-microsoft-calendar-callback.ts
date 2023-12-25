@@ -15,7 +15,7 @@ export default async function validateMicrosoftCalendarCallback (
 ): Promise<void | Response> {
 	const { error } = microsoftCalendarCallbackSchema.validate(req.query)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+	if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 	let email: string | undefined
 	try {
@@ -30,7 +30,7 @@ export default async function validateMicrosoftCalendarCallback (
 		email = user.email
 	} catch (error1) {
 		console.error(error1)
-		return res.status(400).json({error: "Bad Request: State is not valid JSON"})
+		return res.status(400).json({message: "Bad Request: State is not valid JSON"})
 	}
 
 	if (_.isUndefined(email)) return handleUnauthorized()
@@ -40,6 +40,6 @@ export default async function validateMicrosoftCalendarCallback (
 	next()
 
 	function handleUnauthorized(): Response {
-		return res.status(401).json({ error: "Internal Server Error: Unauthorized User" })
+		return res.status(401).json({ error: "Unauthorized User" })
 	}
 }

@@ -9,7 +9,7 @@ const usernameSchema = Joi.object({
 export default function validateSearchUsername (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = usernameSchema.validate(req.params)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: "Invalid username" })
+	if (!_.isUndefined(error)) return res.status(400).json({ validationError: "Invalid username" })
 
 	if (!_.isUndefined(req.params.username)) {
 		const trimmedUsername = req.params.username.trim()

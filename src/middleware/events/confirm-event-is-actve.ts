@@ -5,7 +5,7 @@ export default function confirmEventIsActive(req: Request, res: Response, next: 
 		const event = req.event
 
 		if (event.isActive === false) {
-			return res.status(403).json({ error: "Event has been deleted." })
+			return res.status(400).json({ message: "Event has been deleted." })
 		}
 
 		next()

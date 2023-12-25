@@ -9,7 +9,7 @@ const eventNameSchema = Joi.object({
 export default function validateSearchEventName (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = eventNameSchema.validate(req.params)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: "Invalid event name" })
+	if (!_.isUndefined(error)) return res.status(400).json({ validationError: "Invalid event name" })
 
 	next()
 }

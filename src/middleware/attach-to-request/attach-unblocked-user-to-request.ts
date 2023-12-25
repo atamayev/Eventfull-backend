@@ -7,7 +7,7 @@ export default async function attachUnblockedUserToRequest(req: Request, res: Re
 		const unblockedUserId = req.unblockedUserId
 		const unblockedUser = await findUser(unblockedUserId)
 
-		if (_.isNull(unblockedUser)) return res.status(404).json({ error: "Blocked User not found" })
+		if (_.isNull(unblockedUser)) return res.status(400).json({ message: "Blocked User not found" })
 
 		req.unblockedUser = unblockedUser as User
 		next()

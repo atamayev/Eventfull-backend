@@ -13,7 +13,7 @@ const newCloudUserInfo = Joi.object({
 export default function validateAddCloudUserPersonalInfo (req: Request, res: Response, next: NextFunction): void | Response {
 	const { error } = newCloudUserInfo.validate(req.body)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ error: error.details[0].message })
+	if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 	next()
 }

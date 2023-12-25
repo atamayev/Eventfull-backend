@@ -4,7 +4,7 @@ export default function confirmUserEmailNotVerified (req: Request, res: Response
 	try {
 		const user = req.user
 		if (user.isEmailVerified === true) {
-			return res.status(400).json({ error: "User's Email has already been verified" })
+			return res.status(400).json({ message: "User's Email has already been verified" })
 		}
 		next()
 	} catch (error) {

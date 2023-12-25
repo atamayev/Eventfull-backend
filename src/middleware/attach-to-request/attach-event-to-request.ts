@@ -7,7 +7,7 @@ export default async function attachEventToRequest(req: Request, res: Response, 
 		const eventfullEventId = req.body.eventfullEventId as string
 		const event = await EventfullEventModel.findById(eventfullEventId)
 
-		if (_.isNull(event)) return res.status(404).json({ error: "Event not found" })
+		if (_.isNull(event)) return res.status(400).json({ message: "Event not found" })
 
 		req.event = event as EventfullEvent
 		next()

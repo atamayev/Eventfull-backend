@@ -5,7 +5,7 @@ export default function confirmUserHasGoogleCalendar (req: Request, res: Respons
 	try {
 		const user = req.user
 		if (_.isUndefined(user.googleCalendarAccessToken)) {
-			return res.status(400).json({ error: "User does not have Google Calendar access" })
+			return res.status(400).json({ message: "User does not have Google Calendar access" })
 		}
 		next()
 	} catch (error) {

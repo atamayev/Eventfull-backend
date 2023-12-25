@@ -22,12 +22,12 @@ export default async function unblockAnotherUser (req: Request, res: Response): 
 		await unblockUser(user._id, unblockedUser._id)
 
 		if (!_.isEmpty(unblockedUser.username)) {
-			return res.status(200).json({ message: `${unblockedUser.username} unblocked` })
+			return res.status(200).json({ success: `${unblockedUser.username} unblocked` })
 		}
 
-		return res.status(200).json({ message: "User unblocked" })
+		return res.status(200).json({ success: "User unblocked" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ message: "Internal server error" })
+		return res.status(500).json({ error: "Internal server error: Unable to Unblock Other user" })
 	}
 }

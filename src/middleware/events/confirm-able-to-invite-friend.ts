@@ -10,7 +10,7 @@ export default function confirmAbleToInviteFriend(req: Request, res: Response, n
 		attendeeIds.push(event.organizerId.toString())
 
 		if (attendeeIds.includes(friend._id.toString()) === true) {
-			return res.status(403).json({ error: "Friend is already attending Event" })
+			return res.status(400).json({ message: "Friend is already attending Event" })
 		}
 
 		// Check if friend has already responded "Not Attending"
@@ -19,7 +19,7 @@ export default function confirmAbleToInviteFriend(req: Request, res: Response, n
 		)
 
 		if (hasRespondedNotAttending === true) {
-			return res.status(400).json({ error: "Friend has already responded 'Not Attending'" })
+			return res.status(400).json({ message: "Friend has already responded 'Not Attending'" })
 		}
 
 		// Check if friend is already invited
@@ -27,7 +27,7 @@ export default function confirmAbleToInviteFriend(req: Request, res: Response, n
 		inviteesIds.push(event.organizerId.toString())
 
 		if (inviteesIds.includes(friend._id.toString()) === true) {
-			return res.status(403).json({ error: "Friend is already invited" })
+			return res.status(400).json({ message: "Friend is already invited" })
 		}
 
 		next()
