@@ -15,7 +15,7 @@ export default async function searchForEventName(req: Request, res: Response): P
 			organizerId: { $nin: blockedIds },
 			eventName: regex
 		})
-			.select("eventName -_id")
+			.select("eventName")
 			.limit(10)
 
 		return res.status(200).json({ events })

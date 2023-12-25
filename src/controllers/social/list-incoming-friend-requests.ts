@@ -9,7 +9,7 @@ export default async function listIncomingFriendRequests (req: Request, res: Res
 
 		const userRequests = await UserModel.find({
 			"_id": { $in: incomingFriendRequestIds }
-		}).select("username -_id")
+		}).select("username")
 
 		const usernames = userRequests.map(user1 => user1.username)
 

@@ -8,7 +8,7 @@ export default async function listBlockedUsers (req: Request, res: Response): Pr
 
 		const userRequests = await UserModel.find({
 			"_id": { $in: blockedUsersIds }
-		}).select("username -_id")
+		}).select("username")
 
 		const usernames = userRequests.map(user1 => user1.username)
 

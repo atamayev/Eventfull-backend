@@ -1,6 +1,7 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
+import { Types } from "mongoose"
 
 export default async function searchForUsername(req: Request, res: Response): Promise<Response> {
 	try {
@@ -19,10 +20,22 @@ export default async function searchForUsername(req: Request, res: Response): Pr
 		}
 
 		const users = await UserModel.find(query)
-			.select("username -_id")
+			.select("username")
 			.limit(10)
 
-		return res.status(200).json({ users })
+		const modifiedUsers = users.map(userDoc => {
+			const userObj = userDoc.toObject() as UserWithFriendStatus
+			userObj.isFriend = user.friends.includes(userObj._id as Types.ObjectId)
+			// These are not switched, they are correct:
+			userObj.hasIncomingFriendRequest = user.outgoingFriendRequests.includes(userObj._id as Types.ObjectId)
+			userObj.hasOutgoingFriendRequest = user.incomingFriendRequests.includes(userObj._id as Types.ObjectId)
+			userObj._id = userObj._id.toString()
+			return userObj
+		})
+
+		console.log(modifiedUsers)
+
+		return res.status(200).json({ users: modifiedUsers })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error })
