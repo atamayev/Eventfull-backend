@@ -10,7 +10,7 @@ export default function validateSearchEventName (req: Request, res: Response, ne
 	try {
 		const { error } = eventNameSchema.validate(req.params)
 
-		if (!_.isUndefined(error)) return res.status(400).json({ validationError: "Invalid event name" })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: "Invalid Event Name" })
 
 		next()
 	} catch (error) {

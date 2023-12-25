@@ -14,7 +14,7 @@ export default async function assignMicrosoftCalendarIdAndAccessToken(
 		const microsoftCalendarAccessToken = await getValidMicrosoftCalendarAccessToken(user)
 
 		if (_.isUndefined(microsoftCalendarAccessToken)) {
-			return res.status(401).json({ message: "Prompt user to give Microsoft calendar access" })
+			return res.status(400).json({ message: "Prompt user to give Microsoft calendar access" })
 		}
 
 		let microsoftDefaultCalendarId = user.microsoftDefaultCalendarId

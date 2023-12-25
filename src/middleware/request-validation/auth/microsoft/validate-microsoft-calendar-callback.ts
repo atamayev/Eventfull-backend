@@ -32,9 +32,9 @@ export default async function validateMicrosoftCalendarCallback (
 		req.headers.email = email
 
 		next()
-	} catch (error1) {
-		console.error(error1)
-		return res.status(400).json({message: "Bad Request: State is not valid JSON"})
+	} catch (err) {
+		console.error(err)
+		return res.status(500).json({ error: "Bad Request: State is not valid JSON" })
 	}
 
 	function handleUnauthorized(): Response {
