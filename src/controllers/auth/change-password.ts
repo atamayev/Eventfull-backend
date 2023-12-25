@@ -14,7 +14,9 @@ export default async function changePassword (req: Request, res: Response): Prom
 		if (doesUserHaveContactType === false) return res.status(400).json({ message: `${contactType} does not match what is on file.` })
 
 		const hashedOldPassword = user.password
-		if (_.isUndefined(hashedOldPassword)) return res.status(500).json({ error: "Internal Server Error: Error in changing password" })
+		if (_.isUndefined(hashedOldPassword)) {
+			return res.status(500).json({ error: "Internal Server Error: Unable to Find Previous Password" })
+		}
 
 		const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedOldPassword)
 		if (isOldPasswordMatch === false) {
@@ -23,7 +25,7 @@ export default async function changePassword (req: Request, res: Response): Prom
 
 		const isSamePassword = await Hash.checkPassword(newPassword, hashedOldPassword)
 		if (isSamePassword === true) {
-			return res.status(400).json({ message: "New Password cannot be the same as the old password" })
+			return res.status(400).json({ message: "New Password cannot be the same as the Previous Password" })
 		}
 
 		const newHashedPassword = await Hash.hashCredentials(newPassword)
@@ -31,6 +33,6 @@ export default async function changePassword (req: Request, res: Response): Prom
 		return res.status(200).json({ success: "Password changed successfully" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Error in changing password" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Change Password" })
 	}
 }

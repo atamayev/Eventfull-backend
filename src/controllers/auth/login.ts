@@ -29,7 +29,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const payload = createJWTPayload(user._id)
 
 		const token = signJWT(payload)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Error Signing JWT" })
+		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(user._id)
 
@@ -51,6 +51,6 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		})
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Error login" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Login" })
 	}
 }

@@ -21,6 +21,6 @@ export default async function generateMicrosoftCalendarAuthUrl(req: Request, res
 
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Error generating the auth URL" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Generate the Auth URL" })
 	}
 }

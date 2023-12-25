@@ -16,7 +16,7 @@ export default async function register (req: Request, res: Response): Promise<Re
 		if (contactExists === true) return res.status(400).json({ message: `${contactType} already exists` })
 
 		const { hashedPassword, hashError } = await hashPassword(password)
-		if (!_.isUndefined(hashError)) return res.status(500).json({ error: "Internal Server Error: Error Hashing Password" })
+		if (!_.isUndefined(hashError)) return res.status(500).json({ error: "Internal Server Error: Unable to Hash Password" })
 
 		const usernameExists = await doesUsernameExist(username)
 		if (usernameExists === true) return res.status(400).json({ message: "Username taken" })
@@ -26,7 +26,7 @@ export default async function register (req: Request, res: Response): Promise<Re
 		const payload = createJWTPayload(userId, true)
 
 		const token = signJWT(payload)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Error Signing JWT" })
+		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		await addLoginHistory(userId)
 
