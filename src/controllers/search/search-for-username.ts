@@ -32,7 +32,6 @@ export default async function searchForUsername(req: Request, res: Response): Pr
 			userObj._id = userObj._id.toString()
 			return userObj
 		})
-		console.log(modifiedUsers)
 		return res.status(200).json({ users: modifiedUsers })
 	} catch (error) {
 		console.error(error)
