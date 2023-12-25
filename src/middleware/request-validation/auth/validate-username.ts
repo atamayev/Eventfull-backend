@@ -7,12 +7,17 @@ const usernameSchema = Joi.object({
 })
 
 export default function validateUsername(req: Request, res: Response, next: NextFunction): void | Response {
-	const { error } = usernameSchema.validate(req.body)
+	try {
+		const { error } = usernameSchema.validate(req.body)
 
-	if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
+		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-	const trimmedUsername = req.body.username.trim()
-	req.body.username = trimmedUsername
+		const trimmedUsername = req.body.username.trim()
+		req.body.username = trimmedUsername
 
-	next()
+		next()
+	} catch (error) {
+		console.error(error)
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Username" })
+	}
 }
