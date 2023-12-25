@@ -19,6 +19,6 @@ export default async function getMicrosoftCalendarEvents(req: Request, res: Resp
 		return res.status(200).json({ calendarDetails: unifiedCalendarEvents })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to fetch Microsoft Calendar Data" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Microsoft Calendar Data" })
 	}
 }

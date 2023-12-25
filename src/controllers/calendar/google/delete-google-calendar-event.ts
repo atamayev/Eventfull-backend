@@ -19,7 +19,7 @@ export default async function deleteGoogleCalendarEvent(req: Request, res: Respo
 
 		await deleteDBCalendarEvent(user._id, eventId, "hard")
 
-		return res.status(200).json({ success: "Successfully deleted Google Calendar Event"})
+		return res.status(200).json({ success: "Deleted Google Calendar Event"})
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Delete Google Calendar Event" })

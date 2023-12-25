@@ -23,7 +23,7 @@ export default async function updateGoogleCalendarEvent(req: Request, res: Respo
 
 		await updateUnifiedEventInDb(user, calendarDetails)
 
-		return res.status(200).json({ success: "Successfully updated Google Calendar Event"})
+		return res.status(200).json({ success: "Updated Google Calendar Event"})
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Update Google Calendar Event" })

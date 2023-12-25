@@ -26,6 +26,6 @@ export default async function createMicrosoftCalendarEvent(req: Request, res: Re
 		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Unable to create Microsoft Calendar event" })
+		return res.status(500).json({ error: "Unable to Create Microsoft Calendar Event" })
 	}
 }
