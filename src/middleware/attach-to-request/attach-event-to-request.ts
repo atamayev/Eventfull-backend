@@ -13,6 +13,6 @@ export default async function attachEventToRequest(req: Request, res: Response, 
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Attach Event to Request" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Attach Event to Request" })
 	}
 }

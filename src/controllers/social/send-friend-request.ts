@@ -32,6 +32,6 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 		return res.status(200).json({ success: "Friend request sent" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Send Frend Request" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Send Frend Request" })
 	}
 }

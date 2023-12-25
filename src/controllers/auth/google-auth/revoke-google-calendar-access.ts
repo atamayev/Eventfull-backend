@@ -21,6 +21,6 @@ export default async function revokeGoogleCalendarAccess(req: Request, res: Resp
 		return res.status(200).json({ success: "Revoked Google Calendar access" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unabe to Revoke Google Calendar Access" })
+		return res.status(500).json({ error: "Internal Server Error: Unabe to Revoke Google Calendar Access" })
 	}
 }

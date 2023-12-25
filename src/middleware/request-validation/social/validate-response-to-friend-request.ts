@@ -20,6 +20,6 @@ export default function validateResponseToFriendRequest (req: Request, res: Resp
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Validate Response to Friend Request" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Response to Friend Request" })
 	}
 }

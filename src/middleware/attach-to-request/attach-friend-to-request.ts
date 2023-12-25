@@ -13,6 +13,6 @@ export default async function attachFriendToRequest(req: Request, res: Response,
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Attach Friend to Request" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Attach Friend to Request" })
 	}
 }

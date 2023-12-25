@@ -12,6 +12,6 @@ export default function determineRegisterContactType (req: Request, res: Respons
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Determine Registering User's Contact Type" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Determine Registering User's Contact Type" })
 	}
 }

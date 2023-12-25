@@ -9,6 +9,6 @@ export default function confirmUserEmailNotVerified (req: Request, res: Response
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Confirm if User's Email has already been verified" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm if User's Email has already been verified" })
 	}
 }

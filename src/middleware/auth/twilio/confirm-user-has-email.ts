@@ -10,6 +10,6 @@ export default function confirmUserHasEmail (req: Request, res: Response, next: 
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Confirm if User has an Email" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm if User has an Email" })
 	}
 }

@@ -10,6 +10,6 @@ export default function confirmUserHasGoogleCalendar (req: Request, res: Respons
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Confirm User has Google Calendar" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm User has Google Calendar" })
 	}
 }

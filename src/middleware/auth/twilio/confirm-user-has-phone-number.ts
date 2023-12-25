@@ -10,6 +10,6 @@ export default function confirmUserHasPhoneNumber (req: Request, res: Response, 
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Confirm if User has a Phone Number" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm if User has a Phone Number" })
 	}
 }

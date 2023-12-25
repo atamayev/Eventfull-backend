@@ -10,6 +10,6 @@ export default function confirmUserHasEmailVerificationCode (req: Request, res: 
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Confirm if User has an Email Verification Code" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm if User has an Email Verification Code" })
 	}
 }

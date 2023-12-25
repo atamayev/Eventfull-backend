@@ -12,6 +12,6 @@ export default function determineChangePasswordContactType (req: Request, res: R
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Determine User's Change Password Contact Type" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Determine User's Change Password Contact Type" })
 	}
 }

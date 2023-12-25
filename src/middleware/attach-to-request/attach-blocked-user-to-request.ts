@@ -13,6 +13,6 @@ export default async function attachBlockedUserToRequest(req: Request, res: Resp
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Attach Blocked User to Request" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Attach Blocked User to Request" })
 	}
 }

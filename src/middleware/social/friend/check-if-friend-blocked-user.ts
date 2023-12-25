@@ -19,6 +19,6 @@ export default function checkIfFriendBlockedUser (req: Request, res: Response, n
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Check if Friend Blocked User" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Check if Friend Blocked User" })
 	}
 }

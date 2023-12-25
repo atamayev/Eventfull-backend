@@ -12,9 +12,9 @@ export default async function listBlockedUsers (req: Request, res: Response): Pr
 
 		const usernames = userRequests.map(user1 => user1.username)
 
-		return res.status(200).json({ succes: usernames })
+		return res.status(200).json({ blockedUsers: usernames })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to List Blocked Users" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to List Blocked Users" })
 	}
 }

@@ -28,6 +28,6 @@ export default async function unblockAnotherUser (req: Request, res: Response): 
 		return res.status(200).json({ success: "User unblocked" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal server error: Unable to Unblock Other user" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Unblock Other user" })
 	}
 }
