@@ -14,7 +14,7 @@ export default async function revokeGoogleCalendarAccess(req: Request, res: Resp
 		user.googleCalendarAccessToken = undefined
 		user.googleCalendarAccessTokenExpiryDate = undefined
 		user.googleCalendarRefreshToken = undefined
-		user.calendarData = user.calendarData.filter(event => event.source !== "google")
+		user.calendarData = user.calendarData.filter(event => event.source !== "Google")
 
 		await user.save()
 

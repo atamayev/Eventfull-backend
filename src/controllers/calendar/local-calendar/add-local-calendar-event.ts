@@ -8,7 +8,7 @@ export default async function addLocalCalendarEvent(req: Request, res: Response)
 		const calendarDetails = req.body.calendarDetails as UnifiedCalendarEvent
 
 		calendarDetails.id = uuidv4()
-		calendarDetails.source = "local"
+		calendarDetails.source = "Local"
 		calendarDetails.isActive = true
 		calendarDetails.timeZone ||= "America/New_York"
 

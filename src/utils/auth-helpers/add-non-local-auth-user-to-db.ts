@@ -4,7 +4,7 @@ export default async function addNonLocalUserToDB(
 	email: string,
 	firstName: string,
 	lastName: string,
-	authMethod: "google" | "microsoft"
+	authMethod: CloudAuthSources
 ): Promise<User> {
 	const newUser = await UserModel.create({
 		email,

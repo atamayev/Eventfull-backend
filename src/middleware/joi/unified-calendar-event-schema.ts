@@ -15,7 +15,7 @@ const unifiedRecurrenceSchema = Joi.object({
 	interval: Joi.number().required()
 })
 
-export function createFullUnifiedCalendarEventSchema(sourceType: "google" | "microsoft" | "local"): Joi.ObjectSchema {
+export function createFullUnifiedCalendarEventSchema(sourceType: AuthSources): Joi.ObjectSchema {
 	return Joi.object({
 		calendarDetails: Joi.object({
 			id: Joi.string().required(),

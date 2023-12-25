@@ -20,7 +20,7 @@ export default function convertGoogleToUnified(events: calendar_v3.Schema$Event[
 			})),
 			isAllDay: isAllDayEvent(event),
 			recurrence: getRecurrencePattern(event),
-			source: "google",
+			source: "Google",
 			link: event.htmlLink || "",
 			isActive: true,
 		}

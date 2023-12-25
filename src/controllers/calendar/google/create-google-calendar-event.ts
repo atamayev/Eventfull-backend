@@ -21,7 +21,7 @@ export default async function createGoogleCalendarEvent(req: Request, res: Respo
 		})
 
 		calendarDetails.id = response.data.id || ""
-		await addCloudEventToDb(user._id, calendarDetails, "google")
+		await addCloudEventToDb(user._id, calendarDetails, "Google")
 
 		return res.status(200).json({ calendarId: calendarDetails.id })
 	} catch (error) {

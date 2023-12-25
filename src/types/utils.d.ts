@@ -19,6 +19,9 @@ declare global {
 	type AcceptOrDecline = "Accept" | "Decline"
 
 	type AttendingStatuses = "Attending" | "Not Attending" | "Not Responded" | "Hosting" | "Co-Hosting"
+
+	type CloudAuthSources = "Google" | "Microsoft"
+	type AuthSources = "Local" | CloudAuthSources
 }
 
 export {}

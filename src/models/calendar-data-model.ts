@@ -27,7 +27,7 @@ const calendarDataSchema = new Schema<UnifiedCalendarEvent>({
 	attendees: { type: [unifiedCalendarAttendeeSchema], required: true },
 	isAllDay: { type: Boolean, required: true },
 	recurrence: { type: recurrenceSchema, required: false },
-	source: { type: String, required: true, enum: ["google", "microsoft", "local"] },
+	source: { type: String, required: true, enum: ["Google", "Microsoft", "Local"] },
 	link: { type: String, required: false },
 	isActive: { type: Boolean, required: true }
 })

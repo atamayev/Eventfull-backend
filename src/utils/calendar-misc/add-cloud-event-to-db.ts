@@ -4,7 +4,7 @@ import UserModel from "../../models/user-model"
 export default async function addCloudEventToDb (
 	userId: Types.ObjectId,
 	calendarDetails: UnifiedCalendarEvent,
-	source: "google" | "microsoft"
+	source: CloudAuthSources
 ): Promise<void> {
 	try {
 		calendarDetails.source = source

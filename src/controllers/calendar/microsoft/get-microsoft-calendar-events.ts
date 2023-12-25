@@ -14,7 +14,7 @@ export default async function getMicrosoftCalendarEvents(req: Request, res: Resp
 
 		const calendarDetails = await client.api(`/me/calendars/${calendarId}/events`).get() as { value: Event[] }
 		const unifiedCalendarEvents = convertMicrosoftToUnified(calendarDetails.value)
-		await saveIncomingUnifiedCalendarEvents(user, unifiedCalendarEvents, "microsoft")
+		await saveIncomingUnifiedCalendarEvents(user, unifiedCalendarEvents, "Microsoft")
 
 		return res.status(200).json({ calendarDetails: unifiedCalendarEvents })
 	} catch (error) {

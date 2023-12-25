@@ -4,7 +4,7 @@ import { createFullUnifiedCalendarEventSchema } from "../../joi/unified-calendar
 
 export default function validateUpdateMicrosoftCalendarEvent (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const fullUnifiedCalendarEventSchema = createFullUnifiedCalendarEventSchema("microsoft")
+		const fullUnifiedCalendarEventSchema = createFullUnifiedCalendarEventSchema("Microsoft")
 		const { error } = fullUnifiedCalendarEventSchema.validate(req.body)
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })

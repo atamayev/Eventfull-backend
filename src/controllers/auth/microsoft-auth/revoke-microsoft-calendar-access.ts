@@ -9,7 +9,7 @@ export default async function revokeMicrosoftCalendarAccess(req: Request, res: R
 		user.microsoftCalendarAccessTokenExpiryDate = undefined
 		user.microsoftDefaultCalendarId = undefined
 
-		user.calendarData = user.calendarData.filter(event => event.source !== "microsoft")
+		user.calendarData = user.calendarData.filter(event => event.source !== "Microsoft")
 
 		// Do more research to check to see if Microsoft has a revoke token endpoint
 		await user.save()

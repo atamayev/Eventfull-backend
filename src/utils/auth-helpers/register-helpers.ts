@@ -24,7 +24,7 @@ export async function addLocalUser(
 		lastName,
 		username,
 		password: hashedPassword,
-		authMethod: "local",
+		authMethod: "Local",
 		primaryContactMethod: contactType,
 	}
 

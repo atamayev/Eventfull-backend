@@ -16,9 +16,9 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const user = await retrieveUserFromContact(contact, contactType)
 		if (_.isNull(user)) return res.status(400).json({ message: `${contactType} not found!` })
 
-		if (user.authMethod === "google") {
+		if (user.authMethod === "Google") {
 			return res.status(400).json({ message: "Username exists, but you must login via Google" })
-		} else if (user.authMethod === "microsoft") {
+		} else if (user.authMethod === "Microsoft") {
 			return res.status(400).json({ message: "Username exists, but you must login via Microsoft" })
 		}
 
