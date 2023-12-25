@@ -20,9 +20,9 @@ export default async function clearIncomingFriendRequest (userId: Types.ObjectId
 
 		if (_.isNull(userResult)) throw new Error("User not found")
 
-		if (_.isNull(friendResult)) throw new Error("Friend User not found")
+		if (_.isNull(friendResult)) throw new Error("Friend not found")
 	} catch (error) {
 		console.error(error)
-		throw new Error("Clear Incoming Friend request error")
+		throw new Error("Clear Incoming Friend Request error")
 	}
 }
