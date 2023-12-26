@@ -7,7 +7,9 @@ import retrieveUserFromContact from "../../utils/auth-helpers/retrieve-user-from
 import createJWTPayload from "../../utils/auth-helpers/create-jwt-payload"
 import determineLoginType from "../../utils/auth-helpers/determine-login-type"
 import doesUserHaveGoogleCalendar from "../../utils/google/calendar/does-user-have-google-calendar"
+import fetchLoginUserData from "../../utils/auth-helpers/fetch-login-user-data"
 
+// eslint-disable-next-line max-lines-per-function
 export default async function login (req: Request, res: Response): Promise<Response> {
 	try {
 		const { contact, password } = req.body.loginInformationObject as LoginInformationObject
@@ -39,6 +41,8 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		if (primaryContact === "Email") userContact = user.email
 		else userContact = user.phoneNumber
 
+		const { friends, incomingFriendRequests, outgoingFriendRequests, blockedUsers } = await fetchLoginUserData(user)
+
 		return res.status(200).json({
 			authenticated: true,
 			accessToken: token,
@@ -47,7 +51,11 @@ export default async function login (req: Request, res: Response): Promise<Respo
 			lastName: user.lastName,
 			username: user.username,
 			primaryContact,
-			userContact
+			userContact,
+			friends,
+			incomingFriendRequests,
+			outgoingFriendRequests,
+			blockedUsers,
 		})
 	} catch (error) {
 		console.error(error)

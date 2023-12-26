@@ -25,10 +25,6 @@ export default async function searchForUsername(req: Request, res: Response): Pr
 
 		const modifiedUsers = users.map(userDoc => {
 			const userObj = userDoc.toObject() as UserWithFriendStatus
-			userObj.isFriend = user.friends.includes(userObj._id as Types.ObjectId)
-			// These are not switched, they are correct:
-			userObj.hasIncomingFriendRequest = user.outgoingFriendRequests.includes(userObj._id as Types.ObjectId)
-			userObj.hasOutgoingFriendRequest = user.incomingFriendRequests.includes(userObj._id as Types.ObjectId)
 			userObj._id = userObj._id.toString()
 			return userObj
 		})

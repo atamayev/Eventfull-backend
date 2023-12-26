@@ -43,6 +43,18 @@ declare global {
 		userId: Types.ObjectId
 		password: string
 	}
+
+	type LoginSocialData = {
+		_id: string
+		username: string
+	}
+
+	type LoginSocialDataFields = {
+		friends: LoginSocialData[]
+		incomingFriendRequests: LoginSocialData[]
+		outgoingFriendRequests: LoginSocialData[]
+		blockedUsers: LoginSocialData[]
+	}
 }
 
 export {}

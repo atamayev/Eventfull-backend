@@ -6,7 +6,9 @@ import createGoogleAuthClient from "../../../utils/google/create-google-auth-cli
 import saveGoogleLoginTokens from "../../../utils/google/auth/save-google-login-tokens"
 import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
 import doesUserHaveGoogleCalendar from "../../../utils/google/calendar/does-user-have-google-calendar"
+import fetchLoginUserData from "../../../utils/auth-helpers/fetch-login-user-data"
 
+// eslint-disable-next-line max-lines-per-function
 export default async function googleLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	try {
 		const code = req.body.code as string
@@ -37,6 +39,8 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		await addLoginHistory(tokensResonse.googleUser._id)
 
+		const { friends, incomingFriendRequests, outgoingFriendRequests, blockedUsers } = await fetchLoginUserData(tokensResonse.googleUser)
+
 		return res.status(200).json({
 			authenticated: true,
 			accessToken: token,
@@ -46,6 +50,10 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 			username: tokensResonse.googleUser.username,
 			isNewUser: tokensResonse.isNewUser,
 			email: payload?.email,
+			friends,
+			incomingFriendRequests,
+			outgoingFriendRequests,
+			blockedUsers,
 		})
 	} catch (error) {
 		console.error(error)
