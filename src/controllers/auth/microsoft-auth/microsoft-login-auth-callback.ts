@@ -1,11 +1,10 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import signJWT from "../../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import verifyIdToken from "../../../utils/microsoft/verify-id-token"
 import saveMicrosoftLoginTokens from "../../../utils/microsoft/auth/save-microsoft-login-tokens"
 import exchangeCodeForTokenLoginCallback from "../../../utils/microsoft/auth/exchange-code-for-token-login-callback"
-import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
+import createAndSignJWT from "../../../utils/auth-helpers/jwt/create-and-sign-jwt"
 
 export default async function microsoftLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	try {
@@ -24,9 +23,7 @@ export default async function microsoftLoginAuthCallback (req: Request, res: Res
 
 		if (_.isNull(userId)) return res.status(500).json({ error: "Internal Server Error: Unable to save Microsoft Login Tokens" })
 
-		const payload = createJWTPayload(userId)
-
-		const token = signJWT(payload)
+		const token = createAndSignJWT(userId)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		await addLoginHistory(userId)

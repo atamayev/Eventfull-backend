@@ -1,11 +1,10 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import signJWT from "../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
 import doesContactExist from "../../utils/auth-helpers/does-contact-exist"
 import { addLocalUser, hashPassword } from "../../utils/auth-helpers/register/register-helpers"
-import createJWTPayload from "../../utils/auth-helpers/create-jwt-payload"
+import createAndSignJWT from "../../utils/auth-helpers/jwt/create-and-sign-jwt"
 
 export default async function register (req: Request, res: Response): Promise<Response> {
 	try {
@@ -23,9 +22,7 @@ export default async function register (req: Request, res: Response): Promise<Re
 
 		const userId = await addLocalUser(req.body.registerInformationObject, contactType, hashedPassword)
 
-		const payload = createJWTPayload(userId, true)
-
-		const token = signJWT(payload)
+		const token = createAndSignJWT(userId, true)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		await addLoginHistory(userId)

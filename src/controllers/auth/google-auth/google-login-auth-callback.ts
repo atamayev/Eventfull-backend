@@ -1,11 +1,10 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import signJWT from "../../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
-import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
 import doesUserHaveGoogleCalendar from "../../../utils/google/calendar/does-user-have-google-calendar"
 import fetchLoginUserData from "../../../utils/auth-helpers/fetch-login-user-data"
 import extractGoogleUserFromTokens from "../../../utils/google/auth/extract-google-user-from-tokens"
+import createAndSignJWT from "../../../utils/auth-helpers/jwt/create-and-sign-jwt"
 
 export default async function googleLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	try {
@@ -20,9 +19,7 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		if (_.isNull(tokensResonse)) return res.status(500).json({ error: "Internal Server Error: Unable to Save Google Login Tokens" })
 
-		const jwtPayload = createJWTPayload(tokensResonse.googleUser._id)
-
-		const token = signJWT(jwtPayload)
+		const token = createAndSignJWT(tokensResonse.googleUser._id, tokensResonse.isNewUser)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(tokensResonse.googleUser._id)
