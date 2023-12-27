@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import { addCloudUser } from "../../utils/auth-helpers/register-helpers"
+import { addCloudUser } from "../../utils/auth-helpers/register/register-helpers"
 import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
 
 export default async function addCloudUserPersonalInfo (req: Request, res: Response): Promise<Response> {

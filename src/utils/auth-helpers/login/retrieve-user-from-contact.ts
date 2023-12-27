@@ -1,4 +1,4 @@
-import UserModel from "../../models/user-model"
+import UserModel from "../../../models/user-model"
 
 export default async function retrieveUserFromContact(contact: string, contactType: EmailOrPhoneOrUsername): Promise<User | null> {
 	let user = null

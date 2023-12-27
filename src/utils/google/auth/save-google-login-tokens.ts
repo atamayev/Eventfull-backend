@@ -7,7 +7,7 @@ import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-d
 export default async function saveGoogleLoginTokens(
 	payload: TokenPayload | undefined,
 	tokens: Credentials
-): Promise<{googleUser: User, isNewUser: boolean} | null | undefined> {
+): Promise<GoogleLoginTokensResponse | null | undefined> {
 	try {
 		const { access_token, refresh_token, expiry_date } = tokens
 		const email = payload?.email
