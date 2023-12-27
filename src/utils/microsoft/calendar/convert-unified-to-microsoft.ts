@@ -89,5 +89,6 @@ function mapUnifiedPatternToMicrosoft(pattern: string): RecurrencePatternType {
 		"Custom": "daily"
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	return patternMapping[pattern] || "daily"
 }

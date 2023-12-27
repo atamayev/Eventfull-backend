@@ -1,5 +1,4 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
 
