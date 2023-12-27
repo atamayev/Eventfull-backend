@@ -2,7 +2,6 @@ import { Types } from "mongoose"
 import UserModel from "../../models/user-model"
 
 export default async function fetchLoginUserData(user: User): Promise<LoginSocialDataFields> {
-	// TODO: Clean this up
 	async function fetchUserData(ids: Types.ObjectId[]): Promise<LoginSocialData[]> {
 		const results = await Promise.all(ids.map(async (id) => {
 			const userData = await UserModel.findById(id).select("_id username")
