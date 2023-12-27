@@ -1,6 +1,6 @@
 import { Types } from "mongoose"
-import UserModel from "../../models/user-model"
-import Hash from "../../setup-and-security/hash"
+import UserModel from "../../../models/user-model"
+import Hash from "../../../setup-and-security/hash"
 
 export async function hashPassword(password: string): Promise<{ hashedPassword: string, hashError?: string }> {
 	try {

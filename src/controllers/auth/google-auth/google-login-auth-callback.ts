@@ -2,27 +2,17 @@ import _ from "lodash"
 import { Response, Request } from "express"
 import signJWT from "../../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
-import createGoogleAuthClient from "../../../utils/google/create-google-auth-client"
-import saveGoogleLoginTokens from "../../../utils/google/auth/save-google-login-tokens"
 import createJWTPayload from "../../../utils/auth-helpers/create-jwt-payload"
 import doesUserHaveGoogleCalendar from "../../../utils/google/calendar/does-user-have-google-calendar"
 import fetchLoginUserData from "../../../utils/auth-helpers/fetch-login-user-data"
+import extractGoogleUserFromTokens from "../../../utils/google/auth/extract-google-user-from-tokens"
 
-// eslint-disable-next-line max-lines-per-function
 export default async function googleLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	try {
 		const code = req.body.code as string
 		const idToken = req.body.idToken as string
-		const client = createGoogleAuthClient()
-		const ticket = await client.verifyIdToken({
-			idToken,
-			audience: process.env.GOOGLE_CLIENT_ID
-		})
-		const payload = ticket.getPayload()
 
-		const { tokens } = await client.getToken(code)
-
-		const tokensResonse = await saveGoogleLoginTokens(payload, tokens)
+		const { tokensResonse, payload } = await extractGoogleUserFromTokens(idToken, code)
 
 		if (_.isUndefined(tokensResonse)) {
 			return res.status(400).json({ message: "User with this email already exists, but is not a Google User"})

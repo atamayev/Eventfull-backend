@@ -55,6 +55,11 @@ declare global {
 		outgoingFriendRequests: LoginSocialData[]
 		blockedUsers: LoginSocialData[]
 	}
+
+	type GoogleLoginTokensResponse = {
+		googleUser: User
+		isNewUser: boolean
+	}
 }
 
 export {}

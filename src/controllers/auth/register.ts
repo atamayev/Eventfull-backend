@@ -4,7 +4,7 @@ import signJWT from "../../utils/auth-helpers/sign-jwt"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
 import doesContactExist from "../../utils/auth-helpers/does-contact-exist"
-import { addLocalUser, hashPassword } from "../../utils/auth-helpers/register-helpers"
+import { addLocalUser, hashPassword } from "../../utils/auth-helpers/register/register-helpers"
 import createJWTPayload from "../../utils/auth-helpers/create-jwt-payload"
 
 export default async function register (req: Request, res: Response): Promise<Response> {
