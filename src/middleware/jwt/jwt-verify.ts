@@ -1,9 +1,8 @@
 import Joi from "joi"
 import _ from "lodash"
-import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
-import getDecodedId from "../utils/auth-helpers/get-decoded-id"
-import findUser from "../utils/find-user"
+import getDecodedId from "../../utils/auth-helpers/get-decoded-id"
+import findUser from "../../utils/find-user"
 
 const authorizationSchema = Joi.object({
 	authorization: Joi.string().required()
@@ -25,7 +24,6 @@ export default async function jwtVerify(req: Request, res: Response, next: NextF
 
 		if (_.isNull(user)) return handleUnauthorized()
 
-		req.userId = new Types.ObjectId(userId)
 		req.user = user
 		next()
 	} catch (error) {

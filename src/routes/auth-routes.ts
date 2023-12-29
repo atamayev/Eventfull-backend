@@ -22,7 +22,7 @@ import sendEmailVerificationCode from "../controllers/auth/twilio/send-email-ver
 import verifyUserEmailCode from "../controllers/auth/twilio/verify-user-email-code"
 import registerUsername from "../controllers/auth/register-username"
 
-import jwtVerify from "../middleware/jwt-verify"
+import jwtVerify from "../middleware/jwt/jwt-verify"
 import validateLogin from "../middleware/request-validation/auth/validate-login"
 import validateRegister from "../middleware/request-validation/auth/validate-register"
 import validateGoogleLoginCallback from "../middleware/request-validation/auth/google/validate-google-login-callback"

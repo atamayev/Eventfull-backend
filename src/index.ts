@@ -1,11 +1,12 @@
+import cors from "cors"
 import dotenv from "dotenv"
 import express from "express"
-import cors from "cors"
-import cookieParser from "cookie-parser"
-import connectDatabase from "./setup-and-security/db-connect"
-import jwtVerify from "./middleware/jwt-verify"
 import { createServer } from "http"
+import cookieParser from "cookie-parser"
 import { Server as SocketIOServer } from "socket.io"
+import jwtVerify from "./middleware/jwt/jwt-verify"
+import connectDatabase from "./setup-and-security/db-connect"
+import jwtVerifyMiddleware from "./middleware/jwt/verify-socket-jwt"
 
 import authRoutes from "./routes/auth-routes"
 import calendarRoutes from "./routes/calendar-routes"
@@ -28,13 +29,13 @@ const server = createServer(app)
 
 const io = new SocketIOServer(server, {
 	cors: {
-		// TODO: Adjust front-end URL
-		origin: "http://your-frontend-url.com",
+		origin: process.env.FRONTEND_URL,
 		methods: ["GET", "POST"],
 		credentials: true
 	}
 })
 
+io.use(jwtVerifyMiddleware)
 SocketManager.getInstance(io)
 
 app.use((req, res, next) => {
