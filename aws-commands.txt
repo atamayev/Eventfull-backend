@@ -1,0 +1,13 @@
+To copy important files to AWS, run the following commands from the eventfull-backend root directory.
+scp -i C:\Users\actam\Downloads\eventfull-key-pair-1.pem -r ./dist ubuntu@52.70.65.195:/home/ubuntu/eventfull
+scp -i C:\Users\actam\Downloads\eventfull-key-pair-1.pem ./package.json ubuntu@52.70.65.195:/home/ubuntu/eventfull
+scp -i C:\Users\actam\Downloads\eventfull-key-pair-1.pem ./.env ubuntu@52.70.65.195:/home/ubuntu/eventfull
+
+In AWS:
+`cd eventfull`
+`npm install --production`
+
+To SSH into AWS:
+ssh -i C:\Users\actam\Downloads\eventfull-key-pair-1.pem ubuntu@52.70.65.195
+
+I am using the package pm2 to run the server on the instance (even after I close my connection)
