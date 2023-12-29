@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import { Types } from "mongoose"
 
 declare global {
@@ -21,7 +20,7 @@ declare global {
 			organizerOrCoHost: "Organizer" | "Co-Host"
 			isUserAttendingEvent: boolean
 
-            event: EventfullEvent
+			event: EventfullEvent
 			eventOrganizer: User
 		}
 	}

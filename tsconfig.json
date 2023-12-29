@@ -108,6 +108,7 @@
 	},
 	"include": [
 	  "src/**/*",
+	  "types/**/*",
 	  "./.eslintrc.json",
 	  "./webpack.config.js"
 	],
