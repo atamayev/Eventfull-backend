@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import SocketManager from "../../sockets/socket-manager"
 import clearOutgoingFriendRequest from "../../utils/social/friend/clear-outgoing-friend-request"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
 
@@ -13,6 +14,7 @@ export default async function retractFriendRequest(req: Request, res: Response):
 		}
 
 		await clearOutgoingFriendRequest(user._id, friend._id)
+		SocketManager.getInstance().handleRetractFriendRequest({ fromUserId: user._id, toUserId: friend._id })
 
 		return res.status(200).json({ success: "Friend Request Retracted" })
 	} catch (error) {

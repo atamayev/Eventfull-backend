@@ -46,11 +46,22 @@ export default class SocketManager {
 		this._io.to(_.toString(userId)).emit("connected")
 	}
 
-	public handleFriendRequest(data: { fromUser: User, toUserId: Types.ObjectId }): void {
+	public handleSendFriendRequest(data: { fromUser: User, toUserId: Types.ObjectId }): void {
 		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))
 		if (!_.isUndefined(receiverSocketId)) {
 			this._io.to(receiverSocketId).emit(
 				"friend-request", { fromUserId: _.toString(data.fromUser._id), fromUsername: data.fromUser.username }
+			)
+		} else {
+			console.info(`User ${data.toUserId} is not online`)
+		}
+	}
+
+	public handleRetractFriendRequest(data: { fromUserId: Types.ObjectId, toUserId: Types.ObjectId }): void {
+		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))
+		if (!_.isUndefined(receiverSocketId)) {
+			this._io.to(receiverSocketId).emit(
+				"remove-friend-request", { fromUserId: _.toString(data.fromUserId) }
 			)
 		} else {
 			console.info(`User ${data.toUserId} is not online`)

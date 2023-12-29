@@ -22,7 +22,7 @@ export default async function createOutgoingFriendRequest (user: User, friendId:
 		if (_.isNull(userResult)) throw new Error("User not found")
 
 		if (_.isNull(friendResult)) throw new Error("Friend not found")
-		SocketManager.getInstance().handleFriendRequest({ fromUser: user, toUserId: friendId })
+		SocketManager.getInstance().handleSendFriendRequest({ fromUser: user, toUserId: friendId })
 	} catch (error) {
 		console.error(error)
 		throw new Error("Create outgoing friend request error")
