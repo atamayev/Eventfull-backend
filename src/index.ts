@@ -15,7 +15,7 @@ import profileRoutes from "./routes/profile-routes"
 
 dotenv.config()
 
-const port = process.env.PORT || 8000
+const port = parseInt(process.env.PORT, 10) || 8000
 
 void connectDatabase()
 
@@ -48,6 +48,6 @@ app.use("/api/social", jwtVerify, socialRoutes)
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
 // Initialization of server:
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
 	console.info(`Listening on port ${port}`)
 })
