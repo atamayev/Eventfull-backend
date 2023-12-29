@@ -7,7 +7,6 @@ import validateUpdateEventfullEvent from "../middleware/request-validation/event
 import validateEventfullEventId from "../middleware/request-validation/events/validate-eventfull-event-id"
 
 import attachEventToRequest from "../middleware/attach-to-request/attach-event-to-request"
-import attachFriendToRequest from "../middleware/attach-to-request/attach-friend-to-request"
 import attachEventOrganizerToRequest from "../middleware/attach-to-request/attach-event-organizer-to-request"
 
 import confirmEventIsInviteable from "../middleware/events/confirm-event-is-inviteable"
@@ -53,7 +52,6 @@ eventsRoutes.post(
 	"/invite-friend-to-eventfull-event",
 	validateEventfullInvite,
 	attachEventToRequest,
-	attachFriendToRequest,
 	confirmEventIsInviteable,
 	confirmEventIsActive,
 	attachEventOrganizerToRequest,
@@ -68,7 +66,6 @@ eventsRoutes.post(
 	"/retract-invite-to-eventfull-event",
 	validateEventfullInvite,
 	attachEventToRequest,
-	attachFriendToRequest,
 	confirmEventIsActive,
 	confirmInvitedUserHasNotResponded,
 	retractInviteToEventfullEvent
@@ -83,21 +80,14 @@ eventsRoutes.post(
 	updateEventfullEvent
 )
 
-eventsRoutes.post(
-	"/delete-eventfull-event",
-	validateEventfullEventId,
-	attachEventToRequest,
-	confirmUserIsEventOrganizerOrCohost,
-	deleteEventfullEvent
-)
+eventsRoutes.post("/delete-eventfull-event", validateEventfullEventId, confirmUserIsEventOrganizerOrCohost, deleteEventfullEvent)
 
-eventsRoutes.post("/pin-eventfull-event", validateEventfullEventId, attachEventToRequest, confirmEventIsActive, pinEventfullEvent)
+eventsRoutes.post("/pin-eventfull-event", validateEventfullEventId, confirmEventIsActive, pinEventfullEvent)
 
-eventsRoutes.post("/remove-pinned-eventfull-event", validateEventfullEventId, attachEventToRequest, removePinnedEventfullEvent)
+eventsRoutes.post("/remove-pinned-eventfull-event", validateEventfullEventId, removePinnedEventfullEvent)
 
 eventsRoutes.post("/sign-up-for-eventfull-event",
 	validateEventfullEventId,
-	attachEventToRequest,
 	confirmEventIsActive,
 	confirmEventIsPublic,
 	checkIfEventCapacityFull,
@@ -110,7 +100,6 @@ eventsRoutes.post("/sign-up-for-eventfull-event",
 
 eventsRoutes.post("/cancel-eventfull-event-registration",
 	validateEventfullEventId,
-	attachEventToRequest,
 	checkIfUserAttendingEventfullEvent,
 	cancelEventfullEventRegistration
 )

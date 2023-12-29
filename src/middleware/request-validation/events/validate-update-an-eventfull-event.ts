@@ -1,8 +1,8 @@
 import Joi from "joi"
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import incomingEventfullEventSchema from "../../joi/incoming-eventfull-event-schema"
 import objectIdValidation from "../../../utils/object-id-validation"
+import incomingEventfullEventSchema from "../../joi/incoming-eventfull-event-schema"
 
 const updateEventfullEventSchema = Joi.object({
 	eventfullEventId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),

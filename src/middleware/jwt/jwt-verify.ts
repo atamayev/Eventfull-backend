@@ -1,8 +1,8 @@
 import Joi from "joi"
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
+import findUser from "../../utils/find/find-user"
 import getDecodedId from "../../utils/auth-helpers/get-decoded-id"
-import findUser from "../../utils/find-user"
 
 const authorizationSchema = Joi.object({
 	authorization: Joi.string().required()

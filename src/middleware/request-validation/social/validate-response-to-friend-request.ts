@@ -2,6 +2,7 @@ import Joi from "joi"
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
+import findUser from "../../../utils/find/find-user"
 import objectIdValidation from "../../../utils/object-id-validation"
 
 const responseToFriendRequestSchema = Joi.object({
@@ -9,13 +10,19 @@ const responseToFriendRequestSchema = Joi.object({
 	response: Joi.string().valid("Accept", "Decline").required()
 }).required()
 
-export default function validateResponseToFriendRequest (req: Request, res: Response, next: NextFunction): void | Response {
+export default async function validateResponseToFriendRequest (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const { error } = responseToFriendRequestSchema.validate(req.body)
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		req.friendId = new Types.ObjectId(req.body.friendId as string)
+		const friendId = new Types.ObjectId(req.body.friendId as string)
+
+		const friend = await findUser(friendId)
+
+		if (_.isNull(friend)) return res.status(400).json({ message: "Friend not found" })
+
+		req.friend = friend as User
 
 		next()
 	} catch (error) {
