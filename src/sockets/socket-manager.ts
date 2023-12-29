@@ -46,10 +46,12 @@ export default class SocketManager {
 		this._io.to(_.toString(userId)).emit("connected")
 	}
 
-	public handleFriendRequest(data: { fromUserId: Types.ObjectId, toUserId: Types.ObjectId }): void {
+	public handleFriendRequest(data: { fromUser: User, toUserId: Types.ObjectId }): void {
 		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))
 		if (!_.isUndefined(receiverSocketId)) {
-			this._io.to(receiverSocketId).emit("friend-request", { fromUserId: _.toString(data.fromUserId) })
+			this._io.to(receiverSocketId).emit(
+				"friend-request", { fromUserId: _.toString(data.fromUser._id), fromUsername: data.fromUser.username }
+			)
 		} else {
 			console.info(`User ${data.toUserId} is not online`)
 		}
@@ -57,6 +59,7 @@ export default class SocketManager {
 
 	private handleDisconnect(socket: Socket): void {
 		const userId = socket.userId
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (userId && this._userConnections.has(_.toString(userId))) {
 			this._userConnections.delete(_.toString(userId))
 		}
