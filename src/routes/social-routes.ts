@@ -4,10 +4,6 @@ import validateResponseToFriendRequest from "../middleware/request-validation/so
 import validateBlockedUserId from "../middleware/request-validation/social/validate-blocked-user-id"
 import validateUnblockedUserId from "../middleware/request-validation/social/validate-unblocked-user-id"
 
-import attachFriendToRequest from "../middleware/attach-to-request/attach-friend-to-request"
-import attachBlockedUserToRequest from "../middleware/attach-to-request/attach-blocked-user-to-request"
-import attachUnblockedUserToRequest from "../middleware/attach-to-request/attach-unblocked-user-to-request"
-
 import checkIfUserBlockedFriend from "../middleware/social/friend/check-if-user-blocked-friend"
 import checkIfFriendBlockedUser from "../middleware/social/friend/check-if-friend-blocked-user"
 import checkIfUsersAreFriends from "../middleware/social/friend/check-if-users-are-friends"
@@ -30,7 +26,6 @@ const socialRoutes = express.Router()
 socialRoutes.post(
 	"/send-friend-request",
 	validateFriendId,
-	attachFriendToRequest,
 	checkIfUserBlockedFriend,
 	checkIfFriendBlockedUser,
 	checkIfUsersAreFriends,
@@ -39,20 +34,13 @@ socialRoutes.post(
 socialRoutes.post(
 	"/respond-to-friend-request",
 	validateResponseToFriendRequest,
-	attachFriendToRequest,
 	checkIfUserBlockedFriend,
 	checkIfFriendBlockedUser,
 	checkIfUsersAreFriends,
 	respondToFriendRequest
 )
-socialRoutes.post(
-	"/retract-friend-request",
-	validateFriendId,
-	attachFriendToRequest,
-	checkIfUsersAreFriends,
-	retractFriendRequest
-)
-socialRoutes.post("/unfriend-another-user", validateFriendId, attachFriendToRequest, unfriendAnotherUser)
+socialRoutes.post("/retract-friend-request", validateFriendId, checkIfUsersAreFriends, retractFriendRequest)
+socialRoutes.post("/unfriend-another-user", validateFriendId, unfriendAnotherUser)
 
 socialRoutes.get("/get-incoming-friend-requests", listIncomingFriendRequests)
 socialRoutes.get("/get-outgoing-friend-requests", listOutgoingFriendRequests)
@@ -61,17 +49,10 @@ socialRoutes.get("/get-blocked-users", listBlockedUsers)
 socialRoutes.post(
 	"/block-another-user",
 	validateBlockedUserId,
-	attachBlockedUserToRequest,
 	checkIfUserBlockedBlockedUser,
 	checkIfBlockedUserBlockedUser,
 	blockAnotherUser
 )
-socialRoutes.post(
-	"/unblock-another-user",
-	validateUnblockedUserId,
-	attachUnblockedUserToRequest,
-	checkIfUnblockedUserBlockedUser,
-	unblockAnotherUser
-)
+socialRoutes.post("/unblock-another-user", validateUnblockedUserId, checkIfUnblockedUserBlockedUser, unblockAnotherUser)
 
 export default socialRoutes

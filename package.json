@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-	"build": "tsc",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon",
     "lint": "eslint . --ext .ts",
@@ -64,6 +64,7 @@
     "libphonenumber-js": "^1.10.51",
     "lodash": "^4.17.21",
     "mongoose": "^8.0.3",
+    "socket.io": "^4.7.2",
     "twilio": "^4.20.0",
     "uuid": "^9.0.1",
     "validator": "^13.11.0"

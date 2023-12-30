@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { NextFunction, Request, Response } from "express"
-import findUser from "../../utils/find-user"
+import findUser from "../../utils/find/find-user"
 
 export default async function attachEventOrganizerToRequest(req: Request, res: Response, next: NextFunction) : Promise<void | Response> {
 	try {

@@ -27,7 +27,7 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 			}
 		}
 
-		await createOutgoingFriendRequest(user._id, friend._id)
+		await createOutgoingFriendRequest(user, friend._id)
 
 		return res.status(200).json({ success: "Friend Request Sent" })
 	} catch (error) {

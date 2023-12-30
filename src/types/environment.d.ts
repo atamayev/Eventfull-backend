@@ -1,6 +1,8 @@
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
+			PORT: string
+
 			// Hash:
 			SALT_ROUNDS: string
 
@@ -9,6 +11,9 @@ declare global {
 
 			// MongoDB:
 			MONGODB_URI: string
+
+			// Frontend:
+			FRONTEND_URL: string
 
 			// Google Auth:
 			GOOGLE_CLIENT_ID: string
@@ -27,8 +32,6 @@ declare global {
 			// SendGrid Auth
 			SENDGRID_API_KEY: string
 			SENDGRID_FROM_EMAIL: string
-
-			PORT: string
 		}
 	}
 }

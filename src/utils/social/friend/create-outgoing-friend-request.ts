@@ -1,18 +1,19 @@
 import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
+import SocketManager from "../../../sockets/socket-manager"
 
-export default async function createOutgoingFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
+export default async function createOutgoingFriendRequest (user: User, friendId: Types.ObjectId): Promise<void> {
 	try {
 		const userUpdate = UserModel.findByIdAndUpdate(
-			userId,
+			user._id,
 			{ $push: { outgoingFriendRequests: friendId } },
 			{ new: true, runValidators: true }
 		)
 
 		const friendUpdate = UserModel.findByIdAndUpdate(
 			friendId,
-			{ $push: { incomingFriendRequests: userId } },
+			{ $push: { incomingFriendRequests: user._id } },
 			{ new: true, runValidators: true }
 		)
 
@@ -21,6 +22,7 @@ export default async function createOutgoingFriendRequest (userId: Types.ObjectI
 		if (_.isNull(userResult)) throw new Error("User not found")
 
 		if (_.isNull(friendResult)) throw new Error("Friend not found")
+		SocketManager.getInstance().handleSendFriendRequest({ fromUser: user, toUserId: friendId })
 	} catch (error) {
 		console.error(error)
 		throw new Error("Create outgoing friend request error")
