@@ -31,6 +31,7 @@ declare global {
 		calendarData: UnifiedCalendarEvent[]
 		eventfullEvents: EventfullCalendarEvent[]
 		colorTheme: "Light" | "Dark" | "System Default"
+		notificationToken?: string
 
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string

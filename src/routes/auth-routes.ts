@@ -45,6 +45,8 @@ import confirmUserHasEmailVerificationCode from "../middleware/auth/twilio/confi
 import validateMicrosoftLoginCallback from "../middleware/request-validation/auth/microsoft/validate-microsoft-login-callback"
 import validateGoogleCalendarCallback from "../middleware/request-validation/auth/google/validate-google-calendar-callback"
 import validateMicrosoftCalendarCallback from "../middleware/request-validation/auth/microsoft/validate-microsoft-calendar-callback"
+import saveUserNotificationToken from "../controllers/auth/save-user-notification-token"
+import validateNotificationToken from "../middleware/request-validation/auth/validate-notification-token"
 
 const authRoutes = express.Router()
 
@@ -112,5 +114,7 @@ authRoutes.post(
 	confirmUserHasEmailVerificationCode,
 	verifyUserEmailCode
 )
+
+authRoutes.post("/save-notification-token", jwtVerify, validateNotificationToken, saveUserNotificationToken)
 
 export default authRoutes
