@@ -16,11 +16,13 @@ export default async function validateBlockedUserId (req: Request, res: Response
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		const blockedUserId = new Types.ObjectId(req.body.blockedUserId as string)
+
 		const blockedUser = await findUser(blockedUserId)
 
 		if (_.isNull(blockedUser)) return res.status(400).json({ message: "Blocked User not found" })
 
 		req.blockedUser = blockedUser as User
+
 		next()
 	} catch (error) {
 		console.error(error)
