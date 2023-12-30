@@ -7,11 +7,9 @@ export default async function listIncomingFriendRequests (req: Request, res: Res
 
 		const incomingFriendRequestIds = user.incomingFriendRequests
 
-		const userRequests = await UserModel.find({
+		const usernames = await UserModel.find({
 			"_id": { $in: incomingFriendRequestIds }
-		}).select("username")
-
-		const usernames = userRequests.map(user1 => user1.username)
+		}).select("_id username")
 
 		return res.status(200).json({ incomingFriendRequests: usernames })
 	} catch (error) {
