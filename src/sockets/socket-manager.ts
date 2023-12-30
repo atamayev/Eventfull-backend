@@ -14,12 +14,17 @@ export default class SocketManager {
 		this.initializeListeners()
 	}
 
-	public static getInstance(io?: SocketIOServer): SocketManager {
+	public static assignIo(io: SocketIOServer): void {
 		if (_.isNull(SocketManager._instance)) {
-			if (_.isUndefined(io)) {
-				throw new Error("SocketManager requires an io instance to be initialized")
-			}
 			SocketManager._instance = new SocketManager(io)
+		} else {
+			throw new Error("SocketManager instance has already been initialized")
+		}
+	}
+
+	public static getInstance(): SocketManager {
+		if (_.isNull(SocketManager._instance)) {
+			throw new Error("SocketManager instance is not initialized. Call assignIo first.")
 		}
 		return SocketManager._instance
 	}

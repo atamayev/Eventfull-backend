@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser"
 import { Server as SocketIOServer } from "socket.io"
 import jwtVerify from "./middleware/jwt/jwt-verify"
 import connectDatabase from "./setup-and-security/db-connect"
-import jwtVerifyMiddleware from "./middleware/jwt/verify-socket-jwt"
+import verifySocketJWT from "./middleware/jwt/verify-socket-jwt"
 
 import authRoutes from "./routes/auth-routes"
 import calendarRoutes from "./routes/calendar-routes"
@@ -35,8 +35,8 @@ const io = new SocketIOServer(server, {
 	}
 })
 
-io.use(jwtVerifyMiddleware)
-SocketManager.getInstance(io)
+io.use(verifySocketJWT)
+SocketManager.assignIo(io)
 
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", req.headers.origin as string)
