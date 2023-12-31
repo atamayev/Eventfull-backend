@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import clearOutgoingFriendRequest from "../../utils/social/friend/clear-outgoing-friend-request"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
-import notificationHelper from "../../utils/notification-helper"
+import NotificationHelper from "../../utils/notification-helper"
 
 export default async function retractFriendRequest(req: Request, res: Response): Promise<Response> {
 	try {
@@ -14,7 +14,7 @@ export default async function retractFriendRequest(req: Request, res: Response):
 		}
 
 		await clearOutgoingFriendRequest(user, friend)
-		await notificationHelper(user, friend, "retractFriendRequest", false)
+		NotificationHelper.retractFriendRequest(user, friend)
 
 		return res.status(200).json({ success: "Friend Request Retracted" })
 	} catch (error) {
