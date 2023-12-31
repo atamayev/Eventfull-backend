@@ -15,7 +15,7 @@ import searchRoutes from "./routes/search-routes"
 import socialRoutes from "./routes/social-routes"
 import eventsRoutes from "./routes/events-routes"
 import profileRoutes from "./routes/profile-routes"
-import SocketManager from "./sockets/socket-manager"
+import SocketManager from "./classes/socket-manager"
 
 dotenv.config()
 

@@ -1,15 +1,16 @@
 import _ from "lodash"
 import { Response, Request } from "express"
+import AwsSnsService from "../../classes/aws-sns-service"
 import addLoginHistory from "../../utils/auth-helpers/add-login-record"
-import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
 import doesContactExist from "../../utils/auth-helpers/does-contact-exist"
-import { addLocalUser, hashPassword } from "../../utils/auth-helpers/register/register-helpers"
+import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
 import createAndSignJWT from "../../utils/auth-helpers/jwt/create-and-sign-jwt"
+import { addLocalUser, hashPassword } from "../../utils/auth-helpers/register/register-helpers"
 
 export default async function register (req: Request, res: Response): Promise<Response> {
 	try {
-		const { contact, username, password } = req.body.registerInformationObject as RegisterInformationObject
-		const contactType = req.contactType
+		const { contact, username, password,
+			notificationToken, primaryDevicePlatform, contactType } = req.body.registerInformationObject as RegisterInformationObject
 
 		const contactExists = await doesContactExist(contact, contactType)
 		if (contactExists === true) return res.status(400).json({ message: `${contactType} already exists` })
@@ -20,7 +21,12 @@ export default async function register (req: Request, res: Response): Promise<Re
 		const usernameExists = await doesUsernameExist(username)
 		if (usernameExists === true) return res.status(400).json({ message: "Username taken" })
 
-		const userId = await addLocalUser(req.body.registerInformationObject, contactType, hashedPassword)
+		const endpointArn = await AwsSnsService.getInstance().createPlatformEndpoint(notificationToken, primaryDevicePlatform)
+
+		if (_.isUndefined(endpointArn)) return res.status(500).json({ error: "Internal Server Error: Unable to Create Platform Endpoint" })
+
+		const userId = await addLocalUser(req.body.registerInformationObject, hashedPassword,
+			primaryDevicePlatform, notificationToken, endpointArn)
 
 		const token = createAndSignJWT(userId, true)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })

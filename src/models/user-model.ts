@@ -16,14 +16,16 @@ const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 })
 
 const userSchema = new Schema<User>({
-	email: { type: String, unique: true, sparse: true, trim: true },
+	firstName: { type: String, trim: true, required: true },
+	lastName: { type: String, trim: true, required: true },
 	authMethod: { type: String, required: true, trim: true, enum: ["Local", "Microsoft", "Google"] },
+	primaryContactMethod: { type: String, required: true, trim: true, enum: ["Email", "Phone"] },
+	primaryDevicePlatform: { type: String, required: true, trim: true, enum: ["ios", "android", "windows", "macos", "web"] },
+	notificationToken: { type: String, trim: true, required: true },
+	email: { type: String, unique: true, sparse: true, trim: true },
 	phoneNumber: { type: String, unique: true, sparse: true, trim: true },
-	primaryContactMethod: { type: String, trim: true, enum: ["Email", "Phone"] },
 	username: { type: String, trim: true, unique: true },
 	password: { type: String },
-	firstName: { type: String, trim: true },
-	lastName: { type: String, trim: true },
 	gender: { type: String, trim: true },
 	profilePictureURL: { type: String, trim: true },
 	bio: { type: String, trim: true },
@@ -31,7 +33,8 @@ const userSchema = new Schema<User>({
 	calendarData: { type: [calendarDataSchema] },
 	eventfullEvents: { type: [eventfullEventsSchema] },
 	colorTheme: { type: String, default: "System Default", enum: ["Dark", "Light", "System Default"] },
-	notificationToken: { type: String, trim: true },
+	androidEndpointArn: { type: String, trim: true },
+	iosEndpointArn: { type: String, trim: true },
 
 	googleLoginAccessToken: { type: String, trim: true },
 	googleLoginRefreshToken: { type: String, trim: true },

@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
-import SocketManager from "../../../sockets/socket-manager"
+import notificationHelper from "../../notification-helper"
 
 export default async function createOutgoingFriendRequest (user: User, friendId: Types.ObjectId): Promise<void> {
 	try {
@@ -22,7 +22,8 @@ export default async function createOutgoingFriendRequest (user: User, friendId:
 		if (_.isNull(userResult)) throw new Error("User not found")
 
 		if (_.isNull(friendResult)) throw new Error("Friend not found")
-		SocketManager.getInstance().handleSendFriendRequest({ fromUser: user, toUserId: friendId })
+
+		await notificationHelper(user, friendId, "sendFriendRequest", true, `${user.username || user.firstName} sent you a friend request`)
 	} catch (error) {
 		console.error(error)
 		throw new Error("Create outgoing friend request error")

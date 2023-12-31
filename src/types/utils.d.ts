@@ -22,6 +22,7 @@ declare global {
 
 	type CloudAuthSources = "Google" | "Microsoft"
 	type AuthSources = "Local" | CloudAuthSources
+	type DevicePlatforms = "ios" | "android" | "windows" | "macos" | "web"
 }
 
 export {}

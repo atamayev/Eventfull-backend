@@ -1,6 +1,6 @@
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
-import Hash from "../../../setup-and-security/hash"
+import Hash from "../../../classes/hash"
 
 export async function hashPassword(password: string): Promise<{ hashedPassword: string, hashError?: string }> {
 	try {
@@ -12,10 +12,13 @@ export async function hashPassword(password: string): Promise<{ hashedPassword: 
 	}
 }
 
+// eslint-disable-next-line max-params
 export async function addLocalUser(
 	registerInformationObject: RegisterInformationObject,
-	contactType: EmailOrPhone,
-	hashedPassword: string
+	hashedPassword: string,
+	primaryDevicePlatform: DevicePlatforms,
+	notificationToken: string,
+	endpointArn: string
 ): Promise<Types.ObjectId> {
 	const { contact, firstName, lastName, username } = registerInformationObject
 
@@ -25,16 +28,20 @@ export async function addLocalUser(
 		username,
 		password: hashedPassword,
 		authMethod: "Local",
-		primaryContactMethod: contactType,
+		primaryContactMethod: registerInformationObject.contactType,
+		notificationToken,
 	}
 
-	if (contactType === "Email") {
+	if (registerInformationObject.contactType === "Email") {
 		userFields.email = contact
 		userFields.isEmailVerified = false
 	} else {
 		userFields.phoneNumber = contact
 		userFields.isPhoneVerified = false
 	}
+
+	if (primaryDevicePlatform === "android") userFields.androidEndpointArn = endpointArn
+	else if (primaryDevicePlatform === "ios") userFields.iosEndpointArn = endpointArn
 
 	const newUser = await UserModel.create(userFields)
 	return newUser._id

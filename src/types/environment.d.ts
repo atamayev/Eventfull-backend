@@ -32,6 +32,15 @@ declare global {
 			// SendGrid Auth
 			SENDGRID_API_KEY: string
 			SENDGRID_FROM_EMAIL: string
+
+			// AWS Auth
+			AWS_ACCESS_KEY_ID: string
+			AWS_SECRET_ACCESS_KEY: string
+			AWS_REGION: string
+
+			// AWS SNS
+			AWS_FCM_ARN: string
+			AWS_APNS_ARN: string
 		}
 	}
 }

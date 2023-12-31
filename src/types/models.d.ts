@@ -14,16 +14,18 @@ declare global {
 	}
 
 	interface User extends IDInterface {
+		firstName: string
+		lastName: string
 		authMethod: AuthSources
 		primaryContactMethod: EmailOrPhone
+		primaryDevicePlatform: DevicePlatforms
+		notificationToken: string
+		createdAt: Date
+		updatedAt: Date
 		email?: string
 		phoneNumber?: string
 		username?: string
 		password?: string
-		createdAt: Date
-		updatedAt: Date
-		firstName?: string
-		lastName?: string
 		gender?: string
 		profilePictureURL?: string
 		bio?: string
@@ -31,7 +33,8 @@ declare global {
 		calendarData: UnifiedCalendarEvent[]
 		eventfullEvents: EventfullCalendarEvent[]
 		colorTheme: "Light" | "Dark" | "System Default"
-		notificationToken?: string
+		androidEndpointArn?: string
+		iosEndpointArn?: string
 
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string

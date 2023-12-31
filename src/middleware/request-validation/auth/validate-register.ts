@@ -9,7 +9,9 @@ const registerInformationSchema = Joi.object({
 		lastName: Joi.string().required(),
 		// Makes sure that the username does not contain an @ symbol, as that is reserved for the contact field
 		username: Joi.string().required().pattern(new RegExp("^[^@]*$")),
-		password: Joi.string().min(6).required()
+		password: Joi.string().min(6).required(),
+		notificationToken: Joi.string().required(),
+		primaryDevicePlatform: Joi.string().valid("ios" , "android" , "windows" , "macos" , "web").required()
 	}).required()
 })
 

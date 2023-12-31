@@ -51,6 +51,10 @@ export default class SocketManager {
 		this._io.to(_.toString(userId)).emit("connected")
 	}
 
+	public isUserOnline(userId: Types.ObjectId): boolean {
+		return this._userConnections.has(_.toString(userId))
+	}
+
 	public handleSendFriendRequest(data: { fromUser: User, toUserId: Types.ObjectId }): void {
 		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))
 		if (!_.isUndefined(receiverSocketId)) {

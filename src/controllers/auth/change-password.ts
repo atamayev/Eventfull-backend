@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import UserModel from "../../models/user-model"
-import Hash from "../../setup-and-security/hash"
+import Hash from "../../classes/hash"
 import isSameContactMethod from "../../utils/auth-helpers/is-same-contact-method"
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {

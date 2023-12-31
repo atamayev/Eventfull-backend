@@ -8,10 +8,9 @@ import createAndSignJWT from "../../../utils/auth-helpers/jwt/create-and-sign-jw
 
 export default async function googleLoginAuthCallback (req: Request, res: Response): Promise<Response> {
 	try {
-		const code = req.body.code as string
-		const idToken = req.body.idToken as string
+		const { idToken, code, notificationToken, primaryDevicePlatform } = req.body as GoogleLoginInformationObject
 
-		const { tokensResonse, payload } = await extractGoogleUserFromTokens(idToken, code)
+		const { tokensResonse, payload } = await extractGoogleUserFromTokens(idToken, code, primaryDevicePlatform, notificationToken)
 
 		if (_.isUndefined(tokensResonse)) {
 			return res.status(400).json({ message: "User with this email already exists, but is not a Google User"})
