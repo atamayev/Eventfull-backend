@@ -1,4 +1,4 @@
-import { calendar_v3 } from "googleapis"
+import { calendar_v3 } from "@googleapis/calendar"
 import { Response, Request } from "express"
 import saveIncomingUnifiedCalendarEvents from "../../../utils/calendar-misc/save-incoming-unified-calendar-events"
 import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"

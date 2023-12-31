@@ -1,4 +1,4 @@
-import { calendar_v3 } from "googleapis"
+import { calendar_v3 } from "@googleapis/calendar"
 
 export default function convertUnifiedToGoogle(unifiedEvent: UnifiedCalendarEvent): calendar_v3.Schema$Event {
 	const combineDateTime = (dateTime: UnifiedDateTime): string => `${dateTime.date}T${dateTime.time}`

@@ -46,6 +46,7 @@
   "dependencies": {
     "@aws-sdk/client-sns": "^3.484.0",
     "@azure/msal-node": "^2.4.0",
+    "@googleapis/calendar": "^9.5.0",
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "@microsoft/microsoft-graph-types": "^2.40.0",
     "@sendgrid/mail": "^8.1.0",
@@ -57,8 +58,7 @@
     "dayjs-plugin-utc": "^0.1.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "google-auth-library": "^9.2.0",
-    "googleapis": "^129.0.0",
+    "google-auth-library": "^9.4.1",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.1.0",

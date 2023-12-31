@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { calendar_v3 } from "googleapis"
+import { calendar_v3 } from "@googleapis/calendar"
 
 export default function convertGoogleToUnified(events: calendar_v3.Schema$Event[]): UnifiedCalendarEvent[] {
 	return events.map(event => {
