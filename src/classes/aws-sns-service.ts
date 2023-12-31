@@ -1,18 +1,19 @@
 import _ from "lodash"
-import AWS from "aws-sdk"
+import { SNS } from "@aws-sdk/client-sns"
 
 export default class AwsSnsService {
 	private static instance: AwsSnsService | null = null
-	private sns: AWS.SNS
+	private sns: SNS
 
 	private constructor() {
-		AWS.config.update({
-			accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-			secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-			region: process.env.AWS_REGION
-		})
+		this.sns = new SNS({
+			credentials: {
+				accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+			},
 
-		this.sns = new AWS.SNS()
+			region: process.env.AWS_REGION,
+		})
 	}
 
 	static getInstance(): AwsSnsService {
@@ -31,8 +32,7 @@ export default class AwsSnsService {
 			throw new Error(`Platform ${platform} is not supported`)
 		}
 	}
-	// upon registration, create a platform endpoint for the user.
-	// upon login, check if the token has changed, if so, update the platform endpoint
+
 	public async createPlatformEndpoint(token: string, primaryDevicePlatform: DevicePlatforms): Promise<string | undefined> {
 		const platformApplicationArn = this.getPlatformApplicationArn(primaryDevicePlatform)
 		const params = {
@@ -41,7 +41,7 @@ export default class AwsSnsService {
 		}
 
 		try {
-			const endpoint = await this.sns.createPlatformEndpoint(params).promise()
+			const endpoint = await this.sns.createPlatformEndpoint(params)
 			return endpoint.EndpointArn
 		} catch (error) {
 			console.error("Error creating platform endpoint:", error)
@@ -52,7 +52,7 @@ export default class AwsSnsService {
 	public async deletePlatformEndpoint (endpointArn: string | undefined): Promise<void> {
 		try {
 			if (_.isUndefined(endpointArn)) return
-			await this.sns.deleteEndpoint({ EndpointArn: endpointArn }).promise()
+			await this.sns.deleteEndpoint({ EndpointArn: endpointArn })
 			console.log("Deleted old endpoint:", endpointArn)
 		} catch (error) {
 			console.error("Error deleting old endpoint:", error)
@@ -67,7 +67,7 @@ export default class AwsSnsService {
 		}
 
 		try {
-			await this.sns.publish(params).promise()
+			await this.sns.publish(params)
 			console.log("Message sent successfully")
 		} catch (error) {
 			console.error("Error sending message:", error)
