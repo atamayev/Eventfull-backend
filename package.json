@@ -44,6 +44,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudwatch": "^3.484.0",
     "@aws-sdk/client-sns": "^3.484.0",
     "@azure/msal-node": "^2.4.0",
     "@googleapis/calendar": "^9.5.0",

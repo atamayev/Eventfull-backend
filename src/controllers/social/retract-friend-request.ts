@@ -13,8 +13,8 @@ export default async function retractFriendRequest(req: Request, res: Response):
 			return res.status(400).json({ message: "Outgoing Friend Request does not exist" })
 		}
 
-		await clearOutgoingFriendRequest(user._id, friend._id)
-		await notificationHelper(user, friend._id, "retractFriendRequest", false)
+		await clearOutgoingFriendRequest(user, friend)
+		await notificationHelper(user, friend, "retractFriendRequest", false)
 
 		return res.status(200).json({ success: "Friend Request Retracted" })
 	} catch (error) {

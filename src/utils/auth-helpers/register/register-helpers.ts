@@ -12,15 +12,13 @@ export async function hashPassword(password: string): Promise<{ hashedPassword: 
 	}
 }
 
-// eslint-disable-next-line max-params
 export async function addLocalUser(
 	registerInformationObject: RegisterInformationObject,
 	hashedPassword: string,
-	primaryDevicePlatform: DevicePlatforms,
-	notificationToken: string,
 	endpointArn: string
 ): Promise<Types.ObjectId> {
-	const { contact, firstName, lastName, username } = registerInformationObject
+	const { contact, firstName, lastName, username, contactType,
+		primaryDevicePlatform, notificationToken } = registerInformationObject
 
 	const userFields: NewLocalUserFields = {
 		firstName,
@@ -28,11 +26,12 @@ export async function addLocalUser(
 		username,
 		password: hashedPassword,
 		authMethod: "Local",
-		primaryContactMethod: registerInformationObject.contactType,
+		primaryContactMethod: contactType,
 		notificationToken,
+		primaryDevicePlatform,
 	}
 
-	if (registerInformationObject.contactType === "Email") {
+	if (contactType === "Email") {
 		userFields.email = contact
 		userFields.isEmailVerified = false
 	} else {
@@ -40,14 +39,17 @@ export async function addLocalUser(
 		userFields.isPhoneVerified = false
 	}
 
-	if (primaryDevicePlatform === "android") userFields.androidEndpointArn = endpointArn
-	else if (primaryDevicePlatform === "ios") userFields.iosEndpointArn = endpointArn
+	if (primaryDevicePlatform === "android") {
+		userFields.androidEndpointArn = endpointArn
+	} else if (primaryDevicePlatform === "ios") {
+		userFields.iosEndpointArn = endpointArn
+	}
 
 	const newUser = await UserModel.create(userFields)
 	return newUser._id
 }
 
-export async function addCloudUser(
+export async function addCloudUserPersonalData(
 	userId: Types.ObjectId,
 	cloudUserRegisterInformationObject: CloudUserRegisterInformationObject
 ): Promise<void> {

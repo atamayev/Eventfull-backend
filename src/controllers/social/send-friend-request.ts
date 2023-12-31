@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 import createOutgoingFriendRequest from "../../utils/social/friend/create-outgoing-friend-request"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
 import checkIfIncomingFriendRequestExists from "../../utils/social/friend/check-if-incoming-friend-request-exists"
+import notificationHelper from "../../utils/notification-helper"
 
 export default async function sendFriendRequest (req: Request, res: Response): Promise<Response> {
 	try {
@@ -27,7 +28,8 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 			}
 		}
 
-		await createOutgoingFriendRequest(user, friend._id)
+		await createOutgoingFriendRequest(user, friend)
+		await notificationHelper(user, friend, "sendFriendRequest", true, `${user.username || user.firstName} sent you a friend request`)
 
 		return res.status(200).json({ success: "Friend Request Sent" })
 	} catch (error) {

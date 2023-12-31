@@ -6,7 +6,6 @@ export default async function saveUserNotificationToken(req: Request, res: Respo
 	try {
 		const user = req.user
 		const { notificationToken } = req.body
-		console.log("notificationToken", notificationToken)
 
 		if (_.isUndefined(notificationToken)) return res.status(400).json({ error: "Missing notificationToken" })
 		if (_.isEqual(notificationToken, user.notificationToken)) {

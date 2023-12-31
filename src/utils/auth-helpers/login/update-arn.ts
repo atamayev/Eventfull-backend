@@ -5,12 +5,15 @@ export default async function updateArn (user: User, notificationToken: string, 
 	try {
 		const doesUserArnExist = doesArnExist(primaryDevicePlatform, user)
 
-		const notificationTokenIsNew = checkIfNotificationTokenIsNew(primaryDevicePlatform, user, notificationToken)
+		const isNotificationTokenNew = user.notificationToken !== notificationToken
 
 		const isNewPrimaryDevicePlatform = user.primaryDevicePlatform !== primaryDevicePlatform
 
-		if (doesUserArnExist === true && notificationTokenIsNew === false && isNewPrimaryDevicePlatform === false) return
+		if (doesUserArnExist === true && isNotificationTokenNew === false && isNewPrimaryDevicePlatform === false) return
 		const userArn = getUserArn(primaryDevicePlatform, user)
+
+		if (isNotificationTokenNew === true) user.notificationToken = notificationToken
+
 		await AwsSnsService.getInstance().deletePlatformEndpoint(userArn)
 		const newEndPointarn = await AwsSnsService.getInstance().createPlatformEndpoint(notificationToken, primaryDevicePlatform)
 
@@ -29,7 +32,7 @@ export default async function updateArn (user: User, notificationToken: string, 
 	}
 }
 
-function getUserArn(primaryDevicePlatform: DevicePlatforms, user: User): string | undefined {
+export function getUserArn(primaryDevicePlatform: DevicePlatforms, user: User): string | undefined {
 	if (primaryDevicePlatform === "ios") {
 		return user.iosEndpointArn
 	} else if (primaryDevicePlatform === "android") {
@@ -44,16 +47,6 @@ function doesArnExist(primaryDevicePlatform: DevicePlatforms, user: User): boole
 		return !_.isUndefined(user.iosEndpointArn)
 	} else if (primaryDevicePlatform === "android") {
 		return !_.isUndefined(user.androidEndpointArn)
-	} else {
-		throw new Error(`Platform ${primaryDevicePlatform} is not supported`)
-	}
-}
-
-function checkIfNotificationTokenIsNew(primaryDevicePlatform: DevicePlatforms, user: User, notificationToken: string): boolean {
-	if (primaryDevicePlatform === "ios") {
-		return user.iosEndpointArn !== notificationToken
-	} else if (primaryDevicePlatform === "android") {
-		return user.androidEndpointArn !== notificationToken
 	} else {
 		throw new Error(`Platform ${primaryDevicePlatform} is not supported`)
 	}

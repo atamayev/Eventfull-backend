@@ -1,12 +1,22 @@
 import _ from "lodash"
 import { SNS } from "@aws-sdk/client-sns"
+import { CloudWatch } from "@aws-sdk/client-cloudwatch"
 
 export default class AwsSnsService {
 	private static instance: AwsSnsService | null = null
 	private sns: SNS
+	private cloudWatch: CloudWatch
 
 	private constructor() {
 		this.sns = new SNS({
+			credentials: {
+				accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+			},
+
+			region: process.env.AWS_REGION,
+		})
+		this.cloudWatch = new CloudWatch({
 			credentials: {
 				accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -53,22 +63,30 @@ export default class AwsSnsService {
 		try {
 			if (_.isUndefined(endpointArn)) return
 			await this.sns.deleteEndpoint({ EndpointArn: endpointArn })
-			console.log("Deleted old endpoint:", endpointArn)
 		} catch (error) {
 			console.error("Error deleting old endpoint:", error)
 		}
 	}
 
-	public async sendNotification(endpointArn: string, message: string): Promise<void> {
+	public async sendNotification(endpointArn: string, title: string, body: string): Promise<void> {
+		const gcmMessage = {
+			notification: {
+				title: title,
+				body: body
+			}
+		}
+
 		const params = {
-			Message: JSON.stringify({ default: message }),
+			Message: JSON.stringify({
+				default: title,
+				GCM: JSON.stringify(gcmMessage)
+			}),
 			MessageStructure: "json",
 			TargetArn: endpointArn,
 		}
 
 		try {
 			await this.sns.publish(params)
-			console.log("Message sent successfully")
 		} catch (error) {
 			console.error("Error sending message:", error)
 			throw error

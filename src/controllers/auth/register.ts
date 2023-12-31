@@ -25,8 +25,7 @@ export default async function register (req: Request, res: Response): Promise<Re
 
 		if (_.isUndefined(endpointArn)) return res.status(500).json({ error: "Internal Server Error: Unable to Create Platform Endpoint" })
 
-		const userId = await addLocalUser(req.body.registerInformationObject, hashedPassword,
-			primaryDevicePlatform, notificationToken, endpointArn)
+		const userId = await addLocalUser(req.body.registerInformationObject, hashedPassword, endpointArn)
 
 		const token = createAndSignJWT(userId, true)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })

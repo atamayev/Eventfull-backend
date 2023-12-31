@@ -7,6 +7,7 @@ import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-
 import clearOutgoingFriendRequest from "../../utils/social/friend/clear-outgoing-friend-request"
 import clearIncomingFriendRequest from "../../utils/social/friend/clear-incoming-friend-request"
 import checkIfIncomingFriendRequestExists from "../../utils/social/friend/check-if-incoming-friend-request-exists"
+import notificationHelper from "../../utils/notification-helper"
 
 export default async function blockAnotherUser (req: Request, res: Response): Promise<Response> {
 	try {
@@ -25,7 +26,8 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 
 		const doesOutgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, blockedUser._id)
 		if (doesOutgoingFriendRequestExists === true) {
-			await clearOutgoingFriendRequest(user._id, blockedUser._id)
+			await clearOutgoingFriendRequest(user, blockedUser)
+			await notificationHelper(user, blockedUser, "retractFriendRequest", false)
 		}
 
 		const doesIncomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, blockedUser._id)
