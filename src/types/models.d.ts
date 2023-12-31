@@ -19,9 +19,9 @@ declare global {
 		authMethod: AuthSources
 		primaryContactMethod: EmailOrPhone
 		primaryDevicePlatform: DevicePlatforms
-		notificationToken: string
 		createdAt: Date
 		updatedAt: Date
+		notificationToken?: string
 		email?: string
 		phoneNumber?: string
 		username?: string

@@ -21,7 +21,7 @@ const userSchema = new Schema<User>({
 	authMethod: { type: String, required: true, trim: true, enum: ["Local", "Microsoft", "Google"] },
 	primaryContactMethod: { type: String, required: true, trim: true, enum: ["Email", "Phone"] },
 	primaryDevicePlatform: { type: String, required: true, trim: true, enum: ["ios", "android", "windows", "macos", "web"] },
-	notificationToken: { type: String, trim: true, required: true },
+	notificationToken: { type: String, trim: true },
 	email: { type: String, unique: true, sparse: true, trim: true },
 	phoneNumber: { type: String, unique: true, sparse: true, trim: true },
 	username: { type: String, trim: true, unique: true },

@@ -52,7 +52,7 @@ const authRoutes = express.Router()
 
 authRoutes.post("/login", validateLogin, login)
 authRoutes.post("/register", validateRegister, determineRegisterContactType, register)
-authRoutes.post("/logout", logout)
+authRoutes.post("/logout", jwtVerify, logout)
 
 authRoutes.post("/change-password", jwtVerify, validateChangePassword, determineChangePasswordContactType, changePassword)
 authRoutes.post("/register-username", jwtVerify, validateUsername, registerUsername)

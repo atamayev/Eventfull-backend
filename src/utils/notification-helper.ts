@@ -1,7 +1,7 @@
 import _ from "lodash"
 import SocketManager from "../classes/socket-manager"
 import AwsSnsService from "../classes/aws-sns-service"
-import { getUserArn } from "./auth-helpers/login/update-arn"
+import getUserArn from "./auth-helpers/aws/get-user-arn"
 
 export default new class NotificationHelper {
 	public async sendFriendRequest (user: User, friend: User): Promise<void> {

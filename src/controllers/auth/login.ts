@@ -8,7 +8,7 @@ import doesUserHaveGoogleCalendar from "../../utils/google/calendar/does-user-ha
 import fetchLoginUserData from "../../utils/auth-helpers/fetch-login-user-data"
 import setUserContact from "../../utils/set-user-contact"
 import createAndSignJWT from "../../utils/auth-helpers/jwt/create-and-sign-jwt"
-import updateArn from "../../utils/auth-helpers/login/update-arn"
+import updateArn from "../../utils/auth-helpers/aws/update-arn"
 
 export default async function login (req: Request, res: Response): Promise<Response> {
 	try {

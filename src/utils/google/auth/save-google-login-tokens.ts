@@ -2,7 +2,7 @@ import _ from "lodash"
 import { TokenPayload, Credentials } from "google-auth-library"
 import UserModel from "../../../models/user-model"
 import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-db"
-import updateArn from "../../auth-helpers/login/update-arn"
+import updateArn from "../../auth-helpers/aws/update-arn"
 
 // eslint-disable-next-line complexity, max-lines-per-function
 export default async function saveGoogleLoginTokens(
