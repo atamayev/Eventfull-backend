@@ -2,6 +2,7 @@
 import _ from "lodash"
 import { SNS } from "@aws-sdk/client-sns"
 import { CloudWatch } from "@aws-sdk/client-cloudwatch"
+import getPlatformApplicationArn from "../utils/notifications/create-notifications/get-platform-application-arn"
 
 export default class AwsSnsService {
 	private static instance: AwsSnsService | null = null
@@ -34,18 +35,8 @@ export default class AwsSnsService {
 		return AwsSnsService.instance
 	}
 
-	private getPlatformApplicationArn(platform: DevicePlatforms): string {
-		if (platform === "ios") {
-			return process.env.AWS_APNS_ARN
-		} else if (platform === "android") {
-			return process.env.AWS_FCM_ARN
-		} else {
-			throw new Error(`Platform ${platform} is not supported`)
-		}
-	}
-
 	public async createPlatformEndpoint(token: string, primaryDevicePlatform: DevicePlatforms): Promise<string | undefined> {
-		const platformApplicationArn = this.getPlatformApplicationArn(primaryDevicePlatform)
+		const platformApplicationArn = getPlatformApplicationArn(primaryDevicePlatform)
 		const params = {
 			PlatformApplicationArn: platformApplicationArn,
 			Token: token,
@@ -67,49 +58,6 @@ export default class AwsSnsService {
 		} catch (error) {
 			console.error("Error deleting old endpoint:", error)
 		}
-	}
-
-	public createGCMMessage(title: string, body: string, targetPage: string): string {
-		const gcmMessage = {
-			notification: {
-				title: title,
-				body: body
-			},
-			data: {
-				targetPage
-			}
-		}
-
-		const message = {
-			default: title,
-			GCM: JSON.stringify(gcmMessage)
-		}
-
-		return JSON.stringify(message)
-	}
-
-	public createAPNSMessage(title: string, body: string, targetPage: string): string {
-		const apnsMessage = {
-			aps: {
-				alert: {
-					title: title,
-					body: body
-				},
-				sound: "default",
-				badge: 1
-			},
-			data: {
-				targetPage
-			}
-		}
-
-		const message = {
-			default: title,
-			APNS: JSON.stringify(apnsMessage), // For iOS in production
-			APNS_SANDBOX: JSON.stringify(apnsMessage) // For iOS in sandbox/testing
-		}
-
-		return JSON.stringify(message)
 	}
 
 	public async sendNotification(endpointArn: string, message: string): Promise<void> {

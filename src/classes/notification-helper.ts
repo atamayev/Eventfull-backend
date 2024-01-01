@@ -2,6 +2,8 @@ import _ from "lodash"
 import SocketManager from "./socket-manager"
 import AwsSnsService from "./aws-sns-service"
 import getUserArn from "../utils/auth-helpers/aws/get-user-arn"
+import createGCMMessage from "../utils/notifications/create-notifications/create-gcm-message"
+import createAPNSMessage from "../utils/notifications/create-notifications/create-apns-message"
 
 export default new class NotificationHelper {
 	public async sendFriendRequest (user: User, friend: User): Promise<void> {
@@ -21,13 +23,13 @@ export default new class NotificationHelper {
 
 			let message = ""
 			if (friend.primaryDevicePlatform === "android") {
-				message = AwsSnsService.getInstance().createGCMMessage(
+				message = createGCMMessage(
 					"New Friend Request",
 					`${user.username} sent you a friend request`,
 					"Chat"
 				)
 			} else if (friend.primaryDevicePlatform === "ios") {
-				message = AwsSnsService.getInstance().createAPNSMessage(
+				message = createAPNSMessage(
 					"New Friend Request",
 					`${user.username} sent you a friend request`,
 					"Chat"
