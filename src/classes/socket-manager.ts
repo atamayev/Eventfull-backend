@@ -5,12 +5,12 @@ import { Server as SocketIOServer, Socket } from "socket.io"
 export default class SocketManager {
 	private _io: SocketIOServer
 	// eslint-disable-next-line no-inline-comments
-	private _userConnections: Map<string, string> // Maps userId to socketId
+	private _userConnections: Map<string, UserConnectionInfo> // Maps userId to socketId
 	private static _instance: SocketManager | null = null
 
 	constructor(io: SocketIOServer) {
 		this._io = io
-		this._userConnections = new Map<string, string>()
+		this._userConnections = new Map<string, UserConnectionInfo>()
 		this.initializeListeners()
 	}
 
@@ -47,7 +47,7 @@ export default class SocketManager {
 	}
 
 	private handleEstablishConnection(userId: Types.ObjectId, socket: Socket): void {
-		this._userConnections.set(_.toString(userId), socket.id)
+		this._userConnections.set(_.toString(userId), { socketId: socket.id, status: "active"})
 		this._io.to(_.toString(userId)).emit("connected")
 	}
 
@@ -55,8 +55,21 @@ export default class SocketManager {
 		return this._userConnections.has(_.toString(userId))
 	}
 
+	public setUserStatus(userId: Types.ObjectId, status: AppStates): void {
+		const userConnection = this._userConnections.get(_.toString(userId))
+		if (!_.isUndefined(userConnection)) {
+			userConnection.status = status
+			this._userConnections.set(_.toString(userId), userConnection)
+		}
+	}
+
+	public isUserActive(userId: Types.ObjectId): boolean {
+		const userConnection = this._userConnections.get(_.toString(userId))
+		return userConnection ? userConnection.status === "active" : false
+	}
+
 	public handleSendFriendRequest(data: { fromUser: User, toUserId: Types.ObjectId }): void {
-		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))
+		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))?.socketId
 		if (!_.isUndefined(receiverSocketId)) {
 			this._io.to(receiverSocketId).emit(
 				"friend-request", { fromUserId: _.toString(data.fromUser._id), fromUsername: data.fromUser.username }
@@ -67,7 +80,7 @@ export default class SocketManager {
 	}
 
 	public handleRetractFriendRequest(data: { fromUserId: Types.ObjectId, toUserId: Types.ObjectId }): void {
-		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))
+		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))?.socketId
 		if (!_.isUndefined(receiverSocketId)) {
 			this._io.to(receiverSocketId).emit(
 				"remove-friend-request", { fromUserId: _.toString(data.fromUserId) }

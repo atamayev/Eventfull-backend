@@ -68,11 +68,15 @@ export default class AwsSnsService {
 		}
 	}
 
-	public async sendNotification(endpointArn: string, title: string, body: string): Promise<void> {
+	public async sendNotification(endpointArn: string, title: string, body: string, targetPage: string): Promise<void> {
+		// TODO: Add support for iOS, this is currently only for Android
 		const gcmMessage = {
 			notification: {
 				title: title,
 				body: body
+			},
+			data: {
+				targetPage
 			}
 		}
 

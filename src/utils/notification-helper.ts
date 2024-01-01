@@ -5,8 +5,12 @@ import getUserArn from "./auth-helpers/aws/get-user-arn"
 
 export default new class NotificationHelper {
 	public async sendFriendRequest (user: User, friend: User): Promise<void> {
-		if (SocketManager.getInstance().isUserOnline(friend._id) === true) {
-			SocketManager.getInstance().handleSendFriendRequest({ fromUser: user, toUserId: friend._id })
+		const socketManager = SocketManager.getInstance()
+		if (
+			socketManager.isUserOnline(friend._id) === true &&
+			socketManager.isUserActive(friend._id) === true
+		) {
+			socketManager.handleSendFriendRequest({ fromUser: user, toUserId: friend._id })
 		} else {
 			if (!_.isString(friend.notificationToken)) {
 				console.info("Friend does not have a notification token.")
@@ -18,15 +22,17 @@ export default new class NotificationHelper {
 			await AwsSnsService.getInstance().sendNotification(
 				endpointArn,
 				"New Friend Request",
-				`${user.username} sent you a friend request`
+				`${user.username} sent you a friend request`,
+				"Chat"
 			)
 		}
 	}
 
 	public retractFriendRequest (user: User, friend: User): void {
-		if (SocketManager.getInstance().isUserOnline(friend._id) === false) {
+		const socketManager = SocketManager.getInstance()
+		if (socketManager.isUserOnline(friend._id) === false) {
 			return
 		}
-		SocketManager.getInstance().handleRetractFriendRequest({ fromUserId: user._id, toUserId: friend._id })
+		socketManager.handleRetractFriendRequest({ fromUserId: user._id, toUserId: friend._id })
 	}
 }
