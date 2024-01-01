@@ -1,3 +1,4 @@
+/* eslint-disable no-inline-comments */
 import _ from "lodash"
 import { SNS } from "@aws-sdk/client-sns"
 import { CloudWatch } from "@aws-sdk/client-cloudwatch"
@@ -33,7 +34,7 @@ export default class AwsSnsService {
 		return AwsSnsService.instance
 	}
 
-	private getPlatformApplicationArn(platform: string): string {
+	private getPlatformApplicationArn(platform: DevicePlatforms): string {
 		if (platform === "ios") {
 			return process.env.AWS_APNS_ARN
 		} else if (platform === "android") {
@@ -68,8 +69,7 @@ export default class AwsSnsService {
 		}
 	}
 
-	public async sendNotification(endpointArn: string, title: string, body: string, targetPage: string): Promise<void> {
-		// TODO: Add support for iOS, this is currently only for Android
+	public createGCMMessage(title: string, body: string, targetPage: string): string {
 		const gcmMessage = {
 			notification: {
 				title: title,
@@ -80,13 +80,43 @@ export default class AwsSnsService {
 			}
 		}
 
+		const message = {
+			default: title,
+			GCM: JSON.stringify(gcmMessage)
+		}
+
+		return JSON.stringify(message)
+	}
+
+	public createAPNSMessage(title: string, body: string, targetPage: string): string {
+		const apnsMessage = {
+			aps: {
+				alert: {
+					title: title,
+					body: body
+				},
+				sound: "default",
+				badge: 1
+			},
+			data: {
+				targetPage
+			}
+		}
+
+		const message = {
+			default: title,
+			APNS: JSON.stringify(apnsMessage), // For iOS in production
+			APNS_SANDBOX: JSON.stringify(apnsMessage) // For iOS in sandbox/testing
+		}
+
+		return JSON.stringify(message)
+	}
+
+	public async sendNotification(endpointArn: string, message: string): Promise<void> {
 		const params = {
-			Message: JSON.stringify({
-				default: title,
-				GCM: JSON.stringify(gcmMessage)
-			}),
+			Message: message,
 			MessageStructure: "json",
-			TargetArn: endpointArn,
+			TargetArn: endpointArn
 		}
 
 		try {

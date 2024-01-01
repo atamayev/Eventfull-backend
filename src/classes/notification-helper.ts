@@ -13,17 +13,31 @@ export default new class NotificationHelper {
 			socketManager.handleSendFriendRequest({ fromUser: user, toUserId: friend._id })
 		} else {
 			if (!_.isString(friend.notificationToken)) {
-				console.info("Friend does not have a notification token.")
+				console.info("Friend does not have a notification token (or friend isn't logged in).")
 				return
 			}
 			const endpointArn = getUserArn(friend.primaryDevicePlatform, friend)
 			if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
+			let message = ""
+			if (friend.primaryDevicePlatform === "android") {
+				message = AwsSnsService.getInstance().createGCMMessage(
+					"New Friend Request",
+					`${user.username} sent you a friend request`,
+					"Chat"
+				)
+			} else if (friend.primaryDevicePlatform === "ios") {
+				message = AwsSnsService.getInstance().createAPNSMessage(
+					"New Friend Request",
+					`${user.username} sent you a friend request`,
+					"Chat"
+				)
+			} else {
+				throw new Error(`Platform ${friend.primaryDevicePlatform} is not supported`)
+			}
 			await AwsSnsService.getInstance().sendNotification(
 				endpointArn,
-				"New Friend Request",
-				`${user.username} sent you a friend request`,
-				"Chat"
+				message
 			)
 		}
 	}
