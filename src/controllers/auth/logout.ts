@@ -20,6 +20,7 @@ export default async function logout (req: Request, res: Response): Promise<Resp
 					iosEndpointArn: ""
 				}
 			},
+			{ runValidators: true }
 		)
 		return res.status(200).json({ success: "Logout successful" })
 	} catch (error) {
