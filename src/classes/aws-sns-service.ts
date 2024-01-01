@@ -1,4 +1,3 @@
-/* eslint-disable no-inline-comments */
 import _ from "lodash"
 import { SNS } from "@aws-sdk/client-sns"
 import { CloudWatch } from "@aws-sdk/client-cloudwatch"
