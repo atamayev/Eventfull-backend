@@ -1,25 +1,26 @@
 import express from "express"
+
 import validateFriendId from "../middleware/request-validation/social/validate-friend-id"
-import validateResponseToFriendRequest from "../middleware/request-validation/social/validate-response-to-friend-request"
 import validateBlockedUserId from "../middleware/request-validation/social/validate-blocked-user-id"
 import validateUnblockedUserId from "../middleware/request-validation/social/validate-unblocked-user-id"
+import validateResponseToFriendRequest from "../middleware/request-validation/social/validate-response-to-friend-request"
 
+import checkIfUsersAreFriends from "../middleware/social/friend/check-if-users-are-friends"
 import checkIfUserBlockedFriend from "../middleware/social/friend/check-if-user-blocked-friend"
 import checkIfFriendBlockedUser from "../middleware/social/friend/check-if-friend-blocked-user"
-import checkIfUsersAreFriends from "../middleware/social/friend/check-if-users-are-friends"
-import checkIfUnblockedUserBlockedUser from "../middleware/social/unblock/check-if-unblocked-user-blocked-user"
 import checkIfBlockedUserBlockedUser from "../middleware/social/block/check-if-blocked-user-blocked-user"
 import checkIfUserBlockedBlockedUser from "../middleware/social/block/check-if-user-blocked-blocked-user"
+import checkIfUnblockedUserBlockedUser from "../middleware/social/unblock/check-if-unblocked-user-blocked-user"
 
+import blockAnotherUser from "../controllers/social/block-another-user"
+import listBlockedUsers from "../controllers/social/list-blocked-users"
 import sendFriendRequest from "../controllers/social/send-friend-request"
-import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
-import retractFriendRequest from "../controllers/social/retract-friend-request"
+import unblockAnotherUser from "../controllers/social/unblock-another-user"
 import unfriendAnotherUser from "../controllers/social/unfriend-another-user"
+import retractFriendRequest from "../controllers/social/retract-friend-request"
+import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
 import listIncomingFriendRequests from "../controllers/social/list-incoming-friend-requests"
 import listOutgoingFriendRequests from "../controllers/social/list-outgoing-friend-requests"
-import blockAnotherUser from "../controllers/social/block-another-user"
-import unblockAnotherUser from "../controllers/social/unblock-another-user"
-import listBlockedUsers from "../controllers/social/list-blocked-users"
 
 const socialRoutes = express.Router()
 

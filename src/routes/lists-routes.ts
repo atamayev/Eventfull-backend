@@ -1,4 +1,5 @@
 import express from "express"
+
 import getEventTypes from "../controllers/lists/get-event-types"
 import getEventCategories from "../controllers/lists/get-event-categories"
 
