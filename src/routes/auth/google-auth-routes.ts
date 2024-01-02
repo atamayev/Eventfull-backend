@@ -15,5 +15,4 @@ googleAuthRoutes.post("/login-callback", validateGoogleLoginCallback, googleLogi
 googleAuthRoutes.post("/calendar-callback", jwtVerify, validateGoogleCalendarCallback, googleCalendarAuthCallback)
 googleAuthRoutes.post("/revoke-google-calendar-access", jwtVerify, confirmUserHasGoogleCalendar, revokeGoogleCalendarAccess)
 
-
 export default googleAuthRoutes
