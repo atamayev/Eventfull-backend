@@ -27,7 +27,7 @@ declare global {
 		username: string
 	}
 
-	interface RegisterInformationObject extends LoginInformationObject extends CloudUserRegisterInformationObject{
+	interface RegisterInformationObject extends LoginInformationObject, CloudUserRegisterInformationObject {
 		contactType: EmailOrPhone
 	}
 
