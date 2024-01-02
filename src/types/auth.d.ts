@@ -43,8 +43,8 @@ declare global {
 		lastName: string
 		notificationToken: string
 		primaryDevicePlatform: DevicePlatforms
-		androidEndpointArn?: string
 		iosEndpointArn?: string
+		androidEndpointArn?: string
 	}
 
 	interface NewLocalUserFields extends NewUserFields {

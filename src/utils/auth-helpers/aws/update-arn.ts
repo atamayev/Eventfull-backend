@@ -3,14 +3,14 @@ import AwsSnsService from "../../../classes/aws-sns-service"
 
 export default async function updateArn (user: User, notificationToken: string, primaryDevicePlatform: DevicePlatforms): Promise<void> {
 	try {
-		const newEndPointarn = await AwsSnsService.getInstance().createPlatformEndpoint(notificationToken, primaryDevicePlatform)
+		const newEndPointArn = await AwsSnsService.getInstance().createPlatformEndpoint(notificationToken, primaryDevicePlatform)
 
-		if (_.isUndefined(newEndPointarn)) throw new Error("Unable to create new endpoint")
+		if (_.isUndefined(newEndPointArn)) throw new Error("Unable to create new endpoint")
 
 		if (primaryDevicePlatform === "ios") {
-			user.iosEndpointArn = newEndPointarn
+			user.iosEndpointArn = newEndPointArn
 		} else if (primaryDevicePlatform === "android") {
-			user.androidEndpointArn = newEndPointarn
+			user.androidEndpointArn = newEndPointArn
 		}
 		user.notificationToken = notificationToken
 
@@ -20,4 +20,3 @@ export default async function updateArn (user: User, notificationToken: string, 
 		throw error
 	}
 }
-
