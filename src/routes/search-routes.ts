@@ -1,9 +1,10 @@
 import express from "express"
-import searchForUsername from "../controllers/search/search-for-username"
 
 import validateSearchUsername from "../middleware/request-validation/search/validate-search-username"
 import validateSearchEventName from "../middleware/request-validation/search/validate-search-event-name"
+
 import searchForEventName from "../controllers/search/search-for-event"
+import searchForUsername from "../controllers/search/search-for-username"
 
 const searchRoutes = express.Router()
 

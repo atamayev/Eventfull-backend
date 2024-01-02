@@ -5,7 +5,9 @@ import { Request, Response, NextFunction } from "express"
 const loginInformationSchema = Joi.object({
 	loginInformationObject: Joi.object({
 		contact: Joi.string().required(),
-		password: Joi.string().min(6).required()
+		password: Joi.string().min(6).required(),
+		notificationToken: Joi.string().required(),
+		primaryDevicePlatform: Joi.string().valid("ios" , "android" , "windows" , "macos" , "web").required()
 	}).required()
 })
 

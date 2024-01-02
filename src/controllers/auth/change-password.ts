@@ -1,7 +1,6 @@
-import _ from "lodash"
 import { Response, Request } from "express"
 import UserModel from "../../models/user-model"
-import Hash from "../../setup-and-security/hash"
+import Hash from "../../classes/hash"
 import isSameContactMethod from "../../utils/auth-helpers/is-same-contact-method"
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {
@@ -13,17 +12,12 @@ export default async function changePassword (req: Request, res: Response): Prom
 
 		if (doesUserHaveContactType === false) return res.status(400).json({ message: `${contactType} does not match what is on file.` })
 
-		const hashedOldPassword = user.password
-		if (_.isUndefined(hashedOldPassword)) {
-			return res.status(500).json({ error: "Internal Server Error: Unable to Find Previous Password" })
-		}
-
-		const isOldPasswordMatch = await Hash.checkPassword(currentPassword, hashedOldPassword)
+		const isOldPasswordMatch = await Hash.checkPassword(currentPassword, user.password)
 		if (isOldPasswordMatch === false) {
 			return res.status(400).json({ message: "Old Password is incorrect" })
 		}
 
-		const isSamePassword = await Hash.checkPassword(newPassword, hashedOldPassword)
+		const isSamePassword = await Hash.checkPassword(newPassword, user.password)
 		if (isSamePassword === true) {
 			return res.status(400).json({ message: "New Password cannot be the same as the Previous Password" })
 		}

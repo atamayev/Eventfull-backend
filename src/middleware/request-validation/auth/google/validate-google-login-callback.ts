@@ -4,7 +4,9 @@ import { Request, Response, NextFunction } from "express"
 
 const googleLoginCallbackSchema = Joi.object({
 	code: Joi.required(),
-	idToken: Joi.required()
+	idToken: Joi.required(),
+	notificationToken: Joi.string().required(),
+	primaryDevicePlatform: Joi.string().valid("ios" , "android" , "windows" , "macos" , "web").required()
 })
 
 export default function validateGoogleLoginCallback (req: Request, res: Response, next: NextFunction): void | Response {

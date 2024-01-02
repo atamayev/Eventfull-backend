@@ -1,6 +1,7 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import blockUser from "../../utils/social/block/block-user"
+import NotificationHelper from "../../classes/notification-helper"
 import areUsersFriends from "../../utils/social/friend/are-users-friends"
 import unfriendYourFriend from "../../utils/social/friend/unfriend-your-friend"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
@@ -25,7 +26,8 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 
 		const doesOutgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, blockedUser._id)
 		if (doesOutgoingFriendRequestExists === true) {
-			await clearOutgoingFriendRequest(user._id, blockedUser._id)
+			await clearOutgoingFriendRequest(user, blockedUser)
+			NotificationHelper.retractFriendRequest(user, blockedUser)
 		}
 
 		const doesIncomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, blockedUser._id)

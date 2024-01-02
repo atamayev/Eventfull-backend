@@ -22,6 +22,12 @@ declare global {
 
 	type CloudAuthSources = "Google" | "Microsoft"
 	type AuthSources = "Local" | CloudAuthSources
+	type DevicePlatforms = "ios" | "android" | "windows" | "macos" | "web"
+	type UserConnectionInfo = {
+		socketId: string
+		status: AppStates
+	}
+	type AppStates = "active" | "inactive" | "background"
 }
 
 export {}

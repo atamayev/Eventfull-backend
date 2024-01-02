@@ -1,6 +1,6 @@
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
-import Hash from "../../../setup-and-security/hash"
+import Hash from "../../../classes/hash"
 
 export async function hashPassword(password: string): Promise<{ hashedPassword: string, hashError?: string }> {
 	try {
@@ -14,10 +14,11 @@ export async function hashPassword(password: string): Promise<{ hashedPassword: 
 
 export async function addLocalUser(
 	registerInformationObject: RegisterInformationObject,
-	contactType: EmailOrPhone,
-	hashedPassword: string
+	hashedPassword: string,
+	endpointArn: string
 ): Promise<Types.ObjectId> {
-	const { contact, firstName, lastName, username } = registerInformationObject
+	const { contact, firstName, lastName, username, contactType,
+		primaryDevicePlatform, notificationToken } = registerInformationObject
 
 	const userFields: NewLocalUserFields = {
 		firstName,
@@ -26,6 +27,8 @@ export async function addLocalUser(
 		password: hashedPassword,
 		authMethod: "Local",
 		primaryContactMethod: contactType,
+		notificationToken,
+		primaryDevicePlatform,
 	}
 
 	if (contactType === "Email") {
@@ -36,11 +39,19 @@ export async function addLocalUser(
 		userFields.isPhoneVerified = false
 	}
 
+	if (primaryDevicePlatform === "android") {
+		userFields.androidEndpointArn = endpointArn
+	} else if (primaryDevicePlatform === "ios") {
+		userFields.iosEndpointArn = endpointArn
+	} else {
+		throw new Error(`Platform ${primaryDevicePlatform} is not supported`)
+	}
+
 	const newUser = await UserModel.create(userFields)
 	return newUser._id
 }
 
-export async function addCloudUser(
+export async function addCloudUserPersonalData(
 	userId: Types.ObjectId,
 	cloudUserRegisterInformationObject: CloudUserRegisterInformationObject
 ): Promise<void> {

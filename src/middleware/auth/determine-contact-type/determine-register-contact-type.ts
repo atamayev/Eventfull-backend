@@ -8,7 +8,7 @@ export default function determineRegisterContactType (req: Request, res: Respons
 
 		if (contactType === "Unknown") return res.status(400).json({ message: "Please enter a valid Email or Phone Bumber" })
 
-		req.contactType = contactType
+		req.body.registerInformationObject.contactType = contactType
 		next()
 	} catch (error) {
 		console.error(error)

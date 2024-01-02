@@ -10,6 +10,15 @@ declare global {
 	interface LoginInformationObject {
 		contact: string
 		password: string
+		notificationToken: string
+		primaryDevicePlatform: DevicePlatforms
+	}
+
+	interface GoogleLoginInformationObject {
+		idToken: string
+		code: string
+		notificationToken: string
+		primaryDevicePlatform: DevicePlatforms
 	}
 
 	interface CloudUserRegisterInformationObject {
@@ -18,25 +27,35 @@ declare global {
 		username: string
 	}
 
-	interface RegisterInformationObject {
-		contact: string
-		firstName: string
-		lastName: string
-		username: string
-		password: string
+	interface RegisterInformationObject extends LoginInformationObject, CloudUserRegisterInformationObject {
+		contactType: EmailOrPhone
 	}
 
-	interface NewLocalUserFields {
+	interface NewUserFields {
 		firstName: string
 		lastName: string
+		notificationToken: string
+		primaryDevicePlatform: DevicePlatforms
+		iosEndpointArn?: string
+		androidEndpointArn?: string
+	}
+
+	interface NewLocalUserFields extends NewUserFields {
 		username: string
 		password: string
 		authMethod: "Local"
 		primaryContactMethod: EmailOrPhone
 		email?: string
 		phoneNumber?: string
-		isEmailVerified?: boolean
-		isPhoneVerified?: boolean
+		isEmailVerified?: false
+		isPhoneVerified?: false
+	}
+
+	interface NewCloudUserFields extends NewUserFields {
+		authMethod: CloudAuthSources
+		primaryContactMethod: "Email"
+		email: string
+		isEmailVerified: true
 	}
 
 	type UserIdAndPassword = {

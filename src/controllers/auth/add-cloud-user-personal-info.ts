@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import { addCloudUser } from "../../utils/auth-helpers/register/register-helpers"
+import { addCloudUserPersonalData } from "../../utils/auth-helpers/register/register-helpers"
 import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
 
 export default async function addCloudUserPersonalInfo (req: Request, res: Response): Promise<Response> {
@@ -10,7 +10,7 @@ export default async function addCloudUserPersonalInfo (req: Request, res: Respo
 		const usernameExists = await doesUsernameExist(username)
 		if (usernameExists === true) return res.status(400).json({ message: "Username taken" })
 
-		await addCloudUser(user._id, req.body.cloudUserRegisterInformationObject)
+		await addCloudUserPersonalData(user._id, req.body.cloudUserRegisterInformationObject)
 
 		return res.status(200).json({ success: "Cloud user Pesonal Info added" })
 	} catch (error) {

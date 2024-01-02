@@ -2,16 +2,18 @@ import _ from "lodash"
 import { TokenPayload, Credentials } from "google-auth-library"
 import UserModel from "../../../models/user-model"
 import addNonLocalUserToDB from "../../auth-helpers/add-non-local-auth-user-to-db"
+import updateArn from "../../auth-helpers/aws/update-arn"
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line complexity, max-lines-per-function
 export default async function saveGoogleLoginTokens(
 	payload: TokenPayload | undefined,
-	tokens: Credentials
+	tokens: Credentials,
+	primaryDevicePlatform: DevicePlatforms,
+	notificationToken: string
 ): Promise<GoogleLoginTokensResponse | null | undefined> {
 	try {
 		const { access_token, refresh_token, expiry_date } = tokens
 		const email = payload?.email
-		let isNewUser = false
 		if (_.isUndefined(email)) throw new Error("No email found in Google Login Callback")
 
 		const firstName = payload?.given_name || ""
@@ -26,9 +28,12 @@ export default async function saveGoogleLoginTokens(
 			return undefined
 		}
 
+		let isNewUser = false
 		if (_.isNull(googleUser)) {
-			googleUser = await addNonLocalUserToDB(email, firstName, lastName, "Google")
+			googleUser = await addNonLocalUserToDB(email, firstName, lastName, "Google", primaryDevicePlatform, notificationToken)
 			isNewUser = true
+		} else {
+			await updateArn(googleUser, notificationToken, primaryDevicePlatform)
 		}
 
 		const updateLoginData: Record<string, string | Date> = {}

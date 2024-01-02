@@ -9,7 +9,9 @@ type GoogleLoginTokensResponseWithPayload = {
 
 export default async function extractGoogleUserFromTokens(
 	idToken: string,
-	code: string
+	code: string,
+	primaryDevicePlatform: DevicePlatforms,
+	notificationToken: string
 ): Promise<GoogleLoginTokensResponseWithPayload> {
 	const client = createGoogleAuthClient()
 	const ticket = await client.verifyIdToken({
@@ -20,7 +22,7 @@ export default async function extractGoogleUserFromTokens(
 
 	const { tokens } = await client.getToken(code)
 
-	const tokensResonse = await saveGoogleLoginTokens(payload, tokens)
+	const tokensResonse = await saveGoogleLoginTokens(payload, tokens, primaryDevicePlatform, notificationToken)
 
 	return {
 		tokensResonse,
