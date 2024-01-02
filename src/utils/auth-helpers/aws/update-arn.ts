@@ -13,6 +13,7 @@ export default async function updateArn (user: User, notificationToken: string, 
 			user.androidEndpointArn = newEndPointArn
 		}
 		user.notificationToken = notificationToken
+		user.primaryDevicePlatform = primaryDevicePlatform
 
 		await user.save()
 	} catch (error) {
