@@ -14,7 +14,6 @@ export default async function saveGoogleLoginTokens(
 	try {
 		const { access_token, refresh_token, expiry_date } = tokens
 		const email = payload?.email
-		let isNewUser = false
 		if (_.isUndefined(email)) throw new Error("No email found in Google Login Callback")
 
 		const firstName = payload?.given_name || ""
@@ -29,6 +28,7 @@ export default async function saveGoogleLoginTokens(
 			return undefined
 		}
 
+		let isNewUser = false
 		if (_.isNull(googleUser)) {
 			googleUser = await addNonLocalUserToDB(email, firstName, lastName, "Google", primaryDevicePlatform, notificationToken)
 			isNewUser = true

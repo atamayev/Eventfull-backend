@@ -27,14 +27,7 @@ declare global {
 		username: string
 	}
 
-	interface RegisterInformationObject {
-		contact: string
-		firstName: string
-		lastName: string
-		username: string
-		password: string
-		notificationToken: string
-		primaryDevicePlatform: DevicePlatforms
+	interface RegisterInformationObject extends LoginInformationObject extends CloudUserRegisterInformationObject{
 		contactType: EmailOrPhone
 	}
 
@@ -54,8 +47,8 @@ declare global {
 		primaryContactMethod: EmailOrPhone
 		email?: string
 		phoneNumber?: string
-		isEmailVerified?: boolean
-		isPhoneVerified?: boolean
+		isEmailVerified?: false
+		isPhoneVerified?: false
 	}
 
 	interface NewCloudUserFields extends NewUserFields {

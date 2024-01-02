@@ -43,6 +43,8 @@ export async function addLocalUser(
 		userFields.androidEndpointArn = endpointArn
 	} else if (primaryDevicePlatform === "ios") {
 		userFields.iosEndpointArn = endpointArn
+	} else {
+		throw new Error(`Platform ${primaryDevicePlatform} is not supported`)
 	}
 
 	const newUser = await UserModel.create(userFields)
