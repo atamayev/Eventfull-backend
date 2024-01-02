@@ -18,7 +18,7 @@ export default new class NotificationHelper {
 					console.info("Friend does not have a notification token (or friend isn't logged in).")
 					return
 				}
-				const endpointArn = getUserArn(friend.primaryDevicePlatform, friend)
+				const endpointArn = getUserArn(friend)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
 				const message = returnCorrectMessageType(friend.primaryDevicePlatform, user.username || "User")

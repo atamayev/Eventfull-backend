@@ -33,8 +33,8 @@ declare global {
 		calendarData: UnifiedCalendarEvent[]
 		eventfullEvents: EventfullCalendarEvent[]
 		colorTheme: "Light" | "Dark" | "System Default"
-		androidEndpointArn?: string
 		iosEndpointArn?: string
+		androidEndpointArn?: string
 
 		googleLoginAccessToken?: string
 		googleLoginRefreshToken?: string

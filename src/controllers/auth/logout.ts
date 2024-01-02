@@ -10,7 +10,7 @@ export default async function logout (req: Request, res: Response): Promise<Resp
 	// Then, when the user logs out, delete that UUID from the database
 	try {
 		const user = req.user
-		const userArn = getUserArn(user.primaryDevicePlatform, user)
+		const userArn = getUserArn(user)
 		if (!_.isUndefined(userArn)) await AwsSnsService.getInstance().deletePlatformEndpoint(userArn)
 		await UserModel.findByIdAndUpdate(user._id,
 			{
