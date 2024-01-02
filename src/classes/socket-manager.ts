@@ -3,14 +3,19 @@ import { Types } from "mongoose"
 import { Server as SocketIOServer, Socket } from "socket.io"
 
 export default class SocketManager {
-	private _io: SocketIOServer
-	private _userConnections: Map<string, UserConnectionInfo>
+	private _userConnections: Map<string, UserConnectionInfo> = new Map<string, UserConnectionInfo>()
 	private static _instance: SocketManager | null = null
 
-	constructor(io: SocketIOServer) {
-		this._io = io
-		this._userConnections = new Map<string, UserConnectionInfo>()
+	constructor(private readonly io: SocketIOServer) {
 		this.initializeListeners()
+	}
+
+	get userConnections(): Map<string, UserConnectionInfo> {
+		return this._userConnections
+	}
+
+	set userConnections(value: Map<string, UserConnectionInfo>) {
+		this._userConnections = value
 	}
 
 	public static assignIo(io: SocketIOServer): void {
@@ -30,7 +35,7 @@ export default class SocketManager {
 
 	private initializeListeners(): void {
 		// This connection socket endpoint is hit whenever the user logs in or opens the app
-		this._io.on("connection", (socket: Socket) => {
+		this.io.on("connection", (socket: Socket) => {
 			this.handleConnection(socket)
 		})
 	}
@@ -46,45 +51,45 @@ export default class SocketManager {
 	}
 
 	private handleEstablishConnection(userId: Types.ObjectId, socket: Socket): void {
-		this._userConnections.set(_.toString(userId), { socketId: socket.id, status: "active"})
-		this._io.to(_.toString(userId)).emit("connected")
+		this.userConnections.set(_.toString(userId), { socketId: socket.id, status: "active"})
+		this.io.to(_.toString(userId)).emit("connected")
 	}
 
 	public isUserOnline(userId: Types.ObjectId): boolean {
-		return this._userConnections.has(_.toString(userId))
+		return this.userConnections.has(_.toString(userId))
 	}
 
 	public setUserStatus(userId: Types.ObjectId, status: AppStates): void {
-		const userConnection = this._userConnections.get(_.toString(userId))
+		const userConnection = this.userConnections.get(_.toString(userId))
 		if (_.isUndefined(userConnection)) return
 
 		userConnection.status = status
-		this._userConnections.set(_.toString(userId), userConnection)
+		this.userConnections.set(_.toString(userId), userConnection)
 	}
 
 	public isUserActive(userId: Types.ObjectId): boolean {
-		const userConnection = this._userConnections.get(_.toString(userId))
+		const userConnection = this.userConnections.get(_.toString(userId))
 		return userConnection ? userConnection.status === "active" : false
 	}
 
 	public handleSendFriendRequest(data: { fromUser: User, toUserId: Types.ObjectId }): void {
-		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))?.socketId
+		const receiverSocketId = this.userConnections.get(_.toString(data.toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
 			console.info(`User ${data.toUserId} is not online`)
 			return
 		}
-		this._io.to(receiverSocketId).emit(
+		this.io.to(receiverSocketId).emit(
 			"friend-request", { fromUserId: _.toString(data.fromUser._id), fromUsername: data.fromUser.username }
 		)
 	}
 
 	public handleRetractFriendRequest(data: { fromUserId: Types.ObjectId, toUserId: Types.ObjectId }): void {
-		const receiverSocketId = this._userConnections.get(_.toString(data.toUserId))?.socketId
+		const receiverSocketId = this.userConnections.get(_.toString(data.toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
 			console.info(`User ${data.toUserId} is not online`)
 			return
 		}
-		this._io.to(receiverSocketId).emit(
+		this.io.to(receiverSocketId).emit(
 			"remove-friend-request", { fromUserId: _.toString(data.fromUserId) }
 		)
 	}
@@ -92,8 +97,8 @@ export default class SocketManager {
 	private handleDisconnect(socket: Socket): void {
 		const userId = socket.userId
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (userId && this._userConnections.has(_.toString(userId))) {
-			this._userConnections.delete(_.toString(userId))
+		if (userId && this.userConnections.has(_.toString(userId))) {
+			this.userConnections.delete(_.toString(userId))
 		}
 	}
 }
