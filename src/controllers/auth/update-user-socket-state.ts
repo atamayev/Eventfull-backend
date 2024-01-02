@@ -4,7 +4,7 @@ import SocketManager from "../../classes/socket-manager"
 export default function updateUserSocketState(req: Request, res: Response): Response {
 	try {
 		const user = req.user
-		const { appState } = req.body as { appState: AppStates }
+		const appState = req.body.appState as AppStates
 		const socketManager = SocketManager.getInstance()
 		socketManager.setUserStatus(user._id, appState)
 
