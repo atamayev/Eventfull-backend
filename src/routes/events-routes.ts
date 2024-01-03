@@ -14,7 +14,7 @@ import confirmEventIsPublic from "../middleware/events/confirm-event-is-public"
 import confirmEventIsInviteable from "../middleware/events/confirm-event-is-inviteable"
 import checkIfEventCapacityFull from "../middleware/events/check-if-event-capacity-full"
 import confirmAbleToInviteFriend from "../middleware/events/confirm-able-to-invite-friend"
-import confirmUsersAreFriends from "../middleware/social/friend/confirm-users-are-friends"
+import confirmNotInvitingThemselves from "../middleware/events/confirm-not-inviting-themselves"
 import confirmInvitedUserHasNotResponded from "../middleware/events/confirm-invited-user-has-not-responded"
 import checkIfUserAttendingEventfullEvent from "../middleware/events/check-if-user-attending-eventfull-event"
 import confirmUserIsEventOrganizerOrCohost from "../middleware/events/confirm-user-is-event-organizer-or-cohost"
@@ -33,6 +33,7 @@ import removePinnedEventfullEvent from "../controllers/events/remove-pinned-even
 import inviteFriendToEventfullEvent from "../controllers/events/invite-friend-to-eventfull-event"
 import retractInviteToEventfullEvent from "../controllers/events/retract-invite-to-eventfull-event"
 import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
+import confirmUsersAreFriends from "../middleware/social/friend/confirm-users-are-friends"
 
 const eventsRoutes = express.Router()
 
@@ -56,6 +57,7 @@ eventsRoutes.post(
 	confirmEventIsActive,
 	attachEventOrganizerToRequest,
 	confirmEventOrganizerNotBlockingFriend,
+	confirmNotInvitingThemselves,
 	confirmUsersAreFriends,
 	confirmInviterIsAlreadyInvitedOrHost,
 	confirmAbleToInviteFriend,

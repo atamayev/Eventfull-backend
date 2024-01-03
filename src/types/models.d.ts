@@ -57,6 +57,7 @@ declare global {
 		incomingFriendRequests: Types.ObjectId[]
 		blockedUsers: Types.ObjectId[]
 		blockedByUsers: Types.ObjectId[]
+		chats: Types.ObjectId[]
 
 		isPhoneVerified?: boolean
 		phoneVerificationCode?: string
@@ -133,6 +134,26 @@ declare global {
 		invitees: Types.ObjectId[]
 		coHosts: Types.ObjectId[]
 		eventCapacity?: number
+	}
+
+	interface Chat extends IDInterface {
+		participants: Types.ObjectId[]
+		createdAt: Date
+		updatedAt: Date
+		lastMessage: {
+			messageId: Types.ObjectId
+			text: string
+			sender: Types.ObjectId
+			createdAt: Date
+		} | null
+	}
+
+	interface Message extends IDInterface {
+		chatId: Types.ObjectId
+		senderId: Types.ObjectId
+		text: string
+		createdAt: Date
+		readBy: Types.ObjectId[]
 	}
 }
 

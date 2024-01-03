@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import areUsersFriends from "../../../utils/social/friend/are-users-friends"
 
-export default function checkIfUsersAreFriends (req: Request, res: Response, next: NextFunction): void | Response {
+export default function confirmUsersAreNotFriends (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
 		const friend = req.friend

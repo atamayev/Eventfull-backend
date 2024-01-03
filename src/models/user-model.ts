@@ -83,7 +83,11 @@ const userSchema = new Schema<User>({
 	blockedByUsers: {
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
-	}
+	},
+	chats: {
+		type: [{ type: Schema.Types.ObjectId, ref: "Chat" }],
+		required: true
+	},
 }, {
 	timestamps: true
 })
