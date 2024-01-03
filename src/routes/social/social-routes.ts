@@ -5,6 +5,7 @@ import validateBlockedUserId from "../../middleware/request-validation/social/va
 import validateUnblockedUserId from "../../middleware/request-validation/social/validate-unblocked-user-id"
 import validateResponseToFriendRequest from "../../middleware/request-validation/social/validate-response-to-friend-request"
 
+import confirmUsersAreFriends from "../../middleware/social/friend/confirm-users-are-friends"
 import confirmUsersAreNotFriends from "../../middleware/social/friend/confirm-users-are-not-friends"
 import confirmUserHasntBlockedFriend from "../../middleware/social/friend/confirm-user-hasnt-blocked-friend"
 import confirmFriendHasntBlockedUser from "../../middleware/social/friend/confirm-friend-hasnt-blocked-user"
@@ -22,8 +23,6 @@ import respondToFriendRequest from "../../controllers/social/respond-to-friend-r
 import listIncomingFriendRequests from "../../controllers/social/list-incoming-friend-requests"
 import listOutgoingFriendRequests from "../../controllers/social/list-outgoing-friend-requests"
 import chatSocialRoutes from "./chat-social-routes"
-import jwtVerify from "../../middleware/jwt/jwt-verify"
-import confirmUsersAreFriends from "../../middleware/social/friend/confirm-users-are-friends"
 
 const socialRoutes = express.Router()
 
@@ -59,6 +58,6 @@ socialRoutes.post(
 )
 socialRoutes.post("/unblock-another-user", validateUnblockedUserId, checkIfUnblockedUserBlockedUser, unblockAnotherUser)
 
-socialRoutes.use("/social", jwtVerify, chatSocialRoutes)
+socialRoutes.use("/social", chatSocialRoutes)
 
 export default socialRoutes
