@@ -24,7 +24,6 @@ import checkIfContactExists from "../../controllers/auth/check-if-contact-exists
 import addCloudUserPersonalInfo from "../../controllers/auth/add-cloud-user-personal-info"
 import addSecondaryContactMethod from "../../controllers/auth/add-secondary-contact-method"
 
-
 import googleAuthRoutes from "./google-auth-routes"
 import microsoftAuthRoutes from "./microsoft-auth-routes"
 import twilioAuthRoutes from "./twilio-auth-routes"
@@ -47,6 +46,6 @@ authRoutes.post("/update-user-socket-state", jwtVerify, validateUserSocketState,
 
 authRoutes.use("/google-auth", googleAuthRoutes)
 authRoutes.use("/microsoft-auth", microsoftAuthRoutes)
-authRoutes.use("/twilio-auth", twilioAuthRoutes)
+authRoutes.use("/twilio-auth", jwtVerify, twilioAuthRoutes)
 
 export default authRoutes

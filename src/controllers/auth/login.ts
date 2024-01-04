@@ -9,7 +9,9 @@ import fetchLoginUserData from "../../utils/auth-helpers/fetch-login-user-data"
 import setUserContact from "../../utils/set-user-contact"
 import createAndSignJWT from "../../utils/auth-helpers/jwt/create-and-sign-jwt"
 import updateArn from "../../utils/auth-helpers/aws/update-arn"
+import isUserContactVerified from "../../utils/is-user-contact-verified"
 
+// eslint-disable-next-line max-lines-per-function
 export default async function login (req: Request, res: Response): Promise<Response> {
 	try {
 		const { contact, password, notificationToken, primaryDevicePlatform } = req.body.loginInformationObject as LoginInformationObject
@@ -39,6 +41,8 @@ export default async function login (req: Request, res: Response): Promise<Respo
 
 		const { friends, incomingFriendRequests, outgoingFriendRequests, blockedUsers } = await fetchLoginUserData(user)
 
+		const isContactVerified = isUserContactVerified(primaryContact, user)
+
 		return res.status(200).json({
 			authenticated: true,
 			accessToken: token,
@@ -52,6 +56,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 			incomingFriendRequests,
 			outgoingFriendRequests,
 			blockedUsers,
+			isContactVerified
 		})
 	} catch (error) {
 		console.error(error)
