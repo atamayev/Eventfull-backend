@@ -18,10 +18,8 @@ export default async function confirmDirectMessageChatDoesntExist (
 		})
 
 		if (!_.isNull(chat)) {
-			if (!_.isEmpty(friend.username)) {
-				return res.status(400).json({ message: `You already have a direct message chat with ${friend.username}` })
-			}
-			return res.status(400).json({ message: "You already have a direct message chat with this user" })
+			const username = friend.username || "this user"
+			return res.status(400).json({ message: `You already have a direct message chat with ${username}` })
 		}
 
 		next()
