@@ -11,6 +11,7 @@ import confirmDirectMessageChatDoesntExist from "../../middleware/social/chat/co
 
 import sendDirectMessage from "../../controllers/social/chat/send-direct-message"
 import createDirectMessageChat from "../../controllers/social/chat/create-direct-mesage-chat"
+import retrieveDirectMessageChats from "../../controllers/social/chat/retrieve-direct-message-chats"
 
 const chatSocialRoutes = express.Router()
 
@@ -34,5 +35,7 @@ chatSocialRoutes.post(
 	confirmUsersAreFriends,
 	sendDirectMessage
 )
+
+chatSocialRoutes.get("/retrieve-direct-message-chats", retrieveDirectMessageChats)
 
 export default chatSocialRoutes
