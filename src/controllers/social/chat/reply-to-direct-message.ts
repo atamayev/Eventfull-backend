@@ -3,27 +3,31 @@ import { Request, Response } from "express"
 import DirectMessageModel from "../../../models/chat/direct-message-model"
 import DirectMessageChatModel from "../../../models/chat/direct-message-chat-model"
 
-interface ChatData {
+interface ReplyToChatData {
     chatId?: Types.ObjectId
     senderId: Types.ObjectId
     text: string
 	messageId?: Types.ObjectId
+	replyTo?: Types.ObjectId
 }
 
-export default async function sendDirectMessage(req: Request, res: Response): Promise<Response> {
+export default async function replyToDirectMessage(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
+		const directMessageReplyingTo = req.directMessage
 		const chat = req.directMessageChat
 		const message = req.body.message as string
 
-		const data: ChatData = {
+		const data: ReplyToChatData = {
 			chatId: chat._id,
 			senderId: user._id,
-			text: message
+			text: message,
+			replyTo: directMessageReplyingTo._id
 		}
 		const directMessage = await DirectMessageModel.create(data)
 
 		delete data.chatId
+		delete data.replyTo
 		data.messageId = directMessage._id
 		await DirectMessageChatModel.findByIdAndUpdate(
 			chat._id,

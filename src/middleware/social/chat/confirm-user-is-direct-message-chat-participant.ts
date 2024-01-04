@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 
-export default function confirmUserIsChatParticipant (req: Request, res: Response, next: NextFunction): void | Response {
+export default function confirmUserIsDirectMessageChatParticipant (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
 		const chat = req.directMessageChat

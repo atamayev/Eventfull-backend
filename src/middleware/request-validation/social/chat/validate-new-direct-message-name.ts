@@ -3,10 +3,10 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
 const directMessageSchema = Joi.object({
-	message: Joi.string().min(1).max(1000).required(),
+	newDirectMessageChatName: Joi.string().min(1).max(200).required()
 }).unknown(true)
 
-export default function validateDirectMessage (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateNewDirectMessageName (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const { error } = directMessageSchema.validate(req.body)
 
@@ -15,6 +15,6 @@ export default function validateDirectMessage (req: Request, res: Response, next
 		next()
 	} catch (error ) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Direct Message" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Direct Message Chat Id" })
 	}
 }

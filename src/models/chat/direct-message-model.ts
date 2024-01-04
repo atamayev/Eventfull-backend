@@ -5,7 +5,8 @@ const directMessageSchema = new Schema<DirectMessageWithChatId>({
 	senderId: { type: Schema.Types.ObjectId, ref: "User", required: true },
 	text: { type: String, trim: true, required: true },
 	readByOtherUser: { type: Boolean, default: false },
-	isTextEdited: { type: Boolean, default: false}
+	isTextEdited: { type: Boolean, default: false},
+	replyTo: { type: Schema.Types.ObjectId, ref: "DirectMessage", default: null },
 }, { timestamps: true })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

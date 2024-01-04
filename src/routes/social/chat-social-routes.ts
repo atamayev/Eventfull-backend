@@ -1,10 +1,10 @@
 import express from "express"
 
-import extractFriendFromChat from "../../middleware/social/chat/extrct-friend-from-chat"
+import extractFriendFromChat from "../../middleware/social/chat/extract-friend-from-chat"
 import validateFriendId from "../../middleware/request-validation/social/validate-friend-id"
 import confirmUsersAreFriends from "../../middleware/social/friend/confirm-users-are-friends"
 import validateDirectMessage from "../../middleware/request-validation/social/chat/validate-direct-message"
-import confirmUserIsChatParticipant from "../../middleware/social/chat/confirm-user-is-chat-participant"
+import confirmUserIsDirectMessageChatParticipant from "../../middleware/social/chat/confirm-user-is-direct-message-chat-participant"
 import confirmUserHasntBlockedFriend from "../../middleware/social/friend/confirm-user-hasnt-blocked-friend"
 import validateDirectMessageId from "../../middleware/request-validation/social/chat/validate-direct-message-id"
 import confirmMessageSentByOtherUser from "../../middleware/social/chat/confirm-message-sent-by-other-user"
@@ -21,6 +21,9 @@ import validateUpdatedMessageText from "../../middleware/request-validation/soci
 import updateDirectMessage from "../../controllers/social/chat/update-direct-message"
 import editDirectMessageChatName from "../../controllers/social/chat/edit-direct-message-chat-name"
 import validateDirectMessageChatId from "../../middleware/request-validation/social/chat/validate-direct-message-chat-id"
+import retrieveDirectMessagesFromChat from "../../controllers/social/chat/retrieve-direct-messages-from-chat"
+import validateNewDirectMessageName from "../../middleware/request-validation/social/chat/validate-new-direct-message-name"
+import replyToDirectMessage from "../../controllers/social/chat/reply-to-direct-message"
 
 const chatSocialRoutes = express.Router()
 
@@ -36,9 +39,10 @@ chatSocialRoutes.post(
 
 chatSocialRoutes.post(
 	"/send-direct-message",
+	validateDirectMessageChatId,
 	validateDirectMessage,
 	extractFriendFromChat,
-	confirmUserIsChatParticipant,
+	confirmUserIsDirectMessageChatParticipant,
 	confirmUserHasntBlockedFriend,
 	confirmFriendHasntBlockedUser,
 	confirmUsersAreFriends,
@@ -50,7 +54,7 @@ chatSocialRoutes.get("/retrieve-direct-message-chats", retrieveDirectMessageChat
 chatSocialRoutes.post(
 	"/mark-direct-message-as-read",
 	validateDirectMessageId,
-	confirmUserIsChatParticipant,
+	confirmUserIsDirectMessageChatParticipant,
 	confirmMessageSentByOtherUser,
 	confirmMessageNotAlreadyMarkedRead,
 	markDirectMessageAsRead
@@ -67,8 +71,29 @@ chatSocialRoutes.post(
 chatSocialRoutes.post(
 	"/edit-direct-message-chat-name",
 	validateDirectMessageChatId,
-	confirmUserIsChatParticipant,
+	validateNewDirectMessageName,
+	confirmUserIsDirectMessageChatParticipant,
 	editDirectMessageChatName
+)
+
+chatSocialRoutes.get(
+	"/retrieve-direct-messages-from-chat",
+	validateDirectMessageChatId,
+	confirmUserIsDirectMessageChatParticipant,
+	retrieveDirectMessagesFromChat
+)
+
+chatSocialRoutes.post(
+	"/reply-to-direct-message",
+	validateDirectMessageChatId,
+	validateDirectMessageId,
+	validateDirectMessage,
+	extractFriendFromChat,
+	confirmUserIsDirectMessageChatParticipant,
+	confirmUserHasntBlockedFriend,
+	confirmFriendHasntBlockedUser,
+	confirmUsersAreFriends,
+	replyToDirectMessage
 )
 
 export default chatSocialRoutes

@@ -7,8 +7,7 @@ import objectIdValidation from "../../../../utils/object-id-validation"
 
 const directMessageSchema = Joi.object({
 	chatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-	newDirectMessageChatName: Joi.string().min(1).max(200).required()
-}).required()
+}).unknown(true)
 
 export default async function validateDirectMessageChatId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
