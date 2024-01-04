@@ -6,12 +6,16 @@ import confirmUsersAreFriends from "../../middleware/social/friend/confirm-users
 import validateDirectMessage from "../../middleware/request-validation/social/validate-direct-message"
 import confirmUserIsChatParticipant from "../../middleware/social/chat/confirm-user-is-chat-participant"
 import confirmUserHasntBlockedFriend from "../../middleware/social/friend/confirm-user-hasnt-blocked-friend"
+import validateDirectMessageId from "../../middleware/request-validation/social/validate-direct-message-id"
+import confirmMessageSentByOtherUser from "../../middleware/social/chat/confirm-message-sent-by-other-user"
 import confirmFriendHasntBlockedUser from "../../middleware/social/friend/confirm-friend-hasnt-blocked-user"
 import confirmDirectMessageChatDoesntExist from "../../middleware/social/chat/confirm-direct-message-chat-doesnt-exist"
 
 import sendDirectMessage from "../../controllers/social/chat/send-direct-message"
 import createDirectMessageChat from "../../controllers/social/chat/create-direct-mesage-chat"
 import retrieveDirectMessageChats from "../../controllers/social/chat/retrieve-direct-message-chats"
+import markDirectMessageAsRead from "../../controllers/social/chat/mark-direct-message-as-read"
+import confirmMessageNotAlreadyMarkedRead from "../../middleware/social/chat/confirm-message-not-already-marked-read"
 
 const chatSocialRoutes = express.Router()
 
@@ -37,5 +41,14 @@ chatSocialRoutes.post(
 )
 
 chatSocialRoutes.get("/retrieve-direct-message-chats", retrieveDirectMessageChats)
+
+chatSocialRoutes.post(
+	"/mark-direct-message-as-read",
+	validateDirectMessageId,
+	confirmUserIsChatParticipant,
+	confirmMessageSentByOtherUser,
+	confirmMessageNotAlreadyMarkedRead,
+	markDirectMessageAsRead
+)
 
 export default chatSocialRoutes

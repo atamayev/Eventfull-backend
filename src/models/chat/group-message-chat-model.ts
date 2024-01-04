@@ -1,8 +1,10 @@
 import { Schema, model, Types } from "mongoose"
 
-const lastMessageSchema = new Schema<Message>({
+const lastMessageSchema = new Schema<GroupMessage>({
 	text: { type: String, trim: true },
 	senderId: { type: Schema.Types.ObjectId, ref: "User" },
+	isTextEdited: { type: Boolean, default: false },
+	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }] },
 }, { timestamps: true })
 
 const groupMessageChatSchema = new Schema<Chat>({
@@ -11,8 +13,6 @@ const groupMessageChatSchema = new Schema<Chat>({
 		required: true,
 		validate: [arrayLimit, "{PATH} exceeds the limit of 2"]
 	},
-	createdAt: { type: Date, required: true },
-	updatedAt: { type: Date, required: true },
 	isActive: { type: Boolean, default: true },
 	lastMessage: lastMessageSchema,
 }, { timestamps: true })

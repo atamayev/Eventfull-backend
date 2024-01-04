@@ -1,8 +1,11 @@
 import { Schema, model, Types } from "mongoose"
 
-const lastMessageSchema = new Schema<Message>({
+const lastMessageSchema = new Schema<DirectMessage>({
 	text: { type: String, trim: true },
 	senderId: { type: Schema.Types.ObjectId, ref: "User" },
+	isTextEdited: { type: Boolean, default: false },
+	readByOtherUser: { type: Boolean, default: false },
+	messageId: { type: Schema.Types.ObjectId, ref: "DirectMessage" }
 }, { timestamps: true })
 
 const directMessageChatSchema = new Schema<Chat>({
@@ -13,9 +16,7 @@ const directMessageChatSchema = new Schema<Chat>({
 	},
 	isActive: { type: Boolean, default: true },
 	lastMessage: lastMessageSchema,
-}, {
-	timestamps: true
-})
+}, { timestamps: true })
 
 function arrayLimit(val: Types.ObjectId[] | null | undefined): boolean {
 	return val ? val.length <= 2 : true

@@ -148,11 +148,26 @@ declare global {
 	interface Message extends IDInterface {
 		senderId: Types.ObjectId
 		text: string
+		isTextEdited: boolean
 		createdAt: Date
 		updatedAt: Date
 	}
 
-	interface MessageWithChatId extends Message {
+	interface DirectMessage extends Message {
+		readByOtherUser: boolean
+		messageId: Types.ObjectId
+	}
+
+	interface GroupMessage extends Message {
+		readBy: Types.ObjectId[]
+		messageId: Types.ObjectId
+	}
+
+	interface DirectMessageWithChatId extends DirectMessage {
+		chatId: Types.ObjectId
+	}
+
+	interface GroupMessageWithChatId extends GroupMessage {
 		chatId: Types.ObjectId
 	}
 }

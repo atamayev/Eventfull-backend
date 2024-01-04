@@ -7,6 +7,7 @@ interface ChatData {
     chatId?: Types.ObjectId
     senderId: Types.ObjectId
     text: string
+	messageId?: Types.ObjectId
 }
 
 export default async function sendDirectMessage(req: Request, res: Response): Promise<Response> {
@@ -20,9 +21,10 @@ export default async function sendDirectMessage(req: Request, res: Response): Pr
 			senderId: user._id,
 			text: message
 		}
-		await DirectMessageModel.create(data)
+		const directMessage = await DirectMessageModel.create(data)
 
 		delete data.chatId
+		data.messageId = directMessage._id
 		await DirectMessageChatModel.findByIdAndUpdate(
 			chat._id,
 			{ $set:

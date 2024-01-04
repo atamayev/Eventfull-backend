@@ -4,6 +4,8 @@ declare global {
 			user: User
 
 			chat: Chat
+			directMessage: DirectMessageWithChatId
+
 			friend: User
 
 			blockedUser: User
