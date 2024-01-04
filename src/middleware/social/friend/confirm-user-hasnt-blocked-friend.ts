@@ -11,9 +11,9 @@ export default function confirmUserHasntBlockedFriend (req: Request, res: Respon
 
 		if (isOtherUserBlocked === true) {
 			if (_.isEmpty(friend.username)) {
-				return res.status(400).json({ message: "You have already blocked the other user" })
+				return res.status(400).json({ message: "You have blocked the other user" })
 			}
-			return res.status(400).json({ message: `${friend.username} is already blocked` })
+			return res.status(400).json({ message: `${friend.username} is blocked` })
 		}
 
 		next()
