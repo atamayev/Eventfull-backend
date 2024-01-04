@@ -1,9 +1,9 @@
 import express from "express"
 
-import directChatSocialRoutes from "./direct-chat-social-routes"
+import directMessagesRoutes from "./direct-messages-routes"
 
 const chatSocialRoutes = express.Router()
 
-chatSocialRoutes.use("/direct", directChatSocialRoutes)
+chatSocialRoutes.use("/direct", directMessagesRoutes)
 
 export default chatSocialRoutes

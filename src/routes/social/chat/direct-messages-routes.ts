@@ -25,9 +25,9 @@ import retrieveDirectMessagesFromChat from "../../../controllers/social/chat/ret
 import validateNewDirectMessageName from "../../../middleware/request-validation/social/chat/validate-new-direct-message-name"
 import replyToDirectMessage from "../../../controllers/social/chat/reply-to-direct-message"
 
-const directChatSocialRoutes = express.Router()
+const directMessagesRoutes = express.Router()
 
-directChatSocialRoutes.post(
+directMessagesRoutes.post(
 	"/create-message-chat",
 	validateFriendId,
 	confirmUserHasntBlockedFriend,
@@ -37,7 +37,7 @@ directChatSocialRoutes.post(
 	createDirectMessageChat
 )
 
-directChatSocialRoutes.post(
+directMessagesRoutes.post(
 	"/send-message",
 	validateDirectMessageChatId,
 	validateDirectMessage,
@@ -49,9 +49,9 @@ directChatSocialRoutes.post(
 	sendDirectMessage
 )
 
-directChatSocialRoutes.get("/retrieve-message-chats", retrieveDirectMessageChats)
+directMessagesRoutes.get("/retrieve-message-chats", retrieveDirectMessageChats)
 
-directChatSocialRoutes.post(
+directMessagesRoutes.post(
 	"/mark-message-as-read",
 	validateDirectMessageId,
 	confirmUserIsDirectMessageChatParticipant,
@@ -60,7 +60,7 @@ directChatSocialRoutes.post(
 	markDirectMessageAsRead
 )
 
-directChatSocialRoutes.post(
+directMessagesRoutes.post(
 	"/update-message",
 	validateDirectMessageId,
 	validateUpdatedMessageText,
@@ -68,7 +68,7 @@ directChatSocialRoutes.post(
 	updateDirectMessage
 )
 
-directChatSocialRoutes.post(
+directMessagesRoutes.post(
 	"/edit-message-chat-name",
 	validateDirectMessageChatId,
 	validateNewDirectMessageName,
@@ -76,14 +76,14 @@ directChatSocialRoutes.post(
 	editDirectMessageChatName
 )
 
-directChatSocialRoutes.get(
+directMessagesRoutes.get(
 	"/retrieve-messages-from-chat",
 	validateDirectMessageChatId,
 	confirmUserIsDirectMessageChatParticipant,
 	retrieveDirectMessagesFromChat
 )
 
-directChatSocialRoutes.post(
+directMessagesRoutes.post(
 	"/reply-to-message",
 	validateDirectMessageChatId,
 	validateDirectMessageId,
@@ -96,4 +96,4 @@ directChatSocialRoutes.post(
 	replyToDirectMessage
 )
 
-export default directChatSocialRoutes
+export default directMessagesRoutes
