@@ -11,19 +11,19 @@ import confirmMessageSentByOtherUser from "../../../middleware/social/chat/confi
 import confirmFriendHasntBlockedUser from "../../../middleware/social/friend/confirm-friend-hasnt-blocked-user"
 import confirmDirectMessageChatDoesntExist from "../../../middleware/social/chat/confirm-direct-message-chat-doesnt-exist"
 
-import sendDirectMessage from "../../../controllers/social/chat/send-direct-message"
-import createDirectMessageChat from "../../../controllers/social/chat/create-direct-mesage-chat"
-import retrieveDirectMessageChats from "../../../controllers/social/chat/retrieve-direct-message-chats"
-import markDirectMessageAsRead from "../../../controllers/social/chat/mark-direct-message-as-read"
+import sendDirectMessage from "../../../controllers/social/chat/direct/send-direct-message"
+import createDirectMessageChat from "../../../controllers/social/chat/direct/create-direct-mesage-chat"
+import retrieveDirectMessageChats from "../../../controllers/social/chat/direct/retrieve-direct-message-chats"
+import markDirectMessageAsRead from "../../../controllers/social/chat/direct/mark-direct-message-as-read"
 import confirmMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/confirm-message-not-already-marked-read"
 import confirmMessageSentByUser from "../../../middleware/social/chat/confirm-message-sent-by-user"
 import validateUpdatedMessageText from "../../../middleware/request-validation/social/chat/validate-updated-message-text"
-import updateDirectMessage from "../../../controllers/social/chat/update-direct-message"
-import editDirectMessageChatName from "../../../controllers/social/chat/edit-direct-message-chat-name"
+import updateDirectMessage from "../../../controllers/social/chat/direct/update-direct-message"
+import editDirectMessageChatName from "../../../controllers/social/chat/direct/edit-direct-message-chat-name"
 import validateDirectMessageChatId from "../../../middleware/request-validation/social/chat/validate-direct-message-chat-id"
-import retrieveDirectMessagesFromChat from "../../../controllers/social/chat/retrieve-direct-messages-from-chat"
+import retrieveDirectMessagesFromChat from "../../../controllers/social/chat/direct/retrieve-direct-messages-from-chat"
 import validateNewDirectMessageName from "../../../middleware/request-validation/social/chat/validate-new-direct-message-name"
-import replyToDirectMessage from "../../../controllers/social/chat/reply-to-direct-message"
+import replyToDirectMessage from "../../../controllers/social/chat/direct/reply-to-direct-message"
 
 const directMessagesRoutes = express.Router()
 

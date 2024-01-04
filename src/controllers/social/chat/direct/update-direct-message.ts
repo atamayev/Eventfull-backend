@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import DirectMessageModel from "../../../models/chat/direct-message-model"
-import DirectMessageChatModel from "../../../models/chat/direct-message-chat-model"
+import DirectMessageModel from "../../../../models/chat/direct-message-model"
+import DirectMessageChatModel from "../../../../models/chat/direct-message-chat-model"
 
 export default async function updateDirectMessage(req: Request, res: Response): Promise<Response> {
 	try {

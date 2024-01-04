@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import DirectMessageModel from "../../../models/chat/direct-message-model"
+import DirectMessageModel from "../../../../models/chat/direct-message-model"
 
 export default async function retrieveDirectMessagesFromChat(req: Request, res: Response): Promise<Response> {
 	try {
