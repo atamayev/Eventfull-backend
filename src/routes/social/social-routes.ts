@@ -58,6 +58,6 @@ socialRoutes.post(
 )
 socialRoutes.post("/unblock-another-user", validateUnblockedUserId, checkIfUnblockedUserBlockedUser, unblockAnotherUser)
 
-socialRoutes.use("/social", chatSocialRoutes)
+socialRoutes.use("/chat", chatSocialRoutes)
 
 export default socialRoutes

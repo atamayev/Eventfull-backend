@@ -148,6 +148,13 @@ declare global {
 		} | null
 	}
 
+	interface LastMessage extends IDInterface {
+		messageId: Types.ObjectId
+		text: string
+		sender: Types.ObjectId
+		createdAt: Date
+	}
+
 	interface Message extends IDInterface {
 		chatId: Types.ObjectId
 		senderId: Types.ObjectId
