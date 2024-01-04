@@ -1,13 +1,11 @@
 import { Schema, model, Types } from "mongoose"
 
-const lastMessageSchema = new Schema({
-	messageId: { type: Schema.Types.ObjectId, ref: "Message" },
+const lastMessageSchema = new Schema<Message>({
 	text: { type: String, trim: true },
-	sender: { type: Schema.Types.ObjectId, ref: "User" },
-	createdAt: { type: Date, required: true },
-})
+	senderId: { type: Schema.Types.ObjectId, ref: "User" },
+}, { timestamps: true })
 
-const directMessageChatSchema = new Schema<Chat>({
+const groupMessageChatSchema = new Schema<Chat>({
 	participants: {
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true,
@@ -15,14 +13,16 @@ const directMessageChatSchema = new Schema<Chat>({
 	},
 	createdAt: { type: Date, required: true },
 	updatedAt: { type: Date, required: true },
+	isActive: { type: Boolean, default: true },
 	lastMessage: lastMessageSchema,
-})
+}, { timestamps: true })
 
 function arrayLimit(val: Types.ObjectId[] | null | undefined): boolean {
-	return val ? val.length <= 2 : true
+	// Ensure the array has more than 2 participants
+	return val ? val.length > 2 : false
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const DirectMessageChatModel = model("DirectMessageChat", directMessageChatSchema, "direct-message-chats")
+const GroupMessageChatModel = model("GroupMessageChat", groupMessageChatSchema, "group-message-chats")
 
-export default DirectMessageChatModel
+export default GroupMessageChatModel

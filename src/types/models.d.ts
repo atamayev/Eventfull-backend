@@ -57,7 +57,8 @@ declare global {
 		incomingFriendRequests: Types.ObjectId[]
 		blockedUsers: Types.ObjectId[]
 		blockedByUsers: Types.ObjectId[]
-		chats: Types.ObjectId[]
+		directMessageChats: Types.ObjectId[]
+		groupMessageChats: Types.ObjectId[]
 
 		isPhoneVerified?: boolean
 		phoneVerificationCode?: string
@@ -140,27 +141,19 @@ declare global {
 		participants: Types.ObjectId[]
 		createdAt: Date
 		updatedAt: Date
-		lastMessage: {
-			messageId: Types.ObjectId
-			text: string
-			sender: Types.ObjectId
-			createdAt: Date
-		} | null
-	}
-
-	interface LastMessage extends IDInterface {
-		messageId: Types.ObjectId
-		text: string
-		sender: Types.ObjectId
-		createdAt: Date
+		isActive: boolean
+		lastMessage: MessageWithChatId | null
 	}
 
 	interface Message extends IDInterface {
-		chatId: Types.ObjectId
 		senderId: Types.ObjectId
 		text: string
 		createdAt: Date
-		readBy: Types.ObjectId[]
+		updatedAt: Date
+	}
+
+	interface MessageWithChatId extends Message {
+		chatId: Types.ObjectId
 	}
 }
 

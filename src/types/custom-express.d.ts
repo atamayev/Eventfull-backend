@@ -3,6 +3,7 @@ declare global {
 		interface Request {
 			user: User
 
+			chat: Chat
 			friend: User
 
 			blockedUser: User

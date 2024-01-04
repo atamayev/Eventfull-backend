@@ -84,10 +84,14 @@ const userSchema = new Schema<User>({
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
 	},
-	chats: {
-		type: [{ type: Schema.Types.ObjectId, ref: "Chat" }],
+	directMessageChats: {
+		type: [{ type: Schema.Types.ObjectId, ref: "DirectMessageChat" }],
 		required: true
 	},
+	groupMessageChats: {
+		type: [{ type: Schema.Types.ObjectId, ref: "GroupMessageChat" }],
+		required: true
+	}
 }, {
 	timestamps: true
 })

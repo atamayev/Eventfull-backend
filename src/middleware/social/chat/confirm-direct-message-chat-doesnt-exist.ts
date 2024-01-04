@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import DirectMessageChatModel from "../../../models/direct-message-chat-model"
+import DirectMessageChatModel from "../../../models/chat/direct-message-chat-model"
 
 export default async function confirmDirectMessageChatDoesntExist (
 	req: Request,
