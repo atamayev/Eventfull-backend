@@ -3,7 +3,7 @@ declare global {
 		interface Request {
 			user: User
 
-			chat: Chat
+			directMessageChat: DirectMessageChat
 			directMessage: DirectMessageWithChatId
 
 			friend: User

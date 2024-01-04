@@ -13,7 +13,7 @@ interface ChatData {
 export default async function sendDirectMessage(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const chat = req.chat
+		const chat = req.directMessageChat
 		const message = req.body.message as string
 
 		const data: ChatData = {

@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express"
 export default function confirmUserIsChatParticipant (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
-		const chat = req.chat
+		const chat = req.directMessageChat
 
 		const isChatParticipant = chat.participants.some((participant) => participant.equals(user._id))
 		if (isChatParticipant === false) {

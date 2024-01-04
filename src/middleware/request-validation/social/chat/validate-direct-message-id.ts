@@ -2,13 +2,13 @@ import Joi from "joi"
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
-import objectIdValidation from "../../../utils/object-id-validation"
-import findDirectMessage from "../../../utils/find/find-direct-message"
-import findChat from "../../../utils/find/find-chat"
+import objectIdValidation from "../../../../utils/object-id-validation"
+import findDirectMessage from "../../../../utils/find/find-direct-message"
+import findDirectMessageChat from "../../../../utils/find/find-direct-message-chat"
 
 const directMessageSchema = Joi.object({
 	directMessageId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-}).required()
+}).unknown(true)
 
 export default async function validateDirectMessageId(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
@@ -24,11 +24,11 @@ export default async function validateDirectMessageId(req: Request, res: Respons
 
 		req.directMessage = directMessage
 
-		const chat = await findChat(directMessage.chatId)
+		const chat = await findDirectMessageChat(directMessage.chatId)
 
 		if (_.isNull(chat)) return res.status(400).json({ message: "Chat not found" })
 
-		req.chat = chat
+		req.directMessageChat = chat
 
 		next()
 	} catch (error ) {

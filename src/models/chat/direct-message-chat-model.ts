@@ -8,7 +8,7 @@ const lastMessageSchema = new Schema<DirectMessage>({
 	messageId: { type: Schema.Types.ObjectId, ref: "DirectMessage" }
 }, { timestamps: true })
 
-const directMessageChatSchema = new Schema<Chat>({
+const directMessageChatSchema = new Schema<DirectMessageChat>({
 	participants: {
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true,
