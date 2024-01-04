@@ -19,6 +19,8 @@ import confirmMessageNotAlreadyMarkedRead from "../../middleware/social/chat/con
 import confirmMessageSentByUser from "../../middleware/social/chat/confirm-message-sent-by-user"
 import validateUpdatedMessageText from "../../middleware/request-validation/social/chat/validate-updated-message-text"
 import updateDirectMessage from "../../controllers/social/chat/update-direct-message"
+import editDirectMessageChatName from "../../controllers/social/chat/edit-direct-message-chat-name"
+import validateDirectMessageChatId from "../../middleware/request-validation/social/chat/validate-direct-message-chat-id"
 
 const chatSocialRoutes = express.Router()
 
@@ -60,6 +62,13 @@ chatSocialRoutes.post(
 	validateUpdatedMessageText,
 	confirmMessageSentByUser,
 	updateDirectMessage
+)
+
+chatSocialRoutes.post(
+	"/edit-direct-message-chat-name",
+	validateDirectMessageChatId,
+	confirmUserIsChatParticipant,
+	editDirectMessageChatName
 )
 
 export default chatSocialRoutes

@@ -7,6 +7,16 @@ const loginHistorySchema = new Schema<LoginHistory>({
 	// device: { type: String }
 })
 
+const directMessagesSchema = new Schema<DirectMessages>({
+	directMessageChatId: { type: Schema.Types.ObjectId, ref: "DirectMessageChat", required: true },
+	chatName: { type: String, required: true }
+})
+
+const groupMessagesSchema = new Schema<GroupMessages>({
+	groupMessageChatId: { type: Schema.Types.ObjectId, ref: "GroupMessageChat", required: true },
+	chatName: { type: String, required: true }
+})
+
 const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 	eventId: { type: Schema.Types.ObjectId, ref: "EventfullEvent", required: true },
 	attendingStatus: { type: String, required: true, enum: ["Attending", "Not Attending", "Not Responded", "Hosting", "Co-Hosting"] },
@@ -84,14 +94,8 @@ const userSchema = new Schema<User>({
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
 	},
-	directMessageChats: {
-		type: [{ type: Schema.Types.ObjectId, ref: "DirectMessageChat" }],
-		required: true
-	},
-	groupMessageChats: {
-		type: [{ type: Schema.Types.ObjectId, ref: "GroupMessageChat" }],
-		required: true
-	}
+	directMessageChats: { type: [directMessagesSchema],	required: true },
+	groupMessageChats: { type: [groupMessagesSchema], required: true}
 }, {
 	timestamps: true
 })

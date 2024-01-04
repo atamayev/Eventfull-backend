@@ -5,9 +5,9 @@ import DirectMessageChatModel from "../../../models/chat/direct-message-chat-mod
 export default async function retrieveDirectMessageChats(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const directMessageChatIds = user.directMessageChats
+		const userDirectMessageChats = user.directMessageChats
 
-		if (_.isEmpty(directMessageChatIds)) {
+		if (_.isEmpty(userDirectMessageChats)) {
 			return res.status(200).json({ directMessageChats: [] })
 		}
 
