@@ -22,7 +22,7 @@ import retractFriendRequest from "../../controllers/social/retract-friend-reques
 import respondToFriendRequest from "../../controllers/social/respond-to-friend-request"
 import listIncomingFriendRequests from "../../controllers/social/list-incoming-friend-requests"
 import listOutgoingFriendRequests from "../../controllers/social/list-outgoing-friend-requests"
-import chatSocialRoutes from "./chat-social-routes"
+import chatSocialRoutes from "./chat/chat-social-routes"
 
 const socialRoutes = express.Router()
 
