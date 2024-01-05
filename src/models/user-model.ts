@@ -27,7 +27,7 @@ const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 
 const userSchema = new Schema<User>({
 	firstName: { type: String, trim: true, required: true },
-	lastName: { type: String, trim: true, required: true },
+	lastName: { type: String, trim: true },
 	authMethod: { type: String, required: true, trim: true, enum: ["Local", "Microsoft", "Google"] },
 	primaryContactMethod: { type: String, required: true, trim: true, enum: ["Email", "Phone"] },
 	primaryDevicePlatform: { type: String, required: true, trim: true, enum: ["ios", "android", "windows", "macos", "web"] },

@@ -3,12 +3,12 @@ import { Types } from "mongoose"
 declare global {
 	interface User extends IDInterface {
 		firstName: string
-		lastName: string
 		authMethod: AuthSources
 		primaryContactMethod: EmailOrPhone
 		primaryDevicePlatform: DevicePlatforms
 		createdAt: Date
 		updatedAt: Date
+		lastName?: string
 		notificationToken?: string
 		email?: string
 		phoneNumber?: string
