@@ -13,6 +13,10 @@ import confirmUserIsGroupMessageChatParticipant from "../../../middleware/social
 import sendGroupMessage from "../../../controllers/social/chat/group/send-group-message"
 import createGroupMessageChat from "../../../controllers/social/chat/group/create-group-message-chat"
 import retrieveGroupMessageChats from "../../../controllers/social/chat/group/retrieve-group-message-chats"
+import validateGroupMessageId from "../../../middleware/request-validation/social/chat/group/validate-group-message-id"
+import confirmGroupMessageSentByOtherUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-other-user"
+import confirmGroupMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
+import markGroupMessageAsRead from "../../../controllers/social/chat/group/mark-group-message-as-read"
 
 const groupMessagesRoutes = express.Router()
 
@@ -38,5 +42,14 @@ groupMessagesRoutes.post(
 )
 
 groupMessagesRoutes.get("/retrieve-chats-list", retrieveGroupMessageChats)
+
+groupMessagesRoutes.post(
+	"/mark-message-as-read",
+	validateGroupMessageId,
+	confirmUserIsGroupMessageChatParticipant,
+	confirmGroupMessageSentByOtherUser,
+	confirmGroupMessageNotAlreadyMarkedRead,
+	markGroupMessageAsRead
+)
 
 export default groupMessagesRoutes

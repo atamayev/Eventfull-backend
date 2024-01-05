@@ -3,13 +3,13 @@ import express from "express"
 import extractFriendFromChat from "../../../middleware/social/chat/direct/extract-friend-from-chat"
 import validateFriendId from "../../../middleware/request-validation/social/validate-friend-id"
 import confirmUsersAreFriends from "../../../middleware/social/friend/confirm-users-are-friends"
-import confirmMessageSentByUser from "../../../middleware/social/chat/direct/confirm-message-sent-by-user"
+import confirmDirectMessageSentByUser from "../../../middleware/social/chat/direct/confirm-direct-message-sent-by-user"
 import validateDirectMessage from "../../../middleware/request-validation/social/chat/direct/validate-direct-message"
-import confirmMessageSentByOtherUser from "../../../middleware/social/chat/direct/confirm-message-sent-by-other-user"
+import confirmDirectMessageSentByOtherUser from "../../../middleware/social/chat/direct/confirm-direct-message-sent-by-other-user"
 import confirmFriendHasntBlockedUser from "../../../middleware/social/friend/confirm-friend-hasnt-blocked-user"
 import confirmUserHasntBlockedFriend from "../../../middleware/social/friend/confirm-user-hasnt-blocked-friend"
 import validateDirectMessageId from "../../../middleware/request-validation/social/chat/direct/validate-direct-message-id"
-import confirmMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/direct/confirm-message-not-already-marked-read"
+import confirmDirectMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/direct/confirm-direct-message-not-already-marked-read"
 import validateUpdatedMessageText from "../../../middleware/request-validation/social/chat/validate-updated-message-text"
 import confirmDirectMessageChatDoesntExist from "../../../middleware/social/chat/direct/confirm-direct-message-chat-doesnt-exist"
 import validateDirectMessageChatId from "../../../middleware/request-validation/social/chat/direct/validate-direct-message-chat-id"
@@ -56,8 +56,8 @@ directMessagesRoutes.post(
 	"/mark-message-as-read",
 	validateDirectMessageId,
 	confirmUserIsDirectMessageChatParticipant,
-	confirmMessageSentByOtherUser,
-	confirmMessageNotAlreadyMarkedRead,
+	confirmDirectMessageSentByOtherUser,
+	confirmDirectMessageNotAlreadyMarkedRead,
 	markDirectMessageAsRead
 )
 
@@ -65,7 +65,7 @@ directMessagesRoutes.post(
 	"/update-message",
 	validateDirectMessageId,
 	validateUpdatedMessageText,
-	confirmMessageSentByUser,
+	confirmDirectMessageSentByUser,
 	updateDirectMessage
 )
 

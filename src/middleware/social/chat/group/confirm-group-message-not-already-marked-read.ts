@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from "express"
 
-export default function confirmMessageNotAlreadyMarkedRead(req: Request, res: Response, next: NextFunction): void | Response {
+export default function confirmGroupMessageNotAlreadyMarkedRead(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const directMessage = req.directMessage
+		const user = req.user
+		const groupMessage = req.groupMessage
 
-		if (directMessage.readByOtherUser === true) {
+		if (groupMessage.readBy.some(id => id.equals(user._id))) {
 			return res.status(400).json({ message: "Message already marked as read" })
 		}
 

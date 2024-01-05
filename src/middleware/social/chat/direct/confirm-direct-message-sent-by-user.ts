@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 
-export default function confirmMessageSentByUser(req: Request, res: Response, next: NextFunction): void | Response {
+export default function confirmDirectMessageSentByUser(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
 		const directMessage = req.directMessage
