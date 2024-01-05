@@ -9,14 +9,17 @@ import confirmUserIsFriendsWithEachFriend from "../../../middleware/social/chat/
 import validateGroupMessageChatId from "../../../middleware/request-validation/social/chat/group/validate-group-message-chat-id"
 import confirmFriendsHaveNotBlockedEachother from "../../../middleware/social/chat/group/confirm-friends-have-not-blocked-eachother"
 import confirmUserIsGroupMessageChatParticipant from "../../../middleware/social/chat/group/confirm-user-is-group-message-chat-participant"
+import validateGroupMessageId from "../../../middleware/request-validation/social/chat/group/validate-group-message-id"
+import confirmGroupMessageSentByOtherUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-other-user"
+import confirmGroupMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
+import validateUpdatedMessageText from "../../../middleware/request-validation/social/chat/validate-updated-message-text"
 
 import sendGroupMessage from "../../../controllers/social/chat/group/send-group-message"
 import createGroupMessageChat from "../../../controllers/social/chat/group/create-group-message-chat"
 import retrieveGroupMessageChats from "../../../controllers/social/chat/group/retrieve-group-message-chats"
-import validateGroupMessageId from "../../../middleware/request-validation/social/chat/group/validate-group-message-id"
-import confirmGroupMessageSentByOtherUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-other-user"
-import confirmGroupMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
 import markGroupMessageAsRead from "../../../controllers/social/chat/group/mark-group-message-as-read"
+import confirmGroupMessageSentByUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-user"
+import updateGroupMessage from "../../../controllers/social/chat/group/update-group-message"
 
 const groupMessagesRoutes = express.Router()
 
@@ -50,6 +53,14 @@ groupMessagesRoutes.post(
 	confirmGroupMessageSentByOtherUser,
 	confirmGroupMessageNotAlreadyMarkedRead,
 	markGroupMessageAsRead
+)
+
+groupMessagesRoutes.post(
+	"/update-message",
+	validateGroupMessageId,
+	validateUpdatedMessageText,
+	confirmGroupMessageSentByUser,
+	updateGroupMessage
 )
 
 export default groupMessagesRoutes
