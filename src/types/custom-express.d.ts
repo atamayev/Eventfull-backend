@@ -7,6 +7,7 @@ declare global {
 			directMessage: DirectMessageWithChatId
 
 			friend: User
+			friends: User[]
 
 			blockedUser: User
 
