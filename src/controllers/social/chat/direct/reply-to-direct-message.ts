@@ -7,7 +7,7 @@ interface ReplyToChatData {
     directMessageChatId?: Types.ObjectId
     senderId: Types.ObjectId
     text: string
-	messageId?: Types.ObjectId
+	directMessageId?: Types.ObjectId
 	replyTo?: Types.ObjectId
 }
 
@@ -28,7 +28,7 @@ export default async function replyToDirectMessage(req: Request, res: Response):
 
 		delete data.directMessageChatId
 		delete data.replyTo
-		data.messageId = directMessage._id
+		data.directMessageId = directMessage._id
 		await DirectMessageChatModel.findByIdAndUpdate(
 			directMessageChat._id,
 			{ $set:
