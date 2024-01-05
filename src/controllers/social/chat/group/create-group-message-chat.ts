@@ -10,7 +10,7 @@ export default async function createGroupMessageChat(req: Request, res: Response
 		const participantIds = friends.map(friend => friend._id)
 		participantIds.push(user._id)
 
-		const chatName = [user.username || user.firstName, ...friends.map(friend => friend.username || friend.firstName)].join(", ")
+		const userChatName = friends.map(friend => friend.username || friend.firstName).join(", ")
 
 		const groupMessageChat = await GroupMessageChatModel.create({
 			participants: participantIds,
@@ -21,18 +21,18 @@ export default async function createGroupMessageChat(req: Request, res: Response
 			$push: {
 				groupMessageChats: {
 					groupMessageChatId: groupMessageChat._id,
-					chatName: chatName
+					chatName: userChatName
 				}
 			},
 		})
 
-		await Promise.all(friends.map(async friend => {
-			const friendChatName = friends
+		await Promise.all(friends.map(friend => {
+			const friendChatName = [user.username || user.firstName, ...friends
 				.filter(f => f._id.toString() !== friend._id.toString())
 				.map(f => f.username || f.firstName)
-				.join(", ")
+			].join(", ")
 
-			await UserModel.findByIdAndUpdate(friend._id, {
+			return UserModel.findByIdAndUpdate(friend._id, {
 				$push: {
 					groupMessageChats: {
 						groupMessageChatId: groupMessageChat._id,
