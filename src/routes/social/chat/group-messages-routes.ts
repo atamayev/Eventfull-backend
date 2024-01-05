@@ -13,13 +13,16 @@ import validateGroupMessageId from "../../../middleware/request-validation/socia
 import confirmGroupMessageSentByOtherUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-other-user"
 import confirmGroupMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
 import validateUpdatedMessageText from "../../../middleware/request-validation/social/chat/validate-updated-message-text"
+import confirmGroupMessageSentByUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-user"
+import validateNewGroupMessageChatName
+	from "../../../middleware/request-validation/social/chat/direct/validate-new-direct-message-chat-name"
 
 import sendGroupMessage from "../../../controllers/social/chat/group/send-group-message"
-import createGroupMessageChat from "../../../controllers/social/chat/group/create-group-message-chat"
-import retrieveGroupMessageChats from "../../../controllers/social/chat/group/retrieve-group-message-chats"
-import markGroupMessageAsRead from "../../../controllers/social/chat/group/mark-group-message-as-read"
-import confirmGroupMessageSentByUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-user"
 import updateGroupMessage from "../../../controllers/social/chat/group/update-group-message"
+import createGroupChat from "../../../controllers/social/chat/group/create-group-chat"
+import markGroupMessageAsRead from "../../../controllers/social/chat/group/mark-group-message-as-read"
+import editGroupChatName from "../../../controllers/social/chat/group/edit-group-chat-name"
+import retrieveGroupChats from "../../../controllers/social/chat/group/retrieve-group-chats"
 
 const groupMessagesRoutes = express.Router()
 
@@ -30,7 +33,7 @@ groupMessagesRoutes.post(
 	confirmFriendsHaveNotBlockedEachother,
 	confirmUserIsFriendsWithEachFriend,
 	confirmGroupMessageChatDoesntExist,
-	createGroupMessageChat
+	createGroupChat
 )
 
 groupMessagesRoutes.post(
@@ -44,7 +47,7 @@ groupMessagesRoutes.post(
 	sendGroupMessage
 )
 
-groupMessagesRoutes.get("/retrieve-chats-list", retrieveGroupMessageChats)
+groupMessagesRoutes.get("/retrieve-chats-list", retrieveGroupChats)
 
 groupMessagesRoutes.post(
 	"/mark-message-as-read",
@@ -61,6 +64,14 @@ groupMessagesRoutes.post(
 	validateUpdatedMessageText,
 	confirmGroupMessageSentByUser,
 	updateGroupMessage
+)
+
+groupMessagesRoutes.post(
+	"/edit-chat-name",
+	validateGroupMessageChatId,
+	validateNewGroupMessageChatName,
+	confirmUserIsGroupMessageChatParticipant,
+	editGroupChatName
 )
 
 export default groupMessagesRoutes

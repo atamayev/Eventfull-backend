@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import UserModel from "../../../../models/user-model"
 import GroupMessageChatModel from "../../../../models/chat/group-message-chat-model"
 
-export default async function createGroupMessageChat(req: Request, res: Response): Promise<Response> {
+export default async function createGroupChat(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
 		const friends = req.friends

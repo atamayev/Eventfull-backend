@@ -3,10 +3,10 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
 const directMessageSchema = Joi.object({
-	newDirectMessageChatName: Joi.string().min(1).max(200).required()
+	newDirectChatName: Joi.string().min(1).max(200).required()
 }).unknown(true)
 
-export default function validateNewDirectMessageName (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateNewDirectMessageChatName (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const { error } = directMessageSchema.validate(req.body)
 

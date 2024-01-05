@@ -16,7 +16,7 @@ export default async function replyToDirectMessage(req: Request, res: Response):
 		const user = req.user
 		const directMessageReplyingTo = req.directMessage
 		const chat = req.directMessageChat
-		const message = req.body.message as string
+		const message = req.body.directMessage as string
 
 		const data: ReplyToChatData = {
 			chatId: chat._id,

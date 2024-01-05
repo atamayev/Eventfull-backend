@@ -6,7 +6,7 @@ import findDirectMessageChat from "../../../../../utils/find/find-direct-message
 import objectIdValidation from "../../../../../utils/object-id-validation"
 
 const directMessageSchema = Joi.object({
-	chatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
+	directMessageChatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 }).unknown(true)
 
 export default async function validateDirectMessageChatId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
@@ -15,11 +15,11 @@ export default async function validateDirectMessageChatId (req: Request, res: Re
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const chatId = new Types.ObjectId(req.body.chatId as string)
+		const directMessageChatId = new Types.ObjectId(req.body.directMessageChatId as string)
 
-		const chat = await findDirectMessageChat(chatId)
+		const chat = await findDirectMessageChat(directMessageChatId)
 
-		if (_.isNull(chat)) return res.status(400).json({ message: "Chat not found" })
+		if (_.isNull(chat)) return res.status(400).json({ message: "Direct Message Chat not found" })
 
 		req.directMessageChat = chat
 

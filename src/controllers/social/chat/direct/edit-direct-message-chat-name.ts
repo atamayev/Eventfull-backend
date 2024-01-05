@@ -5,13 +5,13 @@ export default async function editDirectMessageChatName(req: Request, res: Respo
 	try {
 		const user = req.user
 		const directMessageChat = req.directMessageChat
-		const newDirectMessageChatName = req.body.newDirectMessageChatName
+		const newDirectChatName = req.body.newDirectChatName
 
 		await UserModel.findByIdAndUpdate(
 			user._id,
 			{
 				$set: {
-					"directMessageChats.$[elem].chatName": newDirectMessageChatName
+					"directMessageChats.$[elem].chatName": newDirectChatName
 				}
 			},
 			{

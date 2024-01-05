@@ -14,7 +14,7 @@ export default async function sendDirectMessage(req: Request, res: Response): Pr
 	try {
 		const user = req.user
 		const chat = req.directMessageChat
-		const message = req.body.message as string
+		const message = req.body.directMessage as string
 
 		const data: ChatData = {
 			chatId: chat._id,

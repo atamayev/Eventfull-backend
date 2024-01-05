@@ -6,7 +6,7 @@ import findGroupMessageChat from "../../../../../utils/find/find-group-message-c
 import objectIdValidation from "../../../../../utils/object-id-validation"
 
 const groupMessageSchema = Joi.object({
-	chatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
+	groupMessageChatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 }).unknown(true)
 
 export default async function validateGroupMessageChatId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
@@ -15,11 +15,11 @@ export default async function validateGroupMessageChatId (req: Request, res: Res
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const chatId = new Types.ObjectId(req.body.chatId as string)
+		const groupMessageChatId = new Types.ObjectId(req.body.groupMessageChatId as string)
 
-		const chat = await findGroupMessageChat(chatId)
+		const chat = await findGroupMessageChat(groupMessageChatId)
 
-		if (_.isNull(chat)) return res.status(400).json({ message: "Chat not found" })
+		if (_.isNull(chat)) return res.status(400).json({ message: "Group Chat not found" })
 
 		req.groupMessageChat = chat
 

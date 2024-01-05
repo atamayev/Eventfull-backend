@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Request, Response } from "express"
 import GroupMessageChatModel from "../../../../models/chat/group-message-chat-model"
 
-export default async function retrieveGroupMessageChats(req: Request, res: Response): Promise<Response> {
+export default async function retrieveGroupChats(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
 		const userGroupMessageChats = user.groupMessageChats
