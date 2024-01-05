@@ -12,11 +12,9 @@ export default async function extractFriendsFromChat (req: Request, res: Respons
 			return res.status(400).json({ message: "Friends not found" })
 		}
 
-		// Find all friends using the friendIds
 		const friendPromises = friendIds.map(friendId => findUser(friendId))
 		const friends = await Promise.all(friendPromises)
 
-		// Check if any friend is not found (assuming findUser returns null if not found)
 		if (friends.some(friend => _.isNull(friend))) {
 			return res.status(400).json({ message: "One or more friends not found" })
 		}

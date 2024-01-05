@@ -12,6 +12,7 @@ import confirmUserIsGroupMessageChatParticipant from "../../../middleware/social
 
 import sendGroupMessage from "../../../controllers/social/chat/group/send-group-message"
 import createGroupMessageChat from "../../../controllers/social/chat/group/create-group-message-chat"
+import retrieveGroupMessageChats from "../../../controllers/social/chat/group/retrieve-group-message-chats"
 
 const groupMessagesRoutes = express.Router()
 
@@ -35,5 +36,7 @@ groupMessagesRoutes.post(
 	confirmFriendsHaveNotBlockedEachother,
 	sendGroupMessage
 )
+
+groupMessagesRoutes.get("/retrieve-chats-list", retrieveGroupMessageChats)
 
 export default groupMessagesRoutes

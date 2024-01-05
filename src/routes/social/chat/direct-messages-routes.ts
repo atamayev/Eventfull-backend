@@ -50,7 +50,7 @@ directMessagesRoutes.post(
 	sendDirectMessage
 )
 
-directMessagesRoutes.get("/retrieve-message-chats", retrieveDirectMessageChats)
+directMessagesRoutes.get("/retrieve-chats-list", retrieveDirectMessageChats)
 
 directMessagesRoutes.post(
 	"/mark-message-as-read",
