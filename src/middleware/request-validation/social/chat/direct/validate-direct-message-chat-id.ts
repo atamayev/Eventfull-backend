@@ -24,7 +24,7 @@ export default async function validateDirectMessageChatId (req: Request, res: Re
 		req.directMessageChat = directMessageChat
 
 		next()
-	} catch (error ) {
+	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Direct Message Chat Id" })
 	}

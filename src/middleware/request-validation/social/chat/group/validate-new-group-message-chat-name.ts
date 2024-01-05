@@ -13,7 +13,7 @@ export default function validateNewGroupChatName (req: Request, res: Response, n
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		next()
-	} catch (error ) {
+	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Group Message Chat Id" })
 	}

@@ -24,7 +24,6 @@ export default async function validateFriendIds (req: Request, res: Response, ne
 		)
 		const friends = await Promise.all(friendsPromises)
 
-		// Check for any null (not found) users
 		if (friends.some(friend => _.isNull(friend))) {
 			return res.status(400).json({ message: "One or more friends not found" })
 		}

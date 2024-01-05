@@ -24,7 +24,7 @@ export default async function validateGroupChatId (req: Request, res: Response, 
 		req.groupChat = groupChat
 
 		next()
-	} catch (error ) {
+	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Group Message Chat Id" })
 	}
