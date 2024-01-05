@@ -6,6 +6,9 @@ declare global {
 			directMessageChat: DirectMessageChat
 			directMessage: DirectMessageWithChatId
 
+			groupMessageChat: GroupMessageChat
+			groupMessage: GroupMessageWithChatId
+
 			friend: User
 			friends: User[]
 

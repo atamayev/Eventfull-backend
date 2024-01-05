@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import areUsersFriends from "../../../utils/social/friend/are-users-friends"
+import areUsersFriends from "../../../../utils/social/friend/are-users-friends"
 
 export default function confirmUserIsFriendsWithEachFriend (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

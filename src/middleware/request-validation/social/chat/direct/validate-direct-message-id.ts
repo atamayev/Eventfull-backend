@@ -2,9 +2,9 @@ import Joi from "joi"
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
-import objectIdValidation from "../../../../utils/object-id-validation"
-import findDirectMessage from "../../../../utils/find/find-direct-message"
-import findDirectMessageChat from "../../../../utils/find/find-direct-message-chat"
+import objectIdValidation from "../../../../../utils/object-id-validation"
+import findDirectMessage from "../../../../../utils/find/find-direct-message"
+import findDirectMessageChat from "../../../../../utils/find/find-direct-message-chat"
 
 const directMessageSchema = Joi.object({
 	directMessageId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),

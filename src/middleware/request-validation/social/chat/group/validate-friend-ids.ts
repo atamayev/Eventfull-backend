@@ -2,8 +2,8 @@ import Joi from "joi"
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
-import findUser from "../../../../utils/find/find-user"
-import objectIdValidation from "../../../../utils/object-id-validation"
+import findUser from "../../../../../utils/find/find-user"
+import objectIdValidation from "../../../../../utils/object-id-validation"
 
 const friendIdsSchema = Joi.object({
 	friendIds: Joi.array()

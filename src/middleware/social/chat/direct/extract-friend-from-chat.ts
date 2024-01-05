@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import findUser from "../../../utils/find/find-user"
+import findUser from "../../../../utils/find/find-user"
 
 export default async function extractFriendFromChat (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
