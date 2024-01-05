@@ -14,8 +14,8 @@ import confirmGroupMessageSentByOtherUser from "../../../middleware/social/chat/
 import confirmGroupMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
 import validateUpdatedMessageText from "../../../middleware/request-validation/social/chat/validate-updated-message-text"
 import confirmGroupMessageSentByUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-user"
-import validateNewGroupChatName
-	from "../../../middleware/request-validation/social/chat/group/validate-new-group-message-chat-name"
+import validateUpdatedGroupChatName
+	from "../../../middleware/request-validation/social/chat/group/validate-updated-group-message-chat-name"
 
 import sendGroupMessage from "../../../controllers/social/chat/group/send-group-message"
 import updateGroupMessage from "../../../controllers/social/chat/group/update-group-message"
@@ -71,7 +71,7 @@ groupMessagesRoutes.post(
 groupMessagesRoutes.post(
 	"/edit-chat-name",
 	validateGroupChatId,
-	validateNewGroupChatName,
+	validateUpdatedGroupChatName,
 	confirmUserIsGroupChatParticipant,
 	editGroupChatName
 )

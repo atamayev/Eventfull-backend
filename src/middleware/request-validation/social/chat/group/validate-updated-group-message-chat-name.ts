@@ -6,7 +6,7 @@ const groupMessageSchema = Joi.object({
 	updatedGroupChatName: Joi.string().min(1).max(200).required()
 }).unknown(true)
 
-export default function validateNewGroupChatName (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateUpdatedGroupChatName (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const { error } = groupMessageSchema.validate(req.body)
 

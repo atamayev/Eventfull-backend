@@ -6,7 +6,7 @@ const directMessageSchema = Joi.object({
 	updatedDirectMessageChatName: Joi.string().min(1).max(200).required()
 }).unknown(true)
 
-export default function validateNewDirectMessageChatName (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateUpdatedDirectMessageChatName (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const { error } = directMessageSchema.validate(req.body)
 

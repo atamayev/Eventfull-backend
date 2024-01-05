@@ -13,8 +13,8 @@ import confirmDirectMessageNotAlreadyMarkedRead from "../../../middleware/social
 import validateUpdatedMessageText from "../../../middleware/request-validation/social/chat/validate-updated-message-text"
 import confirmDirectMessageChatDoesntExist from "../../../middleware/social/chat/direct/confirm-direct-message-chat-doesnt-exist"
 import validateDirectMessageChatId from "../../../middleware/request-validation/social/chat/direct/validate-direct-message-chat-id"
-import validateNewDirectMessageChatName
-	from "../../../middleware/request-validation/social/chat/direct/validate-new-direct-message-chat-name"
+import validateUpdatedDirectMessageChatName
+	from "../../../middleware/request-validation/social/chat/direct/validate-updated-direct-message-chat-name"
 import confirmUserIsDirectMessageChatParticipant
 	from "../../../middleware/social/chat/direct/confirm-user-is-direct-message-chat-participant"
 
@@ -73,7 +73,7 @@ directMessagesRoutes.post(
 directMessagesRoutes.post(
 	"/edit-chat-name",
 	validateDirectMessageChatId,
-	validateNewDirectMessageChatName,
+	validateUpdatedDirectMessageChatName,
 	confirmUserIsDirectMessageChatParticipant,
 	editDirectMessageChatName
 )
