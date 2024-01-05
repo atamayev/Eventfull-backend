@@ -5,13 +5,13 @@ export default async function editGroupChatName(req: Request, res: Response): Pr
 	try {
 		const user = req.user
 		const groupChat = req.groupChat
-		const newGroupChatName = req.body.newGroupChatName
+		const updatedGroupChatName = req.body.updatedGroupChatName
 
 		await UserModel.findByIdAndUpdate(
 			user._id,
 			{
 				$set: {
-					"groupChats.$[elem].chatName": newGroupChatName
+					"groupChats.$[elem].chatName": updatedGroupChatName
 				}
 			},
 			{
@@ -20,7 +20,7 @@ export default async function editGroupChatName(req: Request, res: Response): Pr
 			}
 		)
 
-		return res.status(200).json({ success: `Group Chat name updated to: ${newGroupChatName}` })
+		return res.status(200).json({ success: `Group Chat name updated to: ${updatedGroupChatName}` })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Edit Chat Name" })

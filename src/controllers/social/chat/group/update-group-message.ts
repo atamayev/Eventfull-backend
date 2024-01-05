@@ -7,14 +7,14 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 	try {
 		const groupChat = req.groupChat
 		const oldGroupMessage = req.groupMessage
-		const newMessageText = req.body.newMessageText
+		const updatedMessageText = req.body.updatedMessageText
 
 		await GroupMessageModel.findByIdAndUpdate(
 			oldGroupMessage._id,
 			{ $set:
 				{
 					isTextEdited: true,
-					text: newMessageText,
+					text: updatedMessageText,
 					readBy: []
 				}
 			}
@@ -26,7 +26,7 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 			await GroupChatModel.findByIdAndUpdate(
 				groupChat._id,
 				{
-					"lastMessage.text": newMessageText,
+					"lastMessage.text": updatedMessageText,
 					"lastMessage.isTextEdited": true,
 					"lastMessage.readBy": [],
 				}

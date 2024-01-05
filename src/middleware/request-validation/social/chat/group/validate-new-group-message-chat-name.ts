@@ -3,7 +3,7 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
 const groupMessageSchema = Joi.object({
-	newGroupChatName: Joi.string().min(1).max(200).required()
+	updatedGroupChatName: Joi.string().min(1).max(200).required()
 }).unknown(true)
 
 export default function validateNewGroupChatName (req: Request, res: Response, next: NextFunction): void | Response {

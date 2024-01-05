@@ -7,14 +7,14 @@ export default async function updateDirectMessage(req: Request, res: Response): 
 	try {
 		const directMessageChat = req.directMessageChat
 		const oldDirectMessage = req.directMessage
-		const newMessageText = req.body.newMessageText
+		const updatedMessageText = req.body.updatedMessageText
 
 		await DirectMessageModel.findByIdAndUpdate(
 			oldDirectMessage._id,
 			{ $set:
 				{
 					isTextEdited: true,
-					text: newMessageText,
+					text: updatedMessageText,
 					readByOtherUser: false
 				}
 			}
@@ -26,7 +26,7 @@ export default async function updateDirectMessage(req: Request, res: Response): 
 			await DirectMessageChatModel.findByIdAndUpdate(
 				directMessageChat._id,
 				{
-					"lastMessage.text": newMessageText,
+					"lastMessage.text": updatedMessageText,
 					"lastMessage.isTextEdited": true,
 					"lastMessage.readByOtherUser": false,
 				}
