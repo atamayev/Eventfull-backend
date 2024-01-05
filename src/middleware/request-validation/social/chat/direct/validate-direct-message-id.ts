@@ -24,11 +24,11 @@ export default async function validateDirectMessageId(req: Request, res: Respons
 
 		req.directMessage = directMessage
 
-		const chat = await findDirectMessageChat(directMessage.directMessageChatId)
+		const directMessageChat = await findDirectMessageChat(directMessage.directMessageChatId)
 
-		if (_.isNull(chat)) return res.status(400).json({ message: "Chat not found" })
+		if (_.isNull(directMessageChat)) return res.status(400).json({ message: "Chat not found" })
 
-		req.directMessageChat = chat
+		req.directMessageChat = directMessageChat
 
 		next()
 	} catch (error ) {

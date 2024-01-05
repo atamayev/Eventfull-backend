@@ -17,11 +17,11 @@ export default async function validateDirectMessageChatId (req: Request, res: Re
 
 		const directMessageChatId = new Types.ObjectId(req.body.directMessageChatId as string)
 
-		const chat = await findDirectMessageChat(directMessageChatId)
+		const directMessageChat = await findDirectMessageChat(directMessageChatId)
 
-		if (_.isNull(chat)) return res.status(400).json({ message: "Direct Message Chat not found" })
+		if (_.isNull(directMessageChat)) return res.status(400).json({ message: "Direct Message Chat not found" })
 
-		req.directMessageChat = chat
+		req.directMessageChat = directMessageChat
 
 		next()
 	} catch (error ) {

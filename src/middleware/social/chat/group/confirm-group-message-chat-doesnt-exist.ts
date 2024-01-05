@@ -13,14 +13,14 @@ export default async function confirmGroupChatDoesntExist(
 
 		const participantIds = [user._id, ...friends.map(friend => friend._id)]
 
-		const chat = await GroupChatModel.findOne({
+		const groupChat = await GroupChatModel.findOne({
 			$and: [
 				{ participants: { $all: participantIds } },
 				{ participants: { $size: participantIds.length } }
 			]
 		})
 
-		if (!_.isNull(chat)) {
+		if (!_.isNull(groupChat)) {
 			return res.status(400).json({ message: "A group chat with these participants already exists" })
 		}
 

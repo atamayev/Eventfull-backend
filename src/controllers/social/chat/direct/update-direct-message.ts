@@ -5,7 +5,7 @@ import DirectMessageChatModel from "../../../../models/chat/direct/direct-messag
 
 export default async function updateDirectMessage(req: Request, res: Response): Promise<Response> {
 	try {
-		const chat = req.directMessageChat
+		const directMessageChat = req.directMessageChat
 		const oldDirectMessage = req.directMessage
 		const newMessageText = req.body.newMessageText
 
@@ -19,11 +19,11 @@ export default async function updateDirectMessage(req: Request, res: Response): 
 			}
 		)
 
-		if (_.isNull(chat.lastMessage)) return res.status(400).json( { message: "No last message in chat model" })
+		if (_.isNull(directMessageChat.lastMessage)) return res.status(400).json( { message: "No last message in chat model" })
 
-		if (_.isEqual(chat.lastMessage.directMessageId, oldDirectMessage._id)) {
+		if (_.isEqual(directMessageChat.lastMessage.directMessageId, oldDirectMessage._id)) {
 			await DirectMessageChatModel.findByIdAndUpdate(
-				chat._id,
+				directMessageChat._id,
 				{
 					"lastMessage.text": newMessageText,
 					"lastMessage.isTextEdited": true

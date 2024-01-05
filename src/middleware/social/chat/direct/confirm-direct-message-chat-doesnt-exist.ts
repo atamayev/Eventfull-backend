@@ -11,13 +11,13 @@ export default async function confirmDirectMessageChatDoesntExist (
 		const user = req.user
 		const friend = req.friend
 
-		const chat = await DirectMessageChatModel.findOne({
+		const directMessageChat = await DirectMessageChatModel.findOne({
 			participants: {
 				$all: [user._id, friend._id],
 			},
 		})
 
-		if (!_.isNull(chat)) {
+		if (!_.isNull(directMessageChat)) {
 			const username = friend.username || "this user"
 			return res.status(400).json({ message: `You already have a direct message chat with ${username}` })
 		}

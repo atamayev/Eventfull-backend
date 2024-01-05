@@ -5,7 +5,7 @@ import DirectMessageModel from "../../../../models/chat/direct/direct-message-mo
 
 export default async function markDirectMessageAsRead(req: Request, res: Response): Promise<Response> {
 	try {
-		const chat = req.directMessageChat
+		const directMessagechat = req.directMessageChat
 		const directMessage = req.directMessage
 
 		await DirectMessageModel.findByIdAndUpdate(
@@ -13,12 +13,13 @@ export default async function markDirectMessageAsRead(req: Request, res: Respons
 			{ readByOtherUser: true }
 		)
 
-		if (_.isNull(chat.lastMessage)) {
+		if (_.isNull(directMessagechat.lastMessage)) {
 			return res.status(400).json ({ message: "No Last Message in the Direct Message Model"})
 		}
-		if (directMessage._id.toString() === chat.lastMessage.directMessageId.toString()) {
+
+		if (directMessage._id.toString() === directMessagechat.lastMessage.directMessageId.toString()) {
 			await DirectMessageChatModel.findByIdAndUpdate(
-				chat._id,
+				directMessagechat._id,
 				{ "lastMessage.readByOtherUser": true })
 		}
 
