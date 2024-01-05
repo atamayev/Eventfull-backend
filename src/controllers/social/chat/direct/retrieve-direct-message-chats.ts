@@ -18,7 +18,19 @@ export default async function retrieveDirectMessageChats(req: Request, res: Resp
 			isActive: true
 		}).exec()
 
-		return res.status(200).json({ directMessageChats })
+		const chatIdToNameMap: ChatNameMapping = {}
+		user.directMessageChats.forEach(chat => {
+			chatIdToNameMap[chat.directMessageChatId.toString()] = chat.chatName
+		})
+
+		const chatsWithNames = directMessageChats.map(chat => {
+			return {
+				...chat.toObject(),
+				chatName: chatIdToNameMap[chat._id.toString()] || "Unnamed Chat"
+			}
+		})
+
+		return res.status(200).json({ directMessageChats: chatsWithNames })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to RetrieveDirect Message Chats" })

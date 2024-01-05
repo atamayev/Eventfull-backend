@@ -16,7 +16,19 @@ export default async function retrieveGroupChats(req: Request, res: Response): P
 			isActive: true
 		}).exec()
 
-		return res.status(200).json({ groupChats })
+		const chatIdToNameMap: ChatNameMapping = {}
+		user.groupChats.forEach(groupChat => {
+			chatIdToNameMap[groupChat.groupChatId.toString()] = groupChat.chatName
+		})
+
+		const chatsWithNames = groupChats.map(chat => {
+			return {
+				...chat.toObject(),
+				chatName: chatIdToNameMap[chat._id.toString()] || "Unnamed Chat"
+			}
+		})
+
+		return res.status(200).json({ groupChats: chatsWithNames })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to RetrieveGroup Message Chats" })

@@ -20,7 +20,7 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 		await UserModel.findByIdAndUpdate(user._id, {
 			$push: {
 				groupChats: {
-					groupChats: groupChat._id,
+					groupChatId: groupChat._id,
 					chatName: userChatName
 				}
 			},

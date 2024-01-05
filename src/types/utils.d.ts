@@ -28,6 +28,9 @@ declare global {
 		status: AppStates
 	}
 	type AppStates = "active" | "inactive" | "background"
+	interface ChatNameMapping {
+		[key: string]: string
+	}
 }
 
 export {}
