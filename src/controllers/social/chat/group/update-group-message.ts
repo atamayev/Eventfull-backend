@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
+import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
 export default async function updateGroupMessage(req: Request, res: Response): Promise<Response> {
 	try {

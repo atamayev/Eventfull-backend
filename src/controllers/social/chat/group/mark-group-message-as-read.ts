@@ -15,8 +15,9 @@ export default async function markGroupMessageAsRead(req: Request, res: Response
 		)
 
 		if (_.isNull(groupChat.lastMessage)) {
-			return res.status(400).json ({ message: "No Last Message in the Group Message Model"})
+			return res.status(400).json ({ message: "No Last Message in the Group Chat Model"})
 		}
+
 		if (groupMessage._id.toString() === groupChat.lastMessage.groupMessageId.toString()) {
 			await GroupChatModel.findByIdAndUpdate(
 				groupChat._id,

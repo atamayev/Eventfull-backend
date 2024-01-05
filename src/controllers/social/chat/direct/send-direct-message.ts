@@ -25,6 +25,7 @@ export default async function sendDirectMessage(req: Request, res: Response): Pr
 
 		delete data.directMessageChatId
 		data.directMessageId = directMessage._id
+
 		await DirectMessageChatModel.findByIdAndUpdate(
 			directMessageChat._id,
 			{ $set:

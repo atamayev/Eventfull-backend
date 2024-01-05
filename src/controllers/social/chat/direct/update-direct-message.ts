@@ -34,6 +34,6 @@ export default async function updateDirectMessage(req: Request, res: Response): 
 		return res.status(200).json({ success: "Direct Message Updated" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Send Direct Message" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Update Direct Message" })
 	}
 }

@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import DirectMessageChatModel from "../../../../models/chat/direct/direct-message-chat-model"
 import UserModel from "../../../../models/user-model"
+import DirectMessageChatModel from "../../../../models/chat/direct/direct-message-chat-model"
 
 export default async function createDirectMessageChat(req: Request, res: Response): Promise<Response> {
 	try {

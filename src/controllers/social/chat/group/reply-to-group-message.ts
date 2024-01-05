@@ -3,7 +3,7 @@ import { Request, Response } from "express"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 import GroupMessageChatModel from "../../../../models/chat/group/group-chat-model"
 
-interface ReplyToChatData {
+interface ReplyToGroupChatData {
     groupChatId?: Types.ObjectId
     senderId: Types.ObjectId
     text: string
@@ -18,7 +18,7 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 		const groupMessageChat = req.groupChat
 		const message = req.body.groupMessage as string
 
-		const data: ReplyToChatData = {
+		const data: ReplyToGroupChatData = {
 			groupChatId: groupMessageChat._id,
 			senderId: user._id,
 			text: message,
@@ -28,6 +28,7 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 
 		delete data.groupChatId
 		delete data.replyTo
+
 		data.groupMessageId = groupMessage._id
 		await GroupMessageChatModel.findByIdAndUpdate(
 			groupMessageChat._id,
@@ -39,6 +40,6 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 		return res.status(200).json({ groupMessageId: groupMessage._id })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Send Group Message" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Reply to Group Message" })
 	}
 }

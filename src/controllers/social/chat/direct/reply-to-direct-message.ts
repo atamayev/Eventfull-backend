@@ -28,6 +28,7 @@ export default async function replyToDirectMessage(req: Request, res: Response):
 
 		delete data.directMessageChatId
 		delete data.replyTo
+
 		data.directMessageId = directMessage._id
 		await DirectMessageChatModel.findByIdAndUpdate(
 			directMessageChat._id,
