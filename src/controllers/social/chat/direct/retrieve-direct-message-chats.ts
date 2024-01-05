@@ -5,14 +5,15 @@ import DirectMessageChatModel from "../../../../models/chat/direct/direct-messag
 export default async function retrieveDirectMessageChats(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const userDirectMessageChats = user.directMessageChats
 
-		if (_.isEmpty(userDirectMessageChats)) {
+		if (_.isEmpty(user.directMessageChats)) {
 			return res.status(200).json({ directMessageChats: [] })
 		}
 
+		const directMessageChatIds = user.directMessageChats.map(chat => chat.directMessageChatId)
+
 		const directMessageChats = await DirectMessageChatModel.find({
-			participants: user._id,
+			_id: { $in: directMessageChatIds },
 			isActive: true
 		}).exec()
 

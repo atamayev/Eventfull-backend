@@ -5,14 +5,15 @@ import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 export default async function retrieveGroupChats(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const userGroupChats = user.groupChats
 
-		if (_.isEmpty(userGroupChats)) {
+		if (_.isEmpty(user.groupChats)) {
 			return res.status(200).json({ groupChats: [] })
 		}
 
+		const groupChatIds = user.groupChats.map(chat => chat.groupChatId)
+
 		const groupChats = await GroupChatModel.find({
-			participants: user._id,
+			_id: { $in: groupChatIds },
 			isActive: true
 		}).exec()
 
