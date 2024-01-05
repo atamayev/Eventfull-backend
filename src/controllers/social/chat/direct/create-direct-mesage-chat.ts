@@ -12,7 +12,7 @@ export default async function createDirectMessageChat(req: Request, res: Respons
 			lastMessage: null,
 		})
 
-		await UserModel.findByIdAndUpdate(user._id, {
+		const userUpdate = UserModel.findByIdAndUpdate(user._id, {
 			$push: {
 				directMessageChats: {
 					directMessageChatId: directMessageChat._id,
@@ -21,7 +21,7 @@ export default async function createDirectMessageChat(req: Request, res: Respons
 			},
 		})
 
-		await UserModel.findByIdAndUpdate(friend._id, {
+		const friendUpdate = UserModel.findByIdAndUpdate(friend._id, {
 			$push: {
 				directMessageChats: {
 					directMessageChatId: directMessageChat._id,
@@ -29,6 +29,8 @@ export default async function createDirectMessageChat(req: Request, res: Respons
 				}
 			},
 		})
+
+		await Promise.all([userUpdate, friendUpdate])
 
 		return res.status(200).json({ directMessageChatId: directMessageChat._id })
 	} catch (error) {
