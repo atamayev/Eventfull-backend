@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Types } from "mongoose"
-import DirectMessageModel from "../../models/chat/direct-message-model"
+import DirectMessageModel from "../../models/chat/direct/direct-message-model"
 
 export default async function findDirectMessage(messageId: Types.ObjectId, select?: string): Promise<DirectMessageWithChatId | null> {
 	let message

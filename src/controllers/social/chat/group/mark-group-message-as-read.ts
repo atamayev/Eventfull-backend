@@ -1,12 +1,12 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import GroupMessageChatModel from "../../../../models/chat/group-message-chat-model"
-import GroupMessageModel from "../../../../models/chat/group-message-model"
+import GroupChatModel from "../../../../models/chat/group/group-chat-model"
+import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
 export default async function markGroupMessageAsRead(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const chat = req.groupMessageChat
+		const groupChat = req.groupChat
 		const groupMessage = req.groupMessage
 
 		await GroupMessageModel.findByIdAndUpdate(
@@ -14,12 +14,12 @@ export default async function markGroupMessageAsRead(req: Request, res: Response
 			{ $addToSet: { readBy: user._id } }
 		)
 
-		if (_.isNull(chat.lastMessage)) {
+		if (_.isNull(groupChat.lastMessage)) {
 			return res.status(400).json ({ message: "No Last Message in the Group Message Model"})
 		}
-		if (groupMessage._id.toString() === chat.lastMessage.messageId.toString()) {
-			await GroupMessageChatModel.findByIdAndUpdate(
-				chat._id,
+		if (groupMessage._id.toString() === groupChat.lastMessage.groupMessageId.toString()) {
+			await GroupChatModel.findByIdAndUpdate(
+				groupChat._id,
 				{ $addToSet: { "lastMessage.readBy": user._id } }
 			)
 		}

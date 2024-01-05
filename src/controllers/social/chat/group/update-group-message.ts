@@ -1,11 +1,11 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import GroupMessageModel from "../../../../models/chat/group-message-model"
-import GroupMessageChatModel from "../../../../models/chat/group-message-chat-model"
+import GroupMessageModel from "../../../../models/chat/group/group-message-model"
+import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 
 export default async function updateGroupMessage(req: Request, res: Response): Promise<Response> {
 	try {
-		const chat = req.groupMessageChat
+		const groupChat = req.groupChat
 		const oldGroupMessage = req.groupMessage
 		const newMessageText = req.body.newMessageText
 
@@ -20,11 +20,11 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 			}
 		)
 
-		if (_.isNull(chat.lastMessage)) return res.status(400).json( { message: "No last message in chat model" })
+		if (_.isNull(groupChat.lastMessage)) return res.status(400).json( { message: "No last message in chat model" })
 
-		if (_.isEqual(chat.lastMessage.messageId, oldGroupMessage._id)) {
-			await GroupMessageChatModel.findByIdAndUpdate(
-				chat._id,
+		if (_.isEqual(groupChat.lastMessage.groupMessageId, oldGroupMessage._id)) {
+			await GroupChatModel.findByIdAndUpdate(
+				groupChat._id,
 				{
 					"lastMessage.text": newMessageText,
 					"lastMessage.isTextEdited": true

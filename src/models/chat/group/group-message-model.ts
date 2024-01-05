@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose"
 
 const groupMessageSchema = new Schema<GroupMessageWithChatId>({
-	chatId: { type: Schema.Types.ObjectId, ref: "GroupMessageChat", required: true },
+	groupChatId: { type: Schema.Types.ObjectId, ref: "GroupChat", required: true },
 	senderId: { type: Schema.Types.ObjectId, ref: "User", required: true },
 	text: { type: String, trim: true, required: true },
 	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }], required: true },

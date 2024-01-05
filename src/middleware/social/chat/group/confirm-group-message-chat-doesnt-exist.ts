@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import GroupMessageChatModel from "../../../../models/chat/group-message-chat-model"
+import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 
-export default async function confirmGroupMessageChatDoesntExist(
+export default async function confirmGroupChatDoesntExist(
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -13,7 +13,7 @@ export default async function confirmGroupMessageChatDoesntExist(
 
 		const participantIds = [user._id, ...friends.map(friend => friend._id)]
 
-		const chat = await GroupMessageChatModel.findOne({
+		const chat = await GroupChatModel.findOne({
 			$and: [
 				{ participants: { $all: participantIds } },
 				{ participants: { $size: participantIds.length } }

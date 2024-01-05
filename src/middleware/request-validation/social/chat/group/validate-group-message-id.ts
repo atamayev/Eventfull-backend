@@ -4,7 +4,7 @@ import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 import objectIdValidation from "../../../../../utils/object-id-validation"
 import findGroupMessage from "../../../../../utils/find/find-group-message"
-import findGroupMessageChat from "../../../../../utils/find/find-group-message-chat"
+import findGroupChat from "../../../../../utils/find/find-group-chat"
 
 const groupMessageSchema = Joi.object({
 	groupMessageId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
@@ -24,11 +24,11 @@ export default async function validateGroupMessageId(req: Request, res: Response
 
 		req.groupMessage = groupMessage
 
-		const chat = await findGroupMessageChat(groupMessage.chatId)
+		const groupChat = await findGroupChat(groupMessage.groupChatId)
 
-		if (_.isNull(chat)) return res.status(400).json({ message: "Chat not found" })
+		if (_.isNull(groupChat)) return res.status(400).json({ message: "Group Chat not found" })
 
-		req.groupMessageChat = chat
+		req.groupChat = groupChat
 
 		next()
 	} catch (error ) {

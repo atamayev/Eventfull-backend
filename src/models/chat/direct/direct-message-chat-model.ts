@@ -5,7 +5,7 @@ const lastMessageSchema = new Schema<DirectMessage>({
 	senderId: { type: Schema.Types.ObjectId, ref: "User" },
 	isTextEdited: { type: Boolean, default: false },
 	readByOtherUser: { type: Boolean, default: false },
-	messageId: { type: Schema.Types.ObjectId, ref: "DirectMessage" }
+	directMessageId: { type: Schema.Types.ObjectId, ref: "DirectMessage" }
 }, { timestamps: true })
 
 const directMessageChatSchema = new Schema<DirectMessageChat>({

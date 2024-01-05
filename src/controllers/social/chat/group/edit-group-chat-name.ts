@@ -4,18 +4,18 @@ import UserModel from "../../../../models/user-model"
 export default async function editGroupChatName(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const groupMessageChat = req.groupMessageChat
+		const groupChat = req.groupChat
 		const newGroupChatName = req.body.newGroupChatName
 
 		await UserModel.findByIdAndUpdate(
 			user._id,
 			{
 				$set: {
-					"groupMessageChats.$[elem].chatName": newGroupChatName
+					"groupChats.$[elem].chatName": newGroupChatName
 				}
 			},
 			{
-				arrayFilters: [{"elem.groupMessageChatId": groupMessageChat._id}],
+				arrayFilters: [{"elem.groupChatId": groupChat._id}],
 				new: true
 			}
 		)

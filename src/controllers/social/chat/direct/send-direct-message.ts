@@ -1,32 +1,32 @@
 import { Types } from "mongoose"
 import { Request, Response } from "express"
-import DirectMessageModel from "../../../../models/chat/direct-message-model"
-import DirectMessageChatModel from "../../../../models/chat/direct-message-chat-model"
+import DirectMessageModel from "../../../../models/chat/direct/direct-message-model"
+import DirectMessageChatModel from "../../../../models/chat/direct/direct-message-chat-model"
 
 interface ChatData {
-    chatId?: Types.ObjectId
+    directMessageChatId?: Types.ObjectId
     senderId: Types.ObjectId
     text: string
-	messageId?: Types.ObjectId
+	directMessageId?: Types.ObjectId
 }
 
 export default async function sendDirectMessage(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const chat = req.directMessageChat
+		const directMessageChat = req.directMessageChat
 		const message = req.body.directMessage as string
 
 		const data: ChatData = {
-			chatId: chat._id,
+			directMessageChatId: directMessageChat._id,
 			senderId: user._id,
 			text: message
 		}
 		const directMessage = await DirectMessageModel.create(data)
 
-		delete data.chatId
-		data.messageId = directMessage._id
+		delete data.directMessageChatId
+		data.directMessageId = directMessage._id
 		await DirectMessageChatModel.findByIdAndUpdate(
-			chat._id,
+			directMessageChat._id,
 			{ $set:
 				{ lastMessage: data }
 			}

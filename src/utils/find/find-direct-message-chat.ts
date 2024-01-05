@@ -1,13 +1,16 @@
 import _ from "lodash"
 import { Types } from "mongoose"
-import DirectMessageChatModel from "../../models/chat/direct-message-chat-model"
+import DirectMessageChatModel from "../../models/chat/direct/direct-message-chat-model"
 
-export default async function findDirectMessageChat(chatId: Types.ObjectId, select?: string): Promise<DirectMessageChat | null> {
-	let chat
+export default async function findDirectMessageChat(
+	directMessageChatId: Types.ObjectId,
+	select?: string
+): Promise<DirectMessageChat | null> {
+	let directMessageChat
 	if (!_.isUndefined(select)) {
-		chat = await DirectMessageChatModel.findById(chatId).select(select)
+		directMessageChat = await DirectMessageChatModel.findById(directMessageChatId).select(select)
 	} else {
-		chat = await DirectMessageChatModel.findById(chatId)
+		directMessageChat = await DirectMessageChatModel.findById(directMessageChatId)
 	}
-	return chat as DirectMessageChat
+	return directMessageChat as DirectMessageChat
 }

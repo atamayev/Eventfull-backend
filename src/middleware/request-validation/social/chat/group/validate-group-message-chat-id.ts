@@ -2,26 +2,26 @@ import Joi from "joi"
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
-import findGroupMessageChat from "../../../../../utils/find/find-group-message-chat"
+import findGroupChat from "../../../../../utils/find/find-group-chat"
 import objectIdValidation from "../../../../../utils/object-id-validation"
 
 const groupMessageSchema = Joi.object({
-	groupMessageChatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
+	groupChatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 }).unknown(true)
 
-export default async function validateGroupMessageChatId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function validateGroupChatId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const { error } = groupMessageSchema.validate(req.body)
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const groupMessageChatId = new Types.ObjectId(req.body.groupMessageChatId as string)
+		const groupChatId = new Types.ObjectId(req.body.groupChatId as string)
 
-		const chat = await findGroupMessageChat(groupMessageChatId)
+		const groupChat = await findGroupChat(groupChatId)
 
-		if (_.isNull(chat)) return res.status(400).json({ message: "Group Chat not found" })
+		if (_.isNull(groupChat)) return res.status(400).json({ message: "Group Chat not found" })
 
-		req.groupMessageChat = chat
+		req.groupChat = groupChat
 
 		next()
 	} catch (error ) {

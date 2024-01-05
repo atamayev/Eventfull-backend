@@ -5,10 +5,10 @@ const lastMessageSchema = new Schema<GroupMessage>({
 	senderId: { type: Schema.Types.ObjectId, ref: "User" },
 	isTextEdited: { type: Boolean, default: false },
 	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }] },
-	messageId: { type: Schema.Types.ObjectId, ref: "GroupMessage" }
+	groupMessageId: { type: Schema.Types.ObjectId, ref: "GroupMessage" }
 }, { timestamps: true })
 
-const groupMessageChatSchema = new Schema<GroupMessageChat>({
+const groupChatSchema = new Schema<GroupChat>({
 	participants: {
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true,
@@ -24,6 +24,6 @@ function arrayLimit(val: Types.ObjectId[] | null | undefined): boolean {
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const GroupMessageChatModel = model("GroupMessageChat", groupMessageChatSchema, "group-message-chats")
+const GroupChatModel = model("GroupChat", groupChatSchema, "group-chats")
 
-export default GroupMessageChatModel
+export default GroupChatModel

@@ -5,13 +5,13 @@ export default async function editDirectMessageChatName(req: Request, res: Respo
 	try {
 		const user = req.user
 		const directMessageChat = req.directMessageChat
-		const newDirectChatName = req.body.newDirectChatName
+		const newDirectMessageChatName = req.body.newDirectMessageChatName
 
 		await UserModel.findByIdAndUpdate(
 			user._id,
 			{
 				$set: {
-					"directMessageChats.$[elem].chatName": newDirectChatName
+					"directMessageChats.$[elem].chatName": newDirectMessageChatName
 				}
 			},
 			{
@@ -20,7 +20,7 @@ export default async function editDirectMessageChatName(req: Request, res: Respo
 			}
 		)
 
-		return res.status(200).json({ success: "Direct Message Chat name updated" })
+		return res.status(200).json({ success: `Direct Message Chat name updated to: ${newDirectMessageChatName}` })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Edit Chat Name" })

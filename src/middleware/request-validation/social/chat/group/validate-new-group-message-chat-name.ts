@@ -2,19 +2,19 @@ import Joi from "joi"
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
-const directMessageSchema = Joi.object({
-	newDirectChatName: Joi.string().min(1).max(200).required()
+const groupMessageSchema = Joi.object({
+	newGroupChatName: Joi.string().min(1).max(200).required()
 }).unknown(true)
 
-export default function validateNewDirectMessageChatName (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateNewGroupChatName (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const { error } = directMessageSchema.validate(req.body)
+		const { error } = groupMessageSchema.validate(req.body)
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		next()
 	} catch (error ) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Direct Message Chat Id" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Group Message Chat Id" })
 	}
 }

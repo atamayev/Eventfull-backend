@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import UserModel from "../../../../models/user-model"
-import GroupMessageChatModel from "../../../../models/chat/group-message-chat-model"
+import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 
 export default async function createGroupChat(req: Request, res: Response): Promise<Response> {
 	try {
@@ -12,15 +12,15 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 
 		const userChatName = friends.map(friend => friend.username || friend.firstName).join(", ")
 
-		const groupMessageChat = await GroupMessageChatModel.create({
+		const groupChat = await GroupChatModel.create({
 			participants: participantIds,
 			lastMessage: null,
 		})
 
 		await UserModel.findByIdAndUpdate(user._id, {
 			$push: {
-				groupMessageChats: {
-					groupMessageChatId: groupMessageChat._id,
+				groupChats: {
+					groupChats: groupChat._id,
 					chatName: userChatName
 				}
 			},
@@ -34,15 +34,15 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 
 			return UserModel.findByIdAndUpdate(friend._id, {
 				$push: {
-					groupMessageChats: {
-						groupMessageChatId: groupMessageChat._id,
+					groupChats: {
+						groupChatId: groupChat._id,
 						chatName: friendChatName
 					}
 				},
 			})
 		}))
 
-		return res.status(200).json({ groupMessageChatId: groupMessageChat._id })
+		return res.status(200).json({ groupChatId: groupChat._id })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Create Chat" })

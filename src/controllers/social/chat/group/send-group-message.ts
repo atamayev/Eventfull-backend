@@ -1,32 +1,32 @@
 import { Types } from "mongoose"
 import { Request, Response } from "express"
-import GroupMessageModel from "../../../../models/chat/group-message-model"
-import GroupMessageChatModel from "../../../../models/chat/group-message-chat-model"
+import GroupMessageModel from "../../../../models/chat/group/group-message-model"
+import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 
 interface ChatData {
-    chatId?: Types.ObjectId
+    groupChatId?: Types.ObjectId
     senderId: Types.ObjectId
     text: string
-	messageId?: Types.ObjectId
+	groupMessageId?: Types.ObjectId
 }
 
 export default async function sendGroupMessage(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
-		const chat = req.groupMessageChat
+		const groupChat = req.groupChat
 		const message = req.body.groupMessage as string
 
 		const data: ChatData = {
-			chatId: chat._id,
+			groupChatId: groupChat._id,
 			senderId: user._id,
 			text: message
 		}
 		const groupMessage = await GroupMessageModel.create(data)
 
-		delete data.chatId
-		data.messageId = groupMessage._id
-		await GroupMessageChatModel.findByIdAndUpdate(
-			chat._id,
+		delete data.groupChatId
+		data.groupMessageId = groupMessage._id
+		await GroupChatModel.findByIdAndUpdate(
+			groupChat._id,
 			{ $set:
 				{ lastMessage: data }
 			}

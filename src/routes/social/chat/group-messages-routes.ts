@@ -4,18 +4,18 @@ import extractFriendsFromChat from "../../../middleware/social/chat/group/extrac
 import validateFriendIds from "../../../middleware/request-validation/social/chat/group/validate-friend-ids"
 import validateGroupMessage from "../../../middleware/request-validation/social/chat/group/validate-group-message"
 import confirmUserHasntBlockedAnyFriend from "../../../middleware/social/chat/group/confirm-user-hasnt-blocked-any-friend"
-import confirmGroupMessageChatDoesntExist from "../../../middleware/social/chat/group/confirm-group-message-chat-doesnt-exist"
+import confirmGroupChatDoesntExist from "../../../middleware/social/chat/group/confirm-group-message-chat-doesnt-exist"
 import confirmUserIsFriendsWithEachFriend from "../../../middleware/social/chat/group/confirm-user-is-friends-with-each-friend"
-import validateGroupMessageChatId from "../../../middleware/request-validation/social/chat/group/validate-group-message-chat-id"
+import validateGroupChatId from "../../../middleware/request-validation/social/chat/group/validate-group-message-chat-id"
 import confirmFriendsHaveNotBlockedEachother from "../../../middleware/social/chat/group/confirm-friends-have-not-blocked-eachother"
-import confirmUserIsGroupMessageChatParticipant from "../../../middleware/social/chat/group/confirm-user-is-group-message-chat-participant"
+import confirmUserIsGroupChatParticipant from "../../../middleware/social/chat/group/confirm-user-is-group-message-chat-participant"
 import validateGroupMessageId from "../../../middleware/request-validation/social/chat/group/validate-group-message-id"
 import confirmGroupMessageSentByOtherUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-other-user"
 import confirmGroupMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
 import validateUpdatedMessageText from "../../../middleware/request-validation/social/chat/validate-updated-message-text"
 import confirmGroupMessageSentByUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-user"
-import validateNewGroupMessageChatName
-	from "../../../middleware/request-validation/social/chat/direct/validate-new-direct-message-chat-name"
+import validateNewGroupChatName
+	from "../../../middleware/request-validation/social/chat/group/validate-new-group-message-chat-name"
 
 import sendGroupMessage from "../../../controllers/social/chat/group/send-group-message"
 import updateGroupMessage from "../../../controllers/social/chat/group/update-group-message"
@@ -32,16 +32,16 @@ groupMessagesRoutes.post(
 	confirmUserHasntBlockedAnyFriend,
 	confirmFriendsHaveNotBlockedEachother,
 	confirmUserIsFriendsWithEachFriend,
-	confirmGroupMessageChatDoesntExist,
+	confirmGroupChatDoesntExist,
 	createGroupChat
 )
 
 groupMessagesRoutes.post(
 	"/send-message",
-	validateGroupMessageChatId,
+	validateGroupChatId,
 	validateGroupMessage,
 	extractFriendsFromChat,
-	confirmUserIsGroupMessageChatParticipant,
+	confirmUserIsGroupChatParticipant,
 	confirmUserHasntBlockedAnyFriend,
 	confirmFriendsHaveNotBlockedEachother,
 	sendGroupMessage
@@ -52,7 +52,7 @@ groupMessagesRoutes.get("/retrieve-chats-list", retrieveGroupChats)
 groupMessagesRoutes.post(
 	"/mark-message-as-read",
 	validateGroupMessageId,
-	confirmUserIsGroupMessageChatParticipant,
+	confirmUserIsGroupChatParticipant,
 	confirmGroupMessageSentByOtherUser,
 	confirmGroupMessageNotAlreadyMarkedRead,
 	markGroupMessageAsRead
@@ -68,9 +68,9 @@ groupMessagesRoutes.post(
 
 groupMessagesRoutes.post(
 	"/edit-chat-name",
-	validateGroupMessageChatId,
-	validateNewGroupMessageChatName,
-	confirmUserIsGroupMessageChatParticipant,
+	validateGroupChatId,
+	validateNewGroupChatName,
+	confirmUserIsGroupChatParticipant,
 	editGroupChatName
 )
 

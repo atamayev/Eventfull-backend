@@ -10,7 +10,7 @@ declare global {
 		lastMessage: DirectMessage | null
 	}
 
-	interface GroupMessageChat extends Chat {
+	interface GroupChat extends Chat {
 		lastMessage: GroupMessage | null
 	}
 
@@ -25,23 +25,23 @@ declare global {
 	// The following two interfaces are used in the Chat Models
 	interface DirectMessage extends Message {
 		readByOtherUser: boolean
-		messageId: Types.ObjectId
+		directMessageId: Types.ObjectId
 	}
 
 	interface GroupMessage extends Message {
 		readBy: Types.ObjectId[]
-		messageId: Types.ObjectId
+		groupMessageId: Types.ObjectId
 	}
 
 	// The following two interfaces are used in the Messages Models
 	interface DirectMessageWithChatId extends Message {
-		chatId: Types.ObjectId
+		directMessageChatId: Types.ObjectId
 		readByOtherUser: boolean
 		replyTo?: Types.ObjectId | null
 	}
 
 	interface GroupMessageWithChatId extends Message {
-		chatId: Types.ObjectId
+		groupChatId: Types.ObjectId
 		readBy: Types.ObjectId[]
 		replyTo?: Types.ObjectId | null
 	}

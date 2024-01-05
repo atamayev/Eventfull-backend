@@ -7,13 +7,13 @@ const loginHistorySchema = new Schema<LoginHistory>({
 	// device: { type: String }
 })
 
-const directMessagesSchema = new Schema<DirectMessages>({
+const directMessagesSchema = new Schema<DirectMessageChats>({
 	directMessageChatId: { type: Schema.Types.ObjectId, ref: "DirectMessageChat", required: true },
 	chatName: { type: String, required: true }
 })
 
-const groupMessagesSchema = new Schema<GroupMessages>({
-	groupMessageChatId: { type: Schema.Types.ObjectId, ref: "GroupMessageChat", required: true },
+const groupChatsSchema = new Schema<GroupChats>({
+	groupChatId: { type: Schema.Types.ObjectId, ref: "GroupChat", required: true },
 	chatName: { type: String, required: true }
 })
 
@@ -95,7 +95,7 @@ const userSchema = new Schema<User>({
 		required: true
 	},
 	directMessageChats: { type: [directMessagesSchema],	required: true },
-	groupMessageChats: { type: [groupMessagesSchema], required: true}
+	groupChats: { type: [groupChatsSchema], required: true}
 }, {
 	timestamps: true
 })

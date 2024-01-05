@@ -45,8 +45,8 @@ declare global {
 		incomingFriendRequests: Types.ObjectId[]
 		blockedUsers: Types.ObjectId[]
 		blockedByUsers: Types.ObjectId[]
-		directMessageChats: DirectMessages[]
-		groupMessageChats: GroupMessages[]
+		directMessageChats: DirectMessageChats[]
+		groupChats: GroupChats[]
 
 		isPhoneVerified?: boolean
 		phoneVerificationCode?: string
@@ -65,13 +65,13 @@ declare global {
 		// device: string
 	}
 
-	interface DirectMessages {
+	interface DirectMessageChats {
 		directMessageChatId: Types.ObjectId
 		chatName: string
 	}
 
-	interface GroupMessages {
-		groupMessageChatId: Types.ObjectId
+	interface GroupChats {
+		groupChatId: Types.ObjectId
 		chatName: string
 	}
 }

@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import DirectMessageChatModel from "../../../../models/chat/direct-message-chat-model"
-import DirectMessageModel from "../../../../models/chat/direct-message-model"
+import DirectMessageChatModel from "../../../../models/chat/direct/direct-message-chat-model"
+import DirectMessageModel from "../../../../models/chat/direct/direct-message-model"
 
 export default async function markDirectMessageAsRead(req: Request, res: Response): Promise<Response> {
 	try {
@@ -16,7 +16,7 @@ export default async function markDirectMessageAsRead(req: Request, res: Respons
 		if (_.isNull(chat.lastMessage)) {
 			return res.status(400).json ({ message: "No Last Message in the Direct Message Model"})
 		}
-		if (directMessage._id.toString() === chat.lastMessage.messageId.toString()) {
+		if (directMessage._id.toString() === chat.lastMessage.directMessageId.toString()) {
 			await DirectMessageChatModel.findByIdAndUpdate(
 				chat._id,
 				{ "lastMessage.readByOtherUser": true })
