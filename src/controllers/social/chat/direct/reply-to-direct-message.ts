@@ -16,12 +16,12 @@ export default async function replyToDirectMessage(req: Request, res: Response):
 		const user = req.user
 		const directMessageReplyingTo = req.directMessage
 		const directMessageChat = req.directMessageChat
-		const message = req.body.directMessage as string
+		const newMessage = req.body.directMessage as string
 
 		const data: ReplyToChatData = {
 			directMessageChatId: directMessageChat._id,
 			senderId: user._id,
-			text: message,
+			text: newMessage,
 			replyTo: directMessageReplyingTo._id
 		}
 		const directMessage = await DirectMessageModel.create(data)
@@ -39,6 +39,6 @@ export default async function replyToDirectMessage(req: Request, res: Response):
 		return res.status(200).json({ directMessageId: directMessage._id })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Send Direct Message" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Reply to Direct Message" })
 	}
 }

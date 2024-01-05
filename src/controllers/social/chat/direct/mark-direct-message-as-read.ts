@@ -1,11 +1,11 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import DirectMessageChatModel from "../../../../models/chat/direct/direct-message-chat-model"
 import DirectMessageModel from "../../../../models/chat/direct/direct-message-model"
+import DirectMessageChatModel from "../../../../models/chat/direct/direct-message-chat-model"
 
 export default async function markDirectMessageAsRead(req: Request, res: Response): Promise<Response> {
 	try {
-		const directMessagechat = req.directMessageChat
+		const directMessageChat = req.directMessageChat
 		const directMessage = req.directMessage
 
 		await DirectMessageModel.findByIdAndUpdate(
@@ -13,13 +13,13 @@ export default async function markDirectMessageAsRead(req: Request, res: Respons
 			{ readByOtherUser: true }
 		)
 
-		if (_.isNull(directMessagechat.lastMessage)) {
+		if (_.isNull(directMessageChat.lastMessage)) {
 			return res.status(400).json ({ message: "No Last Message in the Direct Message Model"})
 		}
 
-		if (directMessage._id.toString() === directMessagechat.lastMessage.directMessageId.toString()) {
+		if (directMessage._id.toString() === directMessageChat.lastMessage.directMessageId.toString()) {
 			await DirectMessageChatModel.findByIdAndUpdate(
-				directMessagechat._id,
+				directMessageChat._id,
 				{ "lastMessage.readByOtherUser": true })
 		}
 
