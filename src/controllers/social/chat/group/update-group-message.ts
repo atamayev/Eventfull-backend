@@ -9,13 +9,13 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 		const oldGroupMessage = req.groupMessage
 		const newMessageText = req.body.newMessageText
 
-		// TODO: If text is edited, consider making read by empty array. do same for direct message
 		await GroupMessageModel.findByIdAndUpdate(
 			oldGroupMessage._id,
 			{ $set:
 				{
 					isTextEdited: true,
-					text: newMessageText
+					text: newMessageText,
+					readBy: []
 				}
 			}
 		)
@@ -27,7 +27,8 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 				groupChat._id,
 				{
 					"lastMessage.text": newMessageText,
-					"lastMessage.isTextEdited": true
+					"lastMessage.isTextEdited": true,
+					"lastMessage.readBy": [],
 				}
 			)
 		}

@@ -14,7 +14,8 @@ export default async function updateDirectMessage(req: Request, res: Response): 
 			{ $set:
 				{
 					isTextEdited: true,
-					text: newMessageText
+					text: newMessageText,
+					readByOtherUser: false
 				}
 			}
 		)
@@ -26,7 +27,8 @@ export default async function updateDirectMessage(req: Request, res: Response): 
 				directMessageChat._id,
 				{
 					"lastMessage.text": newMessageText,
-					"lastMessage.isTextEdited": true
+					"lastMessage.isTextEdited": true,
+					"lastMessage.readByOtherUser": false,
 				}
 			)
 		}

@@ -25,6 +25,7 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 
 		delete data.groupChatId
 		data.groupMessageId = groupMessage._id
+
 		await GroupChatModel.findByIdAndUpdate(
 			groupChat._id,
 			{ $set:
