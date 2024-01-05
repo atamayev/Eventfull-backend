@@ -23,6 +23,7 @@ import createGroupChat from "../../../controllers/social/chat/group/create-group
 import markGroupMessageAsRead from "../../../controllers/social/chat/group/mark-group-message-as-read"
 import editGroupChatName from "../../../controllers/social/chat/group/edit-group-chat-name"
 import retrieveGroupChats from "../../../controllers/social/chat/group/retrieve-group-chats"
+import retrieveMessagesFromGroupChat from "../../../controllers/social/chat/group/retrieve-messages-from-group-chat"
 
 const groupMessagesRoutes = express.Router()
 
@@ -72,6 +73,13 @@ groupMessagesRoutes.post(
 	validateNewGroupChatName,
 	confirmUserIsGroupChatParticipant,
 	editGroupChatName
+)
+
+groupMessagesRoutes.get(
+	"/retrieve-messages-from-chat",
+	validateGroupChatId,
+	confirmUserIsGroupChatParticipant,
+	retrieveMessagesFromGroupChat
 )
 
 export default groupMessagesRoutes
