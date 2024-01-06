@@ -12,20 +12,14 @@ export default async function unblockAnotherUser (req: Request, res: Response): 
 
 		const isOtherUserBlocked = checkIfUserHasBlockedFriend(user, unblockedUser._id)
 
+		const username = unblockedUser.username || "User"
 		if (isOtherUserBlocked === false) {
-			if (!_.isEmpty(unblockedUser.username)) {
-				return res.status(400).json({ message: `${unblockedUser.username} is not Blocked` })
-			}
-			return res.status(400).json({ message: "User is already Unblocked" })
+			return res.status(400).json({ message: `${username} is not blocked` })
 		}
 
 		await unblockUser(user._id, unblockedUser._id)
 
-		if (!_.isEmpty(unblockedUser.username)) {
-			return res.status(200).json({ success: `${unblockedUser.username} Unblocked` })
-		}
-
-		return res.status(200).json({ success: "User Unblocked" })
+		return res.status(200).json({ success: `${username} Unblocked` })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Unblock Other user" })

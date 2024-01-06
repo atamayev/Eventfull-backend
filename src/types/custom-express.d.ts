@@ -3,7 +3,14 @@ declare global {
 		interface Request {
 			user: User
 
+			privateChat: PrivateChat
+			privateMessage: PrivateMessageWithChatId
+
+			groupChat: GroupChat
+			groupMessage: GroupMessageWithChatId
+
 			friend: User
+			friends: User[]
 
 			blockedUser: User
 

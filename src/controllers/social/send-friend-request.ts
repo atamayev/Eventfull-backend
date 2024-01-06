@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { Request, Response } from "express"
 import NotificationHelper from "../../classes/notification-helper"
 import createOutgoingFriendRequest from "../../utils/social/friend/create-outgoing-friend-request"
@@ -12,20 +11,14 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 
 		const outgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, friend._id)
 		if (outgoingFriendRequestExists === true) {
-			if (!_.isEmpty(friend.username)) {
-				return res.status(400).json({ message: `You have already sent ${friend.username} a Friend Request.` })
-			} else {
-				return res.status(400).json({ message: "You have already sent this user a Friend Request" })
-			}
+			const username = friend.username || "this user"
+			return res.status(400).json({ message: `You have already sent ${username} a Friend Request` })
 		}
 
 		const incomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, friend._id)
 		if (incomingFriendRequestExists === true) {
-			if (!_.isEmpty(friend.username)) {
-				return res.status(400).json({ message: `${friend.username} has already sent you a Friend Request` })
-			} else {
-				return res.status(400).json({ message: "User has already sent you a Friend Request" })
-			}
+			const username = friend.username || "User"
+			return res.status(400).json({ message: `${username} has already sent you a Friend Request` })
 		}
 
 		await createOutgoingFriendRequest(user, friend)

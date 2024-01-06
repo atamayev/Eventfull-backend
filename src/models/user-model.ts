@@ -7,6 +7,16 @@ const loginHistorySchema = new Schema<LoginHistory>({
 	// device: { type: String }
 })
 
+const privateMessagesSchema = new Schema<PrivateChats>({
+	privateChatId: { type: Schema.Types.ObjectId, ref: "PrivateChat", required: true },
+	chatName: { type: String, required: true }
+})
+
+const groupChatsSchema = new Schema<GroupChats>({
+	groupChatId: { type: Schema.Types.ObjectId, ref: "GroupChat", required: true },
+	chatName: { type: String, required: true }
+})
+
 const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 	eventId: { type: Schema.Types.ObjectId, ref: "EventfullEvent", required: true },
 	attendingStatus: { type: String, required: true, enum: ["Attending", "Not Attending", "Not Responded", "Hosting", "Co-Hosting"] },
@@ -17,7 +27,7 @@ const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 
 const userSchema = new Schema<User>({
 	firstName: { type: String, trim: true, required: true },
-	lastName: { type: String, trim: true, required: true },
+	lastName: { type: String, trim: true },
 	authMethod: { type: String, required: true, trim: true, enum: ["Local", "Microsoft", "Google"] },
 	primaryContactMethod: { type: String, required: true, trim: true, enum: ["Email", "Phone"] },
 	primaryDevicePlatform: { type: String, required: true, trim: true, enum: ["ios", "android", "windows", "macos", "web"] },
@@ -83,7 +93,9 @@ const userSchema = new Schema<User>({
 	blockedByUsers: {
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
-	}
+	},
+	privateChats: { type: [privateMessagesSchema],	required: true },
+	groupChats: { type: [groupChatsSchema], required: true}
 }, {
 	timestamps: true
 })
