@@ -3,8 +3,8 @@ declare global {
 		interface Request {
 			user: User
 
-			directMessageChat: DirectMessageChat
-			directMessage: DirectMessageWithChatId
+			privateChat: PrivateChat
+			privateMessage: PrivateMessageWithChatId
 
 			groupChat: GroupChat
 			groupMessage: GroupMessageWithChatId

@@ -7,8 +7,8 @@ const loginHistorySchema = new Schema<LoginHistory>({
 	// device: { type: String }
 })
 
-const directMessagesSchema = new Schema<DirectMessageChats>({
-	directMessageChatId: { type: Schema.Types.ObjectId, ref: "DirectMessageChat", required: true },
+const privateMessagesSchema = new Schema<PrivateChats>({
+	privateChatId: { type: Schema.Types.ObjectId, ref: "PrivateChat", required: true },
 	chatName: { type: String, required: true }
 })
 
@@ -94,7 +94,7 @@ const userSchema = new Schema<User>({
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true
 	},
-	directMessageChats: { type: [directMessagesSchema],	required: true },
+	privateChats: { type: [privateMessagesSchema],	required: true },
 	groupChats: { type: [groupChatsSchema], required: true}
 }, {
 	timestamps: true

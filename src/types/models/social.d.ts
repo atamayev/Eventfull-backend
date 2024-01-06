@@ -6,8 +6,8 @@ declare global {
 		isActive: boolean
 	}
 
-	interface DirectMessageChat extends Chat {
-		lastMessage: DirectMessage | null
+	interface PrivateChat extends Chat {
+		lastMessage: PrivateMessage | null
 	}
 
 	interface GroupChat extends Chat {
@@ -24,9 +24,9 @@ declare global {
 	}
 
 	// The following two interfaces are used in the Chat Models
-	interface DirectMessage extends Message {
+	interface PrivateMessage extends Message {
 		readByOtherUser: boolean
-		directMessageId: Types.ObjectId
+		privateMessageId: Types.ObjectId
 	}
 
 	interface GroupMessage extends Message {
@@ -35,8 +35,8 @@ declare global {
 	}
 
 	// The following two interfaces are used in the Messages Models
-	interface DirectMessageWithChatId extends Message {
-		directMessageChatId: Types.ObjectId
+	interface PrivateMessageWithChatId extends Message {
+		privateChatId: Types.ObjectId
 		readByOtherUser: boolean
 		replyTo?: Types.ObjectId | null
 	}

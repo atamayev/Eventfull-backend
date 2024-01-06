@@ -7,7 +7,7 @@ export default async function retrieveMessagesFromGroupChat(req: Request, res: R
 
 		// Notes: Probably best to limit the amount of messages that can be retrieved at once
 		// Also need to implement pagination, and query the results in reverse?
-		// Same for direct messages
+		// Same for private messages
 		const groupMessages = await GroupMessageModel.find({
 			groupChatId: groupChat._id,
 		}).exec()

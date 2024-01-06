@@ -1,11 +1,11 @@
 import express from "express"
 
 import groupMessagesRoutes from "./group-messages-routes"
-import directMessagesRoutes from "./direct-messages-routes"
+import privateMessagesRoutes from "./private-messages-routes"
 
 const chatSocialRoutes = express.Router()
 
-chatSocialRoutes.use("/direct", directMessagesRoutes)
+chatSocialRoutes.use("/private", privateMessagesRoutes)
 chatSocialRoutes.use("/group", groupMessagesRoutes)
 
 export default chatSocialRoutes

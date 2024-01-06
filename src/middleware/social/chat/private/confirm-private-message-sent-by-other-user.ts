@@ -1,12 +1,12 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
-export default function confirmDirectMessageSentByOtherUser(req: Request, res: Response, next: NextFunction): void | Response {
+export default function confirmPrivateMessageSentByOtherUser(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
-		const directMessage = req.directMessage
+		const privateMessage = req.privateMessage
 
-		if (_.isEqual(user._id, directMessage.senderId)) {
+		if (_.isEqual(user._id, privateMessage.senderId)) {
 			return res.status(400).json({ message: "You cannot mark your own message as read" })
 		}
 

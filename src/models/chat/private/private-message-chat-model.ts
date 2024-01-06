@@ -1,14 +1,14 @@
 import { Schema, model, Types } from "mongoose"
 
-const lastMessageSchema = new Schema<DirectMessage>({
+const lastMessageSchema = new Schema<PrivateMessage>({
 	text: { type: String, trim: true },
 	senderId: { type: Schema.Types.ObjectId, ref: "User" },
 	isTextEdited: { type: Boolean, default: false },
 	readByOtherUser: { type: Boolean, default: false },
-	directMessageId: { type: Schema.Types.ObjectId, ref: "DirectMessage" }
+	privateMessageId: { type: Schema.Types.ObjectId, ref: "PrivateMessage" }
 }, { timestamps: true })
 
-const directMessageChatSchema = new Schema<DirectMessageChat>({
+const privateChatSchema = new Schema<PrivateChat>({
 	participants: {
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true,
@@ -23,6 +23,6 @@ function arrayLimit(val: Types.ObjectId[] | null | undefined): boolean {
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const DirectMessageChatModel = model("DirectMessageChat", directMessageChatSchema, "direct-message-chats")
+const PrivateChatModel = model("PrivateChat", privateChatSchema, "private-chats")
 
-export default DirectMessageChatModel
+export default PrivateChatModel
