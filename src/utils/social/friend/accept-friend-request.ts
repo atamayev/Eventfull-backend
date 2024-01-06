@@ -4,6 +4,7 @@ import UserModel from "../../../models/user-model"
 
 export default async function acceptFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
 	try {
+		// TODO: Add when friend request is accepted
 		const userUpdate = UserModel.findByIdAndUpdate(
 			userId,
 			{ $push: { friends: friendId } },
