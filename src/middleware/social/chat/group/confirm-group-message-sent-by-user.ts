@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
 export default function confirmGroupMessageSentByUser(req: Request, res: Response, next: NextFunction): void | Response {
@@ -5,7 +6,7 @@ export default function confirmGroupMessageSentByUser(req: Request, res: Respons
 		const user = req.user
 		const groupMessage = req.groupMessage
 
-		if (user._id.equals(groupMessage.senderId) === false) {
+		if (!_.isEqual(user._id, groupMessage.senderId)) {
 			return res.status(400).json({ message: "You did not send this message" })
 		}
 

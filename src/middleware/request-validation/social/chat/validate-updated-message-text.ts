@@ -15,6 +15,6 @@ export default function validateUpdatedMessageText (req: Request, res: Response,
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Validate New Direct Message" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Updated Message" })
 	}
 }

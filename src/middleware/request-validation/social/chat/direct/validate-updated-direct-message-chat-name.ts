@@ -15,6 +15,6 @@ export default function validateUpdatedDirectMessageChatName (req: Request, res:
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Direct Message Chat Id" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Direct Message Chat Name" })
 	}
 }

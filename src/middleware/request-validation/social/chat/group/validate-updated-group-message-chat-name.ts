@@ -15,6 +15,6 @@ export default function validateUpdatedGroupChatName (req: Request, res: Respons
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Group Message Chat Id" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Validate Group Message Chat Name" })
 	}
 }
