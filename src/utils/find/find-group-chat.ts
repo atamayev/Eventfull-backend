@@ -9,5 +9,5 @@ export default async function findGroupChat(groupChatId: Types.ObjectId, select?
 	} else {
 		groupChat = await GroupChatModel.findById(groupChatId)
 	}
-	return groupChat as GroupChat
+	return groupChat
 }

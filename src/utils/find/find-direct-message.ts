@@ -9,5 +9,5 @@ export default async function findDirectMessage(directMessageId: Types.ObjectId,
 	} else {
 		message = await DirectMessageModel.findById(directMessageId)
 	}
-	return message as DirectMessageWithChatId
+	return message
 }

@@ -9,5 +9,5 @@ export default async function findGroupMessage(groupMessageId: Types.ObjectId, s
 	} else {
 		message = await GroupMessageModel.findById(groupMessageId)
 	}
-	return message as GroupMessageWithChatId
+	return message
 }

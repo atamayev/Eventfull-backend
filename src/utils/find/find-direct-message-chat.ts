@@ -12,5 +12,5 @@ export default async function findDirectMessageChat(
 	} else {
 		directMessageChat = await DirectMessageChatModel.findById(directMessageChatId)
 	}
-	return directMessageChat as DirectMessageChat
+	return directMessageChat
 }
