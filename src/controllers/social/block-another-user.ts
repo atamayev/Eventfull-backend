@@ -38,8 +38,8 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 		// TODO: Figure out how to handle one user blocking another when they are in:
 		// 1. A group chat
 		// 2. A private chat
-		const username = blockedUser.username || "User"
 
+		const username = blockedUser.username || "User"
 		return res.status(200).json({ success: `${username} blocked` })
 	} catch (error) {
 		console.error(error)

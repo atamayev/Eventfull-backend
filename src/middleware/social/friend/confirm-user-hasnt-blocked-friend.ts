@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import checkIfUserHasBlockedFriend from "../../../utils/social/block/check-if-user-has-blocked-friend"
 
@@ -10,10 +9,8 @@ export default function confirmUserHasntBlockedFriend (req: Request, res: Respon
 		const isOtherUserBlocked = checkIfUserHasBlockedFriend(user, friend._id)
 
 		if (isOtherUserBlocked === true) {
-			if (_.isEmpty(friend.username)) {
-				return res.status(400).json({ message: "You have blocked the other user" })
-			}
-			return res.status(400).json({ message: `${friend.username} is blocked` })
+			const username = friend.username || "This User"
+			return res.status(400).json({ message: `${username} is blocked` })
 		}
 
 		next()
