@@ -35,11 +35,12 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 			await clearIncomingFriendRequest(user._id, blockedUser._id)
 		}
 
-		if (!_.isEmpty(blockedUser.username)) {
-			return res.status(200).json({ success: `${blockedUser.username} blocked` })
-		}
+		// TODO: Figure out how to handle one user blocking another when they are in:
+		// 1. A group chat
+		// 2. A private chat
+		const username = blockedUser.username || "User"
 
-		return res.status(200).json({ success: "User blocked" })
+		return res.status(200).json({ success: `${username} blocked` })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Block Other user" })
