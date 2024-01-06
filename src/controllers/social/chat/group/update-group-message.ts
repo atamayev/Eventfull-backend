@@ -1,5 +1,6 @@
 import _ from "lodash"
 import { Request, Response } from "express"
+import NotificationHelper from "../../../../classes/notification-helper"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
@@ -32,6 +33,13 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 				}
 			)
 		}
+
+		NotificationHelper.updateGroupMessage(
+			groupChat.participants.filter(participantId => participantId !== req.user.id),
+			updatedMessageText,
+			groupChat._id,
+			oldGroupMessage._id
+		)
 
 		return res.status(200).json({ success: "Group Message Updated" })
 	} catch (error) {

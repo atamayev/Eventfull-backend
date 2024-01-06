@@ -28,7 +28,7 @@ import retrieveMessagesFromGroupChat from "../../../controllers/social/chat/grou
 const groupMessagesRoutes = express.Router()
 
 groupMessagesRoutes.post(
-	"/create-message-chat",
+	"/create-chat",
 	validateFriendIds,
 	confirmUserHasntBlockedAnyFriend,
 	confirmFriendsHaveNotBlockedEachother,

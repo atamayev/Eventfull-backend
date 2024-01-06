@@ -1,5 +1,6 @@
 import { Types } from "mongoose"
 import { Request, Response } from "express"
+import NotificationHelper from "../../../../classes/notification-helper"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
@@ -31,6 +32,14 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 			{ $set:
 				{ lastMessage: data }
 			}
+		)
+
+		await NotificationHelper.sendGroupMessage(
+			user,
+			groupChat.participants.filter(participantId => participantId !== user.id),
+			message,
+			groupChat._id,
+			groupMessage._id
 		)
 
 		return res.status(200).json({ groupMessageId: groupMessage._id })

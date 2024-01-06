@@ -4,18 +4,19 @@ import express from "express"
 import { createServer } from "http"
 import cookieParser from "cookie-parser"
 import { Server as SocketIOServer } from "socket.io"
+
+import SocketManager from "./classes/socket-manager"
 import jwtVerify from "./middleware/jwt/jwt-verify"
 import connectDatabase from "./setup-and-security/db-connect"
 import verifySocketJWT from "./middleware/jwt/verify-socket-jwt"
 
-import authRoutes from "./routes/auth/auth-routes"
-import calendarRoutes from "./routes/calendar/calendar-routes"
 import listsRoutes from "./routes/lists-routes"
 import searchRoutes from "./routes/search-routes"
-import socialRoutes from "./routes/social/social-routes"
 import eventsRoutes from "./routes/events-routes"
+import authRoutes from "./routes/auth/auth-routes"
 import profileRoutes from "./routes/profile-routes"
-import SocketManager from "./classes/socket-manager"
+import socialRoutes from "./routes/social/social-routes"
+import calendarRoutes from "./routes/calendar/calendar-routes"
 
 dotenv.config()
 

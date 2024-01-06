@@ -1,5 +1,6 @@
 import _ from "lodash"
 import { Request, Response } from "express"
+import NotificationHelper from "../../../../classes/notification-helper"
 import PrivateMessageModel from "../../../../models/chat/private/private-message-model"
 import PrivateChatModel from "../../../../models/chat/private/private-message-chat-model"
 
@@ -32,6 +33,13 @@ export default async function updatePrivateMessage(req: Request, res: Response):
 				}
 			)
 		}
+
+		NotificationHelper.updatePrivateMessage(
+			privateChat.participants.find(participantId => participantId !== req.user._id),
+			updatedMessageText,
+			privateChat._id,
+			oldPrivateMessage._id
+		)
 
 		return res.status(200).json({ success: "Private Message Updated" })
 	} catch (error) {

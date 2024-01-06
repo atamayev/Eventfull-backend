@@ -1,5 +1,6 @@
 import _ from "lodash"
 import { Request, Response } from "express"
+import NotificationHelper from "../../../../classes/notification-helper"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
@@ -24,6 +25,13 @@ export default async function markGroupMessageAsRead(req: Request, res: Response
 				{ $addToSet: { "lastMessage.readBy": user._id } }
 			)
 		}
+
+		NotificationHelper.markGroupMessageAsRead(
+			user,
+			groupChat.participants.filter(participantId => participantId !== user.id),
+			groupChat._id,
+			groupMessage._id
+		)
 
 		return res.status(200).json({ success: "Message Marked as Read" })
 	} catch (error) {

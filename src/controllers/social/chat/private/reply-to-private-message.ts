@@ -1,5 +1,6 @@
 import { Types } from "mongoose"
 import { Request, Response } from "express"
+import NotificationHelper from "../../../../classes/notification-helper"
 import PrivateMessageModel from "../../../../models/chat/private/private-message-model"
 import PrivateChatModel from "../../../../models/chat/private/private-message-chat-model"
 
@@ -13,15 +14,16 @@ interface ReplyToChatData {
 
 export default async function replyToPrivateMessage(req: Request, res: Response): Promise<Response> {
 	try {
+		const friend = req.friend
 		const user = req.user
 		const privateMessageReplyingTo = req.privateMessage
 		const privateChat = req.privateChat
-		const newMessage = req.body.privateMessage as string
+		const repliedMessage = req.body.privateMessage as string
 
 		const data: ReplyToChatData = {
 			privateChatId: privateChat._id,
 			senderId: user._id,
-			text: newMessage,
+			text: repliedMessage,
 			replyTo: privateMessageReplyingTo._id
 		}
 		const privateMessage = await PrivateMessageModel.create(data)
@@ -35,6 +37,15 @@ export default async function replyToPrivateMessage(req: Request, res: Response)
 			{ $set:
 				{ lastMessage: data }
 			}
+		)
+
+		await NotificationHelper.replyToPrivateMessage(
+			user,
+			friend,
+			repliedMessage,
+			privateChat._id,
+			privateMessage._id,
+			privateMessageReplyingTo._id
 		)
 
 		return res.status(200).json({ privateMessageId: privateMessage._id })

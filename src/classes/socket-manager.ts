@@ -72,25 +72,149 @@ export default class SocketManager {
 		return userConnection ? userConnection.status === "active" : false
 	}
 
-	public handleSendFriendRequest(data: { fromUser: User, toUserId: Types.ObjectId }): void {
-		const receiverSocketId = this.userConnections.get(_.toString(data.toUserId))?.socketId
+	public sendFriendRequest(fromUser: User, toUserId: Types.ObjectId): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${data.toUserId} is not online`)
+			console.info(`User ${toUserId} is not online`)
 			return
 		}
 		this.io.to(receiverSocketId).emit(
-			"friend-request", { fromUserId: _.toString(data.fromUser._id), fromUsername: data.fromUser.username }
+			"friend-request", { fromUserId: _.toString(fromUser._id), fromUsername: fromUser.username }
 		)
 	}
 
-	public handleRetractFriendRequest(data: { fromUserId: Types.ObjectId, toUserId: Types.ObjectId }): void {
-		const receiverSocketId = this.userConnections.get(_.toString(data.toUserId))?.socketId
+	public retractFriendRequest(fromUserId: Types.ObjectId, toUserId: Types.ObjectId): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${data.toUserId} is not online`)
+			console.info(`User ${toUserId} is not online`)
 			return
 		}
 		this.io.to(receiverSocketId).emit(
-			"remove-friend-request", { fromUserId: _.toString(data.fromUserId) }
+			"remove-friend-request", { fromUserId: _.toString(fromUserId) }
+		)
+	}
+
+	// eslint-disable-next-line max-params
+	public sendPrivateMessage(
+		toUserId: Types.ObjectId,
+		messageText: string,
+		privateChatId: Types.ObjectId,
+		privateMessageId: Types.ObjectId,
+		isReplyTo?: Types.ObjectId
+	): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) {
+			console.info(`User ${toUserId} is not online`)
+			return
+		}
+		this.io.to(receiverSocketId).emit(
+			"private-message", {
+				messageText,
+				privateChatId: _.toString(privateChatId),
+				privateMessageId: _.toString(privateMessageId),
+				isReplyTo: _.toString(isReplyTo)
+			}
+		)
+	}
+
+	public markMessageAsRead(
+		toUserId: Types.ObjectId,
+		privateChatId: Types.ObjectId,
+		privateMessageId: Types.ObjectId
+	): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) {
+			console.info(`User ${toUserId} is not online`)
+			return
+		}
+		this.io.to(receiverSocketId).emit(
+			"mark-message-as-read", {
+				privateChatId: _.toString(privateChatId),
+				privateMessageId: _.toString(privateMessageId)
+			}
+		)
+	}
+
+	public updatePrivateMessage(
+		toUserId: Types.ObjectId,
+		messageText: string,
+		privateChatId: Types.ObjectId,
+		privateMessageId: Types.ObjectId
+	): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) {
+			console.info(`User ${toUserId} is not online`)
+			return
+		}
+		this.io.to(receiverSocketId).emit(
+			"update-private-message", {
+				messageText,
+				privateChatId: _.toString(privateChatId),
+				privateMessageId: _.toString(privateMessageId)
+			}
+		)
+	}
+
+	// eslint-disable-next-line max-params
+	public sendGroupMessage(
+		toUserId: Types.ObjectId,
+		messageText: string,
+		groupChatId: Types.ObjectId,
+		groupMessageId: Types.ObjectId,
+		isReplyTo?: Types.ObjectId
+	): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) {
+			console.info(`User ${toUserId} is not online`)
+			return
+		}
+		this.io.to(receiverSocketId).emit(
+			"group-message", {
+				messageText,
+				groupChatId: _.toString(groupChatId),
+				groupMessageId: _.toString(groupMessageId),
+				isReplyTo: _.toString(isReplyTo)
+			}
+		)
+	}
+
+	public markGroupMessageAsRead(
+		userMarkedAsRead: Types.ObjectId,
+		toUserId: Types.ObjectId,
+		groupChatId: Types.ObjectId,
+		groupMessageId: Types.ObjectId
+	): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) {
+			console.info(`User ${toUserId} is not online`)
+			return
+		}
+		this.io.to(receiverSocketId).emit(
+			"mark-group-message-as-read", {
+				userMarkedAsRead: _.toString(userMarkedAsRead),
+				groupChatId: _.toString(groupChatId),
+				groupMessageId: _.toString(groupMessageId)
+			}
+		)
+	}
+
+	public updateGroupMessage(
+		toUserId: Types.ObjectId,
+		updatedMessageText: string,
+		groupChatId: Types.ObjectId,
+		groupMessageId: Types.ObjectId
+	): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) {
+			console.info(`User ${toUserId} is not online`)
+			return
+		}
+		this.io.to(receiverSocketId).emit(
+			"update-group-message", {
+				updatedMessageText,
+				groupChatId: _.toString(groupChatId),
+				groupMessageId: _.toString(groupMessageId)
+			}
 		)
 	}
 
