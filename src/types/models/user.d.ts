@@ -59,18 +59,18 @@ declare global {
 		emailVerifiedTimestamp?: Date
 	}
 
-	interface LoginHistory {
+	interface LoginHistory extends IDInterface {
 		loginTime: Date
 		// ipAddress: string
 		// device: string
 	}
 
-	interface DirectMessageChats {
+	interface DirectMessageChats extends IDInterface {
 		directMessageChatId: Types.ObjectId
 		chatName: string
 	}
 
-	interface GroupChats {
+	interface GroupChats extends IDInterface {
 		groupChatId: Types.ObjectId
 		chatName: string
 	}

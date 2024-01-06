@@ -9,13 +9,12 @@ import validateGroupMessageId from "../../../middleware/request-validation/socia
 import validateGroupChatId from "../../../middleware/request-validation/social/chat/group/validate-group-message-chat-id"
 import validateUpdatedMessageText from "../../../middleware/request-validation/social/chat/validate-updated-message-text"
 import confirmUserHasntBlockedAnyFriend from "../../../middleware/social/chat/group/confirm-user-hasnt-blocked-any-friend"
+import confirmUserIsGroupChatParticipant from "../../../middleware/social/chat/group/confirm-user-is-group-chat-participant"
 import confirmUserIsFriendsWithEachFriend from "../../../middleware/social/chat/group/confirm-user-is-friends-with-each-friend"
 import confirmGroupMessageSentByOtherUser from "../../../middleware/social/chat/group/confirm-group-message-sent-by-other-user"
 import confirmFriendsHaveNotBlockedEachother from "../../../middleware/social/chat/group/confirm-friends-have-not-blocked-eachother"
-import confirmUserIsGroupChatParticipant from "../../../middleware/social/chat/group/confirm-user-is-group-message-chat-participant"
+import validateUpdatedGroupChatName	from "../../../middleware/request-validation/social/chat/group/validate-updated-group-chat-name"
 import confirmGroupMessageNotAlreadyMarkedRead from "../../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
-import validateUpdatedGroupChatName
-	from "../../../middleware/request-validation/social/chat/group/validate-updated-group-message-chat-name"
 
 import createGroupChat from "../../../controllers/social/chat/group/create-group-chat"
 import sendGroupMessage from "../../../controllers/social/chat/group/send-group-message"

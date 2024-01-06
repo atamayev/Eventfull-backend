@@ -12,14 +12,13 @@ const groupChatSchema = new Schema<GroupChat>({
 	participants: {
 		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
 		required: true,
-		validate: [arrayLimit, "{PATH} exceeds the limit of 2"]
+		validate: [arrayLimit, "{PATH} requires at least 3 participants"]
 	},
 	isActive: { type: Boolean, default: true },
 	lastMessage: lastMessageSchema,
 }, { timestamps: true })
 
 function arrayLimit(val: Types.ObjectId[] | null | undefined): boolean {
-	// Ensure the array has more than 2 participants
 	return val ? val.length > 2 : false
 }
 

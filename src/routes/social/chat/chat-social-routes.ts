@@ -1,7 +1,7 @@
 import express from "express"
 
-import directMessagesRoutes from "./direct-messages-routes"
 import groupMessagesRoutes from "./group-messages-routes"
+import directMessagesRoutes from "./direct-messages-routes"
 
 const chatSocialRoutes = express.Router()
 

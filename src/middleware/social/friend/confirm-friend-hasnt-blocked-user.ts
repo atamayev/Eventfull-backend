@@ -9,7 +9,7 @@ export default function confirmFriendHasntBlockedUser (req: Request, res: Respon
 		const hasOtherUserBlockedMe = checkIfUserBlockedByFriend(user, friend._id)
 
 		if (hasOtherUserBlockedMe === true) {
-			const username = friend.username || "this user"
+			const username = friend.username || "This user"
 			return res.status(400).json({ message: `${username} has blocked you` })
 		}
 

@@ -24,6 +24,6 @@ export default async function extractFriendsFromChat (req: Request, res: Respons
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Find Friends from group chat" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to find friends from group chat" })
 	}
 }

@@ -20,6 +20,7 @@ declare global {
 		isTextEdited: boolean
 		createdAt: Date
 		updatedAt: Date
+		// TODO: Consider adding sentAt, deliveredAt fields
 	}
 
 	// The following two interfaces are used in the Chat Models

@@ -13,6 +13,6 @@ export default function confirmNotInvitingThemselves (req: Request, res: Respons
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm Users are Friends" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to check if user is inviting themself" })
 	}
 }
