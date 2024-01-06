@@ -13,6 +13,6 @@ export default function confirmGroupMessageSentByOtherUser(req: Request, res: Re
 		next()
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Confirm if User is a Chat Participant" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to check if user is a chat participant" })
 	}
 }
