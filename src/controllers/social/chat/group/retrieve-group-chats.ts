@@ -1,33 +1,11 @@
-import _ from "lodash"
 import { Request, Response } from "express"
-import GroupChatModel from "../../../../models/chat/group/group-chat-model"
+import retrieveGroupChatsWithNames from "../../../../utils/social/chat/retrieve-group-chats-with-names"
 
 export default async function retrieveGroupChats(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
 
-		if (_.isEmpty(user.groupChats)) {
-			return res.status(200).json({ groupChats: [] })
-		}
-
-		const groupChatIds = user.groupChats.map(chat => chat.groupChatId)
-
-		const groupChats = await GroupChatModel.find({
-			_id: { $in: groupChatIds },
-			isActive: true
-		}).exec()
-
-		const chatIdToNameMap: ChatNameMapping = {}
-		user.groupChats.forEach(groupChat => {
-			chatIdToNameMap[groupChat.groupChatId.toString()] = groupChat.chatName
-		})
-
-		const chatsWithNames = groupChats.map(chat => {
-			return {
-				...chat.toObject(),
-				chatName: chatIdToNameMap[chat._id.toString()] || "Unnamed Chat"
-			}
-		})
+		const chatsWithNames = await retrieveGroupChatsWithNames(user)
 
 		return res.status(200).json({ groupChats: chatsWithNames })
 	} catch (error) {

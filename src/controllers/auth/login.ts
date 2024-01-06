@@ -39,7 +39,8 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const primaryContact = user.primaryContactMethod
 		const userContact = setUserContact(primaryContact, user)
 
-		const { friends, incomingFriendRequests, outgoingFriendRequests, blockedUsers } = await fetchLoginUserData(user)
+		const { friends, incomingFriendRequests, outgoingFriendRequests, blockedUsers,
+			groupChats, privateChats } = await fetchLoginUserData(user)
 
 		const isContactVerified = isUserContactVerified(primaryContact, user)
 
@@ -56,7 +57,9 @@ export default async function login (req: Request, res: Response): Promise<Respo
 			incomingFriendRequests,
 			outgoingFriendRequests,
 			blockedUsers,
-			isContactVerified
+			isContactVerified,
+			privateChats,
+			groupChats
 		})
 	} catch (error) {
 		console.error(error)
