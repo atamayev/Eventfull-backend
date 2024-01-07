@@ -16,6 +16,7 @@ declare global {
 		isTextEdited: boolean
 		readBy: Types.ObjectId[]
 		groupMessageId: Types.ObjectId
+		replyTo: Types.ObjectId | null
 	}
 
 	interface PrivateChatWithNames extends TimestampsInterface {
@@ -33,6 +34,7 @@ declare global {
 		isTextEdited: boolean
 		readByOtherUser: boolean
 		privateMessageId: Types.ObjectId
+		replyTo: Types.ObjectId | null
 	}
 }
 

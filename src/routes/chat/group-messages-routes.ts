@@ -15,6 +15,7 @@ import confirmGroupMessageSentByOtherUser from "../../middleware/social/chat/gro
 import confirmFriendsHaveNotBlockedEachother from "../../middleware/social/chat/group/confirm-friends-have-not-blocked-eachother"
 import validateUpdatedGroupChatName	from "../../middleware/request-validation/social/chat/group/validate-updated-group-chat-name"
 import confirmGroupMessageNotAlreadyMarkedRead from "../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
+import validateGroupChatIdInParams from "../../middleware/request-validation/social/chat/group/validate-group-message-chat-id-in-params"
 
 import createGroupChat from "../../controllers/social/chat/group/create-group-chat"
 import sendGroupMessage from "../../controllers/social/chat/group/send-group-message"
@@ -77,7 +78,7 @@ groupMessagesRoutes.post(
 
 groupMessagesRoutes.get(
 	"/retrieve-messages-from-chat/:groupChatId",
-	validateGroupChatId,
+	validateGroupChatIdInParams,
 	confirmUserIsGroupChatParticipant,
 	retrieveMessagesFromGroupChat
 )

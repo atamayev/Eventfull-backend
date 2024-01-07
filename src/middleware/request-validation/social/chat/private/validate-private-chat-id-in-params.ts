@@ -9,13 +9,13 @@ const privateMessageSchema = Joi.object({
 	privateChatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 }).unknown(true)
 
-export default async function validatePrivateChatId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function validatePrivateChatIdInParams (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
-		const { error } = privateMessageSchema.validate(req.body)
+		const { error } = privateMessageSchema.validate(req.params)
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const privateChatId = new Types.ObjectId(req.body.privateChatId as string)
+		const privateChatId = new Types.ObjectId(req.params.privateChatId as string)
 
 		const privateChat = await findPrivateChat(privateChatId)
 

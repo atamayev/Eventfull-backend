@@ -13,6 +13,7 @@ import validatePrivateMessageId from "../../middleware/request-validation/social
 import validatePrivateChatId from "../../middleware/request-validation/social/chat/private/validate-private-chat-id"
 import confirmUserIsPrivateChatParticipant from "../../middleware/social/chat/private/confirm-user-is-private-chat-participant"
 import confirmPrivateMessageSentByOtherUser from "../../middleware/social/chat/private/confirm-private-message-sent-by-other-user"
+import validatePrivateChatIdInParams from "../../middleware/request-validation/social/chat/private/validate-private-chat-id-in-params"
 import validateUpdatedPrivateChatName from "../../middleware/request-validation/social/chat/private/validate-updated-private-chat-name"
 import confirmPrivateMessageNotAlreadyMarkedRead from "../../middleware/social/chat/private/confirm-private-message-not-already-marked-read"
 
@@ -78,7 +79,7 @@ privateMessagesRoutes.post(
 
 privateMessagesRoutes.get(
 	"/retrieve-messages-from-chat/:privateChatId",
-	validatePrivateChatId,
+	validatePrivateChatIdInParams,
 	confirmUserIsPrivateChatParticipant,
 	retrievePrivateChatMessages
 )

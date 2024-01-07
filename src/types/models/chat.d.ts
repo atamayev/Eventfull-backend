@@ -16,7 +16,7 @@ declare global {
 		senderId: Types.ObjectId
 		text: string
 		isTextEdited: boolean
-		replyTo?: Types.ObjectId | null
+		replyTo: Types.ObjectId | null
 		// TODO: Consider adding sentAt, deliveredAt fields
 	}
 
