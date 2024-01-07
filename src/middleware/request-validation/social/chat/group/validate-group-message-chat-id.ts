@@ -11,11 +11,11 @@ const groupMessageSchema = Joi.object({
 
 export default async function validateGroupChatId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
-		const { error } = groupMessageSchema.validate(req.body)
+		const { error } = groupMessageSchema.validate(req.params)
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const groupChatId = new Types.ObjectId(req.body.groupChatId as string)
+		const groupChatId = new Types.ObjectId(req.params.groupChatId as string)
 
 		const groupChat = await findGroupChat(groupChatId)
 

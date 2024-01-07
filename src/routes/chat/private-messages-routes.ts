@@ -77,7 +77,7 @@ privateMessagesRoutes.post(
 )
 
 privateMessagesRoutes.get(
-	"/retrieve-messages-from-chat",
+	"/retrieve-messages-from-chat/:privateChatId",
 	validatePrivateChatId,
 	confirmUserIsPrivateChatParticipant,
 	retrievePrivateChatMessages

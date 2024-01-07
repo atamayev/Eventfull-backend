@@ -76,7 +76,7 @@ groupMessagesRoutes.post(
 )
 
 groupMessagesRoutes.get(
-	"/retrieve-messages-from-chat",
+	"/retrieve-messages-from-chat/:groupChatId",
 	validateGroupChatId,
 	confirmUserIsGroupChatParticipant,
 	retrieveMessagesFromGroupChat
