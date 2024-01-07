@@ -35,11 +35,8 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 		)
 
 		await NotificationHelper.sendGroupMessage(
-			user,
 			groupChat.participants.filter(participantId => participantId !== user.id),
-			message,
-			groupChat._id,
-			groupMessage._id
+			groupMessage
 		)
 
 		return res.status(200).json({ groupMessageId: groupMessage._id })
