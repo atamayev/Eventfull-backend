@@ -4,7 +4,7 @@ import NotificationHelper from "../../../../classes/notification-helper"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
-export default async function markGroupMessageAsRead(req: Request, res: Response): Promise<Response> {
+export default async function markGroupMessageRead(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
 		const groupChat = req.groupChat
@@ -26,7 +26,7 @@ export default async function markGroupMessageAsRead(req: Request, res: Response
 			)
 		}
 
-		NotificationHelper.markGroupMessageAsRead(
+		NotificationHelper.markGroupMessageRead(
 			user,
 			groupChat.participants.filter(participantId => participantId !== user.id),
 			groupChat._id,

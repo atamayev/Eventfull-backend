@@ -23,7 +23,7 @@ import editPrivateChatName from "../../../controllers/social/chat/private/edit-p
 import updatePrivateMessage from "../../../controllers/social/chat/private/update-private-message"
 import retrievePrivateChats from "../../../controllers/social/chat/private/retrieve-private-chats"
 import replyToPrivateMessage from "../../../controllers/social/chat/private/reply-to-private-message"
-import markPrivateMessageAsRead from "../../../controllers/social/chat/private/mark-private-message-as-read"
+import markPrivateMessageRead from "../../../controllers/social/chat/private/mark-private-message-read"
 import retrievePrivateChatMessages from "../../../controllers/social/chat/private/retrieve-private-chat-messages"
 
 const privateMessagesRoutes = express.Router()
@@ -53,12 +53,12 @@ privateMessagesRoutes.post(
 privateMessagesRoutes.get("/retrieve-chats-list", retrievePrivateChats)
 
 privateMessagesRoutes.post(
-	"/mark-message-as-read",
+	"/mark-message-read",
 	validatePrivateMessageId,
 	confirmUserIsPrivateChatParticipant,
 	confirmPrivateMessageSentByOtherUser,
 	confirmPrivateMessageNotAlreadyMarkedRead,
-	markPrivateMessageAsRead
+	markPrivateMessageRead
 )
 
 privateMessagesRoutes.post(

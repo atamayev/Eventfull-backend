@@ -94,13 +94,13 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public markPrivateMessageAsRead (receiver: User, privateChatId: Types.ObjectId, privateMessageId: Types.ObjectId): void {
+	public markPrivateMessageRead (receiver: User, privateChatId: Types.ObjectId, privateMessageId: Types.ObjectId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (socketManager.isUserOnline(receiver._id) === false) {
 				return
 			}
-			socketManager.markMessageAsRead(receiver._id, privateChatId, privateMessageId)
+			socketManager.markMessageRead(receiver._id, privateChatId, privateMessageId)
 		} catch (error) {
 			console.error(error)
 		}
@@ -108,7 +108,7 @@ export default new class NotificationHelper {
 
 	public updatePrivateMessage(
 		receiver: User,
-		messageText: string,
+		text: string,
 		privateChatId: Types.ObjectId,
 		privateMessageId: Types.ObjectId
 	): void {
@@ -117,7 +117,7 @@ export default new class NotificationHelper {
 			if (socketManager.isUserOnline(receiver._id) === false) {
 				return
 			}
-			socketManager.updatePrivateMessage(receiver._id, messageText, privateChatId, privateMessageId)
+			socketManager.updatePrivateMessage(receiver._id, text, privateChatId, privateMessageId)
 		} catch (error) {
 			console.error(error)
 		}
@@ -127,7 +127,7 @@ export default new class NotificationHelper {
 	public async replyToPrivateMessage(
 		sender: User,
 		receiver: User,
-		messageText: string,
+		text: string,
 		privateChatId: Types.ObjectId,
 		privateMessageId: Types.ObjectId,
 		replyToMessageId: Types.ObjectId
@@ -138,7 +138,7 @@ export default new class NotificationHelper {
 				socketManager.isUserOnline(receiver._id) === true &&
 				socketManager.isUserActive(receiver._id) === true
 			) {
-				socketManager.sendPrivateMessage(receiver._id, messageText, privateChatId, privateMessageId, replyToMessageId)
+				socketManager.sendPrivateMessage(receiver._id, text, privateChatId, privateMessageId, replyToMessageId)
 			} else {
 				if (!_.isString(receiver.notificationToken)) {
 					console.info("Friend does not have a notification token (or friend isn't logged in).")
@@ -150,7 +150,7 @@ export default new class NotificationHelper {
 				const notificationMessage = returnCorrectMessageType(
 					receiver.primaryDevicePlatform,
 					`${sender.username || "User"} replied to your message`,
-					messageText,
+					text,
 					"Chat"
 				)
 				await AwsSnsService.getInstance().sendNotification(
@@ -167,7 +167,7 @@ export default new class NotificationHelper {
 	public async sendGroupMessage(
 		sender: User,
 		recievers: User[],
-		messageText: string,
+		text: string,
 		groupChatId: Types.ObjectId,
 		groupMessageId: Types.ObjectId
 	): Promise<void> {
@@ -178,7 +178,7 @@ export default new class NotificationHelper {
 					socketManager.isUserOnline(reciever._id) === true &&
 					socketManager.isUserActive(reciever._id) === true
 				) {
-					socketManager.sendGroupMessage(reciever._id, messageText, groupChatId, groupMessageId)
+					socketManager.sendGroupMessage(reciever._id, text, groupChatId, groupMessageId)
 				} else {
 					// eslint-disable-next-line max-depth
 					if (!_.isString(reciever.notificationToken)) {
@@ -194,7 +194,7 @@ export default new class NotificationHelper {
 					const notificationMessage = returnCorrectMessageType(
 						reciever.primaryDevicePlatform,
 						`New Message from ${sender.username || "User"}`,
-						messageText,
+						text,
 						"Chat"
 					)
 					await AwsSnsService.getInstance().sendNotification(
@@ -208,7 +208,7 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public markGroupMessageAsRead (
+	public markGroupMessageRead (
 		sender: User,
 		recievers: User[],
 		groupChatId: Types.ObjectId,
@@ -220,7 +220,7 @@ export default new class NotificationHelper {
 				if (socketManager.isUserOnline(reciever._id) === false) {
 					continue
 				}
-				socketManager.markGroupMessageAsRead(sender._id, reciever._id, groupChatId, groupMessageId)
+				socketManager.markGroupMessageRead(sender._id, reciever._id, groupChatId, groupMessageId)
 			}
 		} catch (error) {
 			console.error(error)
@@ -250,7 +250,7 @@ export default new class NotificationHelper {
 	public async replyToGroupMessage(
 		sender: User,
 		recievers: User[],
-		messageText: string,
+		text: string,
 		groupChatId: Types.ObjectId,
 		groupMessageId: Types.ObjectId,
 		replyToMessageId: Types.ObjectId
@@ -262,7 +262,7 @@ export default new class NotificationHelper {
 					socketManager.isUserOnline(reciever._id) === true &&
 					socketManager.isUserActive(reciever._id) === true
 				) {
-					socketManager.sendGroupMessage(reciever._id, messageText, groupChatId, groupMessageId, replyToMessageId)
+					socketManager.sendGroupMessage(reciever._id, text, groupChatId, groupMessageId, replyToMessageId)
 				} else {
 					// eslint-disable-next-line max-depth
 					if (!_.isString(reciever.notificationToken)) {
@@ -278,7 +278,7 @@ export default new class NotificationHelper {
 					const notificationMessage = returnCorrectMessageType(
 						reciever.primaryDevicePlatform,
 						`New Message from ${sender.username || "User"}`,
-						messageText,
+						text,
 						"Chat"
 					)
 					await AwsSnsService.getInstance().sendNotification(

@@ -22,7 +22,7 @@ import editGroupChatName from "../../../controllers/social/chat/group/edit-group
 import retrieveGroupChats from "../../../controllers/social/chat/group/retrieve-group-chats"
 import updateGroupMessage from "../../../controllers/social/chat/group/update-group-message"
 import replyToGroupMessage from "../../../controllers/social/chat/group/reply-to-group-message"
-import markGroupMessageAsRead from "../../../controllers/social/chat/group/mark-group-message-as-read"
+import markGroupMessageRead from "../../../controllers/social/chat/group/mark-group-message-read"
 import retrieveMessagesFromGroupChat from "../../../controllers/social/chat/group/retrieve-messages-from-group-chat"
 
 const groupMessagesRoutes = express.Router()
@@ -51,12 +51,12 @@ groupMessagesRoutes.post(
 groupMessagesRoutes.get("/retrieve-chats-list", retrieveGroupChats)
 
 groupMessagesRoutes.post(
-	"/mark-message-as-read",
+	"/mark-message-read",
 	validateGroupMessageId,
 	confirmUserIsGroupChatParticipant,
 	confirmGroupMessageSentByOtherUser,
 	confirmGroupMessageNotAlreadyMarkedRead,
-	markGroupMessageAsRead
+	markGroupMessageRead
 )
 
 groupMessagesRoutes.post(

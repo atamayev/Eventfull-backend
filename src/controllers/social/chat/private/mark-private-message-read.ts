@@ -4,7 +4,7 @@ import NotificationHelper from "../../../../classes/notification-helper"
 import PrivateMessageModel from "../../../../models/chat/private/private-message-model"
 import PrivateChatModel from "../../../../models/chat/private/private-message-chat-model"
 
-export default async function markPrivateMessageAsRead(req: Request, res: Response): Promise<Response> {
+export default async function markPrivateMessageRead(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
 		const privateChat = req.privateChat
@@ -25,7 +25,7 @@ export default async function markPrivateMessageAsRead(req: Request, res: Respon
 				{ "lastMessage.readByOtherUser": true })
 		}
 
-		NotificationHelper.markPrivateMessageAsRead(
+		NotificationHelper.markPrivateMessageRead(
 			privateChat.participants.find(participantId => participantId !== user._id),
 			privateChat._id,
 			privateMessage._id

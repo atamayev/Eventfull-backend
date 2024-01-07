@@ -97,7 +97,7 @@ export default class SocketManager {
 	// eslint-disable-next-line max-params
 	public sendPrivateMessage(
 		toUserId: Types.ObjectId,
-		messageText: string,
+		text: string,
 		privateChatId: Types.ObjectId,
 		privateMessageId: Types.ObjectId,
 		isReplyTo?: Types.ObjectId
@@ -109,7 +109,7 @@ export default class SocketManager {
 		}
 		this.io.to(receiverSocketId).emit(
 			"private-message", {
-				messageText,
+				text,
 				privateChatId: _.toString(privateChatId),
 				privateMessageId: _.toString(privateMessageId),
 				isReplyTo: _.toString(isReplyTo)
@@ -117,7 +117,7 @@ export default class SocketManager {
 		)
 	}
 
-	public markMessageAsRead(
+	public markMessageRead(
 		toUserId: Types.ObjectId,
 		privateChatId: Types.ObjectId,
 		privateMessageId: Types.ObjectId
@@ -128,7 +128,7 @@ export default class SocketManager {
 			return
 		}
 		this.io.to(receiverSocketId).emit(
-			"mark-message-as-read", {
+			"mark-message-read", {
 				privateChatId: _.toString(privateChatId),
 				privateMessageId: _.toString(privateMessageId)
 			}
@@ -137,7 +137,7 @@ export default class SocketManager {
 
 	public updatePrivateMessage(
 		toUserId: Types.ObjectId,
-		messageText: string,
+		text: string,
 		privateChatId: Types.ObjectId,
 		privateMessageId: Types.ObjectId
 	): void {
@@ -148,7 +148,7 @@ export default class SocketManager {
 		}
 		this.io.to(receiverSocketId).emit(
 			"update-private-message", {
-				messageText,
+				text,
 				privateChatId: _.toString(privateChatId),
 				privateMessageId: _.toString(privateMessageId)
 			}
@@ -158,7 +158,7 @@ export default class SocketManager {
 	// eslint-disable-next-line max-params
 	public sendGroupMessage(
 		toUserId: Types.ObjectId,
-		messageText: string,
+		text: string,
 		groupChatId: Types.ObjectId,
 		groupMessageId: Types.ObjectId,
 		isReplyTo?: Types.ObjectId
@@ -170,7 +170,7 @@ export default class SocketManager {
 		}
 		this.io.to(receiverSocketId).emit(
 			"group-message", {
-				messageText,
+				text,
 				groupChatId: _.toString(groupChatId),
 				groupMessageId: _.toString(groupMessageId),
 				isReplyTo: _.toString(isReplyTo)
@@ -178,8 +178,8 @@ export default class SocketManager {
 		)
 	}
 
-	public markGroupMessageAsRead(
-		userMarkedAsRead: Types.ObjectId,
+	public markGroupMessageRead(
+		userMarkedRead: Types.ObjectId,
 		toUserId: Types.ObjectId,
 		groupChatId: Types.ObjectId,
 		groupMessageId: Types.ObjectId
@@ -190,8 +190,8 @@ export default class SocketManager {
 			return
 		}
 		this.io.to(receiverSocketId).emit(
-			"mark-group-message-as-read", {
-				userMarkedAsRead: _.toString(userMarkedAsRead),
+			"mark-group-message-read", {
+				userMarkedRead: _.toString(userMarkedRead),
 				groupChatId: _.toString(groupChatId),
 				groupMessageId: _.toString(groupMessageId)
 			}
