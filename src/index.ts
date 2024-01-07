@@ -13,9 +13,10 @@ import verifySocketJWT from "./middleware/jwt/verify-socket-jwt"
 import listsRoutes from "./routes/lists-routes"
 import searchRoutes from "./routes/search-routes"
 import eventsRoutes from "./routes/events-routes"
+import socialRoutes from "./routes/social-routes"
+import chatRoutes from "./routes/chat/chat-routes"
 import authRoutes from "./routes/auth/auth-routes"
 import profileRoutes from "./routes/profile-routes"
-import socialRoutes from "./routes/social/social-routes"
 import calendarRoutes from "./routes/calendar/calendar-routes"
 
 dotenv.config()
@@ -56,6 +57,7 @@ app.use(cookieParser())
 app.use(express.json())
 
 app.use("/api/auth", authRoutes)
+app.use("/api/chat", jwtVerify, chatRoutes)
 app.use("/api/calendar", jwtVerify, calendarRoutes)
 app.use("/api/events", jwtVerify, eventsRoutes)
 app.use("/api/lists", jwtVerify, listsRoutes)
