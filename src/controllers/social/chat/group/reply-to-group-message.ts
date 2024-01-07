@@ -8,7 +8,7 @@ interface ReplyToGroupChatData {
     senderId: Types.ObjectId
     text: string
 	groupMessageId?: Types.ObjectId
-	replyTo?: Types.ObjectId
+	replyTo: Types.ObjectId
 }
 
 export default async function replyToGroupMessage(req: Request, res: Response): Promise<Response> {
@@ -27,7 +27,6 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 		const groupMessage = await GroupMessageModel.create(data)
 
 		delete data.groupChatId
-		delete data.replyTo
 
 		data.groupMessageId = groupMessage._id
 		await GroupMessageChatModel.findByIdAndUpdate(

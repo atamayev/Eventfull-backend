@@ -5,7 +5,8 @@ const lastMessageSchema = new Schema<GroupMessage>({
 	senderId: { type: Schema.Types.ObjectId, ref: "User" },
 	isTextEdited: { type: Boolean, default: false },
 	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }] },
-	groupMessageId: { type: Schema.Types.ObjectId, ref: "GroupMessage" }
+	groupMessageId: { type: Schema.Types.ObjectId, ref: "GroupMessage" },
+	replyTo: { type: Schema.Types.ObjectId, ref: "GroupMessage", default: null },
 }, { timestamps: true })
 
 const groupChatSchema = new Schema<GroupChat>({

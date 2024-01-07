@@ -35,6 +35,11 @@ declare global {
 	interface ChatNameMapping {
 		[key: string]: string
 	}
+
+	interface TimestampsInterface {
+		createdAt: Date
+		updatedAt: Date
+	}
 }
 
 export {}

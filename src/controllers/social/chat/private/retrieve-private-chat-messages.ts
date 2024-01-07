@@ -7,7 +7,7 @@ export default async function retrievePrivateChatMessages(req: Request, res: Res
 
 		const privateMessages = await PrivateMessageModel.find({
 			privateChatId: privateChat._id,
-		}).exec()
+		}).lean().exec()
 
 		return res.status(200).json({ privateMessages })
 	} catch (error) {

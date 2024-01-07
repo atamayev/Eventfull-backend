@@ -1,8 +1,6 @@
 declare global {
-	interface Chat extends IDInterface {
+	interface Chat extends IDInterface, TimestampsInterface {
 		participants: Types.ObjectId[]
-		createdAt: Date
-		updatedAt: Date
 		isActive: boolean
 	}
 
@@ -14,12 +12,11 @@ declare global {
 		lastMessage: GroupMessage | null
 	}
 
-	interface Message extends IDInterface {
+	interface Message extends IDInterface, TimestampsInterface {
 		senderId: Types.ObjectId
 		text: string
 		isTextEdited: boolean
-		createdAt: Date
-		updatedAt: Date
+		replyTo?: Types.ObjectId | null
 		// TODO: Consider adding sentAt, deliveredAt fields
 	}
 
@@ -36,15 +33,13 @@ declare global {
 
 	// The following two interfaces are used in the Messages Models
 	interface PrivateMessageWithChatId extends Message {
-		privateChatId: Types.ObjectId
 		readByOtherUser: boolean
-		replyTo?: Types.ObjectId | null
+		privateChatId: Types.ObjectId
 	}
 
 	interface GroupMessageWithChatId extends Message {
-		groupChatId: Types.ObjectId
 		readBy: Types.ObjectId[]
-		replyTo?: Types.ObjectId | null
+		groupChatId: Types.ObjectId
 	}
 }
 

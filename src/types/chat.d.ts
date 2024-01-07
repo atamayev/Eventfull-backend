@@ -1,46 +1,38 @@
 import { Types } from "mongoose"
 
 declare global {
-	interface GroupChatWithNames {
+	interface GroupChatWithNames extends TimestampsInterface {
 		_id: Types.ObjectId
 		chatName: string
 		participants: Types.ObjectId[]
 		isActive: boolean
-		createdAt: Date
-		updatedAt: Date
 		lastMessage: LastMessageRetrieveGroupChats | null
 	}
 
-	interface LastMessageRetrieveGroupChats {
-		text: string
+	interface LastMessageRetrieveGroupChats extends TimestampsInterface {
 		_id: Types.ObjectId
-		senderId: Types.ObjectId
+		text: string
+		senderDetails: SocialData
 		isTextEdited: boolean
 		readBy: Types.ObjectId[]
 		groupMessageId: Types.ObjectId
-		createdAt: Date
-		updatedAt: Date
 	}
 
-	interface PrivateChatWithNames {
+	interface PrivateChatWithNames extends TimestampsInterface {
 		_id: Types.ObjectId
 		chatName: string
 		participants: Types.ObjectId[]
 		isActive: boolean
-		createdAt: Date
-		updatedAt: Date
 		lastMessage: LastMessageRetrievePrivateChats | null
 	}
 
-	interface LastMessageRetrievePrivateChats {
-		text: string
+	interface LastMessageRetrievePrivateChats extends TimestampsInterface {
 		_id: Types.ObjectId
-		senderId: Types.ObjectId
+		text: string
+		senderDetails: SocialData
 		isTextEdited: boolean
 		readByOtherUser: boolean
 		privateMessageId: Types.ObjectId
-		createdAt: Date
-		updatedAt: Date
 	}
 }
 

@@ -10,7 +10,7 @@ export default async function retrieveMessagesFromGroupChat(req: Request, res: R
 		// Same for private messages
 		const groupMessages = await GroupMessageModel.find({
 			groupChatId: groupChat._id,
-		}).exec()
+		}).lean().exec()
 
 		return res.status(200).json({ groupMessages })
 	} catch (error) {

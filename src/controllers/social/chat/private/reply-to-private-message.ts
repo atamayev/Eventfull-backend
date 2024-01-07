@@ -9,7 +9,7 @@ interface ReplyToChatData {
     senderId: Types.ObjectId
     text: string
 	privateMessageId?: Types.ObjectId
-	replyTo?: Types.ObjectId
+	replyTo: Types.ObjectId
 }
 
 export default async function replyToPrivateMessage(req: Request, res: Response): Promise<Response> {
@@ -29,7 +29,6 @@ export default async function replyToPrivateMessage(req: Request, res: Response)
 		const privateMessage = await PrivateMessageModel.create(data)
 
 		delete data.privateChatId
-		delete data.replyTo
 
 		data.privateMessageId = privateMessage._id
 		await PrivateChatModel.findByIdAndUpdate(
