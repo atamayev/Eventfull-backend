@@ -27,8 +27,7 @@ export default async function markPrivateMessageRead(req: Request, res: Response
 
 		NotificationHelper.markPrivateMessageRead(
 			privateChat.participants.find(participantId => participantId !== user._id),
-			privateChat._id,
-			privateMessage._id
+			privateMessage
 		)
 
 		return res.status(200).json({ success: "Message Marked as Read" })

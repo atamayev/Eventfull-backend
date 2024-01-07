@@ -29,8 +29,7 @@ export default async function markGroupMessageRead(req: Request, res: Response):
 		NotificationHelper.markGroupMessageRead(
 			user,
 			groupChat.participants.filter(participantId => participantId !== user.id),
-			groupChat._id,
-			groupMessage._id
+			groupMessage
 		)
 
 		return res.status(200).json({ success: "Message Marked as Read" })

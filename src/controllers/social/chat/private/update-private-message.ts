@@ -10,7 +10,7 @@ export default async function updatePrivateMessage(req: Request, res: Response):
 		const oldPrivateMessage = req.privateMessage
 		const updatedMessageText = req.body.updatedMessageText
 
-		await PrivateMessageModel.findByIdAndUpdate(
+		const updatedPrivateMessage = await PrivateMessageModel.findByIdAndUpdate(
 			oldPrivateMessage._id,
 			{ $set:
 				{
@@ -21,24 +21,24 @@ export default async function updatePrivateMessage(req: Request, res: Response):
 			}
 		)
 
-		if (_.isNull(privateChat.lastMessage)) return res.status(400).json( { message: "No last message in chat model" })
-
-		if (_.isEqual(privateChat.lastMessage.privateMessageId, oldPrivateMessage._id)) {
-			await PrivateChatModel.findByIdAndUpdate(
-				privateChat._id,
-				{
-					"lastMessage.text": updatedMessageText,
-					"lastMessage.isTextEdited": true,
-					"lastMessage.readByOtherUser": false,
-				}
-			)
+		if (!_.isNull(privateChat.lastMessage)) {
+			if (_.isEqual(privateChat.lastMessage.privateMessageId, oldPrivateMessage._id)) {
+				await PrivateChatModel.findByIdAndUpdate(
+					privateChat._id,
+					{
+						"lastMessage.text": updatedMessageText,
+						"lastMessage.isTextEdited": true,
+						"lastMessage.readByOtherUser": false,
+					}
+				)
+			}
 		}
+
+		if (_.isNull(updatedPrivateMessage)) return res.status(500).json({ error: "Unable to Update Private Message" })
 
 		NotificationHelper.updatePrivateMessage(
 			privateChat.participants.find(participantId => participantId !== req.user._id),
-			updatedMessageText,
-			privateChat._id,
-			oldPrivateMessage._id
+			updatedPrivateMessage,
 		)
 
 		return res.status(200).json({ success: "Private Message Updated" })

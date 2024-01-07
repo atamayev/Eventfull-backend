@@ -10,7 +10,7 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 		const oldGroupMessage = req.groupMessage
 		const updatedMessageText = req.body.updatedMessageText
 
-		await GroupMessageModel.findByIdAndUpdate(
+		const updatedGroupMessage = await GroupMessageModel.findByIdAndUpdate(
 			oldGroupMessage._id,
 			{ $set:
 				{
@@ -21,24 +21,24 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 			}
 		)
 
-		if (_.isNull(groupChat.lastMessage)) return res.status(400).json( { message: "No last message in chat model" })
-
-		if (_.isEqual(groupChat.lastMessage.groupMessageId, oldGroupMessage._id)) {
-			await GroupChatModel.findByIdAndUpdate(
-				groupChat._id,
-				{
-					"lastMessage.text": updatedMessageText,
-					"lastMessage.isTextEdited": true,
-					"lastMessage.readBy": [],
-				}
-			)
+		if (!_.isNull(groupChat.lastMessage)) {
+			if (_.isEqual(groupChat.lastMessage.groupMessageId, oldGroupMessage._id)) {
+				await GroupChatModel.findByIdAndUpdate(
+					groupChat._id,
+					{
+						"lastMessage.text": updatedMessageText,
+						"lastMessage.isTextEdited": true,
+						"lastMessage.readBy": [],
+					}
+				)
+			}
 		}
+
+		if (_.isNull(updatedGroupMessage)) return res.status(500).json({ error: "Unable to Update Group Message" })
 
 		NotificationHelper.updateGroupMessage(
 			groupChat.participants.filter(participantId => participantId !== req.user.id),
-			updatedMessageText,
-			groupChat._id,
-			oldGroupMessage._id
+			updatedGroupMessage
 		)
 
 		return res.status(200).json({ success: "Group Message Updated" })

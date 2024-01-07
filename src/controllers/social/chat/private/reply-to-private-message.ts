@@ -38,14 +38,7 @@ export default async function replyToPrivateMessage(req: Request, res: Response)
 			}
 		)
 
-		await NotificationHelper.replyToPrivateMessage(
-			user,
-			friend,
-			repliedMessage,
-			privateChat._id,
-			privateMessage._id,
-			privateMessageReplyingTo._id
-		)
+		await NotificationHelper.replyToPrivateMessage(friend, privateMessage)
 
 		return res.status(200).json({ privateMessageId: privateMessage._id })
 	} catch (error) {
