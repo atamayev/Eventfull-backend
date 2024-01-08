@@ -1,8 +1,9 @@
 import { Schema, model } from "mongoose"
+import { socialDataSchema } from "../sender-details-model"
 
 const groupMessageSchema = new Schema<GroupMessageWithChatId>({
 	groupChatId: { type: Schema.Types.ObjectId, ref: "GroupChat", required: true },
-	senderId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+	senderDetails: socialDataSchema,
 	text: { type: String, trim: true, required: true },
 	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }], required: true },
 	isTextEdited: { type: Boolean, default: false},

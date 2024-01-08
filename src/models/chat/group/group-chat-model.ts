@@ -1,8 +1,9 @@
 import { Schema, model, Types } from "mongoose"
+import { socialDataSchema } from "../sender-details-model"
 
 const lastMessageSchema = new Schema<GroupMessage>({
 	text: { type: String, trim: true },
-	senderId: { type: Schema.Types.ObjectId, ref: "User" },
+	senderDetails: socialDataSchema,
 	isTextEdited: { type: Boolean, default: false },
 	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }] },
 	groupMessageId: { type: Schema.Types.ObjectId, ref: "GroupMessage" },
@@ -10,8 +11,8 @@ const lastMessageSchema = new Schema<GroupMessage>({
 }, { timestamps: true })
 
 const groupChatSchema = new Schema<GroupChat>({
-	participants: {
-		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
+	participantDetails: {
+		type: [socialDataSchema],
 		required: true,
 		validate: [arrayLimit, "{PATH} requires at least 3 participants"]
 	},

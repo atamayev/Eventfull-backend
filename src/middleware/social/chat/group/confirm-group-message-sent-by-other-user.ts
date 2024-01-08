@@ -6,7 +6,7 @@ export default function confirmGroupMessageSentByOtherUser(req: Request, res: Re
 		const user = req.user
 		const groupMessage = req.groupMessage
 
-		if (_.isEqual(user._id, groupMessage.senderId)) {
+		if (_.isEqual(user._id, groupMessage.senderDetails._id)) {
 			return res.status(400).json({ message: "You cannot mark your own message as read" })
 		}
 

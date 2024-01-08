@@ -4,7 +4,7 @@ declare global {
 	interface GroupChatWithNames extends TimestampsInterface {
 		_id: Types.ObjectId
 		chatName: string
-		participants: Types.ObjectId[]
+		participantDetails: SocialData[]
 		isActive: boolean
 		lastMessage: LastMessageRetrieveGroupChats | null
 	}
@@ -22,7 +22,7 @@ declare global {
 	interface PrivateChatWithNames extends TimestampsInterface {
 		_id: Types.ObjectId
 		chatName: string
-		participants: Types.ObjectId[]
+		participantDetails: SocialData[]
 		isActive: boolean
 		lastMessage: LastMessageRetrievePrivateChats | null
 	}

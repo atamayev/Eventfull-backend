@@ -6,7 +6,7 @@ import PrivateChatModel from "../../../../models/chat/private/private-message-ch
 
 interface ReplyToChatData {
     privateChatId?: Types.ObjectId
-    senderId: Types.ObjectId
+    senderDetails: SocialData
     text: string
 	privateMessageId?: Types.ObjectId
 	replyTo: Types.ObjectId
@@ -22,7 +22,10 @@ export default async function replyToPrivateMessage(req: Request, res: Response)
 
 		const data: ReplyToChatData = {
 			privateChatId: privateChat._id,
-			senderId: user._id,
+			senderDetails: {
+				_id: user._id,
+				username: user.username || "User",
+			},
 			text: repliedMessage,
 			replyTo: privateMessageReplyingTo._id
 		}

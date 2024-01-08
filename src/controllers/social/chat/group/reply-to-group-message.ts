@@ -5,7 +5,7 @@ import GroupMessageChatModel from "../../../../models/chat/group/group-chat-mode
 
 interface ReplyToGroupChatData {
     groupChatId?: Types.ObjectId
-    senderId: Types.ObjectId
+    senderDetails: SocialData
     text: string
 	groupMessageId?: Types.ObjectId
 	replyTo: Types.ObjectId
@@ -20,7 +20,10 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 
 		const data: ReplyToGroupChatData = {
 			groupChatId: groupMessageChat._id,
-			senderId: user._id,
+			senderDetails: {
+				_id: user._id,
+				username: user.username || "User",
+			},
 			text: message,
 			replyTo: groupMessageReplyingTo._id
 		}

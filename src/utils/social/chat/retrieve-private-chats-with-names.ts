@@ -24,11 +24,11 @@ export default async function retrievePrivateChatsWithNames(user: User): Promise
 			let lastMessageWithSenderDetails = null
 
 			if (!_.isNull(chat.lastMessage)) {
-				const senderUsername = await getUsernameById(chat.lastMessage.senderId)
+				const senderUsername = await getUsernameById(chat.lastMessage.senderDetails._id)
 				lastMessageWithSenderDetails = {
 					...chat.lastMessage,
 					senderDetails: {
-						_id: chat.lastMessage.senderId,
+						_id: chat.lastMessage.senderDetails._id,
 						username: senderUsername
 					}
 				}

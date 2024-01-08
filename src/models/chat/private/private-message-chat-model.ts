@@ -1,8 +1,9 @@
 import { Schema, model, Types } from "mongoose"
+import { socialDataSchema } from "../sender-details-model"
 
 const lastMessageSchema = new Schema<PrivateMessage>({
 	text: { type: String, trim: true },
-	senderId: { type: Schema.Types.ObjectId, ref: "User" },
+	senderDetails: socialDataSchema,
 	isTextEdited: { type: Boolean, default: false },
 	readByOtherUser: { type: Boolean, default: false },
 	privateMessageId: { type: Schema.Types.ObjectId, ref: "PrivateMessage" },
@@ -10,8 +11,8 @@ const lastMessageSchema = new Schema<PrivateMessage>({
 }, { timestamps: true })
 
 const privateChatSchema = new Schema<PrivateChat>({
-	participants: {
-		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
+	participantDetails: {
+		type: [socialDataSchema],
 		required: true,
 		validate: [arrayLimit, "{PATH} exceeds the limit of 2"]
 	},

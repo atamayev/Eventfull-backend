@@ -15,8 +15,8 @@ export default async function confirmGroupChatDoesntExist(
 
 		const groupChat = await GroupChatModel.findOne({
 			$and: [
-				{ participants: { $all: participantIds } },
-				{ participants: { $size: participantIds.length } }
+				{ "participantDetails._id": { $all: participantIds } },
+				{ "participantDetails._id": { $size: participantIds.length } }
 			]
 		})
 

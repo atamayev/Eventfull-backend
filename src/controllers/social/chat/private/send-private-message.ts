@@ -6,7 +6,7 @@ import PrivateChatModel from "../../../../models/chat/private/private-message-ch
 
 interface ChatData {
     privateChatId?: Types.ObjectId
-    senderId: Types.ObjectId
+    senderDetails: SocialData
     text: string
 	privateMessageId?: Types.ObjectId
 }
@@ -20,7 +20,10 @@ export default async function sendPrivateMessage(req: Request, res: Response): P
 
 		const data: ChatData = {
 			privateChatId: privateChat._id,
-			senderId: user._id,
+			senderDetails: {
+				_id: user._id,
+				username: user.username || "User",
+			},
 			text: message
 		}
 		const privateMessage = await PrivateMessageModel.create(data)

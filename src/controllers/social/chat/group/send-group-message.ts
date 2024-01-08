@@ -6,7 +6,7 @@ import GroupMessageModel from "../../../../models/chat/group/group-message-model
 
 interface ChatData {
     groupChatId?: Types.ObjectId
-    senderId: Types.ObjectId
+    senderDetails: SocialData
     text: string
 	groupMessageId?: Types.ObjectId
 }
@@ -16,10 +16,14 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 		const user = req.user
 		const groupChat = req.groupChat
 		const message = req.body.groupMessage as string
+		const friends = req.friends
 
 		const data: ChatData = {
 			groupChatId: groupChat._id,
-			senderId: user._id,
+			senderDetails: {
+				_id: user._id,
+				username: user.username || "User",
+			},
 			text: message
 		}
 		const groupMessage = await GroupMessageModel.create(data)
@@ -34,10 +38,7 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 			}
 		)
 
-		await NotificationHelper.sendGroupMessage(
-			groupChat.participants.filter(participantId => participantId !== user.id),
-			groupMessage
-		)
+		await NotificationHelper.sendGroupMessage(friends, groupMessage)
 
 		return res.status(200).json({ groupMessageId: groupMessage._id })
 	} catch (error) {

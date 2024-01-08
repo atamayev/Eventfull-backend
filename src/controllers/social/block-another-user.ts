@@ -27,7 +27,7 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 		const doesOutgoingFriendRequestExists = checkIfOutgoingFriendRequestExists(user, blockedUser._id)
 		if (doesOutgoingFriendRequestExists === true) {
 			await clearOutgoingFriendRequest(user, blockedUser)
-			NotificationHelper.retractFriendRequest(user, blockedUser)
+			NotificationHelper.retractFriendRequest(user._id, blockedUser._id)
 		}
 
 		const doesIncomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, blockedUser._id)

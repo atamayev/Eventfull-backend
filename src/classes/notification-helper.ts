@@ -1,9 +1,11 @@
 import _ from "lodash"
+import { Types } from "mongoose"
 import SocketManager from "./socket-manager"
 import AwsSnsService from "./aws-sns-service"
 import getUserArn from "../utils/auth-helpers/aws/get-user-arn"
 import returnCorrectMessageType from "../utils/notifications/create-notifications/return-correct-message-type"
 
+// TODO: Convert to static methods?
 export default new class NotificationHelper {
 	public async sendFriendRequest (user: User, friend: User): Promise<void> {
 		try {
@@ -37,13 +39,13 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public retractFriendRequest (user: User, friend: User): void {
+	public retractFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (socketManager.isUserOnline(friend._id) === false) {
+			if (socketManager.isUserOnline(friendId) === false) {
 				return
 			}
-			socketManager.retractFriendRequest(user._id, friend._id)
+			socketManager.retractFriendRequest(userId, friendId)
 		} catch (error) {
 			console.error(error)
 		}
@@ -72,7 +74,7 @@ export default new class NotificationHelper {
 
 				const notificationMessage = returnCorrectMessageType(
 					receiver.primaryDevicePlatform,
-					`New Message from ${privateMessage.senderId || "User"}`,
+					`New Message from ${privateMessage.senderDetails.username || "User"}`,
 					privateMessage.text,
 					"Chat"
 				)
@@ -86,25 +88,25 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public markPrivateMessageRead (receiver: User, privateMessage: PrivateMessageWithChatId): void {
+	public markPrivateMessageRead (receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (socketManager.isUserOnline(receiver._id) === false) {
+			if (socketManager.isUserOnline(receiverId) === false) {
 				return
 			}
-			socketManager.markPrivateMessageRead(receiver._id, privateMessage)
+			socketManager.markPrivateMessageRead(receiverId, privateMessage)
 		} catch (error) {
 			console.error(error)
 		}
 	}
 
-	public updatePrivateMessage(receiver: User, privateMessage: PrivateMessageWithChatId): void {
+	public updatePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (socketManager.isUserOnline(receiver._id) === false) {
+			if (socketManager.isUserOnline(receiverId) === false) {
 				return
 			}
-			socketManager.updatePrivateMessage(receiver._id, privateMessage)
+			socketManager.updatePrivateMessage(receiverId, privateMessage)
 		} catch (error) {
 			console.error(error)
 		}
@@ -128,7 +130,7 @@ export default new class NotificationHelper {
 
 				const notificationMessage = returnCorrectMessageType(
 					receiver.primaryDevicePlatform,
-					`${privateMessage.senderId || "User"} replied to your message`,
+					`${privateMessage.senderDetails.username || "User"} replied to your message`,
 					privateMessage.text,
 					"Chat"
 				)
@@ -169,7 +171,7 @@ export default new class NotificationHelper {
 
 					const notificationMessage = returnCorrectMessageType(
 						reciever.primaryDevicePlatform,
-						`New Message from ${groupMessage.senderId || "User"}`,
+						`New Message from ${groupMessage.senderDetails.username || "User"}`,
 						groupMessage.text,
 						"Chat"
 					)
@@ -185,17 +187,17 @@ export default new class NotificationHelper {
 	}
 
 	public markGroupMessageRead (
-		sender: User,
-		recievers: User[],
+		senderId: Types.ObjectId,
+		recieverIds: Types.ObjectId[],
 		groupMessage: GroupMessageWithChatId,
 	): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			for (const reciever of recievers) {
-				if (socketManager.isUserOnline(reciever._id) === false) {
+			for (const recieverId of recieverIds) {
+				if (socketManager.isUserOnline(recieverId) === false) {
 					continue
 				}
-				socketManager.markGroupMessageRead(sender._id, reciever._id, groupMessage)
+				socketManager.markGroupMessageRead(senderId, recieverId, groupMessage)
 			}
 		} catch (error) {
 			console.error(error)
@@ -203,16 +205,16 @@ export default new class NotificationHelper {
 	}
 
 	public updateGroupMessage(
-		recievers: User[],
+		recieverIds: Types.ObjectId[],
 		groupMessage: GroupMessageWithChatId
 	): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			for (const reciever of recievers) {
-				if (socketManager.isUserOnline(reciever._id) === false) {
+			for (const recieverId of recieverIds) {
+				if (socketManager.isUserOnline(recieverId) === false) {
 					continue
 				}
-				socketManager.updateGroupMessage(reciever._id, groupMessage)
+				socketManager.updateGroupMessage(recieverId, groupMessage)
 			}
 		} catch (error) {
 			console.error(error)
@@ -242,7 +244,7 @@ export default new class NotificationHelper {
 
 					const notificationMessage = returnCorrectMessageType(
 						reciever.primaryDevicePlatform,
-						`New Message from ${groupMessage.senderId || "User"}`,
+						`New Message from ${groupMessage.senderDetails.username || "User"}`,
 						groupMessage.text,
 						"Chat"
 					)

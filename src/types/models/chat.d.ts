@@ -1,6 +1,6 @@
 declare global {
 	interface Chat extends IDInterface, TimestampsInterface {
-		participants: Types.ObjectId[]
+		participantDetails: SocialData[]
 		isActive: boolean
 	}
 
@@ -13,9 +13,10 @@ declare global {
 	}
 
 	interface Message extends IDInterface, TimestampsInterface {
-		senderId: Types.ObjectId
+		senderDetails: SocialData
 		text: string
 		isTextEdited: boolean
+		// ReplyTo is the id of the message to which this message is a reply to
 		replyTo: Types.ObjectId | null
 		// TODO: Consider adding sentAt, deliveredAt fields
 	}

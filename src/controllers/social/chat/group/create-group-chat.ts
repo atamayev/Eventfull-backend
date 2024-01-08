@@ -2,18 +2,21 @@ import { Request, Response } from "express"
 import UserModel from "../../../../models/user-model"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 
+// eslint-disable-next-line max-lines-per-function
 export default async function createGroupChat(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
 		const friends = req.friends
 
-		const participantIds = friends.map(friend => friend._id)
-		participantIds.push(user._id)
+		const participantDetails = friends.map(friend => ({
+			_id: friend._id,
+			username: friend.username,
+		}))
 
 		const userChatName = friends.map(friend => friend.username || friend.firstName).join(", ")
 
 		const groupChat = await GroupChatModel.create({
-			participants: participantIds,
+			participantDetails,
 			lastMessage: null,
 		})
 

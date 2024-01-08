@@ -1,8 +1,9 @@
 import { Schema, model } from "mongoose"
+import { socialDataSchema } from "../sender-details-model"
 
 const privateMessageSchema = new Schema<PrivateMessageWithChatId>({
 	privateChatId: { type: Schema.Types.ObjectId, ref: "PrivateChat", required: true },
-	senderId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+	senderDetails: socialDataSchema,
 	text: { type: String, trim: true, required: true },
 	readByOtherUser: { type: Boolean, default: false },
 	isTextEdited: { type: Boolean, default: false},

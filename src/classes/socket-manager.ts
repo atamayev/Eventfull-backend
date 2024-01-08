@@ -101,7 +101,7 @@ export default class SocketManager {
 			return
 		}
 		this.io.to(receiverSocketId).emit(
-			"private-message", privateMessage
+			"private-message", { privateMessage }
 		)
 	}
 

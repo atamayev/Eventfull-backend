@@ -5,7 +5,9 @@ export default function confirmUserIsGroupChatParticipant (req: Request, res: Re
 		const user = req.user
 		const groupChat = req.groupChat
 
-		const isChatParticipant = groupChat.participants.some((participant) => participant.equals(user._id))
+		const isChatParticipant = groupChat.participantDetails.some(
+			(participant) => participant._id.equals(user._id)
+		)
 		if (isChatParticipant === false) {
 			return res.status(400).json({ message: "You are not a participant of this chat" })
 		}

@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 import NotificationHelper from "../../../../classes/notification-helper"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
+import { extractGroupChatFriendIds } from "../../../../utils/social/chat/extract-friend-ids"
 
 export default async function markGroupMessageRead(req: Request, res: Response): Promise<Response> {
 	try {
@@ -26,9 +27,11 @@ export default async function markGroupMessageRead(req: Request, res: Response):
 			)
 		}
 
+		const friendIds = extractGroupChatFriendIds(groupChat, user._id)
+
 		NotificationHelper.markGroupMessageRead(
-			user,
-			groupChat.participants.filter(participantId => participantId !== user.id),
+			user._id,
+			friendIds,
 			groupMessage
 		)
 
