@@ -19,7 +19,7 @@ export default async function updatePrivateMessage(req: Request, res: Response):
 					text: updatedMessageText,
 					readByOtherUser: false
 				}
-			}
+			}, { new: true }
 		)
 
 		if (!_.isNull(privateChat.lastMessage)) {

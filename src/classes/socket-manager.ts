@@ -100,9 +100,7 @@ export default class SocketManager {
 			console.info(`User ${toUserId} is not online`)
 			return
 		}
-		this.io.to(receiverSocketId).emit(
-			"private-message", { privateMessage }
-		)
+		this.io.to(receiverSocketId).emit("private-message", privateMessage)
 	}
 
 	public markPrivateMessageRead(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
@@ -125,9 +123,7 @@ export default class SocketManager {
 			console.info(`User ${toUserId} is not online`)
 			return
 		}
-		this.io.to(receiverSocketId).emit(
-			"update-private-message", privateMessage
-		)
+		this.io.to(receiverSocketId).emit("update-private-message", privateMessage)
 	}
 
 	public sendGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {
@@ -136,9 +132,7 @@ export default class SocketManager {
 			console.info(`User ${toUserId} is not online`)
 			return
 		}
-		this.io.to(receiverSocketId).emit(
-			"group-message", groupMessage
-		)
+		this.io.to(receiverSocketId).emit("group-message", groupMessage)
 	}
 
 	public markGroupMessageRead(
@@ -165,9 +159,7 @@ export default class SocketManager {
 			console.info(`User ${toUserId} is not online`)
 			return
 		}
-		this.io.to(receiverSocketId).emit(
-			"update-group-message", groupMessage
-		)
+		this.io.to(receiverSocketId).emit("update-group-message", groupMessage)
 	}
 
 	private handleDisconnect(socket: Socket): void {
