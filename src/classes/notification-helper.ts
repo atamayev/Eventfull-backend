@@ -6,9 +6,8 @@ import getUserArn from "../utils/auth-helpers/aws/get-user-arn"
 import returnCorrectMessageType from "../utils/notifications/create-notifications/return-correct-message-type"
 import noNotificationTokenMessage from "../utils/notifications/no-notification-token-message"
 
-// TODO: Convert to static methods?
-export default new class NotificationHelper {
-	public async sendFriendRequest (user: User, receiver: User): Promise<void> {
+export default class NotificationHelper {
+	public static async sendFriendRequest (user: User, receiver: User): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (
@@ -40,7 +39,7 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public retractFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): void {
+	public static retractFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (socketManager.isUserOnline(friendId) === false) {
@@ -57,7 +56,7 @@ export default new class NotificationHelper {
 	// TODO: For all of the messages methods, consider sending the message sent time as well.
 	// Then, when the user recieves the text, they can see the time it was sent, and can tell the backend when they recieved it.
 
-	public async sendPrivateMessage (receiver: User, privateMessage: PrivateMessageWithChatId): Promise<void> {
+	public static async sendPrivateMessage (receiver: User, privateMessage: PrivateMessageWithChatId): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (
@@ -89,7 +88,7 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public markPrivateMessageRead (receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
+	public static markPrivateMessageRead (receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (socketManager.isUserOnline(receiverId) === false) {
@@ -101,7 +100,7 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public updatePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
+	public static updatePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (socketManager.isUserOnline(receiverId) === false) {
@@ -113,7 +112,7 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public async replyToPrivateMessage(receiver: User, privateMessage: PrivateMessageWithChatId): Promise<void> {
+	public static async replyToPrivateMessage(receiver: User, privateMessage: PrivateMessageWithChatId): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (
@@ -146,7 +145,7 @@ export default new class NotificationHelper {
 	}
 
 	// eslint-disable-next-line max-params
-	public async sendGroupMessage(
+	public static async sendGroupMessage(
 		receivers: User[],
 		groupMessage: GroupMessageWithChatId
 	): Promise<void> {
@@ -187,7 +186,7 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public markGroupMessageRead (
+	public static markGroupMessageRead (
 		senderId: Types.ObjectId,
 		receiverIds: Types.ObjectId[],
 		groupMessage: GroupMessageWithChatId,
@@ -205,7 +204,7 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public updateGroupMessage(
+	public static updateGroupMessage(
 		receiverIds: Types.ObjectId[],
 		groupMessage: GroupMessageWithChatId
 	): void {
@@ -222,7 +221,7 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public async replyToGroupMessage(receivers: User[], groupMessage: GroupMessageWithChatId): Promise<void> {
+	public static async replyToGroupMessage(receivers: User[], groupMessage: GroupMessageWithChatId): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiver of receivers) {

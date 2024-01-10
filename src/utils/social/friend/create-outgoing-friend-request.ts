@@ -3,7 +3,7 @@ import UserModel from "../../../models/user-model"
 
 export default async function createOutgoingFriendRequest (user: User, friend: User): Promise<void> {
 	try {
-		// TODO: Add when friend request is sent
+		// TODO: Add a timestamp when the friend request is sent
 		const userUpdate = UserModel.findByIdAndUpdate(
 			user._id,
 			{ $push: { outgoingFriendRequests: friend._id } },
