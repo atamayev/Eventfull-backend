@@ -8,10 +8,16 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 		const user = req.user
 		const friends = req.friends
 
-		const participantDetails = friends.map(friend => ({
-			_id: friend._id,
-			username: friend.username,
-		}))
+		const participantDetails = [
+			{
+				_id: user._id,
+				username: user.username,
+			},
+			...friends.map(friend => ({
+				_id: friend._id,
+				username: friend.username,
+			}))
+		]
 
 		const userChatName = friends.map(friend => friend.username || friend.firstName).join(", ")
 
