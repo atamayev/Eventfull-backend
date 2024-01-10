@@ -2,6 +2,7 @@ import { Types } from "mongoose"
 import { Request, Response } from "express"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 import GroupMessageChatModel from "../../../../models/chat/group/group-chat-model"
+import NotificationHelper from "../../../../classes/notification-helper"
 
 interface ReplyToGroupChatData {
     groupChatId?: Types.ObjectId
@@ -13,6 +14,7 @@ interface ReplyToGroupChatData {
 
 export default async function replyToGroupMessage(req: Request, res: Response): Promise<Response> {
 	try {
+		const friends = req.friends
 		const user = req.user
 		const groupMessageReplyingTo = req.groupMessage
 		const groupMessageChat = req.groupChat
@@ -38,6 +40,8 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 				{ lastMessage: data }
 			}
 		)
+
+		await NotificationHelper.replyToGroupMessage(friends, groupMessage)
 
 		return res.status(200).json({ groupMessageId: groupMessage._id })
 	} catch (error) {

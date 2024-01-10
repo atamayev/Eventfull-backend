@@ -4,27 +4,28 @@ import SocketManager from "./socket-manager"
 import AwsSnsService from "./aws-sns-service"
 import getUserArn from "../utils/auth-helpers/aws/get-user-arn"
 import returnCorrectMessageType from "../utils/notifications/create-notifications/return-correct-message-type"
+import noNotificationTokenMessage from "../utils/notifications/no-notification-token-message"
 
 // TODO: Convert to static methods?
 export default new class NotificationHelper {
-	public async sendFriendRequest (user: User, friend: User): Promise<void> {
+	public async sendFriendRequest (user: User, receiver: User): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (
-				socketManager.isUserOnline(friend._id) === true &&
-				socketManager.isUserActive(friend._id) === true
+				socketManager.isUserOnline(receiver._id) === true &&
+				socketManager.isUserActive(receiver._id) === true
 			) {
-				socketManager.sendFriendRequest(user, friend._id)
+				socketManager.sendFriendRequest(user, receiver._id)
 			} else {
-				if (!_.isString(friend.notificationToken)) {
-					console.info("Friend does not have a notification token (or friend isn't logged in).")
+				if (!_.isString(receiver.notificationToken)) {
+					console.info(noNotificationTokenMessage(receiver))
 					return
 				}
-				const endpointArn = getUserArn(friend)
+				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
 				const message = returnCorrectMessageType(
-					friend.primaryDevicePlatform,
+					receiver.primaryDevicePlatform,
 					"New Friend Request",
 					`${user.username || "User"} sent you a friend request.`,
 					"Chat"
@@ -66,7 +67,7 @@ export default new class NotificationHelper {
 				socketManager.sendPrivateMessage(receiver._id, privateMessage)
 			} else {
 				if (!_.isString(receiver.notificationToken)) {
-					console.info("Friend does not have a notification token (or friend isn't logged in).")
+					console.info(noNotificationTokenMessage(receiver))
 					return
 				}
 				const endpointArn = getUserArn(receiver)
@@ -122,7 +123,7 @@ export default new class NotificationHelper {
 				socketManager.sendPrivateMessage(receiver._id, privateMessage)
 			} else {
 				if (!_.isString(receiver.notificationToken)) {
-					console.info("Friend does not have a notification token (or friend isn't logged in).")
+					console.info(noNotificationTokenMessage(receiver))
 					return
 				}
 				const endpointArn = getUserArn(receiver)
@@ -146,31 +147,31 @@ export default new class NotificationHelper {
 
 	// eslint-disable-next-line max-params
 	public async sendGroupMessage(
-		recievers: User[],
+		receivers: User[],
 		groupMessage: GroupMessageWithChatId
 	): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
-			for (const reciever of recievers) {
+			for (const receiver of receivers) {
 				if (
-					socketManager.isUserOnline(reciever._id) === true &&
-					socketManager.isUserActive(reciever._id) === true
+					socketManager.isUserOnline(receiver._id) === true &&
+					socketManager.isUserActive(receiver._id) === true
 				) {
-					socketManager.sendGroupMessage(reciever._id, groupMessage)
+					socketManager.sendGroupMessage(receiver._id, groupMessage)
 				} else {
 					// eslint-disable-next-line max-depth
-					if (!_.isString(reciever.notificationToken)) {
-						console.info("Friend does not have a notification token (or friend isn't logged in).")
+					if (!_.isString(receiver.notificationToken)) {
+						console.info(noNotificationTokenMessage(receiver))
 						continue
 					}
-					const endpointArn = getUserArn(reciever)
+					const endpointArn = getUserArn(receiver)
 					// eslint-disable-next-line max-depth
 					if (_.isUndefined(endpointArn)) {
 						throw new Error("EndpointArn is undefined")
 					}
 
 					const notificationMessage = returnCorrectMessageType(
-						reciever.primaryDevicePlatform,
+						receiver.primaryDevicePlatform,
 						`New Message from ${groupMessage.senderDetails.username || "User"}`,
 						groupMessage.text,
 						"Chat"
@@ -188,16 +189,16 @@ export default new class NotificationHelper {
 
 	public markGroupMessageRead (
 		senderId: Types.ObjectId,
-		recieverIds: Types.ObjectId[],
+		receiverIds: Types.ObjectId[],
 		groupMessage: GroupMessageWithChatId,
 	): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			for (const recieverId of recieverIds) {
-				if (socketManager.isUserOnline(recieverId) === false) {
+			for (const receiverId of receiverIds) {
+				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
-				socketManager.markGroupMessageRead(senderId, recieverId, groupMessage)
+				socketManager.markGroupMessageRead(senderId, receiverId, groupMessage)
 			}
 		} catch (error) {
 			console.error(error)
@@ -205,45 +206,45 @@ export default new class NotificationHelper {
 	}
 
 	public updateGroupMessage(
-		recieverIds: Types.ObjectId[],
+		receiverIds: Types.ObjectId[],
 		groupMessage: GroupMessageWithChatId
 	): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			for (const recieverId of recieverIds) {
-				if (socketManager.isUserOnline(recieverId) === false) {
+			for (const receiverId of receiverIds) {
+				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
-				socketManager.updateGroupMessage(recieverId, groupMessage)
+				socketManager.updateGroupMessage(receiverId, groupMessage)
 			}
 		} catch (error) {
 			console.error(error)
 		}
 	}
 
-	public async replyToGroupMessage(recievers: User[], groupMessage: GroupMessageWithChatId): Promise<void> {
+	public async replyToGroupMessage(receivers: User[], groupMessage: GroupMessageWithChatId): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
-			for (const reciever of recievers) {
+			for (const receiver of receivers) {
 				if (
-					socketManager.isUserOnline(reciever._id) === true &&
-					socketManager.isUserActive(reciever._id) === true
+					socketManager.isUserOnline(receiver._id) === true &&
+					socketManager.isUserActive(receiver._id) === true
 				) {
-					socketManager.sendGroupMessage(reciever._id, groupMessage)
+					socketManager.sendGroupMessage(receiver._id, groupMessage)
 				} else {
 					// eslint-disable-next-line max-depth
-					if (!_.isString(reciever.notificationToken)) {
-						console.info("Friend does not have a notification token (or friend isn't logged in).")
+					if (!_.isString(receiver.notificationToken)) {
+						console.info(noNotificationTokenMessage(receiver))
 						continue
 					}
-					const endpointArn = getUserArn(reciever)
+					const endpointArn = getUserArn(receiver)
 					// eslint-disable-next-line max-depth
 					if (_.isUndefined(endpointArn)) {
 						throw new Error("EndpointArn is undefined")
 					}
 
 					const notificationMessage = returnCorrectMessageType(
-						reciever.primaryDevicePlatform,
+						receiver.primaryDevicePlatform,
 						`New Message from ${groupMessage.senderDetails.username || "User"}`,
 						groupMessage.text,
 						"Chat"
