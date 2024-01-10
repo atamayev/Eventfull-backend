@@ -20,7 +20,7 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 					text: updatedMessageText,
 					readBy: []
 				}
-			}
+			}, { new: true }
 		)
 
 		if (!_.isNull(groupChat.lastMessage)) {
@@ -45,6 +45,6 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 		return res.status(200).json({ success: "Group Message Updated" })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Send Group Message" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Update Group Message" })
 	}
 }

@@ -7,6 +7,7 @@ import { extractPrivateChatFriendId } from "../../../../utils/social/chat/extrac
 
 export default async function updatePrivateMessage(req: Request, res: Response): Promise<Response> {
 	try {
+		const user = req.user
 		const privateChat = req.privateChat
 		const oldPrivateMessage = req.privateMessage
 		const updatedMessageText = req.body.updatedMessageText
@@ -37,9 +38,9 @@ export default async function updatePrivateMessage(req: Request, res: Response):
 
 		if (_.isNull(updatedPrivateMessage)) return res.status(500).json({ error: "Unable to Update Private Message" })
 
-		const friendId = extractPrivateChatFriendId(privateChat, req.user._id)
+		const friendId = extractPrivateChatFriendId(privateChat, user._id)
 
-		NotificationHelper.updatePrivateMessage(friendId, updatedPrivateMessage,)
+		NotificationHelper.updatePrivateMessage(friendId, updatedPrivateMessage)
 
 		return res.status(200).json({ success: "Private Message Updated" })
 	} catch (error) {
