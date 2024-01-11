@@ -40,7 +40,7 @@ export default async function sendPrivateMessage(req: Request, res: Response): P
 
 		await NotificationHelper.sendPrivateMessage(friend, privateMessage)
 
-		return res.status(200).json({ privateMessageId: privateMessage._id })
+		return res.status(200).json({ privateMessage })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Send Private Message" })
