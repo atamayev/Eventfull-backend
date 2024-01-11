@@ -43,7 +43,7 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 
 		await NotificationHelper.replyToGroupMessage(friends, groupMessage)
 
-		return res.status(200).json({ groupMessageId: groupMessage._id })
+		return res.status(200).json({ groupMessage })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Reply to Group Message" })

@@ -40,7 +40,7 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 
 		await NotificationHelper.sendGroupMessage(friends, groupMessage)
 
-		return res.status(200).json({ groupMessageId: groupMessage._id })
+		return res.status(200).json({ groupMessage })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Send Group Message" })
