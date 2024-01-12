@@ -69,12 +69,7 @@ groupMessagesRoutes.post(
 	updateGroupMessage
 )
 
-groupMessagesRoutes.post(
-	"/delete-message",
-	validateGroupMessageId,
-	confirmGroupMessageSentByUser,
-	deleteGroupMessage
-)
+groupMessagesRoutes.post("/delete-message", validateGroupMessageId, confirmGroupMessageSentByUser, deleteGroupMessage)
 
 groupMessagesRoutes.post(
 	"/edit-chat-name",
