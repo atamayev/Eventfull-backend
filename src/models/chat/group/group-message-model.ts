@@ -8,6 +8,7 @@ const groupMessageSchema = new Schema<GroupMessageWithChatId>({
 	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }], required: true },
 	isTextEdited: { type: Boolean, default: false},
 	replyTo: { type: Schema.Types.ObjectId, ref: "GroupMessage", default: null },
+	isActive: { type: Boolean, default: true }
 }, { timestamps: true })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

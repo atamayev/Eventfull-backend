@@ -8,6 +8,7 @@ const lastMessageSchema = new Schema<PrivateMessage>({
 	readByOtherUser: { type: Boolean, default: false },
 	privateMessageId: { type: Schema.Types.ObjectId, ref: "PrivateMessage" },
 	replyTo: { type: Schema.Types.ObjectId, ref: "PrivateMessage", default: null },
+	isActive: { type: Boolean, default: true },
 }, { timestamps: true })
 
 const privateChatSchema = new Schema<PrivateChat>({

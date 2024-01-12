@@ -8,6 +8,7 @@ const lastMessageSchema = new Schema<GroupMessage>({
 	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }] },
 	groupMessageId: { type: Schema.Types.ObjectId, ref: "GroupMessage" },
 	replyTo: { type: Schema.Types.ObjectId, ref: "GroupMessage", default: null },
+	isActive: { type: Boolean, default: true },
 }, { timestamps: true })
 
 const groupChatSchema = new Schema<GroupChat>({

@@ -8,6 +8,7 @@ const privateMessageSchema = new Schema<PrivateMessageWithChatId>({
 	readByOtherUser: { type: Boolean, default: false },
 	isTextEdited: { type: Boolean, default: false},
 	replyTo: { type: Schema.Types.ObjectId, ref: "PrivateMessage", default: null },
+	isActive: { type: Boolean, default: true },
 }, { timestamps: true })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
