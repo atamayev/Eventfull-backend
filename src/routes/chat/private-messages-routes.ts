@@ -17,14 +17,14 @@ import validatePrivateChatIdInParams from "../../middleware/request-validation/s
 import validateUpdatedPrivateChatName from "../../middleware/request-validation/social/chat/private/validate-updated-private-chat-name"
 import confirmPrivateMessageNotAlreadyMarkedRead from "../../middleware/social/chat/private/confirm-private-message-not-already-marked-read"
 
-import sendPrivateMessage from "../../controllers/social/chat/private/send-private-message"
-import createPrivateChat from "../../controllers/social/chat/private/create-private-chat"
-import editPrivateChatName from "../../controllers/social/chat/private/edit-private-chat-name"
-import updatePrivateMessage from "../../controllers/social/chat/private/update-private-message"
-import retrievePrivateChats from "../../controllers/social/chat/private/retrieve-private-chats"
-import replyToPrivateMessage from "../../controllers/social/chat/private/reply-to-private-message"
-import markPrivateMessageRead from "../../controllers/social/chat/private/mark-private-message-read"
-import retrievePrivateChatMessages from "../../controllers/social/chat/private/retrieve-private-chat-messages"
+import sendPrivateMessage from "../../controllers/chat/private/send-private-message"
+import createPrivateChat from "../../controllers/chat/private/create-private-chat"
+import editPrivateChatName from "../../controllers/chat/private/edit-private-chat-name"
+import updatePrivateMessage from "../../controllers/chat/private/update-private-message"
+import retrievePrivateChats from "../../controllers/chat/private/retrieve-private-chats"
+import replyToPrivateMessage from "../../controllers/chat/private/reply-to-private-message"
+import markPrivateMessageRead from "../../controllers/chat/private/mark-private-message-read"
+import retrievePrivateChatMessages from "../../controllers/chat/private/retrieve-private-chat-messages"
 
 const privateMessagesRoutes = express.Router()
 

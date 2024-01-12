@@ -1,9 +1,9 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import NotificationHelper from "../../../../classes/notification-helper"
-import PrivateMessageModel from "../../../../models/chat/private/private-message-model"
-import PrivateChatModel from "../../../../models/chat/private/private-message-chat-model"
-import { extractPrivateChatFriendId } from "../../../../utils/social/chat/extract-friend-ids"
+import NotificationHelper from "../../../classes/notification-helper"
+import PrivateMessageModel from "../../../models/chat/private/private-message-model"
+import PrivateChatModel from "../../../models/chat/private/private-message-chat-model"
+import { extractPrivateChatFriendId } from "../../../utils/social/chat/extract-friend-ids"
 
 export default async function markPrivateMessageRead(req: Request, res: Response): Promise<Response> {
 	try {

@@ -1,9 +1,9 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import NotificationHelper from "../../../../classes/notification-helper"
-import GroupChatModel from "../../../../models/chat/group/group-chat-model"
-import GroupMessageModel from "../../../../models/chat/group/group-message-model"
-import { extractGroupChatFriendIds } from "../../../../utils/social/chat/extract-friend-ids"
+import NotificationHelper from "../../../classes/notification-helper"
+import GroupChatModel from "../../../models/chat/group/group-chat-model"
+import GroupMessageModel from "../../../models/chat/group/group-message-model"
+import { extractGroupChatFriendIds } from "../../../utils/social/chat/extract-friend-ids"
 
 export default async function updateGroupMessage(req: Request, res: Response): Promise<Response> {
 	try {
