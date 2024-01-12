@@ -112,6 +112,18 @@ export default class NotificationHelper {
 		}
 	}
 
+	public static deletePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
+		try {
+			const socketManager = SocketManager.getInstance()
+			if (socketManager.isUserOnline(receiverId) === false) {
+				return
+			}
+			socketManager.updatePrivateMessage(receiverId, privateMessage)
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
 	public static async replyToPrivateMessage(receiver: User, privateMessage: PrivateMessageWithChatId): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
@@ -205,6 +217,23 @@ export default class NotificationHelper {
 	}
 
 	public static updateGroupMessage(
+		receiverIds: Types.ObjectId[],
+		groupMessage: GroupMessageWithChatId
+	): void {
+		try {
+			const socketManager = SocketManager.getInstance()
+			for (const receiverId of receiverIds) {
+				if (socketManager.isUserOnline(receiverId) === false) {
+					continue
+				}
+				socketManager.updateGroupMessage(receiverId, groupMessage)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static deleteGroupMessage(
 		receiverIds: Types.ObjectId[],
 		groupMessage: GroupMessageWithChatId
 	): void {

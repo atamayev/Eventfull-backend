@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import PrivateMessageModel from "../../../models/chat/private/private-message-model"
+import PrivateMessageModel from "../../../../models/chat/private/private-message-model"
 
 export default async function retrievePrivateChatMessages(req: Request, res: Response): Promise<Response> {
 	try {

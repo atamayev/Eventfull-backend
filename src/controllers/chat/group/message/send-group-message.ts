@@ -1,8 +1,8 @@
 import { Types } from "mongoose"
 import { Request, Response } from "express"
-import NotificationHelper from "../../../classes/notification-helper"
-import GroupChatModel from "../../../models/chat/group/group-chat-model"
-import GroupMessageModel from "../../../models/chat/group/group-message-model"
+import NotificationHelper from "../../../../classes/notification-helper"
+import GroupChatModel from "../../../../models/chat/group/group-chat-model"
+import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
 interface ChatData {
     groupChatId?: Types.ObjectId

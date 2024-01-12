@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import UserModel from "../../../models/user-model"
+import UserModel from "../../../../models/user-model"
 
 export default async function editGroupChatName(req: Request, res: Response): Promise<Response> {
 	try {

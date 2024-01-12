@@ -17,14 +17,15 @@ import validateUpdatedGroupChatName	from "../../middleware/request-validation/so
 import confirmGroupMessageNotAlreadyMarkedRead from "../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
 import validateGroupChatIdInParams from "../../middleware/request-validation/social/chat/group/validate-group-message-chat-id-in-params"
 
-import createGroupChat from "../../controllers/chat/group/create-group-chat"
-import sendGroupMessage from "../../controllers/chat/group/send-group-message"
-import editGroupChatName from "../../controllers/chat/group/edit-group-chat-name"
-import retrieveGroupChats from "../../controllers/chat/group/retrieve-group-chats"
-import updateGroupMessage from "../../controllers/chat/group/update-group-message"
-import replyToGroupMessage from "../../controllers/chat/group/reply-to-group-message"
-import markGroupMessageRead from "../../controllers/chat/group/mark-group-message-read"
-import retrieveMessagesFromGroupChat from "../../controllers/chat/group/retrieve-messages-from-group-chat"
+import createGroupChat from "../../controllers/chat/group/chat/create-group-chat"
+import sendGroupMessage from "../../controllers/chat/group/message/send-group-message"
+import editGroupChatName from "../../controllers/chat/group/chat/edit-group-chat-name"
+import retrieveGroupChats from "../../controllers/chat/group/chat/retrieve-group-chats"
+import updateGroupMessage from "../../controllers/chat/group/message/update-group-message"
+import replyToGroupMessage from "../../controllers/chat/group/message/reply-to-group-message"
+import markGroupMessageRead from "../../controllers/chat/group/message/mark-group-message-read"
+import retrieveMessagesFromGroupChat from "../../controllers/chat/group/message/retrieve-messages-from-group-chat"
+import deleteGroupMessage from "../../controllers/chat/group/message/delete-group-message"
 
 const groupMessagesRoutes = express.Router()
 
@@ -66,6 +67,13 @@ groupMessagesRoutes.post(
 	validateUpdatedMessageText,
 	confirmGroupMessageSentByUser,
 	updateGroupMessage
+)
+
+groupMessagesRoutes.post(
+	"/delete-message",
+	validateGroupMessageId,
+	confirmGroupMessageSentByUser,
+	deleteGroupMessage
 )
 
 groupMessagesRoutes.post(

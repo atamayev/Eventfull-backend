@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import GroupMessageModel from "../../../models/chat/group/group-message-model"
+import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
 export default async function retrieveMessagesFromGroupChat(req: Request, res: Response): Promise<Response> {
 	try {

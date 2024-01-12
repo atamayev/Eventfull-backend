@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import UserModel from "../../../models/user-model"
-import GroupChatModel from "../../../models/chat/group/group-chat-model"
+import UserModel from "../../../../models/user-model"
+import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function createGroupChat(req: Request, res: Response): Promise<Response> {

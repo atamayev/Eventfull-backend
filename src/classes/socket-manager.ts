@@ -126,6 +126,15 @@ export default class SocketManager {
 		this.io.to(receiverSocketId).emit("update-private-message", privateMessage)
 	}
 
+	public deletePrivateMessage(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) {
+			console.info(`User ${toUserId} is not online`)
+			return
+		}
+		this.io.to(receiverSocketId).emit("delete-private-message", privateMessage)
+	}
+
 	public sendGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
@@ -160,6 +169,15 @@ export default class SocketManager {
 			return
 		}
 		this.io.to(receiverSocketId).emit("update-group-message", groupMessage)
+	}
+
+	public deleteGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) {
+			console.info(`User ${toUserId} is not online`)
+			return
+		}
+		this.io.to(receiverSocketId).emit("delete-group-message", groupMessage)
 	}
 
 	private handleDisconnect(socket: Socket): void {

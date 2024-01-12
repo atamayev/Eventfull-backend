@@ -17,14 +17,15 @@ import validatePrivateChatIdInParams from "../../middleware/request-validation/s
 import validateUpdatedPrivateChatName from "../../middleware/request-validation/social/chat/private/validate-updated-private-chat-name"
 import confirmPrivateMessageNotAlreadyMarkedRead from "../../middleware/social/chat/private/confirm-private-message-not-already-marked-read"
 
-import sendPrivateMessage from "../../controllers/chat/private/send-private-message"
-import createPrivateChat from "../../controllers/chat/private/create-private-chat"
-import editPrivateChatName from "../../controllers/chat/private/edit-private-chat-name"
-import updatePrivateMessage from "../../controllers/chat/private/update-private-message"
-import retrievePrivateChats from "../../controllers/chat/private/retrieve-private-chats"
-import replyToPrivateMessage from "../../controllers/chat/private/reply-to-private-message"
-import markPrivateMessageRead from "../../controllers/chat/private/mark-private-message-read"
-import retrievePrivateChatMessages from "../../controllers/chat/private/retrieve-private-chat-messages"
+import sendPrivateMessage from "../../controllers/chat/private/message/send-private-message"
+import createPrivateChat from "../../controllers/chat/private/chat/create-private-chat"
+import editPrivateChatName from "../../controllers/chat/private/chat/edit-private-chat-name"
+import updatePrivateMessage from "../../controllers/chat/private/message/update-private-message"
+import retrievePrivateChats from "../../controllers/chat/private/chat/retrieve-private-chats"
+import replyToPrivateMessage from "../../controllers/chat/private/message/reply-to-private-message"
+import markPrivateMessageRead from "../../controllers/chat/private/message/mark-private-message-read"
+import retrievePrivateChatMessages from "../../controllers/chat/private/message/retrieve-private-chat-messages"
+import deletePrivateMessage from "../../controllers/chat/private/message/delete-private-message"
 
 const privateMessagesRoutes = express.Router()
 
@@ -68,6 +69,8 @@ privateMessagesRoutes.post(
 	confirmPrivateMessageSentByUser,
 	updatePrivateMessage
 )
+
+privateMessagesRoutes.post("/delete-message", validatePrivateMessageId, confirmPrivateMessageSentByUser, deletePrivateMessage)
 
 privateMessagesRoutes.post(
 	"/edit-chat-name",
