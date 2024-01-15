@@ -5,7 +5,9 @@ declare global {
 		"Search" |
 		"Chat" |
 		"Calendar" |
-		"Profile"
+		"Profile" |
+		"Private Chat Screen" |
+		"Group Chat Screen"
 }
 
 export {}

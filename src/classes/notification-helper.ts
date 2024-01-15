@@ -76,7 +76,8 @@ export default class NotificationHelper {
 					receiver.primaryDevicePlatform,
 					`New Message from ${privateMessage.senderDetails.username || "User"}`,
 					privateMessage.text,
-					"Chat"
+					"Private Chat Screen",
+					{ privateChatId: privateMessage.privateChatId }
 				)
 				await AwsSnsService.getInstance().sendNotification(
 					endpointArn,
@@ -144,7 +145,8 @@ export default class NotificationHelper {
 					receiver.primaryDevicePlatform,
 					`${privateMessage.senderDetails.username || "User"} replied to your message`,
 					privateMessage.text,
-					"Chat"
+					"Private Chat Screen",
+					{ privateChatId: privateMessage.privateChatId }
 				)
 				await AwsSnsService.getInstance().sendNotification(
 					endpointArn,
@@ -185,7 +187,8 @@ export default class NotificationHelper {
 						receiver.primaryDevicePlatform,
 						`New Message from ${groupMessage.senderDetails.username || "User"}`,
 						groupMessage.text,
-						"Chat"
+						"Group Chat Screen",
+						{ groupChatId: groupMessage.groupChatId }
 					)
 					await AwsSnsService.getInstance().sendNotification(
 						endpointArn,
@@ -275,7 +278,8 @@ export default class NotificationHelper {
 						receiver.primaryDevicePlatform,
 						`New Message from ${groupMessage.senderDetails.username || "User"}`,
 						groupMessage.text,
-						"Chat"
+						"Group Chat Screen",
+						{ groupChatId: groupMessage.groupChatId }
 					)
 					await AwsSnsService.getInstance().sendNotification(
 						endpointArn,

@@ -1,5 +1,10 @@
 /* eslint-disable no-inline-comments */
-export default function createAPNSMessage(title: string, body: string, targetPage: string): string {
+export default function createAPNSMessage(
+	title: string,
+	body: string,
+	targetPage: string,
+	extraData?: Record<string, string>
+): string {
 	const apnsMessage = {
 		aps: {
 			alert: {
@@ -10,7 +15,8 @@ export default function createAPNSMessage(title: string, body: string, targetPag
 			badge: 1
 		},
 		data: {
-			targetPage
+			targetPage,
+			...extraData
 		}
 	}
 
