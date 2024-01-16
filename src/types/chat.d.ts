@@ -36,6 +36,8 @@ declare global {
 		privateMessageId: Types.ObjectId
 		replyTo: Types.ObjectId | null
 	}
+
+	type MessageStatuses = "Sent" | "Delivered" | "Read"
 }
 
 export {}

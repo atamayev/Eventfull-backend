@@ -26,6 +26,7 @@ declare global {
 	interface PrivateMessage extends Message {
 		readByOtherUser: boolean
 		privateMessageId: Types.ObjectId
+		messageStatus: MessageStatuses
 	}
 
 	interface GroupMessage extends Message {
@@ -37,6 +38,7 @@ declare global {
 	interface PrivateMessageWithChatId extends Message {
 		readByOtherUser: boolean
 		privateChatId: Types.ObjectId
+		messageStatus: MessageStatuses
 	}
 
 	interface GroupMessageWithChatId extends Message {

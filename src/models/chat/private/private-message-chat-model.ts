@@ -9,6 +9,7 @@ const lastMessageSchema = new Schema<PrivateMessage>({
 	privateMessageId: { type: Schema.Types.ObjectId, ref: "PrivateMessage" },
 	replyTo: { type: Schema.Types.ObjectId, ref: "PrivateMessage", default: null },
 	isActive: { type: Boolean, default: true },
+	messageStatus: { type: String, enum: ["Sent", "Delivered", "Read"], default: "Sent" },
 }, { timestamps: true })
 
 const privateChatSchema = new Schema<PrivateChat>({
