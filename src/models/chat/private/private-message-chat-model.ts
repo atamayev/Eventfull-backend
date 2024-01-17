@@ -5,7 +5,6 @@ const lastMessageSchema = new Schema<PrivateMessage>({
 	text: { type: String, trim: true },
 	senderDetails: socialDataSchema,
 	isTextEdited: { type: Boolean, default: false },
-	readByOtherUser: { type: Boolean, default: false },
 	privateMessageId: { type: Schema.Types.ObjectId, ref: "PrivateMessage" },
 	replyTo: { type: Schema.Types.ObjectId, ref: "PrivateMessage", default: null },
 	isActive: { type: Boolean, default: true },

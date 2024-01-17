@@ -7,7 +7,7 @@ export default function confirmPrivateMessageSentByOtherUser(req: Request, res: 
 		const privateMessage = req.privateMessage
 
 		if (_.isEqual(user._id, privateMessage.senderDetails._id)) {
-			return res.status(400).json({ message: "You cannot mark your own message as read" })
+			return res.status(400).json({ message: "You cannot mark your own message as read/delivered" })
 		}
 
 		next()

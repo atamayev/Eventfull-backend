@@ -24,7 +24,6 @@ declare global {
 
 	// The following two interfaces are used in the Chat Models
 	interface PrivateMessage extends Message {
-		readByOtherUser: boolean
 		privateMessageId: Types.ObjectId
 		messageStatus: MessageStatuses
 	}
@@ -36,7 +35,6 @@ declare global {
 
 	// The following two interfaces are used in the Messages Models
 	interface PrivateMessageWithChatId extends Message {
-		readByOtherUser: boolean
 		privateChatId: Types.ObjectId
 		messageStatus: MessageStatuses
 	}

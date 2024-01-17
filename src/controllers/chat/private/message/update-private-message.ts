@@ -18,7 +18,7 @@ export default async function updatePrivateMessage(req: Request, res: Response):
 				{
 					isTextEdited: true,
 					text: updatedMessageText,
-					readByOtherUser: false
+					messageStatus: "Sent"
 				}
 			}, { new: true }
 		)
@@ -30,7 +30,7 @@ export default async function updatePrivateMessage(req: Request, res: Response):
 					{
 						"lastMessage.text": updatedMessageText,
 						"lastMessage.isTextEdited": true,
-						"lastMessage.readByOtherUser": false,
+						"lastMessage.messageStatus": "Sent",
 					}
 				)
 			}

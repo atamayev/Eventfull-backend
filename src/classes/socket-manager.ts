@@ -103,16 +103,21 @@ export default class SocketManager {
 		this.io.to(receiverSocketId).emit("private-message", privateMessage)
 	}
 
-	public markPrivateMessageRead(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
+	public updatePrivateMessageStatus(
+		toUserId: Types.ObjectId,
+		privateMessage: PrivateMessageWithChatId,
+		newMessageStatus: MessageStatuses
+	): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
 			console.info(`User ${toUserId} is not online`)
 			return
 		}
 		this.io.to(receiverSocketId).emit(
-			"mark-private-message-read", {
+			"update-private-message-status", {
 				privateChatId: _.toString(privateMessage.privateChatId),
-				privateMessageId: _.toString(privateMessage._id)
+				privateMessageId: _.toString(privateMessage._id),
+				newMessageStatus
 			}
 		)
 	}

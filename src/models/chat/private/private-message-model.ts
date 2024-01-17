@@ -5,7 +5,6 @@ const privateMessageSchema = new Schema<PrivateMessageWithChatId>({
 	privateChatId: { type: Schema.Types.ObjectId, ref: "PrivateChat", required: true },
 	senderDetails: socialDataSchema,
 	text: { type: String, trim: true, required: true },
-	readByOtherUser: { type: Boolean, default: false },
 	isTextEdited: { type: Boolean, default: false},
 	replyTo: { type: Schema.Types.ObjectId, ref: "PrivateMessage", default: null },
 	isActive: { type: Boolean, default: true },

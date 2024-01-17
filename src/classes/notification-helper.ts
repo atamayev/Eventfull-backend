@@ -89,13 +89,17 @@ export default class NotificationHelper {
 		}
 	}
 
-	public static markPrivateMessageRead (receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
+	public static updatePrivateMessageStatus (
+		receiverId: Types.ObjectId,
+		privateMessage: PrivateMessageWithChatId,
+		newMessageStatus: "Delivered" | "Read"
+	): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (socketManager.isUserOnline(receiverId) === false) {
 				return
 			}
-			socketManager.markPrivateMessageRead(receiverId, privateMessage)
+			socketManager.updatePrivateMessageStatus(receiverId, privateMessage, newMessageStatus)
 		} catch (error) {
 			console.error(error)
 		}
@@ -146,7 +150,7 @@ export default class NotificationHelper {
 					`${privateMessage.senderDetails.username || "User"} replied to your message`,
 					privateMessage.text,
 					"Private Chat Screen",
-					{ privateChatId: privateMessage.privateChatId }
+					{ privateChatId: privateMessage.privateChatId, privateMessageId: _.toString(privateMessage._id) }
 				)
 				await AwsSnsService.getInstance().sendNotification(
 					endpointArn,

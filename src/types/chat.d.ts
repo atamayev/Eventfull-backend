@@ -32,7 +32,6 @@ declare global {
 		text: string
 		senderDetails: SocialData
 		isTextEdited: boolean
-		readByOtherUser: boolean
 		privateMessageId: Types.ObjectId
 		replyTo: Types.ObjectId | null
 	}
