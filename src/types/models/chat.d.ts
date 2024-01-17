@@ -19,7 +19,7 @@ declare global {
 		// ReplyTo is the id of the message to which this message is a reply to
 		replyTo: Types.ObjectId | null
 		isActive: boolean
-		// TODO: Consider adding sentAt, deliveredAt fields
+		// TODO: Add sentAt, deliveredAt fields
 	}
 
 	// The following two interfaces are used in the Chat Models

@@ -5,6 +5,7 @@ const lastMessageSchema = new Schema<GroupMessage>({
 	text: { type: String, trim: true },
 	senderDetails: socialDataSchema,
 	isTextEdited: { type: Boolean, default: false },
+	// TODO: Remove ready by, transition to message statuses
 	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }] },
 	groupMessageId: { type: Schema.Types.ObjectId, ref: "GroupMessage" },
 	replyTo: { type: Schema.Types.ObjectId, ref: "GroupMessage", default: null },
