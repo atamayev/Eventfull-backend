@@ -162,11 +162,7 @@ export default class NotificationHelper {
 		}
 	}
 
-	// eslint-disable-next-line max-params
-	public static async sendGroupMessage(
-		receivers: User[],
-		groupMessage: GroupMessageWithChatId
-	): Promise<void> {
+	public static async sendGroupMessage(receivers: User[], groupMessage: GroupMessageWithChatId): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiver of receivers) {
@@ -205,29 +201,21 @@ export default class NotificationHelper {
 		}
 	}
 
-	public static updateGroupMessageStatus (
-		senderId: Types.ObjectId,
-		receiverIds: Types.ObjectId[],
-		groupMessage: GroupMessageWithChatId,
-		newMessageStatus: "Delivered" | "Read"
-	): void {
+	public static updateGroupMessageStatus (receiverIds: Types.ObjectId[], updatedGroupMessage: GroupMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {
 				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
-				socketManager.updateGroupMessageStatus(senderId, receiverId, groupMessage, newMessageStatus)
+				socketManager.updateGroupMessageStatus(receiverId, updatedGroupMessage)
 			}
 		} catch (error) {
 			console.error(error)
 		}
 	}
 
-	public static updateGroupMessage(
-		receiverIds: Types.ObjectId[],
-		groupMessage: GroupMessageWithChatId
-	): void {
+	public static updateGroupMessage(receiverIds: Types.ObjectId[], groupMessage: GroupMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {
@@ -241,10 +229,7 @@ export default class NotificationHelper {
 		}
 	}
 
-	public static deleteGroupMessage(
-		receiverIds: Types.ObjectId[],
-		groupMessage: GroupMessageWithChatId
-	): void {
+	public static deleteGroupMessage(receiverIds: Types.ObjectId[], groupMessage: GroupMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {

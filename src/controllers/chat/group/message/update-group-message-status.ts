@@ -12,13 +12,18 @@ export default async function updateGroupMessageStatus(req: Request, res: Respon
 		const groupMessage = req.groupMessage
 		const newMessageStatus = req.body.newMessageStatus as "Delivered" | "Read"
 
-		await GroupMessageModel.findOneAndUpdate(
+		const updatedGroupMessage = await GroupMessageModel.findOneAndUpdate(
 			{
 				_id: groupMessage._id,
 				"messageStatuses.userId": user._id
 			},
-			{ $set: { "messageStatuses.$.messageStatus": newMessageStatus } },
+			{ $set: { "messageStatuses.$.messageStatus": newMessageStatus }, },
+			{ new: true }
 		)
+
+		if (_.isNull(updatedGroupMessage)) {
+			return res.status(400).json({ message: "Unable to Update Group Message Status" })
+		}
 
 		if (_.isNull(groupChat.lastMessage)) {
 			return res.status(400).json({ message: "No Last Message in the Group Chat Model"})
@@ -31,17 +36,14 @@ export default async function updateGroupMessageStatus(req: Request, res: Respon
 					$set: { "lastMessage.messageStatuses.$[elem].messageStatus": newMessageStatus }
 				},
 				{ arrayFilters: [{ "elem.userId": user._id }] }
-			);
+			)
 		}
-
 
 		const friendIds = extractGroupChatFriendIds(groupChat, user._id)
 
 		NotificationHelper.updateGroupMessageStatus(
-			user._id,
 			friendIds,
-			groupMessage,
-			newMessageStatus
+			updatedGroupMessage,
 		)
 
 		return res.status(200).json({ success: `Message Marked ${newMessageStatus}` })

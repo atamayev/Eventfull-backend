@@ -150,10 +150,8 @@ export default class SocketManager {
 	}
 
 	public updateGroupMessageStatus(
-		senderId: Types.ObjectId,
 		toUserId: Types.ObjectId,
-		groupMessage: GroupMessageWithChatId,
-		newMessageStatus: MessageStatuses
+		updatedGroupMessage: GroupMessageWithChatId,
 	): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
@@ -162,9 +160,7 @@ export default class SocketManager {
 		}
 		this.io.to(receiverSocketId).emit(
 			"update-group-message-status", {
-				senderId: _.toString(senderId),
-				groupMessage,
-				newMessageStatus
+				updatedGroupMessage,
 			}
 		)
 	}

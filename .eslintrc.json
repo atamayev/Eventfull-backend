@@ -107,7 +107,7 @@
 		{
 			"files": ["*.d.ts"],
 			"rules": {
-				"filenames/match-regex": "off",
+				"filenames/match-regex": "off"
 			}
 		}
 	]
