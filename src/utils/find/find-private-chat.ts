@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Types } from "mongoose"
-import PrivateChatModel from "../../models/chat/private/private-message-chat-model"
+import PrivateChatModel from "../../models/chat/private/private-chat-model"
 
 export default async function findPrivateChat(privateChatId: Types.ObjectId, select?: string): Promise<PrivateChat | null> {
 	let privateChat

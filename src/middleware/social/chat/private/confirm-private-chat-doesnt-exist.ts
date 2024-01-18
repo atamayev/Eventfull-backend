@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import PrivateChatModel from "../../../../models/chat/private/private-message-chat-model"
+import PrivateChatModel from "../../../../models/chat/private/private-chat-model"
 
 export default async function confirmPrivateChatDoesntExist (
 	req: Request,

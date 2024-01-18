@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import UserModel from "../../../../models/user-model"
-import PrivateChatModel from "../../../../models/chat/private/private-message-chat-model"
+import PrivateChatModel from "../../../../models/chat/private/private-chat-model"
 
 export default async function createPrivateChat(req: Request, res: Response): Promise<Response> {
 	try {

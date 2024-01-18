@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Request, Response } from "express"
 import NotificationHelper from "../../../../classes/notification-helper"
 import PrivateMessageModel from "../../../../models/chat/private/private-message-model"
-import PrivateChatModel from "../../../../models/chat/private/private-message-chat-model"
+import PrivateChatModel from "../../../../models/chat/private/private-chat-model"
 import { extractPrivateChatFriendId } from "../../../../utils/social/chat/extract-friend-ids"
 
 export default async function updatePrivateMessageStatus(req: Request, res: Response): Promise<Response> {

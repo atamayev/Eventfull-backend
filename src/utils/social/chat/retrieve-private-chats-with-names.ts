@@ -1,5 +1,5 @@
 import _ from "lodash"
-import PrivateChatModel from "../../../models/chat/private/private-message-chat-model"
+import PrivateChatModel from "../../../models/chat/private/private-chat-model"
 import getUsernameById from "../../get-username-by-id"
 
 export default async function retrievePrivateChatsWithNames(user: User): Promise<PrivateChatWithNames[]> {
