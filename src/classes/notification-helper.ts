@@ -201,14 +201,19 @@ export default class NotificationHelper {
 		}
 	}
 
-	public static updateGroupMessageStatus (receiverIds: Types.ObjectId[], updatedGroupMessage: GroupMessageWithChatId): void {
+	public static updateGroupMessageStatus (
+		receiverIds: Types.ObjectId[],
+		updatedGroupMessage: GroupMessageWithChatId,
+		newMessageStatus: MessageStatuses,
+		senderId: Types.ObjectId
+	): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {
 				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
-				socketManager.updateGroupMessageStatus(receiverId, updatedGroupMessage)
+				socketManager.updateGroupMessageStatus(receiverId, updatedGroupMessage, newMessageStatus, senderId)
 			}
 		} catch (error) {
 			console.error(error)

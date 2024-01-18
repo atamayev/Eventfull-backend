@@ -64,7 +64,7 @@ declare global {
 	}
 
 	type LoginSocialData = {
-		_id: string
+		userId: string
 		username: string
 	}
 

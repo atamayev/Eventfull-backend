@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
-export default function confirmGroupMessageNotAlreadyMarkedRead(req: Request, res: Response, next: NextFunction): void | Response {
+export default function confirmGroupMessageStatusIsNew(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
 		const newPrivateMessageStatus = req.body.newMessageStatus

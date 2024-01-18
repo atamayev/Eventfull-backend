@@ -152,17 +152,20 @@ export default class SocketManager {
 	public updateGroupMessageStatus(
 		toUserId: Types.ObjectId,
 		updatedGroupMessage: GroupMessageWithChatId,
+		newMessageStatus: MessageStatuses,
+		senderId: Types.ObjectId
 	): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
 			console.info(`User ${toUserId} is not online`)
 			return
 		}
-		this.io.to(receiverSocketId).emit(
-			"update-group-message-status", {
-				updatedGroupMessage,
-			}
-		)
+		this.io.to(receiverSocketId).emit("update-group-message-status", {
+			groupChatId: _.toString(updatedGroupMessage.groupChatId),
+			groupMessageId: _.toString(updatedGroupMessage._id),
+			newMessageStatus,
+			senderId: _.toString(senderId)
+		})
 	}
 
 	public updateGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {

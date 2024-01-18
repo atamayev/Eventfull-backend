@@ -7,7 +7,7 @@ export default async function fetchLoginUserData(user: User): Promise<LoginSocia
 	async function fetchUserData(ids: Types.ObjectId[]): Promise<LoginSocialData[]> {
 		const results = await Promise.all(ids.map(async (id) => {
 			const userData = await UserModel.findById(id).select("_id username")
-			return userData ? { _id: userData._id.toString(), username: userData.username } : null
+			return userData ? { userId: userData._id.toString(), username: userData.username } : null
 		}))
 		results.filter(u => u !== null)
 		return results as LoginSocialData[]
