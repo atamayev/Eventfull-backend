@@ -4,11 +4,18 @@ import NotificationHelper from "../../../../classes/notification-helper"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
+interface MessageStatusObjectNoTimestamps {
+	userId: Types.ObjectId
+	messageStatus: MessageStatuses
+	username: string
+}
+
 interface ChatData {
     groupChatId?: Types.ObjectId
     senderDetails: SocialData
     text: string
-	groupMessageId?: Types.ObjectId
+	groupMessageId?: Types.ObjectId,
+	messageStatuses: MessageStatusObjectNoTimestamps[]
 }
 
 export default async function sendGroupMessage(req: Request, res: Response): Promise<Response> {
@@ -21,10 +28,15 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 		const data: ChatData = {
 			groupChatId: groupChat._id,
 			senderDetails: {
-				_id: user._id,
+				userId: user._id,
 				username: user.username || "User",
 			},
-			text: message
+			text: message,
+			messageStatuses: groupChat.participantDetails.map(participant => ({
+				userId: participant.userId,
+				messageStatus: "Sent", // Default status
+				username: participant.username,
+			})),
 		}
 		const groupMessage = await GroupMessageModel.create(data)
 
@@ -33,9 +45,7 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 
 		await GroupChatModel.findByIdAndUpdate(
 			groupChat._id,
-			{ $set:
-				{ lastMessage: data }
-			}
+			{ $set: { lastMessage: data } }
 		)
 
 		await NotificationHelper.sendGroupMessage(friends, groupMessage)

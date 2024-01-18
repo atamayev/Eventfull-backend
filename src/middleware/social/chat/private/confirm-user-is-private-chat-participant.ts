@@ -6,7 +6,7 @@ export default function confirmUserIsPrivateChatParticipant (req: Request, res: 
 		const privateChat = req.privateChat
 
 		const isChatParticipant = privateChat.participantDetails.some(
-			participant => participant._id.toString() === user._id.toString()
+			participant => participant.userId.toString() === user._id.toString()
 		)
 		if (isChatParticipant === false) {
 			return res.status(400).json({ message: "You are not a participant of this chat" })

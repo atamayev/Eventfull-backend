@@ -6,7 +6,7 @@ export default function confirmGroupMessageSentByUser(req: Request, res: Respons
 		const user = req.user
 		const groupMessage = req.groupMessage
 
-		if (!_.isEqual(user._id, groupMessage.senderDetails._id)) {
+		if (!_.isEqual(user._id, groupMessage.senderDetails.userId)) {
 			return res.status(400).json({ message: "You did not send this message" })
 		}
 

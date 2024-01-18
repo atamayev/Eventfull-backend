@@ -9,9 +9,9 @@ export default async function createPrivateChat(req: Request, res: Response): Pr
 
 		const privateChat = await PrivateChatModel.create({
 			participantDetails: [{
-				_id: user._id,
+				userId: user._id,
 				username: user.username},
-			{	_id: friend._id,
+			{	userId: friend._id,
 				username: friend.username
 			}],
 			lastMessage: null,

@@ -21,7 +21,7 @@ export default async function sendPrivateMessage(req: Request, res: Response): P
 		const data: ChatData = {
 			privateChatId: privateChat._id,
 			senderDetails: {
-				_id: user._id,
+				userId: user._id,
 				username: user.username || "User",
 			},
 			text: message

@@ -18,7 +18,11 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 				{
 					isTextEdited: true,
 					text: updatedMessageText,
-					readBy: []
+					messageStatuses: groupChat.participantDetails.map(participant => ({
+						userId: participant.userId,
+						messageStatus: "Sent", // Default status
+						username: participant.username,
+					})),
 				}
 			}, { new: true }
 		)
@@ -30,7 +34,11 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 					{
 						"lastMessage.text": updatedMessageText,
 						"lastMessage.isTextEdited": true,
-						"lastMessage.readBy": [],
+						"lastMessage.messageStatuses": groupChat.participantDetails.map(participant => ({
+							userId: participant.userId,
+							messageStatus: "Sent", // Default status
+							username: participant.username,
+						})),
 					}
 				)
 			}

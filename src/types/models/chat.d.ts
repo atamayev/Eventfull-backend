@@ -29,7 +29,7 @@ declare global {
 	}
 
 	interface GroupMessage extends Message {
-		readBy: Types.ObjectId[]
+		messageStatuses: MessageStatusObject[]
 		groupMessageId: Types.ObjectId
 	}
 
@@ -40,7 +40,7 @@ declare global {
 	}
 
 	interface GroupMessageWithChatId extends Message {
-		readBy: Types.ObjectId[]
+		messageStatuses: MessageStatusObject[]
 		groupChatId: Types.ObjectId
 	}
 }

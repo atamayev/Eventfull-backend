@@ -18,7 +18,7 @@ export default async function updatePrivateMessageStatus(req: Request, res: Resp
 		)
 
 		if (_.isNull(privateChat.lastMessage)) {
-			return res.status(400).json ({ message: "No Last Message in the Private Message Model"})
+			return res.status(400).json({ message: "No Last Message in the Private Message Model"})
 		}
 
 		if (privateMessage._id.toString() === privateChat.lastMessage.privateMessageId.toString()) {
@@ -34,6 +34,6 @@ export default async function updatePrivateMessageStatus(req: Request, res: Resp
 		return res.status(200).json({ success: `Message Marked ${newMessageStatus}` })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Mark Update message status" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Update message status" })
 	}
 }

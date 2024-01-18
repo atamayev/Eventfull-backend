@@ -205,10 +205,11 @@ export default class NotificationHelper {
 		}
 	}
 
-	public static markGroupMessageRead (
+	public static updateGroupMessageStatus (
 		senderId: Types.ObjectId,
 		receiverIds: Types.ObjectId[],
 		groupMessage: GroupMessageWithChatId,
+		newMessageStatus: "Delivered" | "Read"
 	): void {
 		try {
 			const socketManager = SocketManager.getInstance()
@@ -216,7 +217,7 @@ export default class NotificationHelper {
 				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
-				socketManager.markGroupMessageRead(senderId, receiverId, groupMessage)
+				socketManager.updateGroupMessageStatus(senderId, receiverId, groupMessage, newMessageStatus)
 			}
 		} catch (error) {
 			console.error(error)

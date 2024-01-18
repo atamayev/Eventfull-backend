@@ -14,7 +14,7 @@ declare global {
 		text: string
 		senderDetails: SocialData
 		isTextEdited: boolean
-		readBy: Types.ObjectId[]
+		messageStatuses: MessageStatusObject[]
 		groupMessageId: Types.ObjectId
 		replyTo: Types.ObjectId | null
 	}
@@ -37,6 +37,12 @@ declare global {
 	}
 
 	type MessageStatuses = "Sent" | "Delivered" | "Read"
+
+	interface MessageStatusObject extends TimestampsInterface {
+		userId: Types.ObjectId
+		messageStatus: MessageStatuses
+		username: string
+	}
 }
 
 export {}

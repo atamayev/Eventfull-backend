@@ -12,7 +12,7 @@ export default async function confirmPrivateChatDoesntExist (
 		const friend = req.friend
 
 		const privateChat = await PrivateChatModel.findOne({
-			"participantDetails._id": { $all: [user._id, friend._id] }
+			"participantDetails.userId": { $all: [user._id, friend._id] }
 		})
 
 		if (!_.isNull(privateChat)) {

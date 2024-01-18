@@ -23,7 +23,7 @@ export default async function replyToPrivateMessage(req: Request, res: Response)
 		const data: ReplyToChatData = {
 			privateChatId: privateChat._id,
 			senderDetails: {
-				_id: user._id,
+				userId: user._id,
 				username: user.username || "User",
 			},
 			text: repliedMessage,

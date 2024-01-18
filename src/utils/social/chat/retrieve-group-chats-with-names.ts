@@ -24,11 +24,11 @@ export default async function retrieveGroupChatsWithNames(user: User): Promise<G
 			let lastMessageWithSenderDetails = null
 
 			if (!_.isNull(chat.lastMessage)) {
-				const senderUsername = await getUsernameById(chat.lastMessage.senderDetails._id)
+				const senderUsername = await getUsernameById(chat.lastMessage.senderDetails.userId)
 				lastMessageWithSenderDetails = {
 					...chat.lastMessage,
 					senderDetails: {
-						_id: chat.lastMessage.senderDetails._id,
+						userId: chat.lastMessage.senderDetails.userId,
 						username: senderUsername
 					}
 				}

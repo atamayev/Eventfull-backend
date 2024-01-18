@@ -149,10 +149,11 @@ export default class SocketManager {
 		this.io.to(receiverSocketId).emit("group-message", groupMessage)
 	}
 
-	public markGroupMessageRead(
-		userIdMarkedRead: Types.ObjectId,
+	public updateGroupMessageStatus(
+		senderId: Types.ObjectId,
 		toUserId: Types.ObjectId,
-		groupMessage: GroupMessageWithChatId
+		groupMessage: GroupMessageWithChatId,
+		newMessageStatus: MessageStatuses
 	): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
@@ -160,9 +161,10 @@ export default class SocketManager {
 			return
 		}
 		this.io.to(receiverSocketId).emit(
-			"mark-group-message-read", {
-				userIdMarkedRead: _.toString(userIdMarkedRead),
-				groupMessage
+			"update-group-message-status", {
+				senderId: _.toString(senderId),
+				groupMessage,
+				newMessageStatus
 			}
 		)
 	}

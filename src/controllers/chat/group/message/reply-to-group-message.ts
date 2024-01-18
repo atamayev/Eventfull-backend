@@ -23,7 +23,7 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 		const data: ReplyToGroupChatData = {
 			groupChatId: groupMessageChat._id,
 			senderDetails: {
-				_id: user._id,
+				userId: user._id,
 				username: user.username || "User",
 			},
 			text: message,

@@ -10,11 +10,11 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 
 		const participantDetails = [
 			{
-				_id: user._id,
+				userId: user._id,
 				username: user.username,
 			},
 			...friends.map(friend => ({
-				_id: friend._id,
+				userId: friend._id,
 				username: friend.username,
 			}))
 		]
@@ -52,7 +52,7 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 			})
 		}))
 
-		return res.status(200).json({ groupChatId: groupChat._id })
+		return res.status(200).json({ groupChatId: groupChat._id, groupChatName: userChatName })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Create Group Chat" })

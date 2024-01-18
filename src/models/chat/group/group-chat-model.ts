@@ -1,12 +1,12 @@
 import { Schema, model, Types } from "mongoose"
 import { socialDataSchema } from "../sender-details-model"
+import { messageStatusSchema } from "../message-status-model"
 
 const lastMessageSchema = new Schema<GroupMessage>({
 	text: { type: String, trim: true },
 	senderDetails: socialDataSchema,
 	isTextEdited: { type: Boolean, default: false },
-	// TODO: Remove ready by, transition to message statuses
-	readBy: { type: [{ type: Schema.Types.ObjectId, ref: "User" }] },
+	messageStatuses: [messageStatusSchema],
 	groupMessageId: { type: Schema.Types.ObjectId, ref: "GroupMessage" },
 	replyTo: { type: Schema.Types.ObjectId, ref: "GroupMessage", default: null },
 	isActive: { type: Boolean, default: true },

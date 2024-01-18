@@ -14,7 +14,7 @@ import confirmUserIsFriendsWithEachFriend from "../../middleware/social/chat/gro
 import confirmGroupMessageSentByOtherUser from "../../middleware/social/chat/group/confirm-group-message-sent-by-other-user"
 import confirmFriendsHaveNotBlockedEachother from "../../middleware/social/chat/group/confirm-friends-have-not-blocked-eachother"
 import validateUpdatedGroupChatName	from "../../middleware/request-validation/social/chat/group/validate-updated-group-chat-name"
-import confirmGroupMessageNotAlreadyMarkedRead from "../../middleware/social/chat/group/confirm-group-message-not-already-marked-read"
+import confirmGroupMessageStatusIsNew from "../../middleware/social/chat/group/confirm-group-message-status-is-new"
 import validateGroupChatIdInParams from "../../middleware/request-validation/social/chat/group/validate-group-message-chat-id-in-params"
 
 import createGroupChat from "../../controllers/chat/group/chat/create-group-chat"
@@ -23,9 +23,10 @@ import editGroupChatName from "../../controllers/chat/group/chat/edit-group-chat
 import retrieveGroupChats from "../../controllers/chat/group/chat/retrieve-group-chats"
 import updateGroupMessage from "../../controllers/chat/group/message/update-group-message"
 import replyToGroupMessage from "../../controllers/chat/group/message/reply-to-group-message"
-import markGroupMessageRead from "../../controllers/chat/group/message/mark-group-message-read"
+import updateGroupMessageStatus from "../../controllers/chat/group/message/update-group-message-status"
 import retrieveMessagesFromGroupChat from "../../controllers/chat/group/message/retrieve-messages-from-group-chat"
 import deleteGroupMessage from "../../controllers/chat/group/message/delete-group-message"
+import validateUpdatedMessageStatus from "../../middleware/request-validation/social/chat/validate-updated-message-status"
 
 const groupMessagesRoutes = express.Router()
 
@@ -53,12 +54,13 @@ groupMessagesRoutes.post(
 groupMessagesRoutes.get("/retrieve-chats-list", retrieveGroupChats)
 
 groupMessagesRoutes.post(
-	"/mark-message-read",
+	"/update-message-status",
 	validateGroupMessageId,
+	validateUpdatedMessageStatus,
 	confirmUserIsGroupChatParticipant,
 	confirmGroupMessageSentByOtherUser,
-	confirmGroupMessageNotAlreadyMarkedRead,
-	markGroupMessageRead
+	confirmGroupMessageStatusIsNew,
+	updateGroupMessageStatus
 )
 
 groupMessagesRoutes.post(
