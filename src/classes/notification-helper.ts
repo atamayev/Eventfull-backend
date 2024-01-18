@@ -77,7 +77,7 @@ export default class NotificationHelper {
 					`New Message from ${privateMessage.senderDetails.username || "User"}`,
 					privateMessage.text,
 					"Private Chat Screen",
-					{ privateChatId: privateMessage.privateChatId }
+					{ privateChatId: privateMessage.privateChatId, privateMessageId: _.toString(privateMessage._id) }
 				)
 				await AwsSnsService.getInstance().sendNotification(
 					endpointArn,
@@ -192,7 +192,7 @@ export default class NotificationHelper {
 						`New Message from ${groupMessage.senderDetails.username || "User"}`,
 						groupMessage.text,
 						"Group Chat Screen",
-						{ groupChatId: groupMessage.groupChatId }
+						{ groupChatId: groupMessage.groupChatId, groupMessageId: _.toString(groupMessage._id) }
 					)
 					await AwsSnsService.getInstance().sendNotification(
 						endpointArn,
@@ -283,7 +283,7 @@ export default class NotificationHelper {
 						`New Message from ${groupMessage.senderDetails.username || "User"}`,
 						groupMessage.text,
 						"Group Chat Screen",
-						{ groupChatId: groupMessage.groupChatId }
+						{ groupChatId: groupMessage.groupChatId, groupMessageId: _.toString(groupMessage._id) }
 					)
 					await AwsSnsService.getInstance().sendNotification(
 						endpointArn,
