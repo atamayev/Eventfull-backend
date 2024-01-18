@@ -24,7 +24,7 @@ export default async function searchForUsername(req: Request, res: Response): Pr
 
 		const modifiedUsers = users.map(userDoc => {
 			const userObj = userDoc.toObject() as UserWithFriendStatus
-			userObj._id = userObj._id.toString()
+			userObj.userId = userObj._id.toString()
 			return userObj
 		})
 		return res.status(200).json({ users: modifiedUsers })
