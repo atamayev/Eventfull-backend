@@ -24,7 +24,7 @@ import retrieveGroupChats from "../../controllers/chat/group/chat/retrieve-group
 import updateGroupMessage from "../../controllers/chat/group/message/update-group-message"
 import replyToGroupMessage from "../../controllers/chat/group/message/reply-to-group-message"
 import updateGroupMessageStatus from "../../controllers/chat/group/message/update-group-message-status"
-import retrieveMessagesFromGroupChat from "../../controllers/chat/group/message/retrieve-messages-from-group-chat"
+import retrieveGroupChatMessages from "../../controllers/chat/group/message/retrieve-group-chat-messages"
 import deleteGroupMessage from "../../controllers/chat/group/message/delete-group-message"
 import validateUpdatedMessageStatus from "../../middleware/request-validation/social/chat/validate-updated-message-status"
 import retrieveSingleGroupChat from "../../controllers/chat/group/chat/retrieve-single-group-chat"
@@ -93,7 +93,7 @@ groupMessagesRoutes.get(
 	"/retrieve-messages-from-chat/:groupChatId",
 	validateGroupChatIdInParams,
 	confirmUserIsGroupChatParticipant,
-	retrieveMessagesFromGroupChat
+	retrieveGroupChatMessages
 )
 
 groupMessagesRoutes.post(
