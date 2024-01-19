@@ -27,6 +27,7 @@ import updateGroupMessageStatus from "../../controllers/chat/group/message/updat
 import retrieveMessagesFromGroupChat from "../../controllers/chat/group/message/retrieve-messages-from-group-chat"
 import deleteGroupMessage from "../../controllers/chat/group/message/delete-group-message"
 import validateUpdatedMessageStatus from "../../middleware/request-validation/social/chat/validate-updated-message-status"
+import retrieveSingleGroupChat from "../../controllers/chat/group/chat/retrieve-single-group-chat"
 
 const groupMessagesRoutes = express.Router()
 
@@ -52,6 +53,13 @@ groupMessagesRoutes.post(
 )
 
 groupMessagesRoutes.get("/retrieve-chats-list", retrieveGroupChats)
+
+groupMessagesRoutes.get(
+	"/retrieve-single-chat/:groupChatId",
+	validateGroupChatIdInParams,
+	confirmUserIsGroupChatParticipant,
+	retrieveSingleGroupChat
+)
 
 groupMessagesRoutes.post(
 	"/update-message-status",

@@ -27,6 +27,7 @@ import replyToPrivateMessage from "../../controllers/chat/private/message/reply-
 import updatePrivateMessageStatus from "../../controllers/chat/private/message/update-private-message-status"
 import retrievePrivateChatMessages from "../../controllers/chat/private/message/retrieve-private-chat-messages"
 import validateUpdatedMessageStatus from "../../middleware/request-validation/social/chat/validate-updated-message-status"
+import retrieveSinglePrivateChat from "../../controllers/chat/private/chat/retrieve-single-private-chat"
 
 const privateMessagesRoutes = express.Router()
 
@@ -53,6 +54,13 @@ privateMessagesRoutes.post(
 )
 
 privateMessagesRoutes.get("/retrieve-chats-list", retrievePrivateChats)
+
+privateMessagesRoutes.get(
+	"/retrieve-single-chat/:privateChatId",
+	validatePrivateChatIdInParams,
+	confirmUserIsPrivateChatParticipant,
+	retrieveSinglePrivateChat
+)
 
 // This endpoint is used to mark a message as delivered or read
 privateMessagesRoutes.post(
