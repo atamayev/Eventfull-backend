@@ -28,6 +28,7 @@ import retrieveGroupChatMessages from "../../controllers/chat/group/message/retr
 import deleteGroupMessage from "../../controllers/chat/group/message/delete-group-message"
 import validateUpdatedMessageStatus from "../../middleware/request-validation/social/chat/validate-updated-message-status"
 import retrieveSingleGroupChat from "../../controllers/chat/group/chat/retrieve-single-group-chat"
+import validateMessagePaginationQueryParams from "../../middleware/request-validation/social/chat/validate-message-pagination-query-params"
 
 const groupMessagesRoutes = express.Router()
 
@@ -92,6 +93,7 @@ groupMessagesRoutes.post(
 groupMessagesRoutes.get(
 	"/retrieve-messages-from-chat/:groupChatId",
 	validateGroupChatIdInParams,
+	validateMessagePaginationQueryParams,
 	confirmUserIsGroupChatParticipant,
 	retrieveGroupChatMessages
 )

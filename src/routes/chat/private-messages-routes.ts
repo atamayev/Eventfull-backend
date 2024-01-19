@@ -28,6 +28,7 @@ import updatePrivateMessageStatus from "../../controllers/chat/private/message/u
 import retrievePrivateChatMessages from "../../controllers/chat/private/message/retrieve-private-chat-messages"
 import validateUpdatedMessageStatus from "../../middleware/request-validation/social/chat/validate-updated-message-status"
 import retrieveSinglePrivateChat from "../../controllers/chat/private/chat/retrieve-single-private-chat"
+import validateMessagePaginationQueryParams from "../../middleware/request-validation/social/chat/validate-message-pagination-query-params"
 
 const privateMessagesRoutes = express.Router()
 
@@ -94,6 +95,7 @@ privateMessagesRoutes.post(
 privateMessagesRoutes.get(
 	"/retrieve-messages-from-chat/:privateChatId",
 	validatePrivateChatIdInParams,
+	validateMessagePaginationQueryParams,
 	confirmUserIsPrivateChatParticipant,
 	retrievePrivateChatMessages
 )
