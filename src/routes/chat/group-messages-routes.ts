@@ -6,7 +6,7 @@ import confirmGroupChatDoesntExist from "../../middleware/social/chat/group/conf
 import validateGroupMessage from "../../middleware/request-validation/social/chat/group/validate-group-message"
 import confirmGroupMessageSentByUser from "../../middleware/social/chat/group/confirm-group-message-sent-by-user"
 import validateGroupMessageId from "../../middleware/request-validation/social/chat/group/validate-group-message-id"
-import validateGroupChatId from "../../middleware/request-validation/social/chat/group/validate-group-message-chat-id"
+import validateGroupChatId from "../../middleware/request-validation/social/chat/group/validate-group-chat-id"
 import validateUpdatedMessageText from "../../middleware/request-validation/social/chat/validate-updated-message-text"
 import confirmUserHasntBlockedAnyFriend from "../../middleware/social/chat/group/confirm-user-hasnt-blocked-any-friend"
 import confirmUserIsGroupChatParticipant from "../../middleware/social/chat/group/confirm-user-is-group-chat-participant"
@@ -15,7 +15,7 @@ import confirmGroupMessageSentByOtherUser from "../../middleware/social/chat/gro
 import confirmFriendsHaveNotBlockedEachother from "../../middleware/social/chat/group/confirm-friends-have-not-blocked-eachother"
 import validateUpdatedGroupChatName	from "../../middleware/request-validation/social/chat/group/validate-updated-group-chat-name"
 import confirmGroupMessageStatusIsNew from "../../middleware/social/chat/group/confirm-group-message-status-is-new"
-import validateGroupChatIdInParams from "../../middleware/request-validation/social/chat/group/validate-group-message-chat-id-in-params"
+import validateGroupChatIdInParams from "../../middleware/request-validation/social/chat/group/validate-group-chat-id-in-params"
 
 import createGroupChat from "../../controllers/chat/group/chat/create-group-chat"
 import sendGroupMessage from "../../controllers/chat/group/message/send-group-message"
@@ -29,6 +29,8 @@ import deleteGroupMessage from "../../controllers/chat/group/message/delete-grou
 import validateUpdatedMessageStatus from "../../middleware/request-validation/social/chat/validate-updated-message-status"
 import retrieveSingleGroupChat from "../../controllers/chat/group/chat/retrieve-single-group-chat"
 import validateMessagePaginationQueryParams from "../../middleware/request-validation/social/chat/validate-message-pagination-query-params"
+import validateGroupMessageIdInParams from "../../middleware/request-validation/social/chat/group/validate-group-message-id-in-params"
+import retrieveSingleGroupMessage from "../../controllers/chat/group/chat/retrieve-single-group-message"
 
 const groupMessagesRoutes = express.Router()
 
@@ -62,6 +64,14 @@ groupMessagesRoutes.get(
 	retrieveSingleGroupChat
 )
 
+groupMessagesRoutes.get(
+	"/retrieve-single-chat/:groupMessageId",
+	validateGroupMessageIdInParams,
+	confirmUserIsGroupChatParticipant,
+	retrieveSingleGroupMessage
+)
+
+// This endpoint is used to mark a message as delivered or read
 groupMessagesRoutes.post(
 	"/update-message-status",
 	validateGroupMessageId,

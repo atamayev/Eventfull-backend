@@ -20,10 +20,7 @@ export default async function validatePrivateMessageId(req: Request, res: Respon
 
 		const privateMessage = await findPrivateMessage(privateMessageId)
 
-		if (_.isNull(privateMessage)) {
-			console.log(privateMessageId)
-			return res.status(400).json({ message: "Private Message not found" })
-		}
+		if (_.isNull(privateMessage)) return res.status(400).json({ message: "Private Message not found" })
 
 		req.privateMessage = privateMessage
 
