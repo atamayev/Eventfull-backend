@@ -153,7 +153,6 @@ export default class SocketManager {
 		toUserId: Types.ObjectId,
 		updatedGroupMessage: GroupMessageWithChatId,
 		newMessageStatus: MessageStatuses,
-		senderId: Types.ObjectId
 	): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
@@ -164,7 +163,7 @@ export default class SocketManager {
 			groupChatId: _.toString(updatedGroupMessage.groupChatId),
 			groupMessageId: _.toString(updatedGroupMessage._id),
 			newMessageStatus,
-			senderId: _.toString(senderId)
+			senderUsername: updatedGroupMessage.senderDetails.username
 		})
 	}
 

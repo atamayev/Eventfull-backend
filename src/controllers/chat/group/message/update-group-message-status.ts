@@ -46,7 +46,6 @@ export default async function updateGroupMessageStatus(req: Request, res: Respon
 			friendIds,
 			updatedGroupMessage,
 			newMessageStatus,
-			user._id
 		)
 
 		return res.status(200).json({ success: `Message Marked ${newMessageStatus}` })

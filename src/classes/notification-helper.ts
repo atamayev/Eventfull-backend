@@ -183,12 +183,18 @@ export default class NotificationHelper {
 						throw new Error("EndpointArn is undefined")
 					}
 
+					const extraData = {
+						groupChatId: groupMessage.groupChatId,
+						groupMessageId: _.toString(groupMessage._id),
+						senderUsername: groupMessage.senderDetails.username
+					}
+
 					const notificationMessage = returnCorrectMessageType(
 						receiver.primaryDevicePlatform,
 						`New Message from ${groupMessage.senderDetails.username || "User"}`,
 						groupMessage.text,
 						"Group Chat Screen",
-						{ groupChatId: groupMessage.groupChatId, groupMessageId: _.toString(groupMessage._id) }
+						extraData
 					)
 					await AwsSnsService.getInstance().sendNotification(
 						endpointArn,
@@ -205,7 +211,6 @@ export default class NotificationHelper {
 		receiverIds: Types.ObjectId[],
 		updatedGroupMessage: GroupMessageWithChatId,
 		newMessageStatus: MessageStatuses,
-		senderId: Types.ObjectId
 	): void {
 		try {
 			const socketManager = SocketManager.getInstance()
@@ -213,7 +218,7 @@ export default class NotificationHelper {
 				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
-				socketManager.updateGroupMessageStatus(receiverId, updatedGroupMessage, newMessageStatus, senderId)
+				socketManager.updateGroupMessageStatus(receiverId, updatedGroupMessage, newMessageStatus)
 			}
 		} catch (error) {
 			console.error(error)
