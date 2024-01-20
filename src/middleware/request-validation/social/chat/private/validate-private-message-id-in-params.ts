@@ -2,28 +2,25 @@ import Joi from "joi"
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
-import findPrivateChat from "../../../../../utils/find/find-private-chat"
-import objectIdValidation from "../../../../../utils/object-id-validation"
 import findPrivateMessage from "../../../../../utils/find/find-private-message"
+import objectIdValidation from "../../../../../utils/object-id-validation"
+import findPrivateChat from "../../../../../utils/find/find-private-chat"
 
 const privateMessageSchema = Joi.object({
 	privateMessageId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 }).unknown(true)
 
-export default async function validatePrivateMessageId(req: Request, res: Response, next: NextFunction): Promise<void | Response> {
+export default async function validatePrivateMessageIdInParams (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
-		const { error } = privateMessageSchema.validate(req.body)
+		const { error } = privateMessageSchema.validate(req.params)
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const privateMessageId = new Types.ObjectId(req.body.privateMessageId as string)
+		const privateMessageId = new Types.ObjectId(req.params.privateMessageId as string)
 
 		const privateMessage = await findPrivateMessage(privateMessageId)
 
-		if (_.isNull(privateMessage)) {
-			console.log(privateMessageId)
-			return res.status(400).json({ message: "Private Message not found" })
-		}
+		if (_.isNull(privateMessage)) return res.status(400).json({ message: "Private Message not found" })
 
 		req.privateMessage = privateMessage
 
