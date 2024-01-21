@@ -45,7 +45,10 @@ export default class NotificationHelper {
 	public static retractFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (socketManager.isUserOnline(friendId) === false) {
+			if (
+				socketManager.isUserOnline(friendId) === false ||
+				socketManager.isUserActive(friendId) === false
+			) {
 				return
 			}
 			socketManager.retractFriendRequest(userId, friendId)
@@ -99,7 +102,10 @@ export default class NotificationHelper {
 	public static updatePrivateMessageStatus (receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (socketManager.isUserOnline(receiverId) === false) {
+			if (
+				socketManager.isUserOnline(receiverId) === false ||
+				socketManager.isUserActive(receiverId) === false
+			) {
 				return
 			}
 			socketManager.updatePrivateMessageStatus(receiverId, privateMessage)
@@ -111,7 +117,10 @@ export default class NotificationHelper {
 	public static updatePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (socketManager.isUserOnline(receiverId) === false) {
+			if (
+				socketManager.isUserOnline(receiverId) === false ||
+				socketManager.isUserActive(receiverId) === false
+			) {
 				return
 			}
 			socketManager.updatePrivateMessage(receiverId, privateMessage)
@@ -123,7 +132,10 @@ export default class NotificationHelper {
 	public static deletePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (socketManager.isUserOnline(receiverId) === false) {
+			if (
+				socketManager.isUserOnline(receiverId) === false ||
+				socketManager.isUserActive(receiverId) === false
+			) {
 				return
 			}
 			socketManager.deletePrivateMessage(receiverId, privateMessage)
@@ -223,7 +235,10 @@ export default class NotificationHelper {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {
-				if (socketManager.isUserOnline(receiverId) === false) {
+				if (
+					socketManager.isUserOnline(receiverId) === false ||
+					socketManager.isUserActive(receiverId) === false
+				) {
 					continue
 				}
 				socketManager.updateGroupMessageStatus(receiverId, updatedGroupMessage, newMessageStatus)
@@ -237,7 +252,10 @@ export default class NotificationHelper {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {
-				if (socketManager.isUserOnline(receiverId) === false) {
+				if (
+					socketManager.isUserOnline(receiverId) === false ||
+					socketManager.isUserActive(receiverId) === false
+				) {
 					continue
 				}
 				socketManager.updateGroupMessage(receiverId, groupMessage)
@@ -251,7 +269,10 @@ export default class NotificationHelper {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {
-				if (socketManager.isUserOnline(receiverId) === false) {
+				if (
+					socketManager.isUserOnline(receiverId) === false ||
+					socketManager.isUserActive(receiverId) === false
+				) {
 					continue
 				}
 				socketManager.deleteGroupMessage(receiverId, groupMessage)
