@@ -123,7 +123,7 @@ export default class NotificationHelper {
 			if (socketManager.isUserOnline(receiverId) === false) {
 				return
 			}
-			socketManager.updatePrivateMessage(receiverId, privateMessage)
+			socketManager.deletePrivateMessage(receiverId, privateMessage)
 		} catch (error) {
 			console.error(error)
 		}
@@ -246,7 +246,7 @@ export default class NotificationHelper {
 				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
-				socketManager.updateGroupMessage(receiverId, groupMessage)
+				socketManager.deleteGroupMessage(receiverId, groupMessage)
 			}
 		} catch (error) {
 			console.error(error)
