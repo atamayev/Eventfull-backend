@@ -6,11 +6,9 @@ import extractFriendFromChat from "../../middleware/social/chat/private/extract-
 import confirmUserHasntBlockedFriend from "../../middleware/social/friend/confirm-user-hasnt-blocked-friend"
 import confirmFriendHasntBlockedUser from "../../middleware/social/friend/confirm-friend-hasnt-blocked-user"
 import confirmPrivateChatDoesntExist from "../../middleware/social/chat/private/confirm-private-chat-doesnt-exist"
-import validatePrivateChatId from "../../middleware/request-validation/social/chat/private/validate-private-chat-id"
 import validatePrivateMessage from "../../middleware/request-validation/social/chat/private/validate-private-message"
 import validateUpdatedMessageText from "../../middleware/request-validation/social/chat/validate-updated-message-text"
 import confirmPrivateMessageSentByUser from "../../middleware/social/chat/private/confirm-private-message-sent-by-user"
-import validatePrivateMessageId from "../../middleware/request-validation/social/chat/private/validate-private-message-id"
 import confirmUserIsPrivateChatParticipant from "../../middleware/social/chat/private/confirm-user-is-private-chat-participant"
 import confirmPrivateMessageSentByOtherUser from "../../middleware/social/chat/private/confirm-private-message-sent-by-other-user"
 import confirmNewPrivateMessageStatus from "../../middleware/social/chat/private/confirm-private-message-status-is-new"
@@ -45,8 +43,8 @@ privateMessagesRoutes.post(
 )
 
 privateMessagesRoutes.post(
-	"/send-message",
-	validatePrivateChatId,
+	"/send-message/:privateChatId",
+	validatePrivateChatIdInParams,
 	validatePrivateMessage,
 	extractFriendFromChat,
 	confirmUserIsPrivateChatParticipant,
@@ -74,8 +72,8 @@ privateMessagesRoutes.get(
 
 // This endpoint is used to mark a message as delivered or read
 privateMessagesRoutes.post(
-	"/update-message-status",
-	validatePrivateMessageId,
+	"/update-message-status/:privateMessageId",
+	validatePrivateMessageIdInParams,
 	validateUpdatedMessageStatus,
 	confirmUserIsPrivateChatParticipant,
 	confirmPrivateMessageSentByOtherUser,
@@ -84,18 +82,23 @@ privateMessagesRoutes.post(
 )
 
 privateMessagesRoutes.post(
-	"/update-message",
-	validatePrivateMessageId,
+	"/update-message/:privateMessageId",
+	validatePrivateMessageIdInParams,
 	validateUpdatedMessageText,
 	confirmPrivateMessageSentByUser,
 	updatePrivateMessage
 )
 
-privateMessagesRoutes.post("/delete-message", validatePrivateMessageId, confirmPrivateMessageSentByUser, deletePrivateMessage)
+privateMessagesRoutes.delete(
+	"/delete-message/:privateMessageId",
+	validatePrivateMessageIdInParams,
+	confirmPrivateMessageSentByUser,
+	deletePrivateMessage
+)
 
 privateMessagesRoutes.post(
-	"/edit-chat-name",
-	validatePrivateChatId,
+	"/edit-chat-name/:privateChatId",
+	validatePrivateChatIdInParams,
 	validateUpdatedPrivateChatName,
 	confirmUserIsPrivateChatParticipant,
 	editPrivateChatName
@@ -110,9 +113,8 @@ privateMessagesRoutes.get(
 )
 
 privateMessagesRoutes.post(
-	"/reply-to-message",
-	validatePrivateChatId,
-	validatePrivateMessageId,
+	"/reply-to-message/:privateMessageId",
+	validatePrivateMessageIdInParams,
 	validatePrivateMessage,
 	extractFriendFromChat,
 	confirmUserIsPrivateChatParticipant,

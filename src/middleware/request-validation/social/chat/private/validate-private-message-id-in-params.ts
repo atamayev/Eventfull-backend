@@ -8,7 +8,7 @@ import findPrivateChat from "../../../../../utils/find/find-private-chat"
 
 const privateMessageSchema = Joi.object({
 	privateMessageId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-}).unknown(true)
+}).required()
 
 export default async function validatePrivateMessageIdInParams (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {

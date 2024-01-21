@@ -7,7 +7,7 @@ import objectIdValidation from "../../../../../utils/object-id-validation"
 
 const privateMessageSchema = Joi.object({
 	privateChatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-}).unknown(true)
+}).required()
 
 export default async function validatePrivateChatIdInParams (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
@@ -19,7 +19,7 @@ export default async function validatePrivateChatIdInParams (req: Request, res: 
 
 		const privateChat = await findPrivateChat(privateChatId)
 
-		if (_.isNull(privateChat)) return res.status(400).json({ message: "Private Message Chat not found" })
+		if (_.isNull(privateChat)) return res.status(400).json({ message: "Private Chat not found" })
 
 		req.privateChat = privateChat
 
