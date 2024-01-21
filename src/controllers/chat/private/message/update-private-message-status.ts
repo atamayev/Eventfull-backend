@@ -12,10 +12,15 @@ export default async function updatePrivateMessageStatus(req: Request, res: Resp
 		const privateMessage = req.privateMessage
 		const newMessageStatus = req.body.newMessageStatus as "Delivered" | "Read"
 
-		await PrivateMessageModel.findByIdAndUpdate(
+		const updatedPrivateMessage = await PrivateMessageModel.findByIdAndUpdate(
 			privateMessage._id,
-			{ messageStatus: newMessageStatus }
+			{ messageStatus: newMessageStatus },
+			{ new: true }
 		)
+
+		if (_.isNull(updatedPrivateMessage)) {
+			return res.status(500).json({ error: "Unable to Update message status" })
+		}
 
 		if (_.isNull(privateChat.lastMessage)) {
 			return res.status(400).json({ message: "No Last Message in the Private Message Model"})
@@ -29,7 +34,7 @@ export default async function updatePrivateMessageStatus(req: Request, res: Resp
 
 		const friendId = extractPrivateChatFriendId(privateChat, user._id)
 
-		NotificationHelper.updatePrivateMessageStatus(friendId, privateMessage, newMessageStatus)
+		NotificationHelper.updatePrivateMessageStatus(friendId, updatedPrivateMessage)
 
 		return res.status(200).json({ success: `Message Marked ${newMessageStatus}` })
 	} catch (error) {

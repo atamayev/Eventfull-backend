@@ -3,8 +3,8 @@ import { Types } from "mongoose"
 import SocketManager from "./socket-manager"
 import AwsSnsService from "./aws-sns-service"
 import getUserArn from "../utils/auth-helpers/aws/get-user-arn"
-import returnCorrectMessageType from "../utils/notifications/create-notifications/return-correct-message-type"
 import noNotificationTokenMessage from "../utils/notifications/no-notification-token-message"
+import returnCorrectMessageType from "../utils/notifications/create-notifications/return-correct-message-type"
 
 export default class NotificationHelper {
 	public static async sendFriendRequest (user: User, receiver: User): Promise<void> {
@@ -96,17 +96,13 @@ export default class NotificationHelper {
 		}
 	}
 
-	public static updatePrivateMessageStatus (
-		receiverId: Types.ObjectId,
-		privateMessage: PrivateMessageWithChatId,
-		newMessageStatus: "Delivered" | "Read"
-	): void {
+	public static updatePrivateMessageStatus (receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
 			if (socketManager.isUserOnline(receiverId) === false) {
 				return
 			}
-			socketManager.updatePrivateMessageStatus(receiverId, privateMessage, newMessageStatus)
+			socketManager.updatePrivateMessageStatus(receiverId, privateMessage)
 		} catch (error) {
 			console.error(error)
 		}

@@ -106,7 +106,6 @@ export default class SocketManager {
 	public updatePrivateMessageStatus(
 		toUserId: Types.ObjectId,
 		privateMessage: PrivateMessageWithChatId,
-		newMessageStatus: MessageStatuses
 	): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) {
@@ -117,7 +116,7 @@ export default class SocketManager {
 			"update-private-message-status", {
 				privateChatId: _.toString(privateMessage.privateChatId),
 				privateMessageId: _.toString(privateMessage._id),
-				newMessageStatus
+				newMessageStatus: privateMessage.messageStatus,
 			}
 		)
 	}
