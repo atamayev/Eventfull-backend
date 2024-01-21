@@ -4,12 +4,12 @@ import { Request, Response, NextFunction } from "express"
 export default function confirmGroupMessageStatusIsNew(req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
-		const newPrivateMessageStatus = req.body.newMessageStatus
+		const newPrivateMessageStatus = req.body.newMessageStatus as "Read" | "Delivered"
 		const groupMessage = req.groupMessage
 		const userMessageStatusObject = groupMessage.messageStatuses.find(status => status.userId.equals(user._id))
 
 		if (!_.isUndefined(userMessageStatusObject)) {
-			if (userMessageStatusObject.messageStatus === newPrivateMessageStatus) {
+			if (_.isEqual(userMessageStatusObject.messageStatus, newPrivateMessageStatus)) {
 				return res.status(400).json({ message: "Same Status" })
 			}
 		}

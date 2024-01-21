@@ -5,11 +5,11 @@ export default async function retrievePrivateChats(req: Request, res: Response):
 	try {
 		const user = req.user
 
-		const chatsWithNames = await retrievePrivateChatsWithNames(user)
+		const privateChats = await retrievePrivateChatsWithNames(user)
 
-		return res.status(200).json({ privateChats: chatsWithNames })
+		return res.status(200).json({ privateChats })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Private Message Chats" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Private Chats" })
 	}
 }

@@ -5,8 +5,8 @@ import { createServer } from "http"
 import cookieParser from "cookie-parser"
 import { Server as SocketIOServer } from "socket.io"
 
-import SocketManager from "./classes/socket-manager"
 import jwtVerify from "./middleware/jwt/jwt-verify"
+import SocketManager from "./classes/socket-manager"
 import connectDatabase from "./setup-and-security/db-connect"
 import verifySocketJWT from "./middleware/jwt/verify-socket-jwt"
 
