@@ -1,6 +1,5 @@
 import _ from "lodash"
 import PrivateChatModel from "../../../models/chat/private/private-chat-model"
-import getUsernameById from "../../get-username-by-id"
 
 export default async function retrievePrivateChatsWithNames(user: User): Promise<PrivateChatWithNames[]> {
 	try {
@@ -20,28 +19,14 @@ export default async function retrievePrivateChatsWithNames(user: User): Promise
 			chatIdToNameMap[chat.privateChatId.toString()] = chat.chatName
 		})
 
-		const chatsWithNames: PrivateChatWithNames[] = await Promise.all(privateChats.map(async chat => {
-			let lastMessageWithSenderDetails = null
-
-			if (!_.isNull(chat.lastMessage)) {
-				const senderUsername = await getUsernameById(chat.lastMessage.senderDetails.userId)
-				lastMessageWithSenderDetails = {
-					...chat.lastMessage,
-					senderDetails: {
-						userId: chat.lastMessage.senderDetails.userId,
-						username: senderUsername
-					}
-				}
-			}
-
+		const chatsWithNames: PrivateChatWithNames[] = privateChats.map(chat => {
 			return {
 				...chat,
 				chatName: chatIdToNameMap[chat._id.toString()] || "Unnamed Chat",
-				lastMessage: lastMessageWithSenderDetails
 			}
-		}))
+		})
 
-		return chatsWithNames as PrivateChatWithNames[]
+		return chatsWithNames
 	} catch (error) {
 		console.error(error)
 		return []
