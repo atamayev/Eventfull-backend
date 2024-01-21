@@ -33,9 +33,7 @@ export default async function sendPrivateMessage(req: Request, res: Response): P
 
 		await PrivateChatModel.findByIdAndUpdate(
 			privateChat._id,
-			{ $set:
-				{ lastMessage: data }
-			}
+			{ $set: { lastMessage: data } }
 		)
 
 		await NotificationHelper.sendPrivateMessage(friend, privateMessage)

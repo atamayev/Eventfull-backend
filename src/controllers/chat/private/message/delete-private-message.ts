@@ -13,9 +13,8 @@ export default async function deletePrivateMessage(req: Request, res: Response):
 
 		const deletedPrivateMessage = await PrivateMessageModel.findByIdAndUpdate(
 			privateMessage._id,
-			{ $set:
-				{ isActive: false }
-			}, { new: true }
+			{ $set: { isActive: false } },
+			{ new: true }
 		)
 
 		if (!_.isNull(privateChat.lastMessage)) {

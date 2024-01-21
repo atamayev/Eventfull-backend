@@ -1,8 +1,14 @@
 import { Types } from "mongoose"
 import { Request, Response } from "express"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
-import GroupMessageChatModel from "../../../../models/chat/group/group-chat-model"
+import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import NotificationHelper from "../../../../classes/notification-helper"
+
+interface MessageStatusObjectNoTimestamps {
+	userId: Types.ObjectId
+	messageStatus: MessageStatuses
+	username: string
+}
 
 interface ReplyToGroupChatData {
     groupChatId?: Types.ObjectId
@@ -10,6 +16,7 @@ interface ReplyToGroupChatData {
     text: string
 	groupMessageId?: Types.ObjectId
 	replyTo: Types.ObjectId
+	messageStatuses: MessageStatusObjectNoTimestamps[]
 }
 
 export default async function replyToGroupMessage(req: Request, res: Response): Promise<Response> {
@@ -17,28 +24,31 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 		const friends = req.friends
 		const user = req.user
 		const groupMessageReplyingTo = req.groupMessage
-		const groupMessageChat = req.groupChat
+		const groupChat = req.groupChat
 		const message = req.body.groupMessage as string
 
 		const data: ReplyToGroupChatData = {
-			groupChatId: groupMessageChat._id,
+			groupChatId: groupChat._id,
 			senderDetails: {
 				userId: user._id,
 				username: user.username || "User",
 			},
 			text: message,
-			replyTo: groupMessageReplyingTo._id
+			replyTo: groupMessageReplyingTo._id,
+			messageStatuses: groupChat.participantDetails.map(participant => ({
+				userId: participant.userId,
+				messageStatus: "Sent", // Default status
+				username: participant.username,
+			})),
 		}
 		const groupMessage = await GroupMessageModel.create(data)
 
 		delete data.groupChatId
 
 		data.groupMessageId = groupMessage._id
-		await GroupMessageChatModel.findByIdAndUpdate(
-			groupMessageChat._id,
-			{ $set:
-				{ lastMessage: data }
-			}
+		await GroupChatModel.findByIdAndUpdate(
+			groupChat._id,
+			{ $set: { lastMessage: data } }
 		)
 
 		await NotificationHelper.replyToGroupMessage(friends, groupMessage)

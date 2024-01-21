@@ -36,9 +36,7 @@ export default async function replyToPrivateMessage(req: Request, res: Response)
 		data.privateMessageId = privateMessage._id
 		await PrivateChatModel.findByIdAndUpdate(
 			privateChat._id,
-			{ $set:
-				{ lastMessage: data }
-			}
+			{ $set: { lastMessage: data } }
 		)
 
 		await NotificationHelper.replyToPrivateMessage(friend, privateMessage)
