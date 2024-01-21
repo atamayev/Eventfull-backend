@@ -14,14 +14,15 @@ import checkIfUserBlockedBlockedUser from "../middleware/social/block/check-if-u
 import checkIfUnblockedUserBlockedUser from "../middleware/social/unblock/check-if-unblocked-user-blocked-user"
 
 import blockAnotherUser from "../controllers/social/block-another-user"
-import listBlockedUsers from "../controllers/social/list-blocked-users"
+import listBlockedUsers from "../controllers/social/list/list-blocked-users"
 import sendFriendRequest from "../controllers/social/send-friend-request"
 import unblockAnotherUser from "../controllers/social/unblock-another-user"
 import unfriendAnotherUser from "../controllers/social/unfriend-another-user"
 import retractFriendRequest from "../controllers/social/retract-friend-request"
 import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
-import listIncomingFriendRequests from "../controllers/social/list-incoming-friend-requests"
-import listOutgoingFriendRequests from "../controllers/social/list-outgoing-friend-requests"
+import listIncomingFriendRequests from "../controllers/social/list/list-incoming-friend-requests"
+import listOutgoingFriendRequests from "../controllers/social/list/list-outgoing-friend-requests"
+import listFriends from "../controllers/social/list/list-friends"
 
 const socialRoutes = express.Router()
 
@@ -49,6 +50,7 @@ socialRoutes.post("/unfriend-another-user", validateFriendId, confirmUsersAreFri
 socialRoutes.get("/get-incoming-friend-requests", listIncomingFriendRequests)
 socialRoutes.get("/get-outgoing-friend-requests", listOutgoingFriendRequests)
 socialRoutes.get("/get-blocked-users", listBlockedUsers)
+socialRoutes.get("/get-friends", listFriends)
 
 socialRoutes.post(
 	"/block-another-user",
