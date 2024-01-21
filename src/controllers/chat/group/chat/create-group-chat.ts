@@ -21,7 +21,7 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 
 		const userChatName = friends.map(friend => friend.username || friend.firstName).join(", ")
 
-		const groupChat = await GroupChatModel.create({
+		const newGroupChat = await GroupChatModel.create({
 			participantDetails,
 			lastMessage: null,
 		})
@@ -29,7 +29,7 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 		await UserModel.findByIdAndUpdate(user._id, {
 			$push: {
 				groupChats: {
-					groupChatId: groupChat._id,
+					groupChatId: newGroupChat._id,
 					chatName: userChatName
 				}
 			},
@@ -45,16 +45,25 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 			return UserModel.findByIdAndUpdate(friend._id, {
 				$push: {
 					groupChats: {
-						groupChatId: groupChat._id,
+						groupChatId: newGroupChat._id,
 						chatName: friendChatName
 					}
 				},
 			})
 		}))
 
-		return res.status(200).json({ groupChatId: groupChat._id, groupChatName: userChatName })
+		const groupChat = addChatNameToChat(newGroupChat, userChatName)
+
+		return res.status(200).json({ groupChat })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Create Group Chat" })
 	}
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function addChatNameToChat(chat: any, chatName: string): GroupChatWithNames {
+	const chatData = chat._doc ? { ...chat._doc } : { ...chat }
+	chatData.chatName = chatName
+	return chatData
 }
