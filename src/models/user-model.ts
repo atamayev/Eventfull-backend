@@ -96,9 +96,7 @@ const userSchema = new Schema<User>({
 	},
 	privateChats: { type: [privateMessagesSchema],	required: true },
 	groupChats: { type: [groupChatsSchema], required: true}
-}, {
-	timestamps: true
-})
+}, { timestamps: true })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const UserModel = model("User", userSchema, "users")
