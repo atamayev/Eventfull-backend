@@ -1,4 +1,3 @@
-/* eslint-disable no-inline-comments */
 export default function createAPNSMessage(
 	title: string,
 	body: string,

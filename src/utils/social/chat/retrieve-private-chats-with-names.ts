@@ -7,24 +7,21 @@ export default async function retrievePrivateChatsWithNames(user: User): Promise
 			return []
 		}
 
-		const privateChatIds = user.privateChats.map(chat => chat.privateChatId)
+		const chatIdToNameMap = new Map<string, string>()
+		const privateChatIds = user.privateChats.map(chat => {
+			chatIdToNameMap.set(chat.privateChatId.toString(), chat.chatName)
+			return chat.privateChatId
+		})
 
 		const privateChats = await PrivateChatModel.find({
 			_id: { $in: privateChatIds },
 			isActive: true
 		}).lean().exec()
 
-		const chatIdToNameMap: ChatNameMapping = {}
-		user.privateChats.forEach(chat => {
-			chatIdToNameMap[chat.privateChatId.toString()] = chat.chatName
-		})
-
-		const chatsWithNames: PrivateChatWithNames[] = privateChats.map(chat => {
-			return {
-				...chat,
-				chatName: chatIdToNameMap[chat._id.toString()] || "Unnamed Chat",
-			}
-		})
+		const chatsWithNames: PrivateChatWithNames[] = privateChats.map(chat => ({
+			...chat,
+			chatName: chatIdToNameMap.get(chat._id.toString()) || "Unnamed Chat",
+		}))
 
 		return chatsWithNames
 	} catch (error) {
