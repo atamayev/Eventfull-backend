@@ -1,7 +1,8 @@
-import { Document, Types } from "mongoose"
+import { Types } from "mongoose"
 
 declare global {
-	interface UserWithFriendStatus extends Document {
+	interface UserWithFriendStatus {
+		_id?: Types.ObjectId
 		userId: Types.ObjectId | string
 		username: string
 	}
