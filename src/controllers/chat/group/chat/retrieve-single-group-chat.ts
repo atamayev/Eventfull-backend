@@ -13,7 +13,7 @@ export default async function retrieveSingleGroupChat(req: Request, res: Respons
 		)
 
 		if (_.isNull(chatName) || _.isEmpty(chatName.groupChats)) {
-			return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Group Message Chats" })
+			return res.status(400).json({ message: "Group Chat Not Found" })
 		}
 		const groupChat = attachChatNameToChat(reqGroupChat, chatName.groupChats[0].chatName)
 
