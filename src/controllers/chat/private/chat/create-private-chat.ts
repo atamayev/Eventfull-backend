@@ -7,7 +7,7 @@ export default async function createPrivateChat(req: Request, res: Response): Pr
 		const user = req.user
 		const friend = req.friend
 
-		const privateChat = await PrivateChatModel.create({
+		const newPrivateChat = await PrivateChatModel.create({
 			participantDetails: [{
 				userId: user._id,
 				username: user.username},
@@ -17,11 +17,13 @@ export default async function createPrivateChat(req: Request, res: Response): Pr
 			lastMessage: null,
 		})
 
+		const userChatName = friend.username || `Chat with ${friend.firstName}`
+
 		const userUpdate = UserModel.findByIdAndUpdate(user._id, {
 			$push: {
 				privateChats: {
-					privateChatId: privateChat._id,
-					chatName: friend.username || `Chat with ${friend.firstName}`
+					privateChatId: newPrivateChat._id,
+					chatName: userChatName
 				}
 			},
 		})
@@ -29,7 +31,7 @@ export default async function createPrivateChat(req: Request, res: Response): Pr
 		const friendUpdate = UserModel.findByIdAndUpdate(friend._id, {
 			$push: {
 				privateChats: {
-					privateChatId: privateChat._id,
+					privateChatId: newPrivateChat._id,
 					chatName: user.username || `Chat with ${user.firstName}`
 				}
 			},
@@ -37,9 +39,18 @@ export default async function createPrivateChat(req: Request, res: Response): Pr
 
 		await Promise.all([userUpdate, friendUpdate])
 
-		return res.status(200).json({ privateChatId: privateChat._id })
+		const privateChat = addChatNameToChat(newPrivateChat, userChatName)
+
+		return res.status(200).json({ privateChat })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Create Chat" })
 	}
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function addChatNameToChat(chat: any, chatName: string): PrivateChatWithNames {
+	const chatData = chat._doc ? { ...chat._doc } : { ...chat }
+	chatData.chatName = chatName
+	return chatData
 }
