@@ -2,7 +2,6 @@ import _ from "lodash"
 import { Response, Request } from "express"
 import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
 import doesUserHaveGoogleCalendar from "../../../utils/google/calendar/does-user-have-google-calendar"
-import fetchLoginUserData from "../../../utils/auth-helpers/fetch-login-user-data"
 import extractGoogleUserFromTokens from "../../../utils/google/auth/extract-google-user-from-tokens"
 import createAndSignJWT from "../../../utils/auth-helpers/jwt/create-and-sign-jwt"
 
@@ -25,8 +24,6 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		await addLoginHistory(tokensResonse.googleUser._id)
 
-		const { friends, incomingFriendRequests, outgoingFriendRequests, blockedUsers } = await fetchLoginUserData(tokensResonse.googleUser)
-
 		return res.status(200).json({
 			authenticated: true,
 			accessToken: token,
@@ -36,10 +33,6 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 			username: tokensResonse.googleUser.username,
 			isNewUser: tokensResonse.isNewUser,
 			email: payload?.email,
-			friends,
-			incomingFriendRequests,
-			outgoingFriendRequests,
-			blockedUsers,
 		})
 	} catch (error) {
 		console.error(error)

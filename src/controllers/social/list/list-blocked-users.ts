@@ -10,7 +10,14 @@ export default async function listBlockedUsers (req: Request, res: Response): Pr
 			"_id": { $in: blockedUsersIds }
 		}).select("_id username")
 
-		return res.status(200).json({ blockedUsers })
+		const transformedBlockedUsers = blockedUsers.map(blockedUser => {
+			return {
+				userId: blockedUser._id,
+				username: blockedUser.username
+			}
+		})
+
+		return res.status(200).json({ blockedUsers: transformedBlockedUsers })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to List Blocked Users" })
