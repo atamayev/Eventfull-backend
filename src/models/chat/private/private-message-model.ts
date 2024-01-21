@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose"
-import { socialDataSchema } from "../sender-details-model"
+import { socialDataSchema } from "../social-data-model"
 
 const privateMessageSchema = new Schema<PrivateMessageWithChatId>({
 	privateChatId: { type: Schema.Types.ObjectId, ref: "PrivateChat", required: true },

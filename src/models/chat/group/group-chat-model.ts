@@ -1,5 +1,5 @@
 import { Schema, model, Types } from "mongoose"
-import { socialDataSchema } from "../sender-details-model"
+import { socialDataSchema } from "../social-data-model"
 import { messageStatusSchema } from "../message-status-model"
 
 const lastMessageSchema = new Schema<GroupMessage>({

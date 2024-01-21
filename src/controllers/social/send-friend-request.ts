@@ -1,8 +1,8 @@
 import { Request, Response } from "express"
+import NotificationHelper from "../../classes/notification-helper"
 import createOutgoingFriendRequest from "../../utils/social/friend/create-outgoing-friend-request"
 import checkIfOutgoingFriendRequestExists from "../../utils/social/friend/check-if-outgoing-friend-request-exists"
 import checkIfIncomingFriendRequestExists from "../../utils/social/friend/check-if-incoming-friend-request-exists"
-import NotificationHelper from "../../classes/notification-helper"
 
 export default async function sendFriendRequest (req: Request, res: Response): Promise<Response> {
 	try {

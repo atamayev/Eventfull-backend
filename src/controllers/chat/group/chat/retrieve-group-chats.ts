@@ -5,11 +5,11 @@ export default async function retrieveGroupChats(req: Request, res: Response): P
 	try {
 		const user = req.user
 
-		const chatsWithNames = await retrieveGroupChatsWithNames(user)
+		const groupChats = await retrieveGroupChatsWithNames(user)
 
-		return res.status(200).json({ groupChats: chatsWithNames })
+		return res.status(200).json({ groupChats })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to RetrieveGroup Message Chats" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Group Chats" })
 	}
 }

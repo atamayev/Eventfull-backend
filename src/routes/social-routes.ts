@@ -33,6 +33,7 @@ socialRoutes.post(
 	confirmUsersAreNotFriends,
 	sendFriendRequest
 )
+
 socialRoutes.post(
 	"/respond-to-friend-request",
 	validateResponseToFriendRequest,
@@ -41,6 +42,7 @@ socialRoutes.post(
 	confirmUsersAreNotFriends,
 	respondToFriendRequest
 )
+
 socialRoutes.post("/retract-friend-request", validateFriendId, confirmUsersAreNotFriends, retractFriendRequest)
 socialRoutes.post("/unfriend-another-user", validateFriendId, confirmUsersAreFriends, unfriendAnotherUser)
 
@@ -55,6 +57,7 @@ socialRoutes.post(
 	checkIfBlockedUserBlockedUser,
 	blockAnotherUser
 )
+
 socialRoutes.post("/unblock-another-user", validateUnblockedUserId, checkIfUnblockedUserBlockedUser, unblockAnotherUser)
 
 export default socialRoutes
