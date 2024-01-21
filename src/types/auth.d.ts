@@ -73,8 +73,6 @@ declare global {
 		incomingFriendRequests: LoginSocialData[]
 		outgoingFriendRequests: LoginSocialData[]
 		blockedUsers: LoginSocialData[]
-		groupChats: GroupChatWithNames[]
-		privateChats: PrivateChatWithNames[]
 	}
 
 	type GoogleLoginTokensResponse = {

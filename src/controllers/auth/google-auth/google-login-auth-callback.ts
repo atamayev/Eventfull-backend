@@ -25,8 +25,7 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		await addLoginHistory(tokensResonse.googleUser._id)
 
-		const { friends, incomingFriendRequests, outgoingFriendRequests, blockedUsers,
-			groupChats, privateChats } = await fetchLoginUserData(tokensResonse.googleUser)
+		const { friends, incomingFriendRequests, outgoingFriendRequests, blockedUsers } = await fetchLoginUserData(tokensResonse.googleUser)
 
 		return res.status(200).json({
 			authenticated: true,
@@ -41,8 +40,6 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 			incomingFriendRequests,
 			outgoingFriendRequests,
 			blockedUsers,
-			privateChats,
-			groupChats
 		})
 	} catch (error) {
 		console.error(error)
