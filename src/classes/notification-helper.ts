@@ -23,11 +23,14 @@ export default class NotificationHelper {
 				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
+				const notificationData: NotificationData = {
+					title: "New Friend Request",
+					body: `${user.username || "User"} sent you a friend request.`,
+					targetPage: "Chat"
+				}
 				const message = returnCorrectMessageType(
 					receiver.primaryDevicePlatform,
-					"New Friend Request",
-					`${user.username || "User"} sent you a friend request.`,
-					"Chat"
+					notificationData
 				)
 				await AwsSnsService.getInstance().sendNotification(
 					endpointArn,
@@ -72,13 +75,17 @@ export default class NotificationHelper {
 				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
-				const notificationMessage = returnCorrectMessageType(
-					receiver.primaryDevicePlatform,
-					`New Message from ${privateMessage.senderDetails.username || "User"}`,
-					privateMessage.text,
-					"Private Chat Screen",
-					{ privateChatId: privateMessage.privateChatId, privateMessageId: _.toString(privateMessage._id) }
-				)
+				const extraData = {
+					privateChatId: privateMessage.privateChatId,
+					privateMessageId: _.toString(privateMessage._id)
+				}
+				const notificationData: NotificationData = {
+					title: `New Message from ${privateMessage.senderDetails.username || "User"}`,
+					body: privateMessage.text,
+					targetPage: "Private Chat Screen",
+					extraData
+				}
+				const notificationMessage = returnCorrectMessageType(receiver.primaryDevicePlatform, notificationData)
 				await AwsSnsService.getInstance().sendNotification(
 					endpointArn,
 					notificationMessage
@@ -145,13 +152,17 @@ export default class NotificationHelper {
 				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
-				const notificationMessage = returnCorrectMessageType(
-					receiver.primaryDevicePlatform,
-					`${privateMessage.senderDetails.username || "User"} replied to your message`,
-					privateMessage.text,
-					"Private Chat Screen",
-					{ privateChatId: privateMessage.privateChatId, privateMessageId: _.toString(privateMessage._id) }
-				)
+				const extraData = {
+					privateChatId: privateMessage.privateChatId,
+					privateMessageId: _.toString(privateMessage._id)
+				}
+				const notificationData: NotificationData = {
+					title: `${privateMessage.senderDetails.username || "User"} replied to your message`,
+					body: privateMessage.text,
+					targetPage: "Private Chat Screen",
+					extraData
+				}
+				const notificationMessage = returnCorrectMessageType(receiver.primaryDevicePlatform, notificationData)
 				await AwsSnsService.getInstance().sendNotification(
 					endpointArn,
 					notificationMessage
@@ -189,13 +200,14 @@ export default class NotificationHelper {
 						senderUsername: groupMessage.senderDetails.username
 					}
 
-					const notificationMessage = returnCorrectMessageType(
-						receiver.primaryDevicePlatform,
-						`New Message from ${groupMessage.senderDetails.username || "User"}`,
-						groupMessage.text,
-						"Group Chat Screen",
+					const notificationData: NotificationData = {
+						title: `New Message from ${groupMessage.senderDetails.username || "User"}`,
+						body: groupMessage.text,
+						targetPage: "Group Chat Screen",
 						extraData
-					)
+					}
+
+					const notificationMessage = returnCorrectMessageType(receiver.primaryDevicePlatform, notificationData)
 					await AwsSnsService.getInstance().sendNotification(
 						endpointArn,
 						notificationMessage
@@ -274,13 +286,19 @@ export default class NotificationHelper {
 						throw new Error("EndpointArn is undefined")
 					}
 
-					const notificationMessage = returnCorrectMessageType(
-						receiver.primaryDevicePlatform,
-						`New Message from ${groupMessage.senderDetails.username || "User"}`,
-						groupMessage.text,
-						"Group Chat Screen",
-						{ groupChatId: groupMessage.groupChatId, groupMessageId: _.toString(groupMessage._id) }
-					)
+					const extraData = {
+						groupChatId: groupMessage.groupChatId,
+						groupMessageId: _.toString(groupMessage._id),
+					}
+
+					const notificationData: NotificationData = {
+						title: `New Message from ${groupMessage.senderDetails.username || "User"}`,
+						body: groupMessage.text,
+						targetPage: "Group Chat Screen",
+						extraData
+					}
+
+					const notificationMessage = returnCorrectMessageType(receiver.primaryDevicePlatform, notificationData)
 					await AwsSnsService.getInstance().sendNotification(
 						endpointArn,
 						notificationMessage

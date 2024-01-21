@@ -1,29 +1,15 @@
 import createGCMMessage from "./create-gcm-message"
 import createAPNSMessage from "./create-apns-message"
 
-// eslint-disable-next-line max-params
 export default function returnCorrectMessageType(
 	friendPrimaryDevicePlatform: DevicePlatforms,
-	notificationHeader: string,
-	notificationMessage: string,
-	toScreen: FrontEndScreens,
-	extraData?: Record<string, string>
+	notificationData: NotificationData,
 ): string {
 	let message = ""
 	if (friendPrimaryDevicePlatform === "android") {
-		message = createGCMMessage(
-			notificationHeader,
-			notificationMessage,
-			toScreen,
-			extraData
-		)
+		message = createGCMMessage(notificationData)
 	} else if (friendPrimaryDevicePlatform === "ios") {
-		message = createAPNSMessage(
-			notificationHeader,
-			notificationMessage,
-			toScreen,
-			extraData
-		)
+		message = createAPNSMessage(notificationData)
 	} else {
 		throw new Error(`Platform ${friendPrimaryDevicePlatform} is not supported`)
 	}

@@ -40,6 +40,13 @@ declare global {
 		createdAt: Date
 		updatedAt: Date
 	}
+
+	interface NotificationData {
+		title: string,
+		body: string,
+		targetPage: FrontEndScreens,
+		extraData?: Record<string, string>
+	}
 }
 
 export {}

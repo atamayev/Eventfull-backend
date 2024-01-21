@@ -1,13 +1,10 @@
-export default function createGCMMessage(
-	title: string,
-	body: string,
-	targetPage: string,
-	extraData?: Record<string, string>
-): string {
+export default function createGCMMessage(notificationData: NotificationData): string {
+	const { title, body, targetPage, extraData } = notificationData
+
 	const gcmMessage = {
 		notification: {
-			title: title,
-			body: body
+			title,
+			body
 		},
 		data: {
 			targetPage,
