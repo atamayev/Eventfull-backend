@@ -8,7 +8,7 @@ import findGroupChat from "../../../../../utils/find/find-group-chat"
 
 const groupMessageSchema = Joi.object({
 	groupMessageId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-}).unknown(true)
+}).required()
 
 export default async function validateGroupMessageIdInParams (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {

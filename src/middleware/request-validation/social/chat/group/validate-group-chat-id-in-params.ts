@@ -7,7 +7,7 @@ import objectIdValidation from "../../../../../utils/object-id-validation"
 
 const groupMessageSchema = Joi.object({
 	groupChatId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-}).unknown(true)
+}).required()
 
 export default async function validateGroupChatIdInParams (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {

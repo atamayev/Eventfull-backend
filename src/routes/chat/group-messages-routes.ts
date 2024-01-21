@@ -5,8 +5,6 @@ import validateFriendIds from "../../middleware/request-validation/social/chat/g
 import confirmGroupChatDoesntExist from "../../middleware/social/chat/group/confirm-group-chat-doesnt-exist"
 import validateGroupMessage from "../../middleware/request-validation/social/chat/group/validate-group-message"
 import confirmGroupMessageSentByUser from "../../middleware/social/chat/group/confirm-group-message-sent-by-user"
-import validateGroupMessageId from "../../middleware/request-validation/social/chat/group/validate-group-message-id"
-import validateGroupChatId from "../../middleware/request-validation/social/chat/group/validate-group-chat-id"
 import validateUpdatedMessageText from "../../middleware/request-validation/social/chat/validate-updated-message-text"
 import confirmUserHasntBlockedAnyFriend from "../../middleware/social/chat/group/confirm-user-hasnt-blocked-any-friend"
 import confirmUserIsGroupChatParticipant from "../../middleware/social/chat/group/confirm-user-is-group-chat-participant"
@@ -45,8 +43,8 @@ groupMessagesRoutes.post(
 )
 
 groupMessagesRoutes.post(
-	"/send-message",
-	validateGroupChatId,
+	"/send-message/:groupChatId",
+	validateGroupChatIdInParams,
 	validateGroupMessage,
 	extractFriendsFromChat,
 	confirmUserIsGroupChatParticipant,
@@ -73,8 +71,8 @@ groupMessagesRoutes.get(
 
 // This endpoint is used to mark a message as delivered or read
 groupMessagesRoutes.post(
-	"/update-message-status",
-	validateGroupMessageId,
+	"/update-message-status/:groupMessageId",
+	validateGroupMessageIdInParams,
 	validateUpdatedMessageStatus,
 	confirmUserIsGroupChatParticipant,
 	confirmGroupMessageSentByOtherUser,
@@ -83,18 +81,23 @@ groupMessagesRoutes.post(
 )
 
 groupMessagesRoutes.post(
-	"/update-message",
-	validateGroupMessageId,
+	"/update-message/:groupMessageId",
+	validateGroupMessageIdInParams,
 	validateUpdatedMessageText,
 	confirmGroupMessageSentByUser,
 	updateGroupMessage
 )
 
-groupMessagesRoutes.post("/delete-message", validateGroupMessageId, confirmGroupMessageSentByUser, deleteGroupMessage)
+groupMessagesRoutes.delete(
+	"/delete-message/:groupMessageId",
+	validateGroupMessageIdInParams,
+	confirmGroupMessageSentByUser,
+	deleteGroupMessage
+)
 
 groupMessagesRoutes.post(
-	"/edit-chat-name",
-	validateGroupChatId,
+	"/edit-chat-name/:groupChatId",
+	validateGroupChatIdInParams,
 	validateUpdatedGroupChatName,
 	confirmUserIsGroupChatParticipant,
 	editGroupChatName
@@ -109,9 +112,8 @@ groupMessagesRoutes.get(
 )
 
 groupMessagesRoutes.post(
-	"/reply-to-message",
-	validateGroupChatId,
-	validateGroupMessageId,
+	"/reply-to-message/:groupMessageId",
+	validateGroupMessageIdInParams,
 	validateGroupMessage,
 	extractFriendsFromChat,
 	confirmUserIsGroupChatParticipant,
