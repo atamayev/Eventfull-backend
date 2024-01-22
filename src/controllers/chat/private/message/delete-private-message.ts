@@ -21,9 +21,7 @@ export default async function deletePrivateMessage(req: Request, res: Response):
 			if (_.isEqual(privateChat.lastMessage.privateMessageId, privateMessage._id)) {
 				await PrivateChatModel.findByIdAndUpdate(
 					privateChat._id,
-					{
-						"lastMessage.isActive": false,
-					}
+					{ "lastMessage.isActive": false }
 				)
 			}
 		}

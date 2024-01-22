@@ -109,7 +109,6 @@
 	"include": [
 	  "src/**/*",
 	  "./.eslintrc.json",
-	  "./webpack.config.js"
 	],
 	"exclude": [
 	  "node_modules"
