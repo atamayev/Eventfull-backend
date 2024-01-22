@@ -9,7 +9,7 @@ export default async function extractFriendFromChat (req: Request, res: Response
 		const privateChat = req.privateChat
 		const friendId = extractPrivateChatFriendId(privateChat, user._id)
 
-		if (_.isUndefined(friendId)) return res.status(400).json({ message: "Friend not found" })
+		if (_.isUndefined(friendId)) return res.status(400).json({ message: "Friend Id not found" })
 		const friend = await findUser(friendId)
 
 		if (_.isNull(friend)) return res.status(400).json({ message: "Friend not found" })

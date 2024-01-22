@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const inviteResponseSchema = Joi.object({
 	newMessageStatus: Joi.string().valid("Read", "Delivered").required(),
-}).unknown(true)
+}).required()
 
 export default function validateUpdatedMessageStatus (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

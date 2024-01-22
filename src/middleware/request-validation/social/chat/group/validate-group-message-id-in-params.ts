@@ -2,9 +2,9 @@ import Joi from "joi"
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
-import findGroupMessage from "../../../../../utils/find/find-group-message"
-import objectIdValidation from "../../../../../utils/object-id-validation"
 import findGroupChat from "../../../../../utils/find/find-group-chat"
+import objectIdValidation from "../../../../../utils/object-id-validation"
+import findGroupMessage from "../../../../../utils/find/find-group-message"
 
 const groupMessageSchema = Joi.object({
 	groupMessageId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),

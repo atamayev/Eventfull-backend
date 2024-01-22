@@ -5,9 +5,9 @@ import PrivateMessageModel from "../../../../models/chat/private/private-message
 import PrivateChatModel from "../../../../models/chat/private/private-chat-model"
 
 interface ChatData {
-    privateChatId?: Types.ObjectId
-    senderDetails: SocialData
-    text: string
+	privateChatId?: Types.ObjectId
+	senderDetails: SocialData
+	text: string
 	privateMessageId?: Types.ObjectId
 }
 

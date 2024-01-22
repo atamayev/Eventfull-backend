@@ -30,10 +30,10 @@ const socialRoutes = express.Router()
 socialRoutes.post(
 	"/send-friend-request",
 	validateFriendId,
+	confirmUserNotFriendingSelf,
 	confirmUserHasntBlockedFriend,
 	confirmFriendHasntBlockedUser,
 	confirmUsersAreNotFriends,
-	confirmUserNotFriendingSelf,
 	sendFriendRequest
 )
 

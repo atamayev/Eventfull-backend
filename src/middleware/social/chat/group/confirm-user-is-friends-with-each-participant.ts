@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import areUsersFriends from "../../../../utils/social/friend/are-users-friends"
 
-export default function confirmUserIsFriendsWithEachFriend (req: Request, res: Response, next: NextFunction): void | Response {
+export default function confirmUserIsFriendsWithEachParticipant (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
 		const friends = req.friends

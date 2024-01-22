@@ -9,11 +9,14 @@ import confirmPrivateChatDoesntExist from "../../middleware/social/chat/private/
 import validatePrivateMessage from "../../middleware/request-validation/social/chat/private/validate-private-message"
 import validateUpdatedMessageText from "../../middleware/request-validation/social/chat/validate-updated-message-text"
 import confirmPrivateMessageSentByUser from "../../middleware/social/chat/private/confirm-private-message-sent-by-user"
+import confirmNewPrivateMessageStatus from "../../middleware/social/chat/private/confirm-private-message-status-is-new"
+import validateUpdatedMessageStatus from "../../middleware/request-validation/social/chat/validate-updated-message-status"
 import confirmUserIsPrivateChatParticipant from "../../middleware/social/chat/private/confirm-user-is-private-chat-participant"
 import confirmPrivateMessageSentByOtherUser from "../../middleware/social/chat/private/confirm-private-message-sent-by-other-user"
-import confirmNewPrivateMessageStatus from "../../middleware/social/chat/private/confirm-private-message-status-is-new"
 import validatePrivateChatIdInParams from "../../middleware/request-validation/social/chat/private/validate-private-chat-id-in-params"
 import validateUpdatedPrivateChatName from "../../middleware/request-validation/social/chat/private/validate-updated-private-chat-name"
+import validateMessagePaginationQueryParams from "../../middleware/request-validation/social/chat/validate-message-pagination-query-params"
+import validatePrivateMessageIdInParams from "../../middleware/request-validation/social/chat/private/validate-private-message-id-in-params"
 
 import createPrivateChat from "../../controllers/chat/private/chat/create-private-chat"
 import editPrivateChatName from "../../controllers/chat/private/chat/edit-private-chat-name"
@@ -22,13 +25,10 @@ import retrievePrivateChats from "../../controllers/chat/private/chat/retrieve-p
 import deletePrivateMessage from "../../controllers/chat/private/message/delete-private-message"
 import updatePrivateMessage from "../../controllers/chat/private/message/update-private-message"
 import replyToPrivateMessage from "../../controllers/chat/private/message/reply-to-private-message"
-import updatePrivateMessageStatus from "../../controllers/chat/private/message/update-private-message-status"
-import retrievePrivateChatMessages from "../../controllers/chat/private/message/retrieve-private-chat-messages"
-import validateUpdatedMessageStatus from "../../middleware/request-validation/social/chat/validate-updated-message-status"
 import retrieveSinglePrivateChat from "../../controllers/chat/private/chat/retrieve-single-private-chat"
-import validateMessagePaginationQueryParams from "../../middleware/request-validation/social/chat/validate-message-pagination-query-params"
-import validatePrivateMessageIdInParams from "../../middleware/request-validation/social/chat/private/validate-private-message-id-in-params"
+import updatePrivateMessageStatus from "../../controllers/chat/private/message/update-private-message-status"
 import retrieveSinglePrivateMessage from "../../controllers/chat/private/chat/retrieve-single-private-message"
+import retrievePrivateChatMessages from "../../controllers/chat/private/message/retrieve-private-chat-messages"
 
 const privateMessagesRoutes = express.Router()
 
@@ -45,12 +45,12 @@ privateMessagesRoutes.post(
 privateMessagesRoutes.post(
 	"/send-message/:privateChatId",
 	validatePrivateChatIdInParams,
-	validatePrivateMessage,
 	extractFriendFromChat,
 	confirmUserIsPrivateChatParticipant,
 	confirmUserHasntBlockedFriend,
 	confirmFriendHasntBlockedUser,
 	confirmUsersAreFriends,
+	validatePrivateMessage,
 	sendPrivateMessage
 )
 
@@ -74,10 +74,10 @@ privateMessagesRoutes.get(
 privateMessagesRoutes.post(
 	"/update-message-status/:privateMessageId",
 	validatePrivateMessageIdInParams,
-	validateUpdatedMessageStatus,
 	confirmUserIsPrivateChatParticipant,
 	confirmPrivateMessageSentByOtherUser,
 	confirmNewPrivateMessageStatus,
+	validateUpdatedMessageStatus,
 	updatePrivateMessageStatus
 )
 
@@ -85,8 +85,8 @@ privateMessagesRoutes.post(
 	"/update-message/:privateMessageId",
 	validatePrivateMessageIdInParams,
 	confirmUserIsPrivateChatParticipant,
-	validateUpdatedMessageText,
 	confirmPrivateMessageSentByUser,
+	validateUpdatedMessageText,
 	updatePrivateMessage
 )
 
@@ -101,28 +101,28 @@ privateMessagesRoutes.delete(
 privateMessagesRoutes.post(
 	"/edit-chat-name/:privateChatId",
 	validatePrivateChatIdInParams,
-	validateUpdatedPrivateChatName,
 	confirmUserIsPrivateChatParticipant,
+	validateUpdatedPrivateChatName,
 	editPrivateChatName
 )
 
 privateMessagesRoutes.get(
 	"/retrieve-messages-from-chat/:privateChatId",
 	validatePrivateChatIdInParams,
-	validateMessagePaginationQueryParams,
 	confirmUserIsPrivateChatParticipant,
+	validateMessagePaginationQueryParams,
 	retrievePrivateChatMessages
 )
 
 privateMessagesRoutes.post(
 	"/reply-to-message/:privateMessageId",
 	validatePrivateMessageIdInParams,
-	validatePrivateMessage,
 	extractFriendFromChat,
 	confirmUserIsPrivateChatParticipant,
 	confirmUserHasntBlockedFriend,
 	confirmFriendHasntBlockedUser,
 	confirmUsersAreFriends,
+	validatePrivateMessage,
 	replyToPrivateMessage
 )
 
