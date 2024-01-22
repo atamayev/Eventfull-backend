@@ -38,10 +38,13 @@ declare global {
 
 	type MessageStatuses = "Sent" | "Delivered" | "Read"
 
-	interface MessageStatusObject extends TimestampsInterface {
+	interface MessageStatusObjectNoTimestamps {
 		userId: Types.ObjectId
 		messageStatus: MessageStatuses
 		username: string
+	}
+
+	interface MessageStatusObject extends MessageStatusObjectNoTimestamps, TimestampsInterface {
 	}
 }
 

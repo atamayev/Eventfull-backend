@@ -4,12 +4,6 @@ import NotificationHelper from "../../../../classes/notification-helper"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
-interface MessageStatusObjectNoTimestamps {
-	userId: Types.ObjectId
-	messageStatus: MessageStatuses
-	username: string
-}
-
 interface ChatData {
     groupChatId?: Types.ObjectId
     senderDetails: SocialData

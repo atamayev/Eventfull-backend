@@ -5,6 +5,7 @@ import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 import { extractGroupChatFriendIds } from "../../../../utils/social/chat/extract-friend-ids"
 
+// eslint-disable-next-line max-lines-per-function
 export default async function updateGroupMessage(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
