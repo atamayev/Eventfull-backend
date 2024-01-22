@@ -84,6 +84,7 @@ privateMessagesRoutes.post(
 privateMessagesRoutes.post(
 	"/update-message/:privateMessageId",
 	validatePrivateMessageIdInParams,
+	confirmUserIsPrivateChatParticipant,
 	validateUpdatedMessageText,
 	confirmPrivateMessageSentByUser,
 	updatePrivateMessage
@@ -92,6 +93,7 @@ privateMessagesRoutes.post(
 privateMessagesRoutes.delete(
 	"/delete-message/:privateMessageId",
 	validatePrivateMessageIdInParams,
+	confirmUserIsPrivateChatParticipant,
 	confirmPrivateMessageSentByUser,
 	deletePrivateMessage
 )

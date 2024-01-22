@@ -83,6 +83,7 @@ groupMessagesRoutes.post(
 groupMessagesRoutes.post(
 	"/update-message/:groupMessageId",
 	validateGroupMessageIdInParams,
+	confirmUserIsGroupChatParticipant,
 	validateUpdatedMessageText,
 	confirmGroupMessageSentByUser,
 	updateGroupMessage
@@ -91,6 +92,7 @@ groupMessagesRoutes.post(
 groupMessagesRoutes.delete(
 	"/delete-message/:groupMessageId",
 	validateGroupMessageIdInParams,
+	confirmUserIsGroupChatParticipant,
 	confirmGroupMessageSentByUser,
 	deleteGroupMessage
 )
