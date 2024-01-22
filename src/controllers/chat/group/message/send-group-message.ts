@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 import NotificationHelper from "../../../../classes/notification-helper"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
+import createGroupMessageStatuses from "../../../../utils/chat/create-group-message-statuses"
 
 interface ChatData {
 	groupChatId?: Types.ObjectId
@@ -19,6 +20,7 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 		const message = req.body.groupMessage as string
 		const friends = req.friends
 
+		const messageStatuses = createGroupMessageStatuses(groupChat.participantDetails)
 		const data: ChatData = {
 			groupChatId: groupChat._id,
 			senderDetails: {
@@ -26,11 +28,7 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 				username: user.username || "User",
 			},
 			text: message,
-			messageStatuses: groupChat.participantDetails.map(participant => ({
-				userId: participant.userId,
-				messageStatus: "Sent", // Default status
-				username: participant.username,
-			})),
+			messageStatuses
 		}
 		const groupMessage = await GroupMessageModel.create(data)
 
