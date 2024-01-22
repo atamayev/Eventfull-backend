@@ -6,9 +6,9 @@ import NotificationHelper from "../../../../classes/notification-helper"
 import createGroupMessageStatuses from "../../../../utils/chat/create-group-message-statuses"
 
 interface ReplyToGroupChatData {
-    groupChatId?: Types.ObjectId
-    senderDetails: SocialData
-    text: string
+	groupChatId?: Types.ObjectId
+	senderDetails: SocialData
+	text: string
 	groupMessageId?: Types.ObjectId
 	replyTo: Types.ObjectId
 	messageStatuses: MessageStatusObjectNoTimestamps[]
