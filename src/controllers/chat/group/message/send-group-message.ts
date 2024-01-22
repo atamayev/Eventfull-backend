@@ -5,9 +5,9 @@ import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
 
 interface ChatData {
-    groupChatId?: Types.ObjectId
-    senderDetails: SocialData
-    text: string
+	groupChatId?: Types.ObjectId
+	senderDetails: SocialData
+	text: string
 	groupMessageId?: Types.ObjectId,
 	messageStatuses: MessageStatusObjectNoTimestamps[]
 }

@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import retrievePrivateChatsWithNames from "../../../../utils/social/chat/retrieve-private-chats-with-names"
+import retrievePrivateChatsWithNames from "../../../../utils/chat/retrieve-private-chats-with-names"
 
 export default async function retrievePrivateChats(req: Request, res: Response): Promise<Response> {
 	try {

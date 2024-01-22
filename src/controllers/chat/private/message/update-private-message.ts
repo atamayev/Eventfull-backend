@@ -3,7 +3,7 @@ import { Request, Response } from "express"
 import NotificationHelper from "../../../../classes/notification-helper"
 import PrivateMessageModel from "../../../../models/chat/private/private-message-model"
 import PrivateChatModel from "../../../../models/chat/private/private-chat-model"
-import { extractPrivateChatFriendId } from "../../../../utils/social/chat/extract-friend-ids"
+import { extractPrivateChatFriendId } from "../../../../utils/chat/extract-friend-ids"
 
 export default async function updatePrivateMessage(req: Request, res: Response): Promise<Response> {
 	try {

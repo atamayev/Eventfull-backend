@@ -3,7 +3,7 @@ import { Request, Response } from "express"
 import NotificationHelper from "../../../../classes/notification-helper"
 import GroupChatModel from "../../../../models/chat/group/group-chat-model"
 import GroupMessageModel from "../../../../models/chat/group/group-message-model"
-import { extractGroupChatFriendIds } from "../../../../utils/social/chat/extract-friend-ids"
+import { extractGroupChatFriendIds } from "../../../../utils/chat/extract-friend-ids"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function updateGroupMessageStatus(req: Request, res: Response): Promise<Response> {

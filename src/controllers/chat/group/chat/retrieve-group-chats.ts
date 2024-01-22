@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import retrieveGroupChatsWithNames from "../../../../utils/social/chat/retrieve-group-chats-with-names"
+import retrieveGroupChatsWithNames from "../../../../utils/chat/retrieve-group-chats-with-names"
 
 export default async function retrieveGroupChats(req: Request, res: Response): Promise<Response> {
 	try {
