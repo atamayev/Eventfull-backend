@@ -3,7 +3,6 @@ import { Types } from "mongoose"
 import SocketManager from "./socket-manager"
 import AwsSnsService from "./aws-sns-service"
 import getUserArn from "../utils/auth-helpers/aws/get-user-arn"
-import noNotificationTokenMessage from "../utils/notifications/no-notification-token-message"
 import returnCorrectMessageType from "../utils/notifications/create-notifications/return-correct-message-type"
 
 export default class NotificationHelper {
@@ -16,10 +15,7 @@ export default class NotificationHelper {
 			) {
 				socketManager.sendFriendRequest(user, receiver._id)
 			} else {
-				if (!_.isString(receiver.notificationToken)) {
-					console.info(noNotificationTokenMessage(receiver))
-					return
-				}
+				if (!_.isString(receiver.notificationToken)) return
 				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
@@ -71,10 +67,7 @@ export default class NotificationHelper {
 			) {
 				socketManager.sendPrivateMessage(receiver._id, privateMessage)
 			} else {
-				if (!_.isString(receiver.notificationToken)) {
-					console.info(noNotificationTokenMessage(receiver))
-					return
-				}
+				if (!_.isString(receiver.notificationToken)) return
 				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
@@ -153,10 +146,7 @@ export default class NotificationHelper {
 			) {
 				socketManager.sendPrivateMessage(receiver._id, privateMessage)
 			} else {
-				if (!_.isString(receiver.notificationToken)) {
-					console.info(noNotificationTokenMessage(receiver))
-					return
-				}
+				if (!_.isString(receiver.notificationToken)) return
 				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
@@ -192,10 +182,7 @@ export default class NotificationHelper {
 					socketManager.sendGroupMessage(receiver._id, groupMessage)
 				} else {
 					// eslint-disable-next-line max-depth
-					if (!_.isString(receiver.notificationToken)) {
-						console.info(noNotificationTokenMessage(receiver))
-						continue
-					}
+					if (!_.isString(receiver.notificationToken)) continue
 					const endpointArn = getUserArn(receiver)
 					// eslint-disable-next-line max-depth
 					if (_.isUndefined(endpointArn)) {
@@ -293,10 +280,7 @@ export default class NotificationHelper {
 					socketManager.sendGroupMessage(receiver._id, groupMessage)
 				} else {
 					// eslint-disable-next-line max-depth
-					if (!_.isString(receiver.notificationToken)) {
-						console.info(noNotificationTokenMessage(receiver))
-						continue
-					}
+					if (!_.isString(receiver.notificationToken)) continue
 					const endpointArn = getUserArn(receiver)
 					// eslint-disable-next-line max-depth
 					if (_.isUndefined(endpointArn)) {

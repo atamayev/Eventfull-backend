@@ -74,10 +74,7 @@ export default class SocketManager {
 
 	public sendFriendRequest(fromUser: User, toUserId: Types.ObjectId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit(
 			"friend-request", { fromUserId: _.toString(fromUser._id), fromUsername: fromUser.username }
 		)
@@ -85,10 +82,7 @@ export default class SocketManager {
 
 	public retractFriendRequest(fromUserId: Types.ObjectId, toUserId: Types.ObjectId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit(
 			"remove-friend-request", { fromUserId: _.toString(fromUserId) }
 		)
@@ -96,10 +90,7 @@ export default class SocketManager {
 
 	public sendPrivateMessage(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit("private-message", privateMessage)
 	}
 
@@ -108,10 +99,7 @@ export default class SocketManager {
 		privateMessage: PrivateMessageWithChatId,
 	): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit(
 			"update-private-message-status", {
 				privateChatId: _.toString(privateMessage.privateChatId),
@@ -123,28 +111,19 @@ export default class SocketManager {
 
 	public updatePrivateMessage(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit("update-private-message", privateMessage)
 	}
 
 	public deletePrivateMessage(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit("delete-private-message", privateMessage)
 	}
 
 	public sendGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit("group-message", groupMessage)
 	}
 
@@ -154,10 +133,7 @@ export default class SocketManager {
 		newMessageStatus: MessageStatuses,
 	): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit("update-group-message-status", {
 			groupChatId: _.toString(updatedGroupMessage.groupChatId),
 			groupMessageId: _.toString(updatedGroupMessage._id),
@@ -168,19 +144,13 @@ export default class SocketManager {
 
 	public updateGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit("update-group-message", groupMessage)
 	}
 
 	public deleteGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
-		if (_.isUndefined(receiverSocketId)) {
-			console.info(`User ${toUserId} is not online`)
-			return
-		}
+		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit("delete-group-message", groupMessage)
 	}
 
