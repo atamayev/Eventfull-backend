@@ -7,22 +7,23 @@ import validateResponseToFriendRequest from "../middleware/request-validation/so
 
 import confirmUsersAreFriends from "../middleware/social/friend/confirm-users-are-friends"
 import confirmUsersAreNotFriends from "../middleware/social/friend/confirm-users-are-not-friends"
+import confirmUserNotFriendingSelf from "../middleware/social/friend/confirm-user-not-friending-self"
 import confirmUserHasntBlockedFriend from "../middleware/social/friend/confirm-user-hasnt-blocked-friend"
 import confirmFriendHasntBlockedUser from "../middleware/social/friend/confirm-friend-hasnt-blocked-user"
 import checkIfBlockedUserBlockedUser from "../middleware/social/block/check-if-blocked-user-blocked-user"
 import checkIfUserBlockedBlockedUser from "../middleware/social/block/check-if-user-blocked-blocked-user"
 import checkIfUnblockedUserBlockedUser from "../middleware/social/unblock/check-if-unblocked-user-blocked-user"
 
+import listFriends from "../controllers/social/list/list-friends"
 import blockAnotherUser from "../controllers/social/block-another-user"
-import listBlockedUsers from "../controllers/social/list/list-blocked-users"
 import sendFriendRequest from "../controllers/social/send-friend-request"
 import unblockAnotherUser from "../controllers/social/unblock-another-user"
+import listBlockedUsers from "../controllers/social/list/list-blocked-users"
 import unfriendAnotherUser from "../controllers/social/unfriend-another-user"
 import retractFriendRequest from "../controllers/social/retract-friend-request"
 import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
 import listIncomingFriendRequests from "../controllers/social/list/list-incoming-friend-requests"
 import listOutgoingFriendRequests from "../controllers/social/list/list-outgoing-friend-requests"
-import listFriends from "../controllers/social/list/list-friends"
 
 const socialRoutes = express.Router()
 
@@ -32,6 +33,7 @@ socialRoutes.post(
 	confirmUserHasntBlockedFriend,
 	confirmFriendHasntBlockedUser,
 	confirmUsersAreNotFriends,
+	confirmUserNotFriendingSelf,
 	sendFriendRequest
 )
 
