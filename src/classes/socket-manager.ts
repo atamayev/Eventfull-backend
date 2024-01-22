@@ -94,10 +94,7 @@ export default class SocketManager {
 		this.io.to(receiverSocketId).emit("private-message", privateMessage)
 	}
 
-	public updatePrivateMessageStatus(
-		toUserId: Types.ObjectId,
-		privateMessage: PrivateMessageWithChatId,
-	): void {
+	public updatePrivateMessageStatus(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit(
@@ -112,13 +109,20 @@ export default class SocketManager {
 	public updatePrivateMessage(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) return
-		this.io.to(receiverSocketId).emit("update-private-message", privateMessage)
+		this.io.to(receiverSocketId).emit("update-private-message", {
+			privateChatId: _.toString(privateMessage.privateChatId),
+			privateMessageId: _.toString(privateMessage._id),
+			newMessage: privateMessage.text,
+		})
 	}
 
 	public deletePrivateMessage(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) return
-		this.io.to(receiverSocketId).emit("delete-private-message", privateMessage)
+		this.io.to(receiverSocketId).emit("delete-private-message", {
+			privateChatId: _.toString(privateMessage.privateChatId),
+			privateMessageId: _.toString(privateMessage._id),
+		})
 	}
 
 	public sendGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {
@@ -145,13 +149,20 @@ export default class SocketManager {
 	public updateGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) return
-		this.io.to(receiverSocketId).emit("update-group-message", groupMessage)
+		this.io.to(receiverSocketId).emit("update-group-message", {
+			groupChatId: _.toString(groupMessage.groupChatId),
+			groupMessageId: _.toString(groupMessage._id),
+			newMessage: groupMessage.text,
+		})
 	}
 
 	public deleteGroupMessage(toUserId: Types.ObjectId, groupMessage: GroupMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) return
-		this.io.to(receiverSocketId).emit("delete-group-message", groupMessage)
+		this.io.to(receiverSocketId).emit("delete-group-message", {
+			groupChatId: _.toString(groupMessage.groupChatId),
+			groupMessageId: _.toString(groupMessage._id),
+		})
 	}
 
 	private handleDisconnect(socket: Socket): void {
