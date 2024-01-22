@@ -9,12 +9,12 @@ export default class NotificationHelper {
 	public static async sendFriendRequest (user: User, receiver: User): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (
-				socketManager.isUserOnline(receiver._id) === true &&
-				socketManager.isUserActive(receiver._id) === true
-			) {
+			if (socketManager.isUserOnline(receiver._id) === true) {
 				socketManager.sendFriendRequest(user, receiver._id)
-			} else {
+			} if (
+				socketManager.isUserStatusBackground(receiver._id) === true ||
+				socketManager.isUserOnline(receiver._id) === false
+			) {
 				if (!_.isString(receiver.notificationToken)) return
 				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
@@ -41,10 +41,7 @@ export default class NotificationHelper {
 	public static retractFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (
-				socketManager.isUserOnline(friendId) === false ||
-				socketManager.isUserActive(friendId) === false
-			) {
+			if (socketManager.isUserOnline(friendId) === false)	{
 				return
 			}
 			socketManager.retractFriendRequest(userId, friendId)
@@ -61,12 +58,12 @@ export default class NotificationHelper {
 	public static async sendPrivateMessage (receiver: User, privateMessage: PrivateMessageWithChatId): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (
-				socketManager.isUserOnline(receiver._id) === true &&
-				socketManager.isUserActive(receiver._id) === true
-			) {
+			if (socketManager.isUserOnline(receiver._id) === true) {
 				socketManager.sendPrivateMessage(receiver._id, privateMessage)
-			} else {
+			} if (
+				socketManager.isUserStatusBackground(receiver._id) === true ||
+				socketManager.isUserOnline(receiver._id) === false
+			) {
 				if (!_.isString(receiver.notificationToken)) return
 				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
@@ -95,10 +92,7 @@ export default class NotificationHelper {
 	public static updatePrivateMessageStatus (receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (
-				socketManager.isUserOnline(receiverId) === false ||
-				socketManager.isUserActive(receiverId) === false
-			) {
+			if (socketManager.isUserOnline(receiverId) === false) {
 				return
 			}
 			socketManager.updatePrivateMessageStatus(receiverId, privateMessage)
@@ -110,10 +104,7 @@ export default class NotificationHelper {
 	public static updatePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (
-				socketManager.isUserOnline(receiverId) === false ||
-				socketManager.isUserActive(receiverId) === false
-			) {
+			if (socketManager.isUserOnline(receiverId) === false) {
 				return
 			}
 			socketManager.updatePrivateMessage(receiverId, privateMessage)
@@ -125,10 +116,7 @@ export default class NotificationHelper {
 	public static deletePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (
-				socketManager.isUserOnline(receiverId) === false ||
-				socketManager.isUserActive(receiverId) === false
-			) {
+			if (socketManager.isUserOnline(receiverId) === false) {
 				return
 			}
 			socketManager.deletePrivateMessage(receiverId, privateMessage)
@@ -140,12 +128,12 @@ export default class NotificationHelper {
 	public static async replyToPrivateMessage(receiver: User, privateMessage: PrivateMessageWithChatId): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (
-				socketManager.isUserOnline(receiver._id) === true &&
-				socketManager.isUserActive(receiver._id) === true
-			) {
+			if (socketManager.isUserOnline(receiver._id) === true) {
 				socketManager.sendPrivateMessage(receiver._id, privateMessage)
-			} else {
+			} if (
+				socketManager.isUserStatusBackground(receiver._id) === true ||
+				socketManager.isUserOnline(receiver._id) === false
+			) {
 				if (!_.isString(receiver.notificationToken)) return
 				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
@@ -175,12 +163,12 @@ export default class NotificationHelper {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiver of receivers) {
-				if (
-					socketManager.isUserOnline(receiver._id) === true &&
-					socketManager.isUserActive(receiver._id) === true
-				) {
+				if (socketManager.isUserOnline(receiver._id) === true) {
 					socketManager.sendGroupMessage(receiver._id, groupMessage)
-				} else {
+				} if (
+					socketManager.isUserStatusBackground(receiver._id) === true ||
+					socketManager.isUserOnline(receiver._id) === false
+				) {
 					// eslint-disable-next-line max-depth
 					if (!_.isString(receiver.notificationToken)) continue
 					const endpointArn = getUserArn(receiver)
@@ -222,10 +210,7 @@ export default class NotificationHelper {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {
-				if (
-					socketManager.isUserOnline(receiverId) === false ||
-					socketManager.isUserActive(receiverId) === false
-				) {
+				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
 				socketManager.updateGroupMessageStatus(receiverId, updatedGroupMessage, newMessageStatus)
@@ -239,10 +224,7 @@ export default class NotificationHelper {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {
-				if (
-					socketManager.isUserOnline(receiverId) === false ||
-					socketManager.isUserActive(receiverId) === false
-				) {
+				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
 				socketManager.updateGroupMessage(receiverId, groupMessage)
@@ -256,10 +238,7 @@ export default class NotificationHelper {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiverId of receiverIds) {
-				if (
-					socketManager.isUserOnline(receiverId) === false ||
-					socketManager.isUserActive(receiverId) === false
-				) {
+				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
 				socketManager.deleteGroupMessage(receiverId, groupMessage)
@@ -273,12 +252,12 @@ export default class NotificationHelper {
 		try {
 			const socketManager = SocketManager.getInstance()
 			for (const receiver of receivers) {
-				if (
-					socketManager.isUserOnline(receiver._id) === true &&
-					socketManager.isUserActive(receiver._id) === true
-				) {
+				if (socketManager.isUserOnline(receiver._id) === true) {
 					socketManager.sendGroupMessage(receiver._id, groupMessage)
-				} else {
+				} if (
+					socketManager.isUserStatusBackground(receiver._id) === true ||
+					socketManager.isUserOnline(receiver._id) === false
+				) {
 					// eslint-disable-next-line max-depth
 					if (!_.isString(receiver.notificationToken)) continue
 					const endpointArn = getUserArn(receiver)

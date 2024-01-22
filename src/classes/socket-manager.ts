@@ -55,10 +55,6 @@ export default class SocketManager {
 		this.io.to(_.toString(userId)).emit("connected")
 	}
 
-	public isUserOnline(userId: Types.ObjectId): boolean {
-		return this.userConnections.has(_.toString(userId))
-	}
-
 	public setUserStatus(userId: Types.ObjectId, status: AppStates): void {
 		const userConnection = this.userConnections.get(_.toString(userId))
 		if (_.isUndefined(userConnection)) return
@@ -67,9 +63,21 @@ export default class SocketManager {
 		this.userConnections.set(_.toString(userId), userConnection)
 	}
 
+	// User is online when the app is either active (currently using) or in the background (minimized)
+	public isUserOnline(userId: Types.ObjectId): boolean {
+		return this.userConnections.has(_.toString(userId))
+	}
+
+	// User is active when the app is currently being used
 	public isUserActive(userId: Types.ObjectId): boolean {
 		const userConnection = this.userConnections.get(_.toString(userId))
 		return userConnection ? userConnection.status === "active" : false
+	}
+
+	// User is background when the app is minimized
+	public isUserStatusBackground(userId: Types.ObjectId): boolean {
+		const userConnection = this.userConnections.get(_.toString(userId))
+		return userConnection ? userConnection.status === "background" : false
 	}
 
 	public sendFriendRequest(fromUser: User, toUserId: Types.ObjectId): void {
