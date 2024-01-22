@@ -13,7 +13,7 @@ export default async function retrieveSinglePrivateChat(req: Request, res: Respo
 		)
 
 		if (_.isNull(userDoc) || _.isEmpty(userDoc.privateChats)) {
-			return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Private Message Chats" })
+			return res.status(400).json({ message: "Private Chat Not Found" })
 		}
 		const privateChatName = userDoc.privateChats[0].chatName
 		const privateChat = attachChatNameToChat(reqPrivateChat, privateChatName)
@@ -21,7 +21,7 @@ export default async function retrieveSinglePrivateChat(req: Request, res: Respo
 		return res.status(200).json({ privateChat })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Private Message Chats" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Single Private Chat" })
 	}
 }
 
