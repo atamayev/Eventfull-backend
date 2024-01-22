@@ -44,12 +44,12 @@ groupMessagesRoutes.post(
 
 groupMessagesRoutes.post(
 	"/send-message/:groupChatId",
+	validateGroupMessage,
 	validateGroupChatIdInParams,
 	extractFriendsFromChat,
 	confirmUserIsGroupChatParticipant,
 	confirmUserHasntBlockedAnyFriend,
 	confirmFriendsHaveNotBlockedEachother,
-	validateGroupMessage,
 	sendGroupMessage
 )
 
@@ -72,20 +72,20 @@ groupMessagesRoutes.get(
 // This endpoint is used to mark a message as delivered or read
 groupMessagesRoutes.post(
 	"/update-message-status/:groupMessageId",
+	validateUpdatedMessageStatus,
 	validateGroupMessageIdInParams,
 	confirmUserIsGroupChatParticipant,
 	confirmGroupMessageSentByOtherUser,
-	validateUpdatedMessageStatus,
 	confirmGroupMessageStatusIsNew,
 	updateGroupMessageStatus
 )
 
 groupMessagesRoutes.post(
 	"/update-message/:groupMessageId",
+	validateUpdatedMessageText,
 	validateGroupMessageIdInParams,
 	confirmUserIsGroupChatParticipant,
 	confirmGroupMessageSentByUser,
-	validateUpdatedMessageText,
 	updateGroupMessage
 )
 
@@ -99,28 +99,28 @@ groupMessagesRoutes.delete(
 
 groupMessagesRoutes.post(
 	"/edit-chat-name/:groupChatId",
+	validateUpdatedGroupChatName,
 	validateGroupChatIdInParams,
 	confirmUserIsGroupChatParticipant,
-	validateUpdatedGroupChatName,
 	editGroupChatName
 )
 
 groupMessagesRoutes.get(
 	"/retrieve-messages-from-chat/:groupChatId",
+	validateMessagePaginationQueryParams,
 	validateGroupChatIdInParams,
 	confirmUserIsGroupChatParticipant,
-	validateMessagePaginationQueryParams,
 	retrieveGroupChatMessages
 )
 
 groupMessagesRoutes.post(
 	"/reply-to-message/:groupMessageId",
+	validateGroupMessage,
 	validateGroupMessageIdInParams,
 	extractFriendsFromChat,
 	confirmUserIsGroupChatParticipant,
 	confirmUserHasntBlockedAnyFriend,
 	confirmFriendsHaveNotBlockedEachother,
-	validateGroupMessage,
 	replyToGroupMessage
 )
 
