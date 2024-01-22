@@ -13,18 +13,15 @@ export default async function deleteGroupMessage(req: Request, res: Response): P
 
 		const deletedGroupMessage = await GroupMessageModel.findByIdAndUpdate(
 			groupMessage._id,
-			{ $set:
-				{ isActive: false }
-			}, { new: true }
+			{ $set: { isActive: false } },
+			{ new: true }
 		)
 
 		if (!_.isNull(groupChat.lastMessage)) {
 			if (_.isEqual(groupChat.lastMessage.groupMessageId, groupMessage._id)) {
 				await GroupChatModel.findByIdAndUpdate(
 					groupChat._id,
-					{
-						"lastMessage.isActive": false,
-					}
+					{ "lastMessage.isActive": false }
 				)
 			}
 		}

@@ -20,7 +20,7 @@ export default async function retrieveSingleGroupChat(req: Request, res: Respons
 		return res.status(200).json({ groupChat })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Group Message Chats" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Single Group Chat" })
 	}
 }
 
