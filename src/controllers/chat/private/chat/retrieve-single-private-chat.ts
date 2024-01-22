@@ -7,15 +7,16 @@ export default async function retrieveSinglePrivateChat(req: Request, res: Respo
 		const user = req.user
 		const reqPrivateChat = req.privateChat
 
-		const chatName = await UserModel.findOne(
+		const userDoc = await UserModel.findOne(
 			{ _id: user._id },
 			{ privateChats: { $elemMatch: { privateChatId: reqPrivateChat._id } } }
 		)
 
-		if (_.isNull(chatName) || _.isEmpty(chatName.privateChats)) {
+		if (_.isNull(userDoc) || _.isEmpty(userDoc.privateChats)) {
 			return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve Private Message Chats" })
 		}
-		const privateChat = attachChatNameToChat(reqPrivateChat, chatName.privateChats[0].chatName)
+		const privateChatName = userDoc.privateChats[0].chatName
+		const privateChat = attachChatNameToChat(reqPrivateChat, privateChatName)
 
 		return res.status(200).json({ privateChat })
 	} catch (error) {

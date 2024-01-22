@@ -7,15 +7,16 @@ export default async function retrieveSingleGroupChat(req: Request, res: Respons
 		const user = req.user
 		const reqGroupChat = req.groupChat
 
-		const chatName = await UserModel.findOne(
+		const userDoc = await UserModel.findOne(
 			{ _id: user._id },
 			{ groupChats: { $elemMatch: { groupChatId: reqGroupChat._id } } }
 		)
 
-		if (_.isNull(chatName) || _.isEmpty(chatName.groupChats)) {
+		if (_.isNull(userDoc) || _.isEmpty(userDoc.groupChats)) {
 			return res.status(400).json({ message: "Group Chat Not Found" })
 		}
-		const groupChat = attachChatNameToChat(reqGroupChat, chatName.groupChats[0].chatName)
+		const groupChatName = userDoc.groupChats[0].chatName
+		const groupChat = attachChatNameToChat(reqGroupChat, groupChatName)
 
 		return res.status(200).json({ groupChat })
 	} catch (error) {
