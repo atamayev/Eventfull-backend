@@ -20,7 +20,7 @@ export default async function sendGroupMessage(req: Request, res: Response): Pro
 		const message = req.body.groupMessage as string
 		const friends = req.friends
 
-		const messageStatuses = createGroupMessageStatuses(groupChat.participantDetails)
+		const messageStatuses = createGroupMessageStatuses(groupChat.participantDetails, user._id)
 		const data: ChatData = {
 			groupChatId: groupChat._id,
 			senderDetails: {

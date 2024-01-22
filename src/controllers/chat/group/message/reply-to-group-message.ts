@@ -22,7 +22,7 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 		const groupChat = req.groupChat
 		const message = req.body.groupMessage as string
 
-		const messageStatuses = createGroupMessageStatuses(groupChat.participantDetails)
+		const messageStatuses = createGroupMessageStatuses(groupChat.participantDetails, user._id)
 		const data: ReplyToGroupChatData = {
 			groupChatId: groupChat._id,
 			senderDetails: {

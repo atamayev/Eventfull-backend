@@ -14,7 +14,7 @@ export default async function updateGroupMessage(req: Request, res: Response): P
 		const oldGroupMessage = req.groupMessage
 		const updatedMessageText = req.body.updatedMessageText
 
-		const messageStatuses = createGroupMessageStatuses(groupChat.participantDetails)
+		const messageStatuses = createGroupMessageStatuses(groupChat.participantDetails, user._id)
 		const updatedGroupMessage = await GroupMessageModel.findByIdAndUpdate(
 			oldGroupMessage._id,
 			{ $set:

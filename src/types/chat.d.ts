@@ -36,7 +36,7 @@ declare global {
 		replyTo: Types.ObjectId | null
 	}
 
-	type MessageStatuses = "Sent" | "Delivered" | "Read"
+	type MessageStatuses = "Sent" | "Delivered" | "Read" | "Sender"
 
 	interface MessageStatusObjectNoTimestamps {
 		userId: Types.ObjectId
