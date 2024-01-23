@@ -63,7 +63,7 @@ groupMessagesRoutes.get(
 )
 
 groupMessagesRoutes.get(
-	"/retrieve-single-chat/:groupMessageId",
+	"/retrieve-single-message/:groupMessageId",
 	validateGroupMessageIdInParams,
 	confirmUserIsGroupChatParticipant,
 	retrieveSingleGroupMessage
