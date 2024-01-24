@@ -4,18 +4,20 @@ import express from "express"
 import { createServer } from "http"
 import cookieParser from "cookie-parser"
 import { Server as SocketIOServer } from "socket.io"
+
 import jwtVerify from "./middleware/jwt/jwt-verify"
+import SocketManager from "./classes/socket-manager"
 import connectDatabase from "./setup-and-security/db-connect"
 import verifySocketJWT from "./middleware/jwt/verify-socket-jwt"
 
-import authRoutes from "./routes/auth/auth-routes"
-import calendarRoutes from "./routes/calendar/calendar-routes"
 import listsRoutes from "./routes/lists-routes"
 import searchRoutes from "./routes/search-routes"
-import socialRoutes from "./routes/social/social-routes"
 import eventsRoutes from "./routes/events-routes"
+import socialRoutes from "./routes/social-routes"
+import chatRoutes from "./routes/chat/chat-routes"
+import authRoutes from "./routes/auth/auth-routes"
 import profileRoutes from "./routes/profile-routes"
-import SocketManager from "./classes/socket-manager"
+import calendarRoutes from "./routes/calendar/calendar-routes"
 
 dotenv.config()
 
@@ -29,7 +31,7 @@ const server = createServer(app)
 
 const io = new SocketIOServer(server, {
 	cors: {
-		origin: process.env.FRONTEND_URL,
+		origin: "*",
 		methods: ["GET", "POST"],
 		credentials: true
 	}
@@ -55,6 +57,7 @@ app.use(cookieParser())
 app.use(express.json())
 
 app.use("/api/auth", authRoutes)
+app.use("/api/chat", jwtVerify, chatRoutes)
 app.use("/api/calendar", jwtVerify, calendarRoutes)
 app.use("/api/events", jwtVerify, eventsRoutes)
 app.use("/api/lists", jwtVerify, listsRoutes)

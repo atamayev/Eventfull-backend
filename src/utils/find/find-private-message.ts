@@ -8,9 +8,9 @@ export default async function findPrivateMessage(
 ): Promise<PrivateMessageWithChatId | null> {
 	let message
 	if (!_.isUndefined(select)) {
-		message = await PrivateMessageModel.findById(privateMessageId).select(select)
+		message = await PrivateMessageModel.findById(privateMessageId).select(select).lean()
 	} else {
-		message = await PrivateMessageModel.findById(privateMessageId)
+		message = await PrivateMessageModel.findById(privateMessageId).lean()
 	}
 	return message
 }

@@ -1,16 +1,18 @@
-/* eslint-disable no-inline-comments */
-export default function createAPNSMessage(title: string, body: string, targetPage: string): string {
+export default function createAPNSMessage(notificationData: NotificationData): string {
+	const { title, body, targetPage, extraData } = notificationData
+
 	const apnsMessage = {
 		aps: {
 			alert: {
-				title: title,
-				body: body
+				title,
+				body
 			},
 			sound: "default",
 			badge: 1
 		},
 		data: {
-			targetPage
+			targetPage,
+			...extraData
 		}
 	}
 

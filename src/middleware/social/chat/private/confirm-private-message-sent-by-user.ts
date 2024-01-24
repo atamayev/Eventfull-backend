@@ -6,7 +6,7 @@ export default function confirmPrivateMessageSentByUser(req: Request, res: Respo
 		const user = req.user
 		const privateMessage = req.privateMessage
 
-		if (!_.isEqual(user._id, privateMessage.senderId)) {
+		if (!_.isEqual(user._id, privateMessage.senderDetails.userId)) {
 			return res.status(400).json({ message: "You did not send this message" })
 		}
 

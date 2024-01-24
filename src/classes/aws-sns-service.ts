@@ -27,7 +27,7 @@ export default class AwsSnsService {
 		})
 	}
 
-	static getInstance(): AwsSnsService {
+	public static getInstance(): AwsSnsService {
 		if (_.isNull(AwsSnsService.instance)) {
 			AwsSnsService.instance = new AwsSnsService()
 		}

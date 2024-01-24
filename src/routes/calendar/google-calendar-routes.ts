@@ -12,14 +12,19 @@ import updateGoogleCalendarEvent from "../../controllers/calendar/google/update-
 
 const googleCalendarRoutes = express.Router()
 
-googleCalendarRoutes.post("/create-calendar-event", assignGoogleCalendarAccessToken, validateCreateCloudEvent, createGoogleCalendarEvent)
+googleCalendarRoutes.post(
+	"/create-calendar-event",
+	validateCreateCloudEvent,
+	assignGoogleCalendarAccessToken,
+	createGoogleCalendarEvent
+)
 
 googleCalendarRoutes.get("/get-calendar-events", assignGoogleCalendarAccessToken, getGoogleCalendarEvents)
 
 googleCalendarRoutes.post(
 	"/update-calendar-event",
-	assignGoogleCalendarAccessToken,
 	validateUpdateGoogleCalendarEvent,
+	assignGoogleCalendarAccessToken,
 	updateGoogleCalendarEvent
 )
 

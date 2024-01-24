@@ -5,13 +5,11 @@ import addLoginHistory from "../../utils/auth-helpers/add-login-record"
 import retrieveUserFromContact from "../../utils/auth-helpers/login/retrieve-user-from-contact"
 import determineLoginType from "../../utils/auth-helpers/login/determine-login-type"
 import doesUserHaveGoogleCalendar from "../../utils/google/calendar/does-user-have-google-calendar"
-import fetchLoginUserData from "../../utils/auth-helpers/fetch-login-user-data"
 import setUserContact from "../../utils/set-user-contact"
 import createAndSignJWT from "../../utils/auth-helpers/jwt/create-and-sign-jwt"
 import updateArn from "../../utils/auth-helpers/aws/update-arn"
 import isUserContactVerified from "../../utils/is-user-contact-verified"
 
-// eslint-disable-next-line max-lines-per-function
 export default async function login (req: Request, res: Response): Promise<Response> {
 	try {
 		const { contact, password, notificationToken, primaryDevicePlatform } = req.body.loginInformationObject as LoginInformationObject
@@ -39,8 +37,6 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const primaryContact = user.primaryContactMethod
 		const userContact = setUserContact(primaryContact, user)
 
-		const { friends, incomingFriendRequests, outgoingFriendRequests, blockedUsers } = await fetchLoginUserData(user)
-
 		const isContactVerified = isUserContactVerified(primaryContact, user)
 
 		return res.status(200).json({
@@ -52,11 +48,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 			username: user.username,
 			primaryContact,
 			userContact,
-			friends,
-			incomingFriendRequests,
-			outgoingFriendRequests,
-			blockedUsers,
-			isContactVerified
+			isContactVerified,
 		})
 	} catch (error) {
 		console.error(error)

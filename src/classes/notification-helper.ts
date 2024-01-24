@@ -1,27 +1,33 @@
 import _ from "lodash"
+import { Types } from "mongoose"
 import SocketManager from "./socket-manager"
 import AwsSnsService from "./aws-sns-service"
 import getUserArn from "../utils/auth-helpers/aws/get-user-arn"
 import returnCorrectMessageType from "../utils/notifications/create-notifications/return-correct-message-type"
 
-export default new class NotificationHelper {
-	public async sendFriendRequest (user: User, friend: User): Promise<void> {
+export default class NotificationHelper {
+	public static async sendFriendRequest (user: User, receiver: User): Promise<void> {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (
-				socketManager.isUserOnline(friend._id) === true &&
-				socketManager.isUserActive(friend._id) === true
+			if (socketManager.isUserOnline(receiver._id) === true) {
+				socketManager.sendFriendRequest(user, receiver._id)
+			} if (
+				socketManager.isUserStatusBackground(receiver._id) === true ||
+				socketManager.isUserOnline(receiver._id) === false
 			) {
-				socketManager.handleSendFriendRequest({ fromUser: user, toUserId: friend._id })
-			} else {
-				if (!_.isString(friend.notificationToken)) {
-					console.info("Friend does not have a notification token (or friend isn't logged in).")
-					return
-				}
-				const endpointArn = getUserArn(friend)
+				if (!_.isString(receiver.notificationToken)) return
+				const endpointArn = getUserArn(receiver)
 				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
 
-				const message = returnCorrectMessageType(friend.primaryDevicePlatform, user.username || "User")
+				const notificationData: NotificationData = {
+					title: "New Friend Request",
+					body: `${user.username || "User"} sent you a friend request.`,
+					targetPage: "Chat"
+				}
+				const message = returnCorrectMessageType(
+					receiver.primaryDevicePlatform,
+					notificationData
+				)
 				await AwsSnsService.getInstance().sendNotification(
 					endpointArn,
 					message
@@ -32,13 +38,253 @@ export default new class NotificationHelper {
 		}
 	}
 
-	public retractFriendRequest (user: User, friend: User): void {
+	public static retractFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): void {
 		try {
 			const socketManager = SocketManager.getInstance()
-			if (socketManager.isUserOnline(friend._id) === false) {
+			if (socketManager.isUserOnline(friendId) === false)	{
 				return
 			}
-			socketManager.handleRetractFriendRequest({ fromUserId: user._id, toUserId: friend._id })
+			socketManager.retractFriendRequest(userId, friendId)
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	// TODO: Add a socket/notification for when a friend request is accepted
+
+	// TODO: For all of the messages methods, consider sending the message sent time as well.
+	// Then, when the user recieves the text, they can see the time it was sent, and can tell the backend when they recieved it.
+
+	public static async sendPrivateMessage (receiver: User, privateMessage: PrivateMessageWithChatId): Promise<void> {
+		try {
+			const socketManager = SocketManager.getInstance()
+			if (socketManager.isUserOnline(receiver._id) === true) {
+				socketManager.sendPrivateMessage(receiver._id, privateMessage)
+			} if (
+				socketManager.isUserStatusBackground(receiver._id) === true ||
+				socketManager.isUserOnline(receiver._id) === false
+			) {
+				if (!_.isString(receiver.notificationToken)) return
+				const endpointArn = getUserArn(receiver)
+				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
+
+				const extraData = {
+					privateChatId: privateMessage.privateChatId,
+					privateMessageId: _.toString(privateMessage._id)
+				}
+				const notificationData: NotificationData = {
+					title: `New Message from ${privateMessage.senderDetails.username || "User"}`,
+					body: privateMessage.text,
+					targetPage: "Private Chat Screen",
+					extraData
+				}
+				const notificationMessage = returnCorrectMessageType(receiver.primaryDevicePlatform, notificationData)
+				await AwsSnsService.getInstance().sendNotification(
+					endpointArn,
+					notificationMessage
+				)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static updatePrivateMessageStatus (receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
+		try {
+			const socketManager = SocketManager.getInstance()
+			if (socketManager.isUserOnline(receiverId) === false) {
+				return
+			}
+			socketManager.updatePrivateMessageStatus(receiverId, privateMessage)
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static updatePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
+		try {
+			const socketManager = SocketManager.getInstance()
+			if (socketManager.isUserOnline(receiverId) === false) {
+				return
+			}
+			socketManager.updatePrivateMessage(receiverId, privateMessage)
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static deletePrivateMessage(receiverId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
+		try {
+			const socketManager = SocketManager.getInstance()
+			if (socketManager.isUserOnline(receiverId) === false) {
+				return
+			}
+			socketManager.deletePrivateMessage(receiverId, privateMessage)
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static async replyToPrivateMessage(receiver: User, privateMessage: PrivateMessageWithChatId): Promise<void> {
+		try {
+			const socketManager = SocketManager.getInstance()
+			if (socketManager.isUserOnline(receiver._id) === true) {
+				socketManager.sendPrivateMessage(receiver._id, privateMessage)
+			} if (
+				socketManager.isUserStatusBackground(receiver._id) === true ||
+				socketManager.isUserOnline(receiver._id) === false
+			) {
+				if (!_.isString(receiver.notificationToken)) return
+				const endpointArn = getUserArn(receiver)
+				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
+
+				const extraData = {
+					privateChatId: privateMessage.privateChatId,
+					privateMessageId: _.toString(privateMessage._id)
+				}
+				const notificationData: NotificationData = {
+					title: `${privateMessage.senderDetails.username || "User"} replied to your message`,
+					body: privateMessage.text,
+					targetPage: "Private Chat Screen",
+					extraData
+				}
+				const notificationMessage = returnCorrectMessageType(receiver.primaryDevicePlatform, notificationData)
+				await AwsSnsService.getInstance().sendNotification(
+					endpointArn,
+					notificationMessage
+				)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static async sendGroupMessage(receivers: User[], groupMessage: GroupMessageWithChatId): Promise<void> {
+		try {
+			const socketManager = SocketManager.getInstance()
+			for (const receiver of receivers) {
+				if (socketManager.isUserOnline(receiver._id) === true) {
+					socketManager.sendGroupMessage(receiver._id, groupMessage)
+				} if (
+					socketManager.isUserStatusBackground(receiver._id) === true ||
+					socketManager.isUserOnline(receiver._id) === false
+				) {
+					// eslint-disable-next-line max-depth
+					if (!_.isString(receiver.notificationToken)) continue
+					const endpointArn = getUserArn(receiver)
+					// eslint-disable-next-line max-depth
+					if (_.isUndefined(endpointArn)) {
+						throw new Error("EndpointArn is undefined")
+					}
+
+					const extraData = {
+						groupChatId: groupMessage.groupChatId,
+						groupMessageId: _.toString(groupMessage._id),
+						senderUsername: groupMessage.senderDetails.username
+					}
+
+					const notificationData: NotificationData = {
+						title: `New Message from ${groupMessage.senderDetails.username || "User"}`,
+						body: groupMessage.text,
+						targetPage: "Group Chat Screen",
+						extraData
+					}
+
+					const notificationMessage = returnCorrectMessageType(receiver.primaryDevicePlatform, notificationData)
+					await AwsSnsService.getInstance().sendNotification(
+						endpointArn,
+						notificationMessage
+					)
+				}
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static updateGroupMessageStatus (
+		receiverIds: Types.ObjectId[],
+		updatedGroupMessage: GroupMessageWithChatId,
+		newMessageStatus: MessageStatuses,
+	): void {
+		try {
+			const socketManager = SocketManager.getInstance()
+			for (const receiverId of receiverIds) {
+				if (socketManager.isUserOnline(receiverId) === false) {
+					continue
+				}
+				socketManager.updateGroupMessageStatus(receiverId, updatedGroupMessage, newMessageStatus)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static updateGroupMessage(receiverIds: Types.ObjectId[], groupMessage: GroupMessageWithChatId): void {
+		try {
+			const socketManager = SocketManager.getInstance()
+			for (const receiverId of receiverIds) {
+				if (socketManager.isUserOnline(receiverId) === false) {
+					continue
+				}
+				socketManager.updateGroupMessage(receiverId, groupMessage)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static deleteGroupMessage(receiverIds: Types.ObjectId[], groupMessage: GroupMessageWithChatId): void {
+		try {
+			const socketManager = SocketManager.getInstance()
+			for (const receiverId of receiverIds) {
+				if (socketManager.isUserOnline(receiverId) === false) {
+					continue
+				}
+				socketManager.deleteGroupMessage(receiverId, groupMessage)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static async replyToGroupMessage(receivers: User[], groupMessage: GroupMessageWithChatId): Promise<void> {
+		try {
+			const socketManager = SocketManager.getInstance()
+			for (const receiver of receivers) {
+				if (socketManager.isUserOnline(receiver._id) === true) {
+					socketManager.sendGroupMessage(receiver._id, groupMessage)
+				} if (
+					socketManager.isUserStatusBackground(receiver._id) === true ||
+					socketManager.isUserOnline(receiver._id) === false
+				) {
+					// eslint-disable-next-line max-depth
+					if (!_.isString(receiver.notificationToken)) continue
+					const endpointArn = getUserArn(receiver)
+					// eslint-disable-next-line max-depth
+					if (_.isUndefined(endpointArn)) {
+						throw new Error("EndpointArn is undefined")
+					}
+
+					const extraData = {
+						groupChatId: groupMessage.groupChatId,
+						groupMessageId: _.toString(groupMessage._id),
+					}
+
+					const notificationData: NotificationData = {
+						title: `New Message from ${groupMessage.senderDetails.username || "User"}`,
+						body: groupMessage.text,
+						targetPage: "Group Chat Screen",
+						extraData
+					}
+
+					const notificationMessage = returnCorrectMessageType(receiver.primaryDevicePlatform, notificationData)
+					await AwsSnsService.getInstance().sendNotification(
+						endpointArn,
+						notificationMessage
+					)
+				}
+			}
 		} catch (error) {
 			console.error(error)
 		}

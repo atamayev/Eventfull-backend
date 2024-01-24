@@ -1,12 +1,13 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import findUser from "../../../../utils/find/find-user"
+import { extractGroupChatFriendIds } from "../../../../utils/chat/extract-friend-ids"
 
 export default async function extractFriendsFromChat (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
 		const user = req.user
 		const groupChat = req.groupChat
-		const friendIds = groupChat.participants.filter(participant => !participant.equals(user._id))
+		const friendIds = extractGroupChatFriendIds(groupChat, user._id)
 
 		if (_.isEmpty(friendIds)) {
 			return res.status(400).json({ message: "Friends not found" })

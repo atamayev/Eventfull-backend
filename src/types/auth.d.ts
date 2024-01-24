@@ -63,18 +63,6 @@ declare global {
 		password: string
 	}
 
-	type LoginSocialData = {
-		_id: string
-		username: string
-	}
-
-	type LoginSocialDataFields = {
-		friends: LoginSocialData[]
-		incomingFriendRequests: LoginSocialData[]
-		outgoingFriendRequests: LoginSocialData[]
-		blockedUsers: LoginSocialData[]
-	}
-
 	type GoogleLoginTokensResponse = {
 		googleUser: User
 		isNewUser: boolean

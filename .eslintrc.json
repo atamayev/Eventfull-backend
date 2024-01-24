@@ -56,7 +56,6 @@
 		"prefer-spread": "error",
 		"@typescript-eslint/no-empty-interface": "error",
 		"max-depth": ["warn", 3],
-		"no-inline-comments": "warn",
 		"no-nested-ternary": "error",
 		"@typescript-eslint/no-unnecessary-condition": "warn",
 		"complexity": ["warn", 9],
@@ -108,8 +107,7 @@
 		{
 			"files": ["*.d.ts"],
 			"rules": {
-				"filenames/match-regex": "off",
-				"no-inline-comments": "off"
+				"filenames/match-regex": "off"
 			}
 		}
 	]

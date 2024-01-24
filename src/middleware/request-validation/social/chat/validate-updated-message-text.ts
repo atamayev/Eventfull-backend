@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const updatedMessageTextSchema = Joi.object({
 	updatedMessageText: Joi.string().min(1).max(1000).required(),
-}).unknown(true)
+}).required()
 
 export default function validateUpdatedMessageText (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

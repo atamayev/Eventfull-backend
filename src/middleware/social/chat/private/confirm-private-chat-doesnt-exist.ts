@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import PrivateChatModel from "../../../../models/chat/private/private-message-chat-model"
+import PrivateChatModel from "../../../../models/chat/private/private-chat-model"
 
 export default async function confirmPrivateChatDoesntExist (
 	req: Request,
@@ -12,9 +12,7 @@ export default async function confirmPrivateChatDoesntExist (
 		const friend = req.friend
 
 		const privateChat = await PrivateChatModel.findOne({
-			participants: {
-				$all: [user._id, friend._id],
-			},
+			"participantDetails.userId": { $all: [user._id, friend._id] }
 		})
 
 		if (!_.isNull(privateChat)) {

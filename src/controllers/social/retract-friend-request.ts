@@ -14,7 +14,7 @@ export default async function retractFriendRequest(req: Request, res: Response):
 		}
 
 		await clearOutgoingFriendRequest(user, friend)
-		NotificationHelper.retractFriendRequest(user, friend)
+		NotificationHelper.retractFriendRequest(user._id, friend._id)
 
 		return res.status(200).json({ success: "Friend Request Retracted" })
 	} catch (error) {

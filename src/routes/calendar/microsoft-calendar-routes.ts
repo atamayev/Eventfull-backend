@@ -14,8 +14,8 @@ const microsoftCalendarRoutes = express.Router()
 
 microsoftCalendarRoutes.post(
 	"/create-calendar-event",
-	assignMicrosoftCalendarIdAndAccessToken,
 	validateCreateCloudEvent,
+	assignMicrosoftCalendarIdAndAccessToken,
 	createMicrosoftCalendarEvent
 )
 
@@ -23,8 +23,8 @@ microsoftCalendarRoutes.get("/get-calendar-events", assignMicrosoftCalendarIdAnd
 
 microsoftCalendarRoutes.post(
 	"/update-calendar-event",
-	assignMicrosoftCalendarIdAndAccessToken,
 	validateUpdateMicrosoftCalendarEvent,
+	assignMicrosoftCalendarIdAndAccessToken,
 	updateMicrosoftCalendarEvent
 )
 
