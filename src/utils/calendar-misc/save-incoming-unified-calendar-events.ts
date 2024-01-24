@@ -32,8 +32,7 @@ export default async function saveIncomingUnifiedCalendarEvents(
 			if (areEventsEqual(existingEvent, event) === false) {
 				await UserModel.updateOne(
 					{ _id: user._id, "calendarData.id": event.id },
-					{ $set: { "calendarData.$": event } },
-					{ runValidators: true }
+					{ $set: { "calendarData.$": event } }
 				)
 			}
 		}
