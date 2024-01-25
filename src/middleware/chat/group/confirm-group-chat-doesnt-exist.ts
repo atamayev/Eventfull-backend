@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
-import GroupChatModel from "../../../../models/chat/group/group-chat-model"
+import GroupChatModel from "../../../models/chat/group/group-chat-model"
 
 export default async function confirmGroupChatDoesntExist(
 	req: Request,
