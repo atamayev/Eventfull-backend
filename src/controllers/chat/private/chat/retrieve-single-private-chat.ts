@@ -1,21 +1,18 @@
 import _ from "lodash"
 import { Request, Response } from "express"
-import UserModel from "../../../../models/user-model"
 
-export default async function retrieveSinglePrivateChat(req: Request, res: Response): Promise<Response> {
+export default function retrieveSinglePrivateChat(req: Request, res: Response): Response {
 	try {
 		const user = req.user
 		const reqPrivateChat = req.privateChat
 
-		const userDoc = await UserModel.findOne(
-			{ _id: user._id },
-			{ privateChats: { $elemMatch: { privateChatId: reqPrivateChat._id } } }
-		)
+		const userPrivateChat = user.privateChats.find(chat => chat.privateChatId.toString() === reqPrivateChat._id.toString())
 
-		if (_.isNull(userDoc) || _.isEmpty(userDoc.privateChats)) {
+		if (_.isUndefined(userPrivateChat)) {
 			return res.status(400).json({ message: "Private Chat Not Found" })
 		}
-		const privateChatName = userDoc.privateChats[0].chatName
+
+		const privateChatName = userPrivateChat.chatName
 		const privateChat = attachChatNameToChat(reqPrivateChat, privateChatName)
 
 		return res.status(200).json({ privateChat })
