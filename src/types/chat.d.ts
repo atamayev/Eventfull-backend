@@ -38,10 +38,8 @@ declare global {
 
 	type MessageStatuses = "Sent" | "Delivered" | "Read" | "Sender"
 
-	interface MessageStatusObjectNoTimestamps {
-		userId: Types.ObjectId
+	interface MessageStatusObjectNoTimestamps extends SocialData {
 		messageStatus: MessageStatuses
-		username: string
 	}
 
 	interface MessageStatusObject extends MessageStatusObjectNoTimestamps, TimestampsInterface {

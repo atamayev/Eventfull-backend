@@ -5,14 +5,19 @@ export default async function searchForEventName(req: Request, res: Response): P
 	try {
 		const eventName = req.params.eventName as string
 		const user = req.user
-		const blockedIds = [...user.blockedUsers, ...user.blockedByUsers]
+
+		// Extract userIds from blockedUsers and blockedByUsers
+		const blockedIds = [
+			...user.blockedUsers.map(socialData => socialData.userId),
+			...user.blockedByUsers.map(socialData => socialData.userId)
+		]
 
 		// eslint-disable-next-line security/detect-non-literal-regexp
 		const regex = new RegExp(eventName, "i")
 
 		const events = await EventfullEventModel.find({
 			// Exclude users in the blocked lists:
-			organizerId: { $nin: blockedIds },
+			"organizer.userId": { $nin: blockedIds },
 			eventName: regex
 		})
 			.select("eventName")

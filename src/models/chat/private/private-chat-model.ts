@@ -1,5 +1,5 @@
 import { Schema, model, Types } from "mongoose"
-import { socialDataSchema } from "../social-data-model"
+import socialDataSchema from "../social-data-model"
 
 const lastMessageSchema = new Schema<PrivateMessage>({
 	text: { type: String, trim: true },

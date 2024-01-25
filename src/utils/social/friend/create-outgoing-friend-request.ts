@@ -6,13 +6,23 @@ export default async function createOutgoingFriendRequest (user: User, friend: U
 		// TODO: Add a timestamp when the friend request is sent
 		const userUpdate = UserModel.findByIdAndUpdate(
 			user._id,
-			{ $push: { outgoingFriendRequests: friend._id } },
+			{ $push: {
+				outgoingFriendRequests: {
+					userId: friend._id,
+					username: friend.username,
+				}
+			} },
 			{ new: true, runValidators: true }
 		)
 
 		const friendUpdate = UserModel.findByIdAndUpdate(
 			friend._id,
-			{ $push: { incomingFriendRequests: user._id } },
+			{ $push: {
+				incomingFriendRequests: {
+					userId: user._id,
+					username: user.username,
+				}
+			} },
 			{ new: true, runValidators: true }
 		)
 

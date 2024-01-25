@@ -6,13 +6,13 @@ export default async function unblockUser (userId: Types.ObjectId, blockedUserId
 	try {
 		const userUpdate = UserModel.findByIdAndUpdate(
 			userId,
-			{ $pull: { blockedUsers: blockedUserId } },
+			{ $pull: { blockedUsers: { userId: blockedUserId } }},
 			{ new: true, runValidators: true }
 		)
 
 		const blockedUserUpdate = UserModel.findByIdAndUpdate(
 			blockedUserId,
-			{ $pull: { blockedByUsers: userId } },
+			{ $pull: { blockedByUsers: { userId } } },
 			{ new: true, runValidators: true }
 		)
 

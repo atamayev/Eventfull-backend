@@ -16,7 +16,7 @@ declare global {
 		profilePictureURL?: string
 		bio?: string
 		eventPins: Types.ObjectId[]
-		calendarData: UnifiedCalendarEvent[]
+		calendarData: DatabaseUnifiedCalendarEvent[]
 		eventfullEvents: EventfullCalendarEvent[]
 		colorTheme: "Light" | "Dark" | "System Default"
 		iosEndpointArn?: string
@@ -38,11 +38,11 @@ declare global {
 		microsoftDefaultCalendarId?: string
 
 		loginHistory: LoginHistory[]
-		friends: Types.ObjectId[]
-		outgoingFriendRequests: Types.ObjectId[]
-		incomingFriendRequests: Types.ObjectId[]
-		blockedUsers: Types.ObjectId[]
-		blockedByUsers: Types.ObjectId[]
+		friends: SocialData[]
+		outgoingFriendRequests: SocialData[]
+		incomingFriendRequests: SocialData[]
+		blockedUsers: SocialData[]
+		blockedByUsers: SocialData[]
 		privateChats: PrivateChats[]
 		groupChats: GroupChats[]
 

@@ -7,7 +7,11 @@ export default async function searchForUsername(req: Request, res: Response): Pr
 		const username = req.params.username as string
 		const user = req.user
 
-		const blockedIds = [...user.blockedUsers, ...user.blockedByUsers, user._id]
+		const blockedIds = [
+			...user.blockedUsers.map(socialData => socialData.userId),
+			...user.blockedByUsers.map(socialData => socialData.userId),
+			user._id
+		]
 
 		let query
 		if (_.isEqual(username, "")) {

@@ -34,10 +34,17 @@ import removePinnedEventfullEvent from "../controllers/events/remove-pinned-even
 import inviteFriendToEventfullEvent from "../controllers/events/invite-friend-to-eventfull-event"
 import retractInviteToEventfullEvent from "../controllers/events/retract-invite-to-eventfull-event"
 import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
+import confirmEventIsPinned from "../middleware/events/confirm-event-is-pinned"
+import confirmEventIsNotPinned from "../middleware/events/confirm-event-is-not-pinned"
 
 const eventsRoutes = express.Router()
 
-eventsRoutes.post("/create-eventfull-event", validateCreateEventfullEvent, createEventfullEvent)
+eventsRoutes.post(
+	"/create-eventfull-event",
+	validateCreateEventfullEvent,
+	createEventfullEvent
+)
+
 eventsRoutes.post(
 	"/respond-to-eventfull-invite",
 	validateResponseToEventfullEventInvite,
@@ -82,11 +89,27 @@ eventsRoutes.post(
 	updateEventfullEvent
 )
 
-eventsRoutes.post("/delete-eventfull-event", validateEventfullEventId, confirmUserIsEventOrganizerOrCohost, deleteEventfullEvent)
+eventsRoutes.post("/delete-eventfull-event",
+	validateEventfullEventId,
+	confirmEventIsActive,
+	confirmUserIsEventOrganizerOrCohost,
+	deleteEventfullEvent
+)
 
-eventsRoutes.post("/pin-eventfull-event", validateEventfullEventId, confirmEventIsActive, pinEventfullEvent)
+eventsRoutes.post(
+	"/pin-eventfull-event",
+	validateEventfullEventId,
+	confirmEventIsActive,
+	confirmEventIsNotPinned,
+	pinEventfullEvent
+)
 
-eventsRoutes.post("/remove-pinned-eventfull-event", validateEventfullEventId, removePinnedEventfullEvent)
+eventsRoutes.post(
+	"/remove-pinned-eventfull-event",
+	validateEventfullEventId,
+	confirmEventIsPinned,
+	removePinnedEventfullEvent
+)
 
 eventsRoutes.post("/sign-up-for-eventfull-event",
 	validateEventfullEventId,

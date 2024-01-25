@@ -6,13 +6,13 @@ export default async function unfriendYourFriend (userId: Types.ObjectId, friend
 	try {
 		const userDelete = UserModel.findByIdAndUpdate(
 			userId,
-			{ $pull: { friends: friendId } },
+			{ $pull: { friends: { userId: friendId} } },
 			{ new: true, runValidators: true }
 		)
 
 		const friendDelete = UserModel.findByIdAndUpdate(
 			friendId,
-			{ $pull: { friends: userId } },
+			{ $pull: { friends: { userId } } },
 			{ new: true, runValidators: true }
 		)
 

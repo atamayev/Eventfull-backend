@@ -8,21 +8,27 @@ export default async function addCohosts(
 	currentEvent: EventfullEvent,
 	updatedEventData: IncomingEventfullEvent
 ): Promise<void> {
-	const friendIds = user.friends.map(friend => friend.toString())
+	const friendIds = user.friends.map(friend => friend.userId.toString())
 
-	const updatedCoHostIds = updatedEventData.coHosts.map(coHost => coHost.toString())
+	const updatedCoHostIds = updatedEventData.coHosts.map(coHost => coHost.userId.toString())
 
-	const coHostsToAdd = updatedEventData.coHosts
-		.filter(hostId => friendIds.includes(hostId.toString()))
-		.filter(hostId => !currentEvent.coHosts.some(existingCohost =>
-			existingCohost.userId.toString() === hostId.toString()))
-		.map(hostId => ({
-			userId: hostId,
-			invitedBy: user._id
+	const coHostsToAdd: EventfullCoHost[] = updatedEventData.coHosts
+		.filter(host => friendIds.includes(host.userId.toString()))
+		.filter(host => !currentEvent.coHosts.some(existingCohost =>
+			existingCohost.user.userId.toString() === host.userId.toString()))
+		.map(host => ({
+			user: {
+				userId: host.userId,
+				username: host.username,
+			},
+			invitedBy: {
+				userId: user._id,
+				username: user.username || "User",
+			}
 		}))
 
 	const coHostsToRemove = currentEvent.coHosts.filter(existingCoHost =>
-		!updatedCoHostIds.includes(existingCoHost.userId.toString())
+		!updatedCoHostIds.includes(existingCoHost.user.userId.toString())
 	)
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,12 +37,12 @@ export default async function addCohosts(
 	if (!_.isEmpty(coHostsToRemove)) {
 		const removeCoHostsPromise = EventfullEventModel.findByIdAndUpdate(
 			currentEvent._id,
-			{ $pull: { coHosts: { userId: { $in: coHostsToRemove.map(coHost => coHost.userId) } } } },
+			{ $pull: { coHosts: { userId: { $in: coHostsToRemove.map(coHost => coHost.user.userId) } } } },
 			{ runValidators: true }
 		)
 		const removeCoHostsPromises = coHostsToRemove.map(coHost =>
 			UserModel.findByIdAndUpdate(
-				coHost.userId,
+				coHost.user.userId,
 				{ $pull: { eventfullEvents: { eventId: currentEvent._id } } },
 				{ runValidators: true }
 			)
@@ -55,13 +61,16 @@ export default async function addCohosts(
 
 		const addCoHostsPromises = coHostsToAdd.map(coHost =>
 			UserModel.findByIdAndUpdate(
-				coHost.userId,
+				coHost.user.userId,
 				{
 					$push: {
 						eventfullEvents: {
 							eventId: currentEvent._id,
 							attendingStatus: "Co-Hosting",
-							invitedBy: user._id
+							invitedBy: {
+								userId: user._id,
+								username: user.username,
+							}
 						}
 					}
 				}, { runValidators: true }

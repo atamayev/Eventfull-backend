@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 import EventfullEventModel from "../../models/eventfull-event-model"
 import updateUserAttendingStatus from "../../utils/events/update-user-attending-status"
 
+// eslint-disable-next-line max-lines-per-function
 export default async function signUpForEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
 		const isUserAttendingEvent = req.isUserAttendingEvent
@@ -12,7 +13,7 @@ export default async function signUpForEventfullEvent(req: Request, res: Respons
 		const user = req.user
 		const event = req.event
 
-		if (_.isEqual(event.organizerId, user._id)) {
+		if (_.isEqual(event.organizer.userId, user._id)) {
 			return res.status(400).json({ message: "You are the event organizer" })
 		}
 
@@ -20,24 +21,37 @@ export default async function signUpForEventfullEvent(req: Request, res: Respons
 
 		await updateUserAttendingStatus(user._id, event._id, eventIndex)
 
-		const isUserInvited = event.invitees.some(invitee => _.isEqual(invitee.userId, user._id))
+		const isUserInvited = event.invitees.some(invitee => _.isEqual(invitee.user.userId, user._id))
 		if (isUserInvited === false) {
 			await EventfullEventModel.findByIdAndUpdate(
 				event._id,
 				{ $addToSet: {
-					attendees: { userId: user._id }
+					attendees: { user: {
+						userId: user._id,
+						username: user.username,
+					} }
 				}},
 				{ runValidators: true }
 			)
 		} else {
-			const invitee = event.invitees.find(inv => _.isEqual(inv.userId, user._id))
+			const invitee = event.invitees.find(inv => _.isEqual(inv.user.userId, user._id))
 
-			const invitedById = invitee ? invitee.invitedBy : null
 			await EventfullEventModel.findByIdAndUpdate(
 				event._id,
 				{
-					$pull: { invitees: { userId: user._id } },
-					$addToSet: { attendees: { userId: user._id, invitedBy: invitedById } }
+					$pull: { invitees: { "user.userId" : user._id } },
+					$addToSet: {
+						attendees: {
+							user: {
+								userId: user._id,
+								username: user.username,
+							},
+							invitedBy: {
+								userId: invitee ? invitee.user.userId : null,
+								username: invitee ? invitee.user.username : null,
+							}
+						}
+					}
 				},
 				{ runValidators: true }
 			)

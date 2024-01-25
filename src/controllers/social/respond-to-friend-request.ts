@@ -15,7 +15,7 @@ export default async function respondToFriendRequest(req: Request, res: Response
 		}
 
 		if (response === "Accept") {
-			await acceptFriendRequest(user._id, friend._id)
+			await acceptFriendRequest(user, friend)
 		}
 
 		await clearIncomingFriendRequest(user._id, friend._id)

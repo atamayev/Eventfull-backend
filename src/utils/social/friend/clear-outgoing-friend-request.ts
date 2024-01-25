@@ -5,13 +5,13 @@ export default async function clearOutgoingFriendRequest (user: User, friend: Us
 	try {
 		const userUpdate = UserModel.findByIdAndUpdate(
 			user._id,
-			{ $pull: { outgoingFriendRequests: friend._id } },
+			{ $pull: { outgoingFriendRequests: { userId: friend._id } } },
 			{ new: true, runValidators: true }
 		)
 
 		const friendUpdate =  UserModel.findByIdAndUpdate(
 			friend._id,
-			{ $pull: { incomingFriendRequests: user._id } },
+			{ $pull: { incomingFriendRequests: {userId: user._id } } },
 			{ new: true, runValidators: true }
 		)
 

@@ -1,24 +1,35 @@
-import { Types } from "mongoose"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
 export default function convertToEventfullEvent(
 	incomingEvent: IncomingEventfullEvent,
-	organizerId: Types.ObjectId,
+	organizer: User,
 	friendIds: string[]
 ): EventfullEvent {
 	const event = new EventfullEventModel ({
 		...incomingEvent,
 		invitees: incomingEvent.invitees
-			.filter(inviteeId => friendIds.includes(inviteeId.toString()))
-			.map(inviteeId => ({
-				userId: inviteeId,
+			.filter(invitee => friendIds.includes(invitee.userId.toString()))
+			.map(invitee => ({
+				user: {
+					userId: invitee.userId,
+					username: invitee.username,
+				},
 				attendingStatus: "Not Responded",
-				invitedBy: organizerId,
+				invitedBy: {
+					userId: organizer._id,
+					username: organizer.username,
+				},
 			})),
 		coHosts: incomingEvent.coHosts.map(
-			coHostId => ({
-				userId: coHostId,
-				invitedBy: organizerId
+			coHost => ({
+				user: {
+					userId: coHost.userId,
+					username: coHost.username,
+				},
+				invitedBy: {
+					userId: organizer._id,
+					username: organizer.username,
+				}
 			}),
 		),
 		attendees: []

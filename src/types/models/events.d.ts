@@ -11,30 +11,30 @@ declare global {
 		categories: string[]
 	}
 
-	interface EventfullCalendarEvent extends IDInterface {
+	interface EventfullCalendarEvent extends TimestampsInterface {
 		eventId: Types.ObjectId
 		attendingStatus: AttendingStatuses
-		invitedBy?: Types.ObjectId
+		invitedBy?: SocialData
 		reviewRating?: number
 		reviewText?: string
 	}
 
 	interface EventfullInvitee {
-		userId: Types.ObjectId
+		user: SocialData
 		attendingStatus: "Not Attending" | "Not Responded"
-		invitedBy: Types.ObjectId
+		invitedBy: SocialData
 	}
 
 	interface EventfullAttendee {
-		userId: Types.ObjectId
-		invitedBy?: Types.ObjectId
+		user: SocialData
+		invitedBy?: SocialData
 		reviewRating?: number
 		reviewText?: string
 	}
 
 	interface EventfullCoHost {
-		userId: Types.ObjectId
-		invitedBy: Types.ObjectId
+		user: SocialData
+		invitedBy: SocialData
 	}
 
 	interface BaseEventfullEvent {
@@ -44,7 +44,7 @@ declare global {
 		eventPrice: number
 		eventType: string
 		isVirtual: boolean
-		organizerId: Types.ObjectId
+		organizer: SocialData
 		isActive: boolean
 		eventPublic: boolean
 		eventReviewable: boolean
@@ -66,8 +66,8 @@ declare global {
 	}
 
 	interface IncomingEventfullEvent extends BaseEventfullEvent {
-		invitees: Types.ObjectId[]
-		coHosts: Types.ObjectId[]
+		invitees: SocialData[]
+		coHosts: SocialData[]
 		eventCapacity?: number
 	}
 }

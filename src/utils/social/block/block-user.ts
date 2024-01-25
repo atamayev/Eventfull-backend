@@ -1,19 +1,28 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
 
-export default async function blockUser (userId: Types.ObjectId, blockedUserId: Types.ObjectId): Promise<void> {
+export default async function blockUser (userId: User, blockedUser: User): Promise<void> {
 	try {
 		// TODO: Add what date/time user was blocked to keep track
 		const userUpdate = UserModel.findByIdAndUpdate(
 			userId,
-			{ $push: { blockedUsers: blockedUserId } },
+			{ $push: {
+				blockedUsers: {
+					userId: blockedUser._id,
+					username: blockedUser.username,
+				}
+			} },
 			{ new: true, runValidators: true }
 		)
 
 		const blockedUserUpdate = UserModel.findByIdAndUpdate(
-			blockedUserId,
-			{ $push: { blockedByUsers: userId } },
+			blockedUser._id,
+			{ $push: {
+				blockedByUsers: {
+					userId: userId,
+					username: userId.username,
+				}
+			} },
 			{ new: true, runValidators: true }
 		)
 

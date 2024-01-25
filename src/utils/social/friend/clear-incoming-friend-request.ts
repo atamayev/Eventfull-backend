@@ -6,13 +6,13 @@ export default async function clearIncomingFriendRequest (userId: Types.ObjectId
 	try {
 		const userUpdate = UserModel.findByIdAndUpdate(
 			userId,
-			{ $pull: { incomingFriendRequests: friendId } },
+			{ $pull: { incomingFriendRequests: { userId: friendId } } }, // Adjusted to match the nested structure
 			{ new: true, runValidators: true }
 		)
 
 		const friendUpdate =  UserModel.findByIdAndUpdate(
 			friendId,
-			{ $pull: { outgoingFriendRequests: userId } },
+			{ $pull: { outgoingFriendRequests: { userId } } },
 			{ new: true, runValidators: true }
 		)
 

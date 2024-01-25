@@ -1,19 +1,28 @@
 import _ from "lodash"
-import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
 
-export default async function acceptFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
+export default async function acceptFriendRequest (user: User, friend: User): Promise<void> {
 	try {
 		// TODO: Add a timestamp when the friend request is accepted
 		const userUpdate = UserModel.findByIdAndUpdate(
-			userId,
-			{ $push: { friends: friendId } },
+			user._id,
+			{ $push: {
+				friends: {
+					userId: friend._id,
+					username: friend.username,
+				}
+			} },
 			{ new: true, runValidators: true }
 		)
 
 		const friendUpdate = UserModel.findByIdAndUpdate(
-			friendId,
-			{ $push: { friends: userId } },
+			friend._id,
+			{ $push: {
+				friends: {
+					userId: user._id,
+					username: user.username,
+				}
+			} },
 			{ new: true, runValidators: true }
 		)
 

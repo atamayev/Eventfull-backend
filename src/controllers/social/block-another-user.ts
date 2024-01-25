@@ -16,7 +16,7 @@ export default async function blockAnotherUser (req: Request, res: Response): Pr
 
 		if (_.isEqual(user._id, blockedUser._id)) return res.status(400).json({ message: "You cannot block yourself" })
 
-		await blockUser(user._id, blockedUser._id)
+		await blockUser(user, blockedUser)
 
 		const areBothUsersFriends = areUsersFriends(user, blockedUser._id)
 
