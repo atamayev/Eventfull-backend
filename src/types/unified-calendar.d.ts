@@ -16,11 +16,6 @@ declare global {
 		isActive: boolean
 	}
 
-	interface DatabaseUnifiedCalendarEvent extends UnifiedCalendarEvent {
-		createdAt: Date
-		updatedAt: Date
-	}
-
 	interface UnifiedDateTime {
 		date: string
 		time: string

@@ -15,7 +15,7 @@ const recurrenceSchema = new Schema<UnifiedRecurrence>({
 	interval: { type: Number, required: true }
 }, { _id: false, timestamps: true })
 
-const calendarDataSchema = new Schema<DatabaseUnifiedCalendarEvent>({
+const calendarDataSchema = new Schema<UnifiedCalendarEvent>({
 	id: { type: String, required: true },
 	title: { type: String, required: true },
 	description: { type: String, required: false },
@@ -30,6 +30,6 @@ const calendarDataSchema = new Schema<DatabaseUnifiedCalendarEvent>({
 	source: { type: String, required: true, enum: ["Google", "Microsoft", "Local"] },
 	link: { type: String, required: false },
 	isActive: { type: Boolean, required: true }
-}, { timestamps: true })
+})
 
 export default calendarDataSchema

@@ -16,7 +16,7 @@ declare global {
 		profilePictureURL?: string
 		bio?: string
 		eventPins: Types.ObjectId[]
-		calendarData: DatabaseUnifiedCalendarEvent[]
+		calendarData: UnifiedCalendarEvent[]
 		eventfullEvents: EventfullCalendarEvent[]
 		colorTheme: "Light" | "Dark" | "System Default"
 		iosEndpointArn?: string
