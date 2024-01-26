@@ -50,7 +50,49 @@ export default class NotificationHelper {
 		}
 	}
 
-	// TODO: Add a socket/notification for when a friend request is accepted
+	public static async acceptFriendRequest (user: User, receiver: User): Promise<void> {
+		try {
+			const socketManager = SocketManager.getInstance()
+			if (socketManager.isUserOnline(receiver._id) === true) {
+				socketManager.acceptFriendRequest(user, receiver._id)
+			} if (
+				socketManager.isUserStatusBackground(receiver._id) === true ||
+				socketManager.isUserOnline(receiver._id) === false
+			) {
+				if (!_.isString(receiver.notificationToken)) return
+				const endpointArn = getUserArn(receiver)
+				if (_.isUndefined(endpointArn)) throw new Error("EndpointArn is undefined")
+
+				const notificationData: NotificationData = {
+					title: "Friend Request Accepted",
+					body: `${user.username || "User"} accepted your friend request.`,
+					targetPage: "Chat"
+				}
+				const message = returnCorrectMessageType(
+					receiver.primaryDevicePlatform,
+					notificationData
+				)
+				await AwsSnsService.getInstance().sendNotification(
+					endpointArn,
+					message
+				)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	public static removeFriend (userId: Types.ObjectId, friendId: Types.ObjectId): void {
+		try {
+			const socketManager = SocketManager.getInstance()
+			if (socketManager.isUserOnline(friendId) === false) {
+				return
+			}
+			socketManager.removeFriend(userId, friendId)
+		} catch (error) {
+			console.error(error)
+		}
+	}
 
 	// TODO: For all of the messages methods, consider sending the message sent time as well.
 	// Then, when the user recieves the text, they can see the time it was sent, and can tell the backend when they recieved it.

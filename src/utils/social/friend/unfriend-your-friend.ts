@@ -1,6 +1,7 @@
 import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
+import NotificationHelper from "../../../classes/notification-helper"
 
 export default async function unfriendYourFriend (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
 	try {
@@ -21,6 +22,8 @@ export default async function unfriendYourFriend (userId: Types.ObjectId, friend
 		if (_.isNull(userResult)) throw new Error("User not found")
 
 		if (_.isNull(friendResult)) throw new Error("Friend not found")
+
+		NotificationHelper.removeFriend(userId, friendId)
 	}
 	catch (error) {
 		console.error(error)

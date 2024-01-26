@@ -1,5 +1,6 @@
 import _ from "lodash"
 import UserModel from "../../../models/user-model"
+import NotificationHelper from "../../../classes/notification-helper"
 
 export default async function acceptFriendRequest (user: User, friend: User): Promise<void> {
 	try {
@@ -30,6 +31,8 @@ export default async function acceptFriendRequest (user: User, friend: User): Pr
 		if (_.isNull(userResult)) throw new Error("User not found")
 
 		if (_.isNull(friendResult)) throw new Error("Friend not found")
+
+		await NotificationHelper.acceptFriendRequest(user, friend)
 	} catch (error) {
 		console.error(error)
 		throw new Error("Accept friend request error")

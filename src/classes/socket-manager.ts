@@ -96,6 +96,22 @@ export default class SocketManager {
 		)
 	}
 
+	public acceptFriendRequest(fromUser: User, toUserId: Types.ObjectId): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) return
+		this.io.to(receiverSocketId).emit(
+			"accept-friend-request", { fromUserId: _.toString(fromUser._id), fromUsername: fromUser.username }
+		)
+	}
+
+	public removeFriend(fromUserId: Types.ObjectId, toUserId: Types.ObjectId): void {
+		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
+		if (_.isUndefined(receiverSocketId)) return
+		this.io.to(receiverSocketId).emit(
+			"remove-friend", { fromUserId: _.toString(fromUserId) }
+		)
+	}
+
 	public sendPrivateMessage(toUserId: Types.ObjectId, privateMessage: PrivateMessageWithChatId): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) return
