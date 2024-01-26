@@ -1,14 +1,17 @@
 import _ from "lodash"
 import UserModel from "../../../models/user-model"
 
-export default async function createOutgoingFriendRequest (user: User, friend: User): Promise<void> {
+export default async function createOutgoingFriendRequest (user: User, friend: User): Promise<Date> {
 	try {
+		const now = new Date()
+
 		const userUpdate = UserModel.findByIdAndUpdate(
 			user._id,
 			{ $push: {
 				outgoingFriendRequests: {
 					userId: friend._id,
 					username: friend.username,
+					createdAt: now,
 				}
 			} },
 			{ new: true, runValidators: true }
@@ -20,6 +23,7 @@ export default async function createOutgoingFriendRequest (user: User, friend: U
 				incomingFriendRequests: {
 					userId: user._id,
 					username: user.username,
+					createdAt: now,
 				}
 			} },
 			{ new: true, runValidators: true }
@@ -30,6 +34,8 @@ export default async function createOutgoingFriendRequest (user: User, friend: U
 		if (_.isNull(userResult)) throw new Error("User not found")
 
 		if (_.isNull(friendResult)) throw new Error("Friend not found")
+
+		return now
 	} catch (error) {
 		console.error(error)
 		throw new Error("Create outgoing friend request error")

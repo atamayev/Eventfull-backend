@@ -80,11 +80,15 @@ export default class SocketManager {
 		return userConnection ? userConnection.status === "background" : false
 	}
 
-	public sendFriendRequest(fromUser: User, toUserId: Types.ObjectId): void {
+	public sendFriendRequest(fromUser: User, toUserId: Types.ObjectId, createdAt: Date): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit(
-			"friend-request", { fromUserId: _.toString(fromUser._id), fromUsername: fromUser.username }
+			"friend-request", {
+				fromUserId: _.toString(fromUser._id),
+				fromUsername: fromUser.username,
+				createdAt,
+			}
 		)
 	}
 
@@ -96,11 +100,15 @@ export default class SocketManager {
 		)
 	}
 
-	public acceptFriendRequest(fromUser: User, toUserId: Types.ObjectId): void {
+	public acceptFriendRequest(fromUser: User, toUserId: Types.ObjectId, createdAt: Date): void {
 		const receiverSocketId = this.userConnections.get(_.toString(toUserId))?.socketId
 		if (_.isUndefined(receiverSocketId)) return
 		this.io.to(receiverSocketId).emit(
-			"accept-friend-request", { fromUserId: _.toString(fromUser._id), fromUsername: fromUser.username }
+			"accept-friend-request", {
+				fromUserId: _.toString(fromUser._id),
+				fromUsername: fromUser.username,
+				createdAt,
+			}
 		)
 	}
 

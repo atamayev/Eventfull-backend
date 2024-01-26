@@ -45,7 +45,7 @@ declare global {
 		title: string,
 		body: string,
 		targetPage: FrontEndScreens,
-		extraData?: Record<string, string>
+		extraData?: Record<string, string | Date>
 	}
 }
 
