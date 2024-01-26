@@ -3,7 +3,6 @@ import UserModel from "../../../models/user-model"
 
 export default async function blockUser (userId: User, blockedUser: User): Promise<void> {
 	try {
-		// TODO: Add what date/time user was blocked to keep track
 		const userUpdate = UserModel.findByIdAndUpdate(
 			userId,
 			{ $push: {

@@ -3,7 +3,6 @@ import UserModel from "../../../models/user-model"
 
 export default async function acceptFriendRequest (user: User, friend: User): Promise<void> {
 	try {
-		// TODO: Add a timestamp when the friend request is accepted
 		const userUpdate = UserModel.findByIdAndUpdate(
 			user._id,
 			{ $push: {

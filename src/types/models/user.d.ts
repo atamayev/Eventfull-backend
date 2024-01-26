@@ -38,11 +38,11 @@ declare global {
 		microsoftDefaultCalendarId?: string
 
 		loginHistory: LoginHistory[]
-		friends: SocialData[]
-		outgoingFriendRequests: SocialData[]
-		incomingFriendRequests: SocialData[]
-		blockedUsers: SocialData[]
-		blockedByUsers: SocialData[]
+		friends: SocialDataWithTimestamp[]
+		outgoingFriendRequests: SocialDataWithTimestamp[]
+		incomingFriendRequests: SocialDataWithTimestamp[]
+		blockedUsers: SocialDataWithTimestamp[]
+		blockedByUsers: SocialDataWithTimestamp[]
 		privateChats: PrivateChats[]
 		groupChats: GroupChats[]
 

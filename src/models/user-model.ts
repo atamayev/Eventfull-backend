@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose"
 import calendarDataSchema from "./calendar-data-model"
-import socialDataSchema from "./chat/social-data-model"
+import socialDataSchema, { socialDataWithTimestampSchema } from "./chat/social-data-model"
 
 const loginHistorySchema = new Schema<LoginHistory>({
 	loginTime: { type: Date, default: Date.now },
@@ -75,11 +75,11 @@ const userSchema = new Schema<User>({
 	emailVerifiedTimestamp: { type: Date },
 
 	loginHistory: { type: [loginHistorySchema], required: true },
-	friends: { type: [socialDataSchema], required: true },
-	outgoingFriendRequests: { type: [socialDataSchema], required: true },
-	incomingFriendRequests: { type: [socialDataSchema], required: true },
-	blockedUsers: { type: [socialDataSchema], required: true },
-	blockedByUsers: { type: [socialDataSchema], required: true },
+	friends: { type: [socialDataWithTimestampSchema], required: true },
+	outgoingFriendRequests: { type: [socialDataWithTimestampSchema], required: true },
+	incomingFriendRequests: { type: [socialDataWithTimestampSchema], required: true },
+	blockedUsers: { type: [socialDataWithTimestampSchema], required: true },
+	blockedByUsers: { type: [socialDataWithTimestampSchema], required: true },
 	privateChats: { type: [privateMessagesSchema],	required: true },
 	groupChats: { type: [groupChatsSchema], required: true}
 }, { timestamps: true })
