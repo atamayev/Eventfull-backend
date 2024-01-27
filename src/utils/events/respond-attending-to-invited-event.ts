@@ -26,6 +26,9 @@ export default async function respondAttendingToInvitedEvent(
 					invitedBy: {
 						userId: invitedBy.userId,
 						username: invitedBy.username,
+						createdAt: event.invitees.find(
+							(invitee) => invitee.user.userId.toString() === user._id.toString()
+						)?.invitedBy.createdAt,
 					}
 				}
 			}
