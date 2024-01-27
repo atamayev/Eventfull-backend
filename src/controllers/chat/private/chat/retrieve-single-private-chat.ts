@@ -22,7 +22,7 @@ export default function retrieveSinglePrivateChat(req: Request, res: Response): 
 	}
 }
 
-const attachChatNameToChat = (privateChat: PrivateChat, chatName: string): PrivateChatWithNames => ({
+const attachChatNameToChat = (privateChat: PrivateChat, chatName: string): PrivateChatWithName => ({
 	...privateChat,
 	chatName
 })

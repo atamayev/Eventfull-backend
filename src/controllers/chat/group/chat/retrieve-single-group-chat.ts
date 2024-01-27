@@ -6,7 +6,6 @@ export default function retrieveSingleGroupChat(req: Request, res: Response): Re
 		const user = req.user
 		const reqGroupChat = req.groupChat
 
-		// Find the group chat in the user's groupChats array
 		const userGroupChat = user.groupChats.find(chat => chat.groupChatId.toString() === reqGroupChat._id.toString())
 
 		if (_.isUndefined(userGroupChat)) {
@@ -23,7 +22,7 @@ export default function retrieveSingleGroupChat(req: Request, res: Response): Re
 	}
 }
 
-const attachChatNameToChat = (groupChat: GroupChat, chatName: string): GroupChatWithNames => ({
+const attachChatNameToChat = (groupChat: GroupChat, chatName: string): GroupChatWithName => ({
 	...groupChat,
 	chatName
 })

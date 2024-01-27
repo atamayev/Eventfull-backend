@@ -1,7 +1,7 @@
 import _ from "lodash"
 import PrivateChatModel from "../../models/chat/private/private-chat-model"
 
-export default async function retrievePrivateChatsWithNames(user: User): Promise<PrivateChatWithNames[]> {
+export default async function retrievePrivateChatsWithNames(user: User): Promise<PrivateChatWithName[]> {
 	try {
 		if (_.isEmpty(user.privateChats)) {
 			return []
@@ -18,7 +18,7 @@ export default async function retrievePrivateChatsWithNames(user: User): Promise
 			isActive: true
 		}).lean().exec()
 
-		const chatsWithNames: PrivateChatWithNames[] = privateChats.map(chat => ({
+		const chatsWithNames: PrivateChatWithName[] = privateChats.map(chat => ({
 			...chat,
 			chatName: chatIdToNameMap.get(chat._id.toString()) || "Unnamed Chat",
 		}))

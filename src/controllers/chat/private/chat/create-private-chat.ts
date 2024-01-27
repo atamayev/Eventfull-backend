@@ -47,7 +47,7 @@ export default async function createPrivateChat(req: Request, res: Response): Pr
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function addChatNameToChat(chat: any, chatName: string): PrivateChatWithNames {
+function addChatNameToChat(chat: any, chatName: string): PrivateChatWithName {
 	const chatData = chat._doc ? { ...chat._doc } : { ...chat }
 	chatData.chatName = chatName
 	return chatData
