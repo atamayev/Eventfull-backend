@@ -14,7 +14,7 @@ declare global {
 	interface EventfullCalendarEvent extends TimestampsInterface {
 		eventId: Types.ObjectId
 		attendingStatus: AttendingStatuses
-		invitedBy?: SocialData
+		invitedBy?: SocialDataWithTimestamp
 		reviewRating?: number
 		reviewText?: string
 	}
@@ -22,19 +22,19 @@ declare global {
 	interface EventfullInvitee {
 		user: SocialData
 		attendingStatus: "Not Attending" | "Not Responded"
-		invitedBy: SocialData
+		invitedBy: SocialDataWithTimestamp
 	}
 
 	interface EventfullAttendee {
 		user: SocialData
-		invitedBy?: SocialData
+		invitedBy?: SocialDataWithTimestamp
 		reviewRating?: number
 		reviewText?: string
 	}
 
 	interface EventfullCoHost {
 		user: SocialData
-		invitedBy: SocialData
+		invitedBy: SocialDataWithTimestamp
 	}
 
 	interface BaseEventfullEvent {

@@ -8,11 +8,11 @@ export default async function updateEventfullEvent(req: Request, res: Response):
 		const event = req.event
 		const updatedEventData  = req.body.eventfullEventData as IncomingEventfullEvent
 		const organizerOrCoHost = req.organizerOrCoHost as "Organizer" | "Co-Host"
-
-		await addInvitees(user, event, updatedEventData)
+		const createdAt = new Date()
+		await addInvitees(user, event, updatedEventData, createdAt)
 
 		if (organizerOrCoHost === "Organizer") {
-			await addCohosts(user, event, updatedEventData)
+			await addCohosts(user, event, updatedEventData, createdAt)
 		}
 
 		return res.status(200).json({ success: "Event Updated" })

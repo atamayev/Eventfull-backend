@@ -5,7 +5,8 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 export default async function addInvitees(
 	user: User,
 	currentEvent: EventfullEvent,
-	updatedEventData: IncomingEventfullEvent
+	updatedEventData: IncomingEventfullEvent,
+	createdAt: Date
 ): Promise<void> {
 	const friendIds = user.friends.map(friend => friend.userId.toString())
 
@@ -26,6 +27,7 @@ export default async function addInvitees(
 			invitedBy: {
 				userId: user._id,
 				username: user.username || "User",
+				createdAt,
 			}
 		}))
 
@@ -33,6 +35,7 @@ export default async function addInvitees(
 		!updatedInviteeIds.includes(existingInvitee.user.userId.toString()) &&
     existingInvitee.attendingStatus === "Not Responded")
 
+	console.log("inviteesToRemove", inviteesToRemove)
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { invitees, coHosts, ...eventDataToUpdate } = updatedEventData
 

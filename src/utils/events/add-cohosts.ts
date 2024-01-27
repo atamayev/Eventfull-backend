@@ -6,7 +6,8 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 export default async function addCohosts(
 	user: User,
 	currentEvent: EventfullEvent,
-	updatedEventData: IncomingEventfullEvent
+	updatedEventData: IncomingEventfullEvent,
+	createdAt: Date
 ): Promise<void> {
 	const friendIds = user.friends.map(friend => friend.userId.toString())
 
@@ -24,8 +25,11 @@ export default async function addCohosts(
 			invitedBy: {
 				userId: user._id,
 				username: user.username || "User",
+				createdAt,
 			}
 		}))
+
+	console.log("coHostsToAdd", coHostsToAdd)
 
 	const coHostsToRemove = currentEvent.coHosts.filter(existingCoHost =>
 		!updatedCoHostIds.includes(existingCoHost.user.userId.toString())

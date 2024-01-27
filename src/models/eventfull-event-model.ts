@@ -1,23 +1,23 @@
 import { Schema, model } from "mongoose"
-import socialDataSchema from "./chat/social-data-model"
+import socialDataSchema, { socialDataWithTimestampSchema } from "./chat/social-data-model"
 import { unifiedDateTimeSchema } from "./calendar-data-model"
 
 const eventfullInviteesSchema = new Schema<EventfullInvitee>({
 	user: { type: socialDataSchema, required: true },
 	attendingStatus: { type: String, required: true, enum: ["Not Attending", "Not Responded"] },
-	invitedBy: { type: socialDataSchema, required: true },
+	invitedBy: { type: socialDataWithTimestampSchema, required: true },
 }, { _id: false, timestamps: true })
 
 const eventfullAttendeesSchema = new Schema<EventfullAttendee>({
 	user: { type: socialDataSchema, required: true },
-	invitedBy: { type: socialDataSchema },
+	invitedBy: { type: socialDataWithTimestampSchema },
 	reviewRating: { type: Number },
 	reviewText: { type: String },
 }, { _id: false, timestamps: true })
 
 const eventfullCoHostSchema = new Schema<EventfullCoHost>({
 	user: { type: socialDataSchema, required: true },
-	invitedBy: { type: socialDataSchema, required: true },
+	invitedBy: { type: socialDataWithTimestampSchema, required: true },
 }, { _id: false, timestamps: true })
 
 const eventfullEventSchema = new Schema<EventfullEvent>({

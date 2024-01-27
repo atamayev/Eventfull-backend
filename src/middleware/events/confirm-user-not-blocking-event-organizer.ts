@@ -5,7 +5,7 @@ export default function confirmUserNotBlockingEventOrganizer(req: Request, res: 
 		const user = req.user
 		const eventOrganizer = req.eventOrganizer
 
-		const blockedUserIds = user.blockedUsers.map(user1 => user1.userId.toString())
+		const blockedUserIds = user.blockedUsers.map(blockedUser => blockedUser.userId.toString())
 
 		if (blockedUserIds.includes(eventOrganizer._id.toString())) {
 			return res.status(400).json({ message: "You have blocked the event organizer. Unable to attend event" })

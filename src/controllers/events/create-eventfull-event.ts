@@ -11,7 +11,8 @@ export default async function createEventfullEvent(req: Request, res: Response):
 		const eventfullEventData = req.body.eventfullEventData as IncomingEventfullEvent
 
 		const friendIds = user.friends.map(friend => friend.userId.toString())
-		const convertedEvent = convertToEventfullEvent(eventfullEventData, user, friendIds)
+		const createdAt = new Date()
+		const convertedEvent = convertToEventfullEvent(eventfullEventData, user, friendIds, createdAt)
 
 		const eventId = await addEventfullEvent(convertedEvent, user)
 		await UserModel.findByIdAndUpdate(
@@ -38,7 +39,8 @@ export default async function createEventfullEvent(req: Request, res: Response):
 								attendingStatus: "Co-Hosting",
 								invitedBy: {
 									userId: user._id,
-									username: user.username
+									username: user.username,
+									createdAt
 								}
 							}
 						}
@@ -59,7 +61,8 @@ export default async function createEventfullEvent(req: Request, res: Response):
 								attendingStatus: "Not Responded",
 								invitedBy: {
 									userId: user._id,
-									username: user.username
+									username: user.username,
+									createdAt
 								}
 							}
 						}

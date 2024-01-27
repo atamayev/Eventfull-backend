@@ -4,7 +4,7 @@ import objectIdValidation from "../../utils/object-id-validation"
 
 const socialDataSchema = Joi.object({
 	userId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-	username: Joi.string().required()  // Assuming username is a required string.
+	username: Joi.string().required()
 })
 
 const incomingEventfullEventSchema = Joi.object({

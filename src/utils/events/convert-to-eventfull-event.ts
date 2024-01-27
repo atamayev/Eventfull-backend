@@ -3,7 +3,8 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 export default function convertToEventfullEvent(
 	incomingEvent: IncomingEventfullEvent,
 	organizer: User,
-	friendIds: string[]
+	friendIds: string[],
+	createdAt: Date,
 ): EventfullEvent {
 	const event = new EventfullEventModel ({
 		...incomingEvent,
@@ -18,6 +19,7 @@ export default function convertToEventfullEvent(
 				invitedBy: {
 					userId: organizer._id,
 					username: organizer.username,
+					createdAt,
 				},
 			})),
 		coHosts: incomingEvent.coHosts.map(
@@ -29,6 +31,7 @@ export default function convertToEventfullEvent(
 				invitedBy: {
 					userId: organizer._id,
 					username: organizer.username,
+					createdAt,
 				}
 			}),
 		),

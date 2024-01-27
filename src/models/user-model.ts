@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose"
 import calendarDataSchema from "./calendar-data-model"
-import socialDataSchema, { socialDataWithTimestampSchema } from "./chat/social-data-model"
+import { socialDataWithTimestampSchema } from "./chat/social-data-model"
 
 const loginHistorySchema = new Schema<LoginHistory>({
 	loginTime: { type: Date, default: Date.now },
@@ -21,7 +21,7 @@ const groupChatsSchema = new Schema<GroupChats>({
 const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 	eventId: { type: Schema.Types.ObjectId, ref: "EventfullEvent", required: true },
 	attendingStatus: { type: String, required: true, enum: ["Attending", "Not Attending", "Not Responded", "Hosting", "Co-Hosting"] },
-	invitedBy: { type: socialDataSchema },
+	invitedBy: { type: socialDataWithTimestampSchema },
 	reviewRating: { type: Number },
 	reviewText: { type: String },
 }, { _id: false, timestamps: true })
