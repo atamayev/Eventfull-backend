@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
 
@@ -7,20 +6,16 @@ export default async function unblockUser (userId: Types.ObjectId, blockedUserId
 		const userUpdate = UserModel.findByIdAndUpdate(
 			userId,
 			{ $pull: { blockedUsers: { userId: blockedUserId } }},
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
 		const blockedUserUpdate = UserModel.findByIdAndUpdate(
 			blockedUserId,
 			{ $pull: { blockedByUsers: { userId } } },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
-		const [userResult, blockedUserResult] = await Promise.all([userUpdate, blockedUserUpdate])
-
-		if (_.isNull(userResult)) throw new Error("User not found")
-
-		if (_.isNull(blockedUserResult)) throw new Error("Blocked User not found")
+		await Promise.all([userUpdate, blockedUserUpdate])
 	} catch (error) {
 		console.error(error)
 		throw new Error("Unblock user error")

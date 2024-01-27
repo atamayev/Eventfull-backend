@@ -8,8 +8,8 @@ export default async function searchForUsername(req: Request, res: Response): Pr
 		const user = req.user
 
 		const blockedIds = [
-			...user.blockedUsers.map(socialData => socialData.userId),
-			...user.blockedByUsers.map(socialData => socialData.userId),
+			...user.blockedUsers.map(blockedUser => blockedUser.userId),
+			...user.blockedByUsers.map(blockedByUser => blockedByUser.userId),
 			user._id
 		]
 

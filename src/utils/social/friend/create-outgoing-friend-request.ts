@@ -1,4 +1,3 @@
-import _ from "lodash"
 import UserModel from "../../../models/user-model"
 
 export default async function createOutgoingFriendRequest (user: User, friend: User): Promise<Date> {
@@ -14,7 +13,7 @@ export default async function createOutgoingFriendRequest (user: User, friend: U
 					createdAt: now,
 				}
 			} },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
 		const friendUpdate = UserModel.findByIdAndUpdate(
@@ -26,14 +25,10 @@ export default async function createOutgoingFriendRequest (user: User, friend: U
 					createdAt: now,
 				}
 			} },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
-		const [userResult, friendResult] = await Promise.all([userUpdate, friendUpdate])
-
-		if (_.isNull(userResult)) throw new Error("User not found")
-
-		if (_.isNull(friendResult)) throw new Error("Friend not found")
+		await Promise.all([userUpdate, friendUpdate])
 
 		return now
 	} catch (error) {

@@ -1,4 +1,3 @@
-import _ from "lodash"
 import UserModel from "../../../models/user-model"
 import NotificationHelper from "../../../classes/notification-helper"
 
@@ -14,7 +13,7 @@ export default async function acceptFriendRequest (user: User, friend: User): Pr
 					createdAt: now,
 				}
 			} },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
 		const friendUpdate = UserModel.findByIdAndUpdate(
@@ -26,14 +25,10 @@ export default async function acceptFriendRequest (user: User, friend: User): Pr
 					createdAt: now,
 				}
 			} },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
-		const [userResult, friendResult] = await Promise.all([userUpdate, friendUpdate])
-
-		if (_.isNull(userResult)) throw new Error("User not found")
-
-		if (_.isNull(friendResult)) throw new Error("Friend not found")
+		await Promise.all([userUpdate, friendUpdate])
 
 		await NotificationHelper.acceptFriendRequest(user, friend, now)
 

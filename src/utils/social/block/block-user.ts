@@ -1,35 +1,30 @@
-import _ from "lodash"
 import UserModel from "../../../models/user-model"
 
-export default async function blockUser (userId: User, blockedUser: User): Promise<void> {
+export default async function blockUser (user: User, blockedUser: User): Promise<void> {
 	try {
 		const userUpdate = UserModel.findByIdAndUpdate(
-			userId,
+			user._id,
 			{ $push: {
 				blockedUsers: {
 					userId: blockedUser._id,
 					username: blockedUser.username,
 				}
 			} },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
 		const blockedUserUpdate = UserModel.findByIdAndUpdate(
 			blockedUser._id,
 			{ $push: {
 				blockedByUsers: {
-					userId: userId,
-					username: userId.username,
+					userId: user._id,
+					username: user.username,
 				}
 			} },
-			{ new: true, runValidators: true }
+			{ runValidators: true }
 		)
 
-		const [userResult, blockedUserResult] = await Promise.all([userUpdate, blockedUserUpdate])
-
-		if (_.isNull(userResult)) throw new Error("User not found")
-
-		if (_.isNull(blockedUserResult)) throw new Error("Blocked User not found")
+		await Promise.all([userUpdate, blockedUserUpdate])
 	} catch (error) {
 		console.error(error)
 		throw new Error("Block another user error")

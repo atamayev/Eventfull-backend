@@ -19,9 +19,7 @@ export default async function searchForEventName(req: Request, res: Response): P
 			// Exclude users in the blocked lists:
 			"organizer.userId": { $nin: blockedIds },
 			eventName: regex
-		})
-			.select("eventName")
-			.limit(10)
+		}).select("eventName").limit(10)
 
 		return res.status(200).json({ events })
 	} catch (error) {

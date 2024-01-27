@@ -22,7 +22,11 @@ export default async function addSecondaryContactMethodToDb (user: User, contact
 			updateFields.isPhoneVerified = false
 		}
 
-		await UserModel.findByIdAndUpdate(user._id, updateFields, { runValidators: true })
+		await UserModel.findByIdAndUpdate(
+			user._id,
+			updateFields,
+			{ runValidators: true }
+		)
 	} catch (error) {
 		console.error(error)
 		return null
