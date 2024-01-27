@@ -1,15 +1,17 @@
+import _ from "lodash"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
 export default function convertToEventfullEvent(
 	incomingEvent: IncomingEventfullEvent,
 	organizer: User,
-	friendIds: string[],
 	createdAt: Date,
 ): EventfullEvent {
+	const friendIds = organizer.friends.map(friend => friend.userId)
+
 	const event = new EventfullEventModel ({
 		...incomingEvent,
 		invitees: incomingEvent.invitees
-			.filter(invitee => friendIds.includes(invitee.userId.toString()))
+			.filter(invitee => _.some(friendIds, (friendId) => friendId.equals(invitee.userId)))
 			.map(invitee => ({
 				user: {
 					userId: invitee.userId,
