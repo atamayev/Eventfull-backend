@@ -1,23 +1,24 @@
 import { Schema, model } from "mongoose"
+import socialDataSchema, { socialDataWithTimestampSchema } from "./chat/social-data-model"
 import { unifiedDateTimeSchema } from "./calendar-data-model"
 
 const eventfullInviteesSchema = new Schema<EventfullInvitee>({
-	userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+	user: { type: socialDataSchema, required: true },
 	attendingStatus: { type: String, required: true, enum: ["Not Attending", "Not Responded"] },
-	invitedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
-})
+	invitedBy: { type: socialDataWithTimestampSchema, required: true },
+}, { _id: false, timestamps: true })
 
 const eventfullAttendeesSchema = new Schema<EventfullAttendee>({
-	userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-	invitedBy: { type: Schema.Types.ObjectId, ref: "User" },
+	user: { type: socialDataSchema, required: true },
+	invitedBy: { type: socialDataWithTimestampSchema },
 	reviewRating: { type: Number },
 	reviewText: { type: String },
-})
+}, { _id: false, timestamps: true })
 
 const eventfullCoHostSchema = new Schema<EventfullCoHost>({
-	userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-	invitedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
-})
+	user: { type: socialDataSchema, required: true },
+	invitedBy: { type: socialDataWithTimestampSchema, required: true },
+}, { _id: false, timestamps: true })
 
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
@@ -27,7 +28,7 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventType: { type: String, required: true },
 	isVirtual: { type: Boolean, required: true },
 	eventPublic: { type: Boolean, required: true },
-	organizerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+	organizer: { type: socialDataSchema, required: true },
 	coHosts: { type: [eventfullCoHostSchema], required: true },
 	isActive: { type: Boolean, required: true },
 	eventReviewable: { type: Boolean, required: true },
@@ -39,13 +40,9 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventURL: { type: String },
 	eventDescription: { type: String },
 	extraEventCategories: {type: [String]},
-	eventLocation: {
-		address: String,
-	},
+	eventLocation: { address: String },
 	eventImageURL: { type: String },
-}, {
-	timestamps: true
-})
+}, { timestamps: true })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const EventfullEventModel = model("EventfullEvent", eventfullEventSchema, "eventfull-events")

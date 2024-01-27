@@ -1,26 +1,36 @@
-import _ from "lodash"
 import UserModel from "../../../models/user-model"
 
-export default async function createOutgoingFriendRequest (user: User, friend: User): Promise<void> {
+export default async function createOutgoingFriendRequest (user: User, friend: User): Promise<Date> {
 	try {
-		// TODO: Add a timestamp when the friend request is sent
+		const now = new Date()
+
 		const userUpdate = UserModel.findByIdAndUpdate(
 			user._id,
-			{ $push: { outgoingFriendRequests: friend._id } },
-			{ new: true, runValidators: true }
+			{ $push: {
+				outgoingFriendRequests: {
+					userId: friend._id,
+					username: friend.username,
+					createdAt: now,
+				}
+			} },
+			{ runValidators: true }
 		)
 
 		const friendUpdate = UserModel.findByIdAndUpdate(
 			friend._id,
-			{ $push: { incomingFriendRequests: user._id } },
-			{ new: true, runValidators: true }
+			{ $push: {
+				incomingFriendRequests: {
+					userId: user._id,
+					username: user.username,
+					createdAt: now,
+				}
+			} },
+			{ runValidators: true }
 		)
 
-		const [userResult, friendResult] = await Promise.all([userUpdate, friendUpdate])
+		await Promise.all([userUpdate, friendUpdate])
 
-		if (_.isNull(userResult)) throw new Error("User not found")
-
-		if (_.isNull(friendResult)) throw new Error("Friend not found")
+		return now
 	} catch (error) {
 		console.error(error)
 		throw new Error("Create outgoing friend request error")

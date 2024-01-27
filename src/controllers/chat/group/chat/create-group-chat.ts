@@ -62,7 +62,7 @@ export default async function createGroupChat(req: Request, res: Response): Prom
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function addChatNameToChat(chat: any, chatName: string): GroupChatWithNames {
+function addChatNameToChat(chat: any, chatName: string): GroupChatWithName {
 	const chatData = chat._doc ? { ...chat._doc } : { ...chat }
 	chatData.chatName = chatName
 	return chatData

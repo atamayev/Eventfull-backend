@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import checkIfUserBlockedByFriend from "../../../../utils/social/block/check-if-user-blocked-by-friend"
+import checkIfUserBlockedByFriend from "../../../utils/social/block/check-if-user-blocked-by-friend"
 
 export default function confirmFriendsHaveNotBlockedEachother(req: Request, res: Response, next: NextFunction): void | Response {
 	try {

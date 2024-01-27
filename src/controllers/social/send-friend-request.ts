@@ -21,10 +21,10 @@ export default async function sendFriendRequest (req: Request, res: Response): P
 			return res.status(400).json({ message: `${username} has already sent you a Friend Request` })
 		}
 
-		await createOutgoingFriendRequest(user, friend)
-		await NotificationHelper.sendFriendRequest(user, friend)
+		const createdAt = await createOutgoingFriendRequest(user, friend)
+		await NotificationHelper.sendFriendRequest(user, friend, createdAt)
 
-		return res.status(200).json({ success: "Friend Request Sent" })
+		return res.status(200).json({ createdAt })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Send Frend Request" })

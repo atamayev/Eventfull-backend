@@ -10,10 +10,10 @@ export default async function createEventfullEvent(req: Request, res: Response):
 		const user = req.user
 		const eventfullEventData = req.body.eventfullEventData as IncomingEventfullEvent
 
-		const friendIds = user.friends.map(friend => friend.toString())
-		const convertedEvent = convertToEventfullEvent(eventfullEventData, user._id, friendIds)
+		const createdAt = new Date()
+		const convertedEvent = convertToEventfullEvent(eventfullEventData, user, createdAt)
 
-		const eventId = await addEventfullEvent(convertedEvent, user._id)
+		const eventId = await addEventfullEvent(convertedEvent, user)
 		await UserModel.findByIdAndUpdate(
 			user._id,
 			{
@@ -36,7 +36,11 @@ export default async function createEventfullEvent(req: Request, res: Response):
 							eventfullEvents: {
 								eventId: eventId,
 								attendingStatus: "Co-Hosting",
-								invitedBy: user._id
+								invitedBy: {
+									userId: user._id,
+									username: user.username,
+									createdAt
+								}
 							}
 						}
 					},
@@ -48,13 +52,17 @@ export default async function createEventfullEvent(req: Request, res: Response):
 		if (!_.isUndefined(convertedEvent.invitees)) {
 			await Promise.all(convertedEvent.invitees.map(invitee =>
 				UserModel.findByIdAndUpdate(
-					invitee.userId,
+					invitee.user.userId,
 					{
 						$push: {
 							eventfullEvents: {
 								eventId: eventId,
 								attendingStatus: "Not Responded",
-								invitedBy: user._id
+								invitedBy: {
+									userId: user._id,
+									username: user.username,
+									createdAt
+								}
 							}
 						}
 					},
@@ -63,7 +71,7 @@ export default async function createEventfullEvent(req: Request, res: Response):
 			))
 		}
 
-		return res.status(200).json({ success: "Event Created", eventId: eventId.toString() })
+		return res.status(200).json({ eventId: eventId.toString() })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Create Eventfull Event" })

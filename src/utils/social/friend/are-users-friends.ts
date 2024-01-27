@@ -5,7 +5,7 @@ export default function areUsersFriends (user: User, friendId: Types.ObjectId): 
 	try {
 		if (_.isEmpty(user.friends)) return false
 
-		return user.friends.some(friend => friend.equals(friendId))
+		return user.friends.some(friend => friend.userId.equals(friendId))
 	} catch (error) {
 		console.error(error)
 		throw new Error("Check if users are friends error")

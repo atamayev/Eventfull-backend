@@ -7,17 +7,17 @@ export default async function retractInviteToEventfullEvent(req: Request, res: R
 		const friend = req.friend
 		const event = req.event
 
-		await EventfullEventModel.findByIdAndUpdate(
+		const eventfullPull = EventfullEventModel.findByIdAndUpdate(
 			event._id,
 			{
 				$pull: {
-					invitees: { userId: friend._id }
+					invitees: { "user.userId" : friend._id }
 				}
 			},
 			{ runValidators: true }
 		)
 
-		await UserModel.findByIdAndUpdate(
+		const userPull = UserModel.findByIdAndUpdate(
 			friend._id,
 			{
 				$pull: {
@@ -26,6 +26,8 @@ export default async function retractInviteToEventfullEvent(req: Request, res: R
 			},
 			{ runValidators: true }
 		)
+
+		await Promise.all([eventfullPull, userPull])
 
 		return res.status(200).json({ success: "Invitation retracted" })
 	} catch (error) {

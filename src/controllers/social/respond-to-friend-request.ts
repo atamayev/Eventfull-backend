@@ -14,14 +14,16 @@ export default async function respondToFriendRequest(req: Request, res: Response
 			return res.status(400).json({ message: "Friend Request does not exist" })
 		}
 
+		let createdAt
+
 		if (response === "Accept") {
-			await acceptFriendRequest(user._id, friend._id)
+			createdAt = await acceptFriendRequest(user, friend)
 		}
 
 		await clearIncomingFriendRequest(user._id, friend._id)
 
 		if (response === "Accept") {
-			return res.status(200).json({ success: "Friend Request Accepted" })
+			return res.status(200).json({ createdAt })
 		} else {
 			return res.status(200).json({ success: "Friend Request Declined" })
 		}

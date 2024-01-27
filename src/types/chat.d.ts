@@ -1,7 +1,7 @@
 import { Types } from "mongoose"
 
 declare global {
-	interface GroupChatWithNames extends TimestampsInterface {
+	interface GroupChatWithName extends TimestampsInterface {
 		_id: Types.ObjectId
 		chatName: string
 		participantDetails: SocialData[]
@@ -19,7 +19,7 @@ declare global {
 		replyTo: Types.ObjectId | null
 	}
 
-	interface PrivateChatWithNames extends TimestampsInterface {
+	interface PrivateChatWithName extends TimestampsInterface {
 		_id: Types.ObjectId
 		chatName: string
 		participantDetails: SocialData[]
@@ -38,10 +38,8 @@ declare global {
 
 	type MessageStatuses = "Sent" | "Delivered" | "Read" | "Sender"
 
-	interface MessageStatusObjectNoTimestamps {
-		userId: Types.ObjectId
+	interface MessageStatusObjectNoTimestamps extends SocialData {
 		messageStatus: MessageStatuses
-		username: string
 	}
 
 	interface MessageStatusObject extends MessageStatusObjectNoTimestamps, TimestampsInterface {

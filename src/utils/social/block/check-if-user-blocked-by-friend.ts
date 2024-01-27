@@ -5,7 +5,7 @@ export default function checkIfUserBlockedByFriend (user: User, friendId: Types.
 	try {
 		if (_.isEmpty(user.blockedByUsers)) return false
 
-		return user.blockedByUsers.some(blockedByUser => blockedByUser.equals(friendId))
+		return user.blockedByUsers.some(blockedByUser => blockedByUser.userId.equals(friendId))
 	} catch (error) {
 		console.error(error)
 		throw new Error("Check user blocked error")

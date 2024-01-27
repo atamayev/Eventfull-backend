@@ -5,9 +5,9 @@ export default function confirmInviterIsAlreadyInvitedOrHost(req: Request, res: 
 		const user = req.user
 		const event = req.event
 
-		const inviteesIds = event.invitees.map(invitee => invitee.userId.toString())
-		const coHostIds = event.coHosts.map(coHost => coHost.userId.toString())
-		inviteesIds.push(event.organizerId.toString())
+		const inviteesIds = event.invitees.map(invitee => invitee.user.userId.toString())
+		const coHostIds = event.coHosts.map(coHost => coHost.user.userId.toString())
+		inviteesIds.push(event.organizer.userId.toString())
 		inviteesIds.push(...coHostIds)
 
 		if (inviteesIds.includes(user._id.toString()) === false) {

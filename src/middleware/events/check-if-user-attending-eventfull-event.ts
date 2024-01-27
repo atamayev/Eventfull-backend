@@ -11,8 +11,8 @@ export default function checkIfUserAttendingEventfullEvent(req: Request, res: Re
 			next()
 			return
 		}
-		const attendeeIds = event.attendees.map(attendee => attendee.userId.toString())
-		attendeeIds.push(event.organizerId.toString())
+		const attendeeIds = event.attendees.map(attendee => attendee.user.userId.toString())
+		attendeeIds.push(event.organizer.userId.toString())
 
 		req.isUserAttendingEvent = attendeeIds.includes(user._id.toString())
 

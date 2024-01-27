@@ -5,26 +5,34 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 export default async function addInvitees(
 	user: User,
 	currentEvent: EventfullEvent,
-	updatedEventData: IncomingEventfullEvent
+	updatedEventData: IncomingEventfullEvent,
+	createdAt: Date
 ): Promise<void> {
-	const friendIds = user.friends.map(friend => friend.toString())
+	const friendIds = user.friends.map(friend => friend.userId.toString())
 
-	const updatedInviteeIds = updatedEventData.invitees.map(invitee => invitee.toString())
+	const updatedInviteeIds = updatedEventData.invitees.map(invitee => invitee.userId.toString())
 
-	const inviteesToAdd = updatedEventData.invitees
-		.filter(inviteeId => friendIds.includes(inviteeId.toString()))
-		.filter(inviteeId => !currentEvent.invitees.some(existingInvitee =>
-			existingInvitee.userId.toString() === inviteeId.toString()))
-		.filter(inviteeId => !currentEvent.attendees.some(existingAttendee =>
-			existingAttendee.userId.toString() === inviteeId.toString()))
-		.map(inviteeId => ({
-			userId: inviteeId,
+	const inviteesToAdd: EventfullInvitee[] = updatedEventData.invitees
+		.filter(invitee => friendIds.includes(invitee.userId.toString()))
+		.filter(invitee => !currentEvent.invitees.some(existingInvitee =>
+			existingInvitee.user.userId.toString() === invitee.userId.toString()))
+		.filter(invitee => !currentEvent.attendees.some(existingAttendee =>
+			existingAttendee.user.userId.toString() === invitee.userId.toString()))
+		.map(invitee => ({
+			user: {
+				userId: invitee.userId,
+				username: invitee.username,
+			},
 			attendingStatus: "Not Responded",
-			invitedBy: user._id
+			invitedBy: {
+				userId: user._id,
+				username: user.username || "User",
+				createdAt,
+			}
 		}))
 
 	const inviteesToRemove = currentEvent.invitees.filter(existingInvitee =>
-		!updatedInviteeIds.includes(existingInvitee.userId.toString()) &&
+		!updatedInviteeIds.includes(existingInvitee.user.userId.toString()) &&
     existingInvitee.attendingStatus === "Not Responded")
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,13 +40,17 @@ export default async function addInvitees(
 
 	const deleteInviteesPromise = EventfullEventModel.findByIdAndUpdate(
 		currentEvent._id,
-		{ $pull: { invitees: { userId: { $in: inviteesToRemove.map(invitee => invitee.userId) } } } },
+		{ $pull: { invitees: { "user.userId":
+			{
+				$in: inviteesToRemove.map(invitee => invitee.user.userId)
+			}
+		} } },
 		{ runValidators: true }
 	)
 
 	const removeInviteesPromises = inviteesToRemove.map(invitee =>
 		UserModel.findByIdAndUpdate(
-			invitee.userId,
+			invitee.user.userId,
 			{ $pull: { eventfullEvents: { eventId: currentEvent._id } } },
 			{ runValidators: true }
 		)
@@ -55,13 +67,16 @@ export default async function addInvitees(
 
 	const addInviteesPromises = inviteesToAdd.map(invitee =>
 		UserModel.findByIdAndUpdate(
-			invitee.userId,
+			invitee.user.userId,
 			{
 				$push: {
 					eventfullEvents: {
 						eventId: currentEvent._id,
 						attendingStatus: "Not Responded",
-						invitedBy: user._id
+						invitedBy: {
+							userId: user._id,
+							username: user.username,
+						}
 					}
 				}
 			},

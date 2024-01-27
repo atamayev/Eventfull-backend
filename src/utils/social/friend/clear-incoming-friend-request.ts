@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
 
@@ -6,21 +5,17 @@ export default async function clearIncomingFriendRequest (userId: Types.ObjectId
 	try {
 		const userUpdate = UserModel.findByIdAndUpdate(
 			userId,
-			{ $pull: { incomingFriendRequests: friendId } },
-			{ new: true, runValidators: true }
+			{ $pull: { incomingFriendRequests: { userId: friendId } } }, // Adjusted to match the nested structure
+			{ runValidators: true }
 		)
 
 		const friendUpdate =  UserModel.findByIdAndUpdate(
 			friendId,
-			{ $pull: { outgoingFriendRequests: userId } },
-			{ new: true, runValidators: true }
+			{ $pull: { outgoingFriendRequests: { userId } } },
+			{ runValidators: true }
 		)
 
-		const [userResult, friendResult] = await Promise.all([userUpdate, friendUpdate])
-
-		if (_.isNull(userResult)) throw new Error("User not found")
-
-		if (_.isNull(friendResult)) throw new Error("Friend not found")
+		await Promise.all([userUpdate, friendUpdate])
 	} catch (error) {
 		console.error(error)
 		throw new Error("Clear Incoming Friend Request error")

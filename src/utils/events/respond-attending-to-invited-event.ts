@@ -1,25 +1,40 @@
-import _ from "lodash"
-import { Types } from "mongoose"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
-export default async function respondAttendingToInvitedEvent(userId: Types.ObjectId, event: EventfullEvent): Promise<void> {
-	const invitee = event.invitees.find(inv => _.isEqual(inv.userId, userId))
-
-	const invitedById = invitee ? invitee.invitedBy : null
-
-	if (_.isNull(invitedById)) throw new Error("User not invited to event")
-
+export default async function respondAttendingToInvitedEvent(
+	user: User,
+	event: EventfullEvent,
+	invitedBy: SocialData
+): Promise<void> {
 	// First, remove the user from the invitees array
-	await EventfullEventModel.findByIdAndUpdate(
+	const pullInviteePromise = EventfullEventModel.findByIdAndUpdate(
 		event._id,
-		{ $pull: { invitees: { userId } } },
+		{ $pull: { invitees: { "user.userId": user._id } } }, // Adjust the path to match your schema
 		{ runValidators: true }
 	)
 
 	// Then, add the user to the attendees array
-	await EventfullEventModel.findByIdAndUpdate(
+
+	const pushAttendeePromise = EventfullEventModel.findByIdAndUpdate(
 		event._id,
-		{ $push: { attendees: { userId, invitedBy: invitedById } } },
+		{
+			$push: {
+				attendees: {
+					user: {
+						userId: user._id,
+						username: user.username,
+					},
+					invitedBy: {
+						userId: invitedBy.userId,
+						username: invitedBy.username,
+						createdAt: event.invitees.find(
+							(invitee) => invitee.user.userId.toString() === user._id.toString()
+						)?.invitedBy.createdAt,
+					}
+				}
+			}
+		},
 		{ runValidators: true }
 	)
+
+	await Promise.all([pullInviteePromise, pushAttendeePromise])
 }

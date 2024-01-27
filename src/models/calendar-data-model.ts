@@ -3,17 +3,17 @@ import { Schema } from "mongoose"
 export const unifiedDateTimeSchema = new Schema<UnifiedDateTime>({
 	date: { type: String, required: true },
 	time: { type: String, required: true }
-})
+}, { _id: false, timestamps: true })
 
 const unifiedCalendarAttendeeSchema = new Schema<UnifiedCalendarAttendee>({
 	email: { type: String, required: true },
 	responseStatus: { type: String, required: false }
-})
+}, { _id: false, timestamps: true })
 
 const recurrenceSchema = new Schema<UnifiedRecurrence>({
 	pattern: { type: String, required: true },
 	interval: { type: Number, required: true }
-})
+}, { _id: false, timestamps: true })
 
 const calendarDataSchema = new Schema<UnifiedCalendarEvent>({
 	id: { type: String, required: true },

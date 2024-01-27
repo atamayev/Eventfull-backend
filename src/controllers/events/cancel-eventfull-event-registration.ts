@@ -12,7 +12,7 @@ export default async function cancelEventfullEventRegistration(req: Request, res
 		const user = req.user
 		const event = req.event
 
-		if (_.isEqual(event.organizerId, user._id)) {
+		if (_.isEqual(event.organizer.userId, user._id)) {
 			return res.status(400).json({ message: "You are the event organizer" })
 		}
 
@@ -23,7 +23,7 @@ export default async function cancelEventfullEventRegistration(req: Request, res
 			event._id,
 			{
 				$pull: {
-					attendees: { userId: user._id }
+					attendees: { "user.userId": user._id }
 				}
 			},
 			{ runValidators: true }

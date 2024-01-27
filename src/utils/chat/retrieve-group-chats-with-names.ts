@@ -1,7 +1,7 @@
 import _ from "lodash"
 import GroupChatModel from "../../models/chat/group/group-chat-model"
 
-export default async function retrieveGroupChatsWithNames(user: User): Promise<GroupChatWithNames[]> {
+export default async function retrieveGroupChatsWithNames(user: User): Promise<GroupChatWithName[]> {
 	try {
 		if (_.isEmpty(user.groupChats)) {
 			return []
@@ -18,7 +18,7 @@ export default async function retrieveGroupChatsWithNames(user: User): Promise<G
 			isActive: true
 		}).lean().exec()
 
-		const chatsWithNames: GroupChatWithNames[] = groupChats.map(chat => ({
+		const chatsWithNames: GroupChatWithName[] = groupChats.map(chat => ({
 			...chat,
 			chatName: chatIdToNameMap.get(chat._id.toString()) || "Unnamed Chat",
 		}))

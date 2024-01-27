@@ -4,6 +4,7 @@ import UserModel from "../../models/user-model"
 import EventfullEventModel from "../../models/eventfull-event-model"
 import respondAttendingToInvitedEvent from "../../utils/events/respond-attending-to-invited-event"
 
+// eslint-disable-next-line complexity
 export default async function respondToEventfullInvite(req: Request, res: Response): Promise<Response> {
 	try {
 		const user = req.user
@@ -17,7 +18,13 @@ export default async function respondToEventfullInvite(req: Request, res: Respon
 				{ runValidators: true }
 			)
 		} else if (response === "Attending") {
-			await respondAttendingToInvitedEvent(user._id, event)
+			const invitee = event.invitees.find(inv => _.isEqual(inv.user.userId, user._id))
+
+			const invitedBy = invitee ? invitee.invitedBy : null
+			if (_.isNull(invitedBy)) {
+				return res.status(400).json({ message: "Invite not found" })
+			}
+			await respondAttendingToInvitedEvent(user, event, invitedBy)
 		}
 
 		const updatedUser = await UserModel.findOneAndUpdate(

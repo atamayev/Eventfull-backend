@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose"
 import calendarDataSchema from "./calendar-data-model"
+import { socialDataWithTimestampSchema } from "./chat/social-data-model"
 
 const loginHistorySchema = new Schema<LoginHistory>({
 	loginTime: { type: Date, default: Date.now },
@@ -20,10 +21,10 @@ const groupChatsSchema = new Schema<GroupChats>({
 const eventfullEventsSchema = new Schema<EventfullCalendarEvent>({
 	eventId: { type: Schema.Types.ObjectId, ref: "EventfullEvent", required: true },
 	attendingStatus: { type: String, required: true, enum: ["Attending", "Not Attending", "Not Responded", "Hosting", "Co-Hosting"] },
-	invitedBy: { type: Schema.Types.ObjectId, ref: "User" },
+	invitedBy: { type: socialDataWithTimestampSchema },
 	reviewRating: { type: Number },
 	reviewText: { type: String },
-})
+}, { _id: false, timestamps: true })
 
 const userSchema = new Schema<User>({
 	firstName: { type: String, trim: true, required: true },
@@ -74,26 +75,11 @@ const userSchema = new Schema<User>({
 	emailVerifiedTimestamp: { type: Date },
 
 	loginHistory: { type: [loginHistorySchema], required: true },
-	friends: {
-		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
-		required: true
-	},
-	outgoingFriendRequests: {
-		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
-		required: true
-	},
-	incomingFriendRequests: {
-		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
-		required: true
-	},
-	blockedUsers: {
-		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
-		required: true
-	},
-	blockedByUsers: {
-		type: [{ type: Schema.Types.ObjectId, ref: "User" }],
-		required: true
-	},
+	friends: { type: [socialDataWithTimestampSchema], required: true },
+	outgoingFriendRequests: { type: [socialDataWithTimestampSchema], required: true },
+	incomingFriendRequests: { type: [socialDataWithTimestampSchema], required: true },
+	blockedUsers: { type: [socialDataWithTimestampSchema], required: true },
+	blockedByUsers: { type: [socialDataWithTimestampSchema], required: true },
 	privateChats: { type: [privateMessagesSchema],	required: true },
 	groupChats: { type: [groupChatsSchema], required: true}
 }, { timestamps: true })

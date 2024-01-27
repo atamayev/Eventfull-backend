@@ -1,27 +1,38 @@
-import _ from "lodash"
-import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
+import NotificationHelper from "../../../classes/notification-helper"
 
-export default async function acceptFriendRequest (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
+export default async function acceptFriendRequest (user: User, friend: User): Promise<Date> {
 	try {
-		// TODO: Add a timestamp when the friend request is accepted
+		const now = new Date()
 		const userUpdate = UserModel.findByIdAndUpdate(
-			userId,
-			{ $push: { friends: friendId } },
-			{ new: true, runValidators: true }
+			user._id,
+			{ $push: {
+				friends: {
+					userId: friend._id,
+					username: friend.username,
+					createdAt: now,
+				}
+			} },
+			{ runValidators: true }
 		)
 
 		const friendUpdate = UserModel.findByIdAndUpdate(
-			friendId,
-			{ $push: { friends: userId } },
-			{ new: true, runValidators: true }
+			friend._id,
+			{ $push: {
+				friends: {
+					userId: user._id,
+					username: user.username,
+					createdAt: now,
+				}
+			} },
+			{ runValidators: true }
 		)
 
-		const [userResult, friendResult] = await Promise.all([userUpdate, friendUpdate])
+		await Promise.all([userUpdate, friendUpdate])
 
-		if (_.isNull(userResult)) throw new Error("User not found")
+		await NotificationHelper.acceptFriendRequest(user, friend, now)
 
-		if (_.isNull(friendResult)) throw new Error("Friend not found")
+		return now
 	} catch (error) {
 		console.error(error)
 		throw new Error("Accept friend request error")

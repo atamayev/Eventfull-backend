@@ -5,7 +5,7 @@ export default function checkIfIncomingFriendRequestExists (user: User, friendId
 	try {
 		if (_.isEmpty(user.incomingFriendRequests)) return false
 
-		return user.incomingFriendRequests.some(incomingFriendRequest => incomingFriendRequest.equals(friendId))
+		return user.incomingFriendRequests.some(incomingFriendRequest => incomingFriendRequest.userId.equals(friendId))
 
 	} catch (error) {
 		console.error(error)

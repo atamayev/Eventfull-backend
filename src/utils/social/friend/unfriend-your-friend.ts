@@ -1,26 +1,24 @@
-import _ from "lodash"
 import { Types } from "mongoose"
 import UserModel from "../../../models/user-model"
+import NotificationHelper from "../../../classes/notification-helper"
 
 export default async function unfriendYourFriend (userId: Types.ObjectId, friendId: Types.ObjectId): Promise<void> {
 	try {
 		const userDelete = UserModel.findByIdAndUpdate(
 			userId,
-			{ $pull: { friends: friendId } },
-			{ new: true, runValidators: true }
+			{ $pull: { friends: { userId: friendId} } },
+			{ runValidators: true }
 		)
 
 		const friendDelete = UserModel.findByIdAndUpdate(
 			friendId,
-			{ $pull: { friends: userId } },
-			{ new: true, runValidators: true }
+			{ $pull: { friends: { userId } } },
+			{ runValidators: true }
 		)
 
-		const [userResult, friendResult] = await Promise.all([userDelete, friendDelete])
+		await Promise.all([userDelete, friendDelete])
 
-		if (_.isNull(userResult)) throw new Error("User not found")
-
-		if (_.isNull(friendResult)) throw new Error("Friend not found")
+		NotificationHelper.removeFriend(userId, friendId)
 	}
 	catch (error) {
 		console.error(error)

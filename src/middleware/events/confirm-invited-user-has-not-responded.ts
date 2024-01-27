@@ -10,10 +10,10 @@ export default function confirmInvitedUserHasNotResponded(req: Request, res: Res
 			return res.status(400).json({ message: "Event has no invitees" })
 		}
 
-		const invitee = event.invitees.find(inv => inv.userId.toString() === friend._id.toString())
+		const invitee = event.invitees.find(inv => inv.user.userId.toString() === friend._id.toString())
 
 		if (_.isUndefined(invitee)) return res.status(400).json({ message: "User is not invited" })
-		const attendee = event.attendees.find(attn => attn.userId.toString() === friend._id.toString())
+		const attendee = event.attendees.find(attn => attn.user.userId.toString() === friend._id.toString())
 
 		if (!_.isUndefined(attendee)) {
 			return res.status(400).json({ message: "User is already attending the event" })
