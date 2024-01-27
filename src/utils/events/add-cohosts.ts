@@ -29,8 +29,6 @@ export default async function addCohosts(
 			}
 		}))
 
-	console.log("coHostsToAdd", coHostsToAdd)
-
 	const coHostsToRemove = currentEvent.coHosts.filter(existingCoHost =>
 		!updatedCoHostIds.includes(existingCoHost.user.userId.toString())
 	)
