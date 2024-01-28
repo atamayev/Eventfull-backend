@@ -7,9 +7,7 @@ declare global {
 		newPassword: string
 	}
 
-	interface LoginInformationObject {
-		contact: string
-		password: string
+	interface LoginInformationObject extends AdminLoginInformation {
 		notificationToken: string
 		primaryDevicePlatform: DevicePlatforms
 	}

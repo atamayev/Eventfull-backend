@@ -1,6 +1,6 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import addLoginHistory from "../../../utils/auth-helpers/add-login-record"
+import addLoginRecord from "../../../utils/auth-helpers/add-login-record"
 import doesUserHaveGoogleCalendar from "../../../utils/google/calendar/does-user-have-google-calendar"
 import extractGoogleUserFromTokens from "../../../utils/google/auth/extract-google-user-from-tokens"
 import createAndSignJWT from "../../../utils/auth-helpers/jwt/create-and-sign-jwt"
@@ -22,7 +22,7 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 
 		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(tokensResonse.googleUser._id)
 
-		await addLoginHistory(tokensResonse.googleUser._id)
+		await addLoginRecord(tokensResonse.googleUser._id)
 
 		return res.status(200).json({
 			authenticated: true,

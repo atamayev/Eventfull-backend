@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import AwsSnsService from "../../classes/aws-sns-service"
-import addLoginHistory from "../../utils/auth-helpers/add-login-record"
+import addLoginRecord from "../../utils/auth-helpers/add-login-record"
 import doesContactExist from "../../utils/auth-helpers/does-contact-exist"
 import doesUsernameExist from "../../utils/auth-helpers/does-username-exist"
 import createAndSignJWT from "../../utils/auth-helpers/jwt/create-and-sign-jwt"
@@ -30,7 +30,7 @@ export default async function register (req: Request, res: Response): Promise<Re
 		const token = createAndSignJWT(userId, true)
 		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
-		await addLoginHistory(userId)
+		await addLoginRecord(userId)
 
 		return res
 			.status(200)

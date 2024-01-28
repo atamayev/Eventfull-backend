@@ -10,7 +10,13 @@ declare global {
 		newUser: boolean
 	}
 
+	interface AdminJwtPayload {
+		adminId: string
+	}
+
 	type EmailOrPhone = "Email" | "Phone"
+
+	type EmailOrUsername = "Email" | "Username"
 
 	type EmailOrPhoneOrUnknown = EmailOrPhone | "Unknown"
 

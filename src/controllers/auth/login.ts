@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import Hash from "../../classes/hash"
-import addLoginHistory from "../../utils/auth-helpers/add-login-record"
+import addLoginRecord from "../../utils/auth-helpers/add-login-record"
 import retrieveUserFromContact from "../../utils/auth-helpers/login/retrieve-user-from-contact"
 import determineLoginType from "../../utils/auth-helpers/login/determine-login-type"
 import doesUserHaveGoogleCalendar from "../../utils/google/calendar/does-user-have-google-calendar"
@@ -33,7 +33,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(user._id)
 		await updateArn(user, notificationToken, primaryDevicePlatform)
 
-		await addLoginHistory(user._id)
+		await addLoginRecord(user._id)
 		const primaryContact = user.primaryContactMethod
 		const userContact = setUserContact(primaryContact, user)
 
