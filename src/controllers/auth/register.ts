@@ -34,7 +34,7 @@ export default async function register (req: Request, res: Response): Promise<Re
 
 		return res
 			.status(200)
-			.json({ authenticated: true, accessToken: token })
+			.json({ accessToken: token })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Register New User" })
