@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const registerInformationSchema = Joi.object({
 	registerInformation: Joi.object({
-		email: Joi.string().required(),
+		email: Joi.string().email().required(),
 		firstName: Joi.string().required(),
 		lastName: Joi.string().required(),
 		// Makes sure that the username does not contain an @ symbol, as that is reserved for the contact field
