@@ -1,7 +1,7 @@
 import _ from "lodash"
 import { Response, Request } from "express"
 import Hash from "../../classes/hash"
-import addLoginHistory from "../../utils/auth-helpers/add-login-record"
+import addLoginRecord from "../../utils/auth-helpers/add-login-record"
 import retrieveUserFromContact from "../../utils/auth-helpers/login/retrieve-user-from-contact"
 import determineLoginType from "../../utils/auth-helpers/login/determine-login-type"
 import doesUserHaveGoogleCalendar from "../../utils/google/calendar/does-user-have-google-calendar"
@@ -27,21 +27,20 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const doPasswordsMatch = await Hash.checkPassword(password, user.password)
 		if (doPasswordsMatch === false) return res.status(400).json({ message: "Wrong Username or Password!" })
 
-		const token = createAndSignJWT(user._id)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
+		const accessToken = createAndSignJWT(user._id)
+		if (_.isUndefined(accessToken)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(user._id)
 		await updateArn(user, notificationToken, primaryDevicePlatform)
 
-		await addLoginHistory(user._id)
+		await addLoginRecord(user._id)
 		const primaryContact = user.primaryContactMethod
 		const userContact = setUserContact(primaryContact, user)
 
 		const isContactVerified = isUserContactVerified(primaryContact, user)
 
 		return res.status(200).json({
-			authenticated: true,
-			accessToken: token,
+			accessToken,
 			isUserConnectedGoogleCalendar,
 			firstName: user.firstName,
 			lastName: user.lastName,

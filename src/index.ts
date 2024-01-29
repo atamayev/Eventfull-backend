@@ -10,6 +10,8 @@ import SocketManager from "./classes/socket-manager"
 import connectDatabase from "./setup-and-security/db-connect"
 import verifySocketJWT from "./middleware/jwt/verify-socket-jwt"
 
+import adminRoutes from "./routes/admin/admin-routes"
+
 import listsRoutes from "./routes/lists-routes"
 import searchRoutes from "./routes/search-routes"
 import eventsRoutes from "./routes/events-routes"
@@ -55,6 +57,8 @@ app.use(cors({
 
 app.use(cookieParser())
 app.use(express.json())
+
+app.use("/api/admin", adminRoutes)
 
 app.use("/api/auth", authRoutes)
 app.use("/api/chat", jwtVerify, chatRoutes)

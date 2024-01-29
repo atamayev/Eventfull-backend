@@ -2,6 +2,7 @@ declare global {
 	namespace Express {
 		interface Request {
 			user: User
+			admin: Admin
 
 			privateChat: PrivateChat
 			privateMessage: PrivateMessageWithChatId
