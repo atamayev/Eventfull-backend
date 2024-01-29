@@ -17,13 +17,13 @@ export default async function adminLogin (req: Request, res: Response): Promise<
 		const doPasswordsMatch = await Hash.checkPassword(password, admin.password)
 		if (doPasswordsMatch === false) return res.status(400).json({ message: "Wrong Username or Password!" })
 
-		const token = createAndSignAdminJWT(admin._id)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
+		const accessToken = createAndSignAdminJWT(admin._id)
+		if (_.isUndefined(accessToken)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		await addLoginRecord(admin._id, true)
 
 		return res.status(200).json({
-			accessToken: token,
+			accessToken,
 			firstName: admin.firstName,
 			lastName: admin.lastName,
 			email: admin.email,

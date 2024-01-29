@@ -27,8 +27,8 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const doPasswordsMatch = await Hash.checkPassword(password, user.password)
 		if (doPasswordsMatch === false) return res.status(400).json({ message: "Wrong Username or Password!" })
 
-		const token = createAndSignJWT(user._id)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
+		const accessToken = createAndSignJWT(user._id)
+		if (_.isUndefined(accessToken)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		const isUserConnectedGoogleCalendar = await doesUserHaveGoogleCalendar(user._id)
 		await updateArn(user, notificationToken, primaryDevicePlatform)
@@ -40,7 +40,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const isContactVerified = isUserContactVerified(primaryContact, user)
 
 		return res.status(200).json({
-			accessToken: token,
+			accessToken,
 			isUserConnectedGoogleCalendar,
 			firstName: user.firstName,
 			lastName: user.lastName,

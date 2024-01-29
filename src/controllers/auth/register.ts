@@ -27,14 +27,12 @@ export default async function register (req: Request, res: Response): Promise<Re
 
 		const userId = await addLocalUser(req.body.registerInformationObject, hashedPassword, endpointArn)
 
-		const token = createAndSignJWT(userId, true)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
+		const accessToken = createAndSignJWT(userId, true)
+		if (_.isUndefined(accessToken)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		await addLoginRecord(userId)
 
-		return res
-			.status(200)
-			.json({ accessToken: token })
+		return res.status(200).json({ accessToken })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Register New User" })

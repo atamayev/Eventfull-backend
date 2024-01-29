@@ -22,14 +22,12 @@ export default async function adminRegister(req: Request, res: Response): Promis
 
 		const adminId = await addAdmin(req.body.registerInformation, hashedPassword)
 
-		const token = createAndSignAdminJWT(adminId)
-		if (_.isUndefined(token)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
+		const accessToken = createAndSignAdminJWT(adminId)
+		if (_.isUndefined(accessToken)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		await addLoginRecord(adminId, true)
 
-		return res
-			.status(200)
-			.json({ accessToken: token })
+		return res.status(200).json({ accessToken })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Register New User" })
