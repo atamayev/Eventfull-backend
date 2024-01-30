@@ -32,8 +32,8 @@ Schema Structure
 	{
 		eventId: Unique Identifier,
 		eventName: string,
-		eventTimeStart: Date,
-		eventTimeEnd: Date,
+		eventStartTime: Date,
+		eventEndTime: Date,
 		eventPrice: number,
 		eventType: string typeof Event Type name,
 		eventURL: string,

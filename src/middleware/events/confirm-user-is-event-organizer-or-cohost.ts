@@ -6,7 +6,7 @@ export default function confirmUserIsEventOrganizerOrCohost(req: Request, res: R
 		const user = req.user
 		const event = req.event
 
-		if (_.isEqual(user._id, event.organizer.userId)) {
+		if (_.isEqual(user._id, event.organizer?.userId)) {
 			req.organizerOrCoHost = "Organizer"
 			next()
 			return

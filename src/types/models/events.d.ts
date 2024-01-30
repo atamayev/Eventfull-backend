@@ -37,24 +37,35 @@ declare global {
 		invitedBy: SocialDataWithTimestamp
 	}
 
+	interface CreatedBy {
+		userId: Types.ObjectId
+		username: string
+		createdAt: Date
+		isCreatedByAdmin: boolean
+	}
+
+	interface EventDuration {
+		hours: number
+		minutes: number
+	}
+
 	interface BaseEventfullEvent {
 		eventName: string
-		eventTimeStart: UnifiedDateTime
-		eventTimeEnd: UnifiedDateTime
+		eventStartTime: Date
+		eventEndTime: Date
 		eventPrice: number
 		eventType: string
 		isVirtual: boolean
-		organizer: SocialData
+		organizer?: SocialData
 		isActive: boolean
 		eventPublic: boolean
 		eventReviewable: boolean
 		canInvitedUsersInviteOthers: boolean
+		eventDuration: EventDuration
 		eventURL?: string
 		extraEventCategories?: string[]
 		eventDescription?: string
-		eventLocation?: {
-			address: string
-		}
+		address?: string
 		eventImageURL?: string
 	}
 
@@ -63,6 +74,7 @@ declare global {
 		coHosts: EventfullCoHost[]
 		attendees: EventfullAttendee[]
 		eventCapacity: number | null
+		createdBy?: CreatedBy
 	}
 
 	interface IncomingEventfullEvent extends BaseEventfullEvent {

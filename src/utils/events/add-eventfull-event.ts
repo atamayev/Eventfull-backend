@@ -5,8 +5,8 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 export default async function addEventfullEvent(eventfullEvent: EventfullEvent, user: User): Promise<Types.ObjectId> {
 	const newEvent = await EventfullEventModel.create({
 		eventName: eventfullEvent.eventName,
-		eventTimeStart: eventfullEvent.eventTimeStart,
-		eventTimeEnd: eventfullEvent.eventTimeEnd,
+		eventStartTime: eventfullEvent.eventStartTime,
+		eventEndTime: eventfullEvent.eventEndTime,
 		eventPrice: eventfullEvent.eventPrice,
 		isVirtual: eventfullEvent.isVirtual,
 		eventPublic: eventfullEvent.eventPublic,
@@ -26,7 +26,7 @@ export default async function addEventfullEvent(eventfullEvent: EventfullEvent, 
 		eventImageURL: eventfullEvent.eventImageURL,
 		extraEventCategories: eventfullEvent.extraEventCategories,
 		eventDescription: eventfullEvent.eventDescription,
-		eventLocation: eventfullEvent.eventLocation,
+		address: eventfullEvent.address,
 		eventType: eventfullEvent.eventType,
 	})
 

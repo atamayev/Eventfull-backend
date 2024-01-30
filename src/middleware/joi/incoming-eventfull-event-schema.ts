@@ -1,5 +1,4 @@
 import Joi from "joi"
-import { unifiedDateTimeSchema } from "./unified-calendar-event-schema"
 import objectIdValidation from "../../utils/object-id-validation"
 
 const socialDataSchema = Joi.object({
@@ -9,8 +8,8 @@ const socialDataSchema = Joi.object({
 
 const incomingEventfullEventSchema = Joi.object({
 	eventName: Joi.string().required(),
-	eventTimeStart: unifiedDateTimeSchema.required(),
-	eventTimeEnd: unifiedDateTimeSchema.required(),
+	eventStartTime: Joi.date().required(),
+	eventEndTime: Joi.date().required(),
 	eventPrice: Joi.number().required(),
 	eventType: Joi.string().required(),
 	isVirtual: Joi.boolean().required(),
@@ -23,9 +22,7 @@ const incomingEventfullEventSchema = Joi.object({
 	eventURL: Joi.string().optional(),
 	extraEventCategories: Joi.array().items(Joi.string()).optional(),
 	eventDescription: Joi.string().optional(),
-	eventLocation: Joi.object({
-		address: Joi.string().required()
-	}).optional(),
-})
+	address: Joi.string().optional()
+}).required()
 
 export default incomingEventfullEventSchema
