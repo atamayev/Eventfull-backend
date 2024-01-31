@@ -4,10 +4,18 @@ declare global {
 		password: string
 	}
 
-	interface AdminRegisterInformation {
+	interface AdminLoginOTPInformation {
+		email: string
+		otp: string
+	}
+
+	interface InitialAdminRegisterInformation {
+		email: string
 		firstName: string
 		lastName: string
-		email: string
+	}
+
+	interface SecondaryAdminRegisterInformation {
 		username: string
 		password: string
 	}

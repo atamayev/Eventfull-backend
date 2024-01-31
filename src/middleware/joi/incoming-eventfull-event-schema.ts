@@ -31,7 +31,7 @@ const incomingEventfullEventSchema = Joi.object({
 	eventURL: Joi.string().optional(),
 	extraEventCategories: Joi.array().items(Joi.string()).optional(),
 	eventImageURL: Joi.string().optional(),
-	singularEventTime: eventTimesSchema.optional(),
+	singularEventTime: eventTimesSchema.optional().allow(null),
 
 	ongoingEventTimes: Joi.array().items(Joi.object({
 		dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required(),

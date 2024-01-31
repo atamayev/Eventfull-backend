@@ -26,6 +26,25 @@ const createdBySchema = new Schema<CreatedBy>({
 	isCreatedByAdmin: { type: Boolean, default: false },
 }, { _id: false })
 
+const baseEventTimeSchema = new Schema<BaseEventTime>({
+	startTime: { type: Date, required: true },
+	endTime: { type: Date, required: true },
+	eventDuration: {
+		hours: { type: Number, required: true },
+		minutes: { type: Number, required: true },
+	},
+}, { _id: false })
+
+const ongoingEventTimeSchema = new Schema<OngoingEvents>({
+	startTime: { type: Date, required: true },
+	endTime: { type: Date, required: true },
+	eventDuration: {
+		hours: { type: Number, required: true },
+		minutes: { type: Number, required: true },
+	},
+	dayOfWeek: { type: String, enum: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], required: true },
+}, { _id: false })
+
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
 	eventPrice: { type: Number, required: true },
@@ -42,6 +61,10 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	invitees: { type: [eventfullInviteesSchema], required: true},
 	attendees: { type: [eventfullAttendeesSchema], required: true},
 	coHosts: { type: [eventfullCoHostSchema], required: true },
+
+	singularEventTime: { type: baseEventTimeSchema },
+	customEventDates: { type: [baseEventTimeSchema] },
+	ongoingEventTimes: { type: [ongoingEventTimeSchema] },
 
 	eventCapacity: { type: Number, default: null },
 
