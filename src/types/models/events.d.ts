@@ -1,4 +1,21 @@
 declare global {
+	type EventFrequency = "one-time" | "custom" | "ongoing"
+
+	type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday"
+
+	interface BaseEventTime {
+		startTime: Date
+		endTime: Date
+		eventDuration: {
+			hours: number
+			minutes: number
+		}
+	}
+
+	interface OngoingEvents extends BaseEventTime {
+		dayOfWeek: DayOfWeek
+	}
+
 	interface EventCategory extends IDInterface {
 		eventCategory: string
 		description: string
@@ -51,22 +68,29 @@ declare global {
 
 	interface BaseEventfullEvent {
 		eventName: string
-		eventStartTime: Date
-		eventEndTime: Date
 		eventPrice: number
 		eventType: string
 		isVirtual: boolean
-		organizer?: SocialData
 		isActive: boolean
 		eventPublic: boolean
 		eventReviewable: boolean
 		canInvitedUsersInviteOthers: boolean
-		eventDuration: EventDuration
+		eventFrequency: EventFrequency
+		address: string
+		eventDescription: string
+		organizer?: SocialData
 		eventURL?: string
 		extraEventCategories?: string[]
-		eventDescription?: string
-		address?: string
 		eventImageURL?: string
+
+		// For one-time events:
+		singularEventTime?: BaseEventTime | null
+
+		// For custom events:
+		customEventDates?: BaseEventTime[]
+
+		// For ongoing events:
+		ongoingEventTimes?: OngoingEvents[]
 	}
 
 	interface EventfullEvent extends BaseEventfullEvent, IDInterface {

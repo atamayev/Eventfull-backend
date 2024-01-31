@@ -5,7 +5,7 @@ import EventfullEventModel from "../../../models/eventfull-event-model"
 export default async function addAdminEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
 		const admin = req.admin
-		const eventfullEventData = req.body.eventfullEventData as NewAdminEventfullEvent
+		const eventfullEventData = req.body.eventfullEventData as IncomingEventfullEvent
 
 		// should do different things depending on event frequency
 		const eventfullEvent = convertAdminEventToEventfullEvent(admin, eventfullEventData)

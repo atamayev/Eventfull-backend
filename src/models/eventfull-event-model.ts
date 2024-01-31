@@ -26,35 +26,30 @@ const createdBySchema = new Schema<CreatedBy>({
 	isCreatedByAdmin: { type: Boolean, default: false },
 }, { _id: false })
 
-const eventDurationSchema = new Schema<EventDuration>({
-	hours: { type: Number, required: true },
-	minutes: { type: Number, required: true },
-}, { _id: false })
-
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
-	eventStartTime: { type: Date, required: true },
-	eventEndTime: { type: Date, required: true },
 	eventPrice: { type: Number, required: true },
 	eventType: { type: String, required: true },
 	isVirtual: { type: Boolean, required: true },
-	eventPublic: { type: Boolean, required: true },
-	coHosts: { type: [eventfullCoHostSchema], required: true },
 	isActive: { type: Boolean, required: true },
+	eventPublic: { type: Boolean, required: true },
 	eventReviewable: { type: Boolean, required: true },
 	canInvitedUsersInviteOthers: { type: Boolean, required: true },
+	eventFrequency: { type: String, enum: ["one-time", "custom", "ongoing"], required: true },
+	address: { type: String, required: true },
+	eventDescription: { type: String, required: true },
+
 	invitees: { type: [eventfullInviteesSchema], required: true},
 	attendees: { type: [eventfullAttendeesSchema], required: true},
-	eventDuration: { type: eventDurationSchema, required: true },
+	coHosts: { type: [eventfullCoHostSchema], required: true },
+
 	eventCapacity: { type: Number, default: null },
 
 	organizer: { type: socialDataSchema },
 	eventURL: { type: String },
-	eventDescription: { type: String },
 	extraEventCategories: {type: [String]},
-	address: { type: String },
 	eventImageURL: { type: String },
-	createdBy: { type: createdBySchema},
+	createdBy: { type: createdBySchema },
 }, { timestamps: true })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

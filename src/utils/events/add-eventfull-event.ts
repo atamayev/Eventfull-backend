@@ -5,35 +5,40 @@ import EventfullEventModel from "../../models/eventfull-event-model"
 export default async function addEventfullEvent(eventfullEvent: EventfullEvent, user: User): Promise<Types.ObjectId> {
 	const newEvent = await EventfullEventModel.create({
 		eventName: eventfullEvent.eventName,
-		eventStartTime: eventfullEvent.eventStartTime,
-		eventEndTime: eventfullEvent.eventEndTime,
 		eventPrice: eventfullEvent.eventPrice,
+		eventType: eventfullEvent.eventType,
 		isVirtual: eventfullEvent.isVirtual,
+		isActive: eventfullEvent.isActive,
 		eventPublic: eventfullEvent.eventPublic,
+		eventReviewable: eventfullEvent.eventReviewable,
+		canInvitedUsersInviteOthers: eventfullEvent.canInvitedUsersInviteOthers,
+		eventFrequency: eventfullEvent.eventFrequency,
+		address: eventfullEvent.address,
+		eventDescription: eventfullEvent.eventDescription,
+
+		invitees: eventfullEvent.invitees,
+		coHosts: eventfullEvent.coHosts,
+		attendees: eventfullEvent.attendees,
+		eventCapacity: eventfullEvent.eventCapacity || null,
+
+		createdBy: {
+			userId: user._id,
+			username: user.username,
+		},
 		organizer: {
 			userId: user._id,
 			username: user.username,
 		},
-		coHosts: eventfullEvent.coHosts,
-		isActive: true,
-		eventReviewable: eventfullEvent.eventReviewable,
-		canInvitedUsersInviteOthers: eventfullEvent.canInvitedUsersInviteOthers,
-		invitees: eventfullEvent.invitees,
-		attendees: eventfullEvent.attendees,
-		eventCapacity: eventfullEvent.eventCapacity || null,
 
 		eventURL: eventfullEvent.eventURL,
-		eventImageURL: eventfullEvent.eventImageURL,
 		extraEventCategories: eventfullEvent.extraEventCategories,
-		eventDescription: eventfullEvent.eventDescription,
-		address: eventfullEvent.address,
-		eventType: eventfullEvent.eventType,
+		eventImageURL: eventfullEvent.eventImageURL,
 	})
 
 	return newEvent._id
 }
 
-// Something like this is ideal:
+// TODO: Something like this is ideal:
 
 // const newEvent = await EventfullEventModel.create({
 // 	...convertedEvent,

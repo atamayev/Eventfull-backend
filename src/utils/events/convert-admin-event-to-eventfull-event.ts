@@ -1,30 +1,25 @@
-import dayjs from "dayjs"
+/* eslint-disable max-len */
 import EventfullEventModel from "../../models/eventfull-event-model"
 
 export default function convertAdminEventToEventfullEvent(
 	admin: Admin,
-	adminEvent: NewAdminEventfullEvent,
+	adminEvent: IncomingEventfullEvent,
 ): EventfullEvent {
-	const startTime = dayjs(adminEvent.eventTime)
-	const endTime = startTime.add(adminEvent.eventDuration.hours, "hour").add(adminEvent.eventDuration.minutes, "minute")
-
 	const event = {
 		eventName: adminEvent.eventName,
 		eventPrice: adminEvent.eventPrice,
 		eventType: "Entertainment",
 		isVirtual: false,
-		eventPublic: true,
-		coHosts: [],
 		isActive: true,
+		eventPublic: true,
 		eventReviewable: false,
 		canInvitedUsersInviteOthers: true,
+		eventFrequency: adminEvent.eventFrequency,
+
 		invitees: [],
+		coHosts: [],
 		attendees: [],
 		eventCapacity: null,
-		eventDuration: adminEvent.eventDuration,
-
-		eventStartTime: startTime.toDate(),
-		eventEndTime: endTime.toDate(),
 
 		eventURL: adminEvent.eventURL,
 		eventDescription: adminEvent.eventDescription,
@@ -35,6 +30,9 @@ export default function convertAdminEventToEventfullEvent(
 			isCreatedByAdmin: true,
 			createdAt: new Date(),
 		},
+		...(adminEvent.eventFrequency === "one-time" && adminEvent.singularEventTime ? { singularEventTime: adminEvent.singularEventTime } : {}),
+		...(adminEvent.eventFrequency === "custom" && adminEvent.customEventDates ? { customEventDates: adminEvent.customEventDates } : {}),
+		...(adminEvent.eventFrequency === "ongoing" && adminEvent.ongoingEventTimes ? { ongoingEventTimes: adminEvent.ongoingEventTimes } : {}),
 	}
 
 	return new EventfullEventModel(event)

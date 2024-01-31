@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import _ from "lodash"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
+// eslint-disable-next-line max-lines-per-function
 export default function convertToEventfullEvent(
 	incomingEvent: IncomingEventfullEvent,
 	organizer: User,
@@ -10,6 +12,10 @@ export default function convertToEventfullEvent(
 
 	const event = new EventfullEventModel ({
 		...incomingEvent,
+		...(incomingEvent.eventFrequency === "one-time" && incomingEvent.singularEventTime ? { singularEventTime: incomingEvent.singularEventTime } : {}),
+		...(incomingEvent.eventFrequency === "custom" && incomingEvent.customEventDates ? { customEventDates: incomingEvent.customEventDates } : {}),
+		...(incomingEvent.eventFrequency === "ongoing" && incomingEvent.ongoingEventTimes ? { ongoingEventTimes: incomingEvent.ongoingEventTimes } : {}),
+
 		invitees: incomingEvent.invitees
 			.filter(invitee => _.some(friendIds, (friendId) => friendId.equals(invitee.userId)))
 			.map(invitee => ({
