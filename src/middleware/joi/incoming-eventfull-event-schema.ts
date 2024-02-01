@@ -7,8 +7,8 @@ const socialDataSchema = Joi.object({
 })
 
 const eventTimesSchema = Joi.object({
-	startTime: Joi.date().required(),
-	endTime: Joi.date().required(),
+	startTime: Joi.string().isoDate().required(),
+	endTime: Joi.string().isoDate().required(),
 	eventDuration: Joi.object({
 		hours: Joi.number().integer().min(0).required(),
 		minutes: Joi.number().integer().min(0).max(59).required()
@@ -36,8 +36,8 @@ const incomingEventfullEventSchema = Joi.object({
 
 	ongoingEventTimes: Joi.array().items(Joi.object({
 		dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required(),
-		startTime: Joi.date().required(),
-		endTime: Joi.date().required(),
+		startTime: Joi.string().isoDate().required(),
+		endTime: Joi.string().isoDate().required(),
 		eventDuration: Joi.object({
 			hours: Joi.number().integer().min(0).required(),
 			minutes: Joi.number().integer().min(0).max(59).required()

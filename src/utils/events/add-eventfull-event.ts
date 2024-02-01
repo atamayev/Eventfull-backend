@@ -1,7 +1,7 @@
+/* eslint-disable max-len */
 import { Types } from "mongoose"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
-// This is stupidly designed, using a spread operator is much better, but it doesn't work.
 export default async function addEventfullEvent(eventfullEvent: EventfullEvent, user: User): Promise<Types.ObjectId> {
 	const newEvent = await EventfullEventModel.create({
 		eventName: eventfullEvent.eventName,
@@ -19,7 +19,7 @@ export default async function addEventfullEvent(eventfullEvent: EventfullEvent, 
 		invitees: eventfullEvent.invitees,
 		coHosts: eventfullEvent.coHosts,
 		attendees: eventfullEvent.attendees,
-		eventCapacity: eventfullEvent.eventCapacity || null,
+		eventCapacity: eventfullEvent.eventCapacity,
 
 		createdBy: {
 			userId: user._id,
@@ -33,6 +33,10 @@ export default async function addEventfullEvent(eventfullEvent: EventfullEvent, 
 		eventURL: eventfullEvent.eventURL,
 		extraEventCategories: eventfullEvent.extraEventCategories,
 		eventImageURL: eventfullEvent.eventImageURL,
+
+		...(eventfullEvent.eventFrequency === "one-time" && eventfullEvent.singularEventTime ? { singularEventTime: eventfullEvent.singularEventTime } : {}),
+		...(eventfullEvent.eventFrequency === "custom" && eventfullEvent.customEventDates ? { customEventDates: eventfullEvent.customEventDates } : {}),
+		...(eventfullEvent.eventFrequency === "ongoing" && eventfullEvent.ongoingEventTimes ? { ongoingEventTimes: eventfullEvent.ongoingEventTimes } : {}),
 	})
 
 	return newEvent._id
