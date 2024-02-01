@@ -10,7 +10,7 @@ const adminEventsRoutes = express.Router()
 adminEventsRoutes.post(
 	"/add-event",
 	validateCreateEventfullEvent,
-	confirmEventFrequencyAttributes, // TODO: Add this middleware
+	confirmEventFrequencyAttributes,
 	addAdminEventfullEvent
 )
 

@@ -1,6 +1,5 @@
 import _ from "lodash"
 import { Response, Request } from "express"
-import addLoginRecord from "../../../utils/auth-helpers/add-login-record"
 import doesUsernameExist from "../../../utils/auth-helpers/does-username-exist"
 import { hashPassword } from "../../../utils/auth-helpers/register/register-helpers"
 import { addUsernameAndPassword } from "../../../utils/auth-helpers/register/admin-register-helpers"
@@ -17,8 +16,6 @@ export default async function finishAdminRegistration(req: Request, res: Respons
 		if (usernameExists === true) return res.status(400).json({ message: "Username taken" })
 
 		await addUsernameAndPassword(admin._id, username, hashedPassword)
-
-		await addLoginRecord(admin._id, true)
 
 		return res.status(200).json({ success: "Admin Registered" })
 	} catch (error) {

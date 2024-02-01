@@ -37,14 +37,3 @@ export default async function addEventfullEvent(eventfullEvent: EventfullEvent, 
 
 	return newEvent._id
 }
-
-// TODO: Something like this is ideal:
-
-// const newEvent = await EventfullEventModel.create({
-// 	...convertedEvent,
-// 	organizer: {
-// 	userId: user._id,
-// 	username: user.username,
-// },
-// 	isActive: true
-// })
