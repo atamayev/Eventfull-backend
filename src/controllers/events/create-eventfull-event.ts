@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { Request, Response } from "express"
 import UserModel from "../../models/user-model"
-import convertToEventfullEvent from "../../utils/events/convert-to-eventfull-event"
 import addEventfullEvent from "../../utils/events/add-eventfull-event"
+import convertToEventfullEvent from "../../utils/events/convert-to-eventfull-event"
 
 // eslint-disable-next-line max-lines-per-function
 export default async function createEventfullEvent(req: Request, res: Response): Promise<Response> {

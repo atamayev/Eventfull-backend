@@ -1,5 +1,6 @@
 import { Schema } from "mongoose"
 
+// TODO: Change this to just be a Date (like in EventfullEvent model)
 export const unifiedDateTimeSchema = new Schema<UnifiedDateTime>({
 	date: { type: String, required: true },
 	time: { type: String, required: true }

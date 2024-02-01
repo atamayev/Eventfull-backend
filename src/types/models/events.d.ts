@@ -1,4 +1,21 @@
 declare global {
+	type EventFrequency = "one-time" | "custom" | "ongoing"
+
+	type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday"
+
+	interface BaseEventTime {
+		startTime: Date
+		endTime: Date
+		eventDuration: {
+			hours: number
+			minutes: number
+		}
+	}
+
+	interface OngoingEvents extends BaseEventTime {
+		dayOfWeek: DayOfWeek
+	}
+
 	interface EventCategory extends IDInterface {
 		eventCategory: string
 		description: string
@@ -37,25 +54,43 @@ declare global {
 		invitedBy: SocialDataWithTimestamp
 	}
 
+	interface CreatedBy {
+		userId: Types.ObjectId
+		username: string
+		createdAt: Date
+		isCreatedByAdmin: boolean
+	}
+
+	interface EventDuration {
+		hours: number
+		minutes: number
+	}
+
 	interface BaseEventfullEvent {
 		eventName: string
-		eventTimeStart: UnifiedDateTime
-		eventTimeEnd: UnifiedDateTime
 		eventPrice: number
 		eventType: string
 		isVirtual: boolean
-		organizer: SocialData
 		isActive: boolean
 		eventPublic: boolean
 		eventReviewable: boolean
 		canInvitedUsersInviteOthers: boolean
+		eventFrequency: EventFrequency
+		address: string
+		eventDescription: string
+		organizer?: SocialData
 		eventURL?: string
 		extraEventCategories?: string[]
-		eventDescription?: string
-		eventLocation?: {
-			address: string
-		}
 		eventImageURL?: string
+
+		// For one-time events:
+		singularEventTime?: BaseEventTime | null
+
+		// For custom events:
+		customEventDates?: BaseEventTime[]
+
+		// For ongoing events:
+		ongoingEventTimes?: OngoingEvents[]
 	}
 
 	interface EventfullEvent extends BaseEventfullEvent, IDInterface {
@@ -63,6 +98,7 @@ declare global {
 		coHosts: EventfullCoHost[]
 		attendees: EventfullAttendee[]
 		eventCapacity: number | null
+		createdBy?: CreatedBy
 	}
 
 	interface IncomingEventfullEvent extends BaseEventfullEvent {

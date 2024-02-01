@@ -11,11 +11,14 @@ import attachEventOrganizerToRequest from "../middleware/attach-to-request/attac
 
 import confirmEventIsActive from "../middleware/events/confirm-event-is-actve"
 import confirmEventIsPublic from "../middleware/events/confirm-event-is-public"
+import confirmEventIsPinned from "../middleware/events/confirm-event-is-pinned"
+import confirmEventIsNotPinned from "../middleware/events/confirm-event-is-not-pinned"
 import confirmEventIsInviteable from "../middleware/events/confirm-event-is-inviteable"
 import checkIfEventCapacityFull from "../middleware/events/check-if-event-capacity-full"
 import confirmUsersAreFriends from "../middleware/social/friend/confirm-users-are-friends"
 import confirmAbleToInviteFriend from "../middleware/events/confirm-able-to-invite-friend"
 import confirmNotInvitingThemselves from "../middleware/events/confirm-not-inviting-themselves"
+import confirmEventFrequencyAttributes from "../middleware/events/confirm-event-frequency-attributes"
 import confirmInvitedUserHasNotResponded from "../middleware/events/confirm-invited-user-has-not-responded"
 import checkIfUserAttendingEventfullEvent from "../middleware/events/check-if-user-attending-eventfull-event"
 import confirmUserIsEventOrganizerOrCohost from "../middleware/events/confirm-user-is-event-organizer-or-cohost"
@@ -34,14 +37,13 @@ import removePinnedEventfullEvent from "../controllers/events/remove-pinned-even
 import inviteFriendToEventfullEvent from "../controllers/events/invite-friend-to-eventfull-event"
 import retractInviteToEventfullEvent from "../controllers/events/retract-invite-to-eventfull-event"
 import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
-import confirmEventIsPinned from "../middleware/events/confirm-event-is-pinned"
-import confirmEventIsNotPinned from "../middleware/events/confirm-event-is-not-pinned"
 
 const eventsRoutes = express.Router()
 
 eventsRoutes.post(
 	"/create-eventfull-event",
 	validateCreateEventfullEvent,
+	confirmEventFrequencyAttributes,
 	createEventfullEvent
 )
 

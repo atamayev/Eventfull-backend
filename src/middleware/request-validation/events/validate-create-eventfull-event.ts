@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import incomingEventfullEventSchema from "../../joi/incoming-eventfull-event-schema"
 
-export default function validateCreateEventfullEventRequest (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateCreateEventfullEvent (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const eventfullEventData = req.body.eventfullEventData
 		const { error } = incomingEventfullEventSchema.validate(eventfullEventData)

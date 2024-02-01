@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
 export default function confirmAbleToInviteFriend(req: Request, res: Response, next: NextFunction): void | Response {
@@ -7,7 +8,9 @@ export default function confirmAbleToInviteFriend(req: Request, res: Response, n
 
 		// Check if friend is already attending event
 		const attendeeIds = event.attendees.map(attendee => attendee.user.userId.toString())
-		attendeeIds.push(event.organizer.userId.toString())
+		if (!_.isUndefined(event.organizer)) {
+			attendeeIds.push(event.organizer.userId.toString())
+		}
 
 		if (attendeeIds.includes(friend._id.toString()) === true) {
 			return res.status(400).json({ message: "Friend is already attending Event" })
@@ -24,7 +27,9 @@ export default function confirmAbleToInviteFriend(req: Request, res: Response, n
 
 		// Check if friend is already invited
 		const inviteesIds = event.invitees.map(invitee => invitee.user.userId.toString())
-		inviteesIds.push(event.organizer.userId.toString())
+		if (!_.isUndefined(event.organizer)) {
+			inviteesIds.push(event.organizer.userId.toString())
+		}
 
 		if (inviteesIds.includes(friend._id.toString()) === true) {
 			return res.status(400).json({ message: "Friend is already invited" })

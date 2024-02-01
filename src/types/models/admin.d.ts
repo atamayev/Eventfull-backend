@@ -3,9 +3,13 @@ declare global {
 		firstName: string
 		lastName: string
 		email: string
-		username: string
-		password: string
 		loginHistory: LoginHistory[]
+
+		username?: string
+		password?: string
+
+		emailVerificationCode?: string
+		emailVerifiedTimestamp?: Date
 	}
 }
 

@@ -1,45 +1,43 @@
+/* eslint-disable max-len */
 import { Types } from "mongoose"
 import EventfullEventModel from "../../models/eventfull-event-model"
 
-// This is stupidly designed, using a spread operator is much better, but it doesn't work.
 export default async function addEventfullEvent(eventfullEvent: EventfullEvent, user: User): Promise<Types.ObjectId> {
 	const newEvent = await EventfullEventModel.create({
 		eventName: eventfullEvent.eventName,
-		eventTimeStart: eventfullEvent.eventTimeStart,
-		eventTimeEnd: eventfullEvent.eventTimeEnd,
 		eventPrice: eventfullEvent.eventPrice,
+		eventType: eventfullEvent.eventType,
 		isVirtual: eventfullEvent.isVirtual,
+		isActive: eventfullEvent.isActive,
 		eventPublic: eventfullEvent.eventPublic,
+		eventReviewable: eventfullEvent.eventReviewable,
+		canInvitedUsersInviteOthers: eventfullEvent.canInvitedUsersInviteOthers,
+		eventFrequency: eventfullEvent.eventFrequency,
+		address: eventfullEvent.address,
+		eventDescription: eventfullEvent.eventDescription,
+
+		invitees: eventfullEvent.invitees,
+		coHosts: eventfullEvent.coHosts,
+		attendees: eventfullEvent.attendees,
+		eventCapacity: eventfullEvent.eventCapacity,
+
+		createdBy: {
+			userId: user._id,
+			username: user.username,
+		},
 		organizer: {
 			userId: user._id,
 			username: user.username,
 		},
-		coHosts: eventfullEvent.coHosts,
-		isActive: true,
-		eventReviewable: eventfullEvent.eventReviewable,
-		canInvitedUsersInviteOthers: eventfullEvent.canInvitedUsersInviteOthers,
-		invitees: eventfullEvent.invitees,
-		attendees: eventfullEvent.attendees,
-		eventCapacity: eventfullEvent.eventCapacity || null,
 
 		eventURL: eventfullEvent.eventURL,
-		eventImageURL: eventfullEvent.eventImageURL,
 		extraEventCategories: eventfullEvent.extraEventCategories,
-		eventDescription: eventfullEvent.eventDescription,
-		eventLocation: eventfullEvent.eventLocation,
-		eventType: eventfullEvent.eventType,
+		eventImageURL: eventfullEvent.eventImageURL,
+
+		...(eventfullEvent.eventFrequency === "one-time" && eventfullEvent.singularEventTime ? { singularEventTime: eventfullEvent.singularEventTime } : {}),
+		...(eventfullEvent.eventFrequency === "custom" && eventfullEvent.customEventDates ? { customEventDates: eventfullEvent.customEventDates } : {}),
+		...(eventfullEvent.eventFrequency === "ongoing" && eventfullEvent.ongoingEventTimes ? { ongoingEventTimes: eventfullEvent.ongoingEventTimes } : {}),
 	})
 
 	return newEvent._id
 }
-
-// Something like this is ideal:
-
-// const newEvent = await EventfullEventModel.create({
-// 	...convertedEvent,
-// 	organizer: {
-// 	userId: user._id,
-// 	username: user.username,
-// },
-// 	isActive: true
-// })
