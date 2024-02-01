@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express"
 import _ from "lodash"
+import { Request, Response, NextFunction } from "express"
 
 export default function confirmAbleToInviteFriend(req: Request, res: Response, next: NextFunction): void | Response {
 	try {

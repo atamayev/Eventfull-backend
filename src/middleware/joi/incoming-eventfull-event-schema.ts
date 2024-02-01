@@ -31,6 +31,7 @@ const incomingEventfullEventSchema = Joi.object({
 	eventURL: Joi.string().optional(),
 	extraEventCategories: Joi.array().items(Joi.string()).optional(),
 	eventImageURL: Joi.string().optional(),
+
 	singularEventTime: eventTimesSchema.optional().allow(null),
 
 	ongoingEventTimes: Joi.array().items(Joi.object({
@@ -45,8 +46,8 @@ const incomingEventfullEventSchema = Joi.object({
 
 	customEventDates: Joi.array().items(eventTimesSchema).optional(),
 
-	invitees: Joi.array().items(socialDataSchema).optional(),
-	coHosts: Joi.array().items(socialDataSchema).optional(),
+	invitees: Joi.array().items(socialDataSchema).required(),
+	coHosts: Joi.array().items(socialDataSchema).required(),
 	eventCapacity: Joi.number().optional()
 }).required()
 

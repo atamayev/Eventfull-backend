@@ -21,7 +21,8 @@ export default async function adminLoginOTP (req: Request, res: Response): Promi
 		if (_.isUndefined(accessToken)) return res.status(500).json({ error: "Internal Server Error: Unable to Sign JWT" })
 
 		await AdminModel.findByIdAndUpdate(admin._id, {
-			$unset: { emailVerificationCode: "" }
+			$unset: { emailVerificationCode: "" },
+			emailVerifiedTimestamp: new Date(),
 		})
 
 		await addLoginRecord(admin._id, true)

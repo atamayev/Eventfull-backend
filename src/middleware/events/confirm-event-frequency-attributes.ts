@@ -4,11 +4,11 @@ import { Request, Response, NextFunction } from "express"
 export default function confirmEventFrequencyAttributes (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const eventfullEventData = req.body.eventfullEventData as IncomingEventfullEvent
-		if (eventfullEventData.eventFrequency === "one-time" && _.isUndefined(eventfullEventData.singularEventTime)) {
+		if (eventfullEventData.eventFrequency === "one-time" && _.isNull(eventfullEventData.singularEventTime)) {
 			return res.status(400).json({ error: "Bad Request: Missing Singular Event Time" })
-		} else if (eventfullEventData.eventFrequency === "custom" && _.isUndefined(eventfullEventData.customEventDates)) {
+		} else if (eventfullEventData.eventFrequency === "custom" && _.isEmpty(eventfullEventData.customEventDates)) {
 			return res.status(400).json({ error: "Bad Request: Missing Custom Event Dates" })
-		} else if (eventfullEventData.eventFrequency === "ongoing" && _.isUndefined(eventfullEventData.ongoingEventTimes)) {
+		} else if (eventfullEventData.eventFrequency === "ongoing" && _.isEmpty(eventfullEventData.ongoingEventTimes)) {
 			return res.status(400).json({ error: "Bad Request: Missing Ongoing Event Times" })
 		}
 		next()
