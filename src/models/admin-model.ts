@@ -11,7 +11,7 @@ const adminSchema = new Schema<Admin>({
 	lastName: { type: String, trim: true, required: true},
 	email: { type: String, unique: true, trim: true, required: true },
 
-	username: { type: String, trim: true, unique: true },
+	username: { type: String, trim: true, unique: true, sparse: true },
 	password: { type: String },
 	loginHistory: { type: [loginHistorySchema], required: true },
 

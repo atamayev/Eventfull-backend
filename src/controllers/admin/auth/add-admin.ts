@@ -1,9 +1,9 @@
 import sgMail from "@sendgrid/mail"
 import { Response, Request } from "express"
+import AdminModel from "../../../models/admin-model"
 import doesAdminEmailExist from "../../../utils/auth-helpers/does-admin-email-exist"
 import { addInitialAdminInfo } from "../../../utils/auth-helpers/register/admin-register-helpers"
 import generateVerificationCode from "../../../utils/auth-helpers/twilio/generate-verification-code"
-import AdminModel from "../../../models/admin-model"
 
 export default async function addAdmin(req: Request, res: Response): Promise<Response> {
 	try {

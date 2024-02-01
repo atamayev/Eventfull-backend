@@ -14,6 +14,11 @@ export default async function adminLogin (req: Request, res: Response): Promise<
 		const admin = await retrieveAdminFromContact(contact, contactType)
 		if (_.isNull(admin)) return res.status(400).json({ message: `${contactType} not found!` })
 
+		if (_.isUndefined(admin.password)) {
+			return res.status(400).json({
+				message: "You never created a password. Please head to /otp-login. If you need a new OTP, please contact support."
+			})
+		}
 		const doPasswordsMatch = await Hash.checkPassword(password, admin.password)
 		if (doPasswordsMatch === false) return res.status(400).json({ message: "Wrong Username or Password!" })
 
