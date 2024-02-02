@@ -1,10 +1,5 @@
 import Joi from "joi"
-import objectIdValidation from "../../utils/object-id-validation"
-
-const socialDataSchema = Joi.object({
-	userId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-	username: Joi.string().required()
-})
+import { socialDataSchema } from "./updated-eventfull-event-schema"
 
 const eventTimesSchema = Joi.object({
 	startTime: Joi.string().isoDate().required(),
@@ -48,7 +43,7 @@ const incomingEventfullEventSchema = Joi.object({
 
 	invitees: Joi.array().items(socialDataSchema).required(),
 	coHosts: Joi.array().items(socialDataSchema).required(),
-	eventCapacity: Joi.number().optional()
+	eventCapacity: Joi.number().optional().allow(null)
 }).required()
 
 export default incomingEventfullEventSchema

@@ -2,8 +2,8 @@ import express from "express"
 
 import validateEventfullInvite from "../middleware/request-validation/events/validate-eventfull-invite"
 import validateEventfullEventId from "../middleware/request-validation/events/validate-eventfull-event-id"
+import validateUpdateEventfullEvent from "../middleware/request-validation/events/validate-update-eventfull-event"
 import validateCreateEventfullEvent from "../middleware/request-validation/events/validate-create-eventfull-event"
-import validateUpdateEventfullEvent from "../middleware/request-validation/events/validate-update-an-eventfull-event"
 import validateResponseToEventfullEventInvite from "../middleware/request-validation/events/validate-response-to-eventfull-event-invite"
 
 import attachEventToRequest from "../middleware/attach-to-request/attach-event-to-request"
