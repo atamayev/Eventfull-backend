@@ -8,6 +8,10 @@ export default async function retrieveSingleEventfullEvent(req: Request, res: Re
 		const eventIdObjectId = new Types.ObjectId(eventId)
 		const event = await findEvent(eventIdObjectId)
 
+		if (event?.isActive === false) {
+			return res.status(404).json({ error: "Event not found" })
+		}
+
 		return res.status(200).json({ event })
 	} catch (error) {
 		console.error(error)

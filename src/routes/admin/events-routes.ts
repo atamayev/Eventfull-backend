@@ -9,6 +9,7 @@ import addAdminEventfullEvent from "../../controllers/admin/events/add-admin-eve
 import retrieveEventfullEvents from "../../controllers/admin/events/retrieve-eventfull-events"
 import updateAdminEventfullEvent from "../../controllers/admin/events/update-admin-eventfull-event"
 import retrieveSingleEventfullEvent from "../../controllers/admin/events/retrieve-single-eventfull-event"
+import deleteAdminEventfullEvent from "../../controllers/admin/events/delete-admin-eventfull-event"
 
 const adminEventsRoutes = express.Router()
 
@@ -29,5 +30,7 @@ adminEventsRoutes.post(
 adminEventsRoutes.get("/get-events", retrieveEventfullEvents)
 
 adminEventsRoutes.get("/get-event/:eventId", validateEventId, retrieveSingleEventfullEvent)
+
+adminEventsRoutes.delete("/delete-event/:eventId", validateEventId, deleteAdminEventfullEvent)
 
 export default adminEventsRoutes
