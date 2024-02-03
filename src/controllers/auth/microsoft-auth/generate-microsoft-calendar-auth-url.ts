@@ -12,7 +12,7 @@ export default async function generateMicrosoftCalendarAuthUrl(req: Request, res
 		const authUrl = await cca.getAuthCodeUrl({
 			scopes: ["Calendars.ReadWrite", "offline_access"],
 			state: JSON.stringify(stateData),
-			redirectUri: "http://localhost:8080/api/auth/microsoft-auth/calendar-callback",
+			redirectUri: "http://localhost:8080/auth/microsoft-auth/calendar-callback",
 			responseMode: "query",
 			prompt: "select_account",
 		})
