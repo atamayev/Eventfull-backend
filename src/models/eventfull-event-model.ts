@@ -56,7 +56,7 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	canInvitedUsersInviteOthers: { type: Boolean, required: true },
 	eventFrequency: { type: String, enum: ["one-time", "custom", "ongoing"], required: true },
 	address: { type: String, required: true },
-	eventDescription: { type: String, required: true },
+	eventDescription: { type: String, default: "" },
 
 	invitees: { type: [eventfullInviteesSchema], required: true},
 	attendees: { type: [eventfullAttendeesSchema], required: true},

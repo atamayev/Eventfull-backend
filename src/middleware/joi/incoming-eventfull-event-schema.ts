@@ -21,9 +21,9 @@ const incomingEventfullEventSchema = Joi.object({
 	canInvitedUsersInviteOthers: Joi.boolean().required(),
 	eventFrequency: Joi.string().valid("one-time", "custom", "ongoing").required(),
 	address: Joi.string().required(),
-	eventDescription: Joi.string().required(),
+	eventDescription: Joi.string().allow("").optional(),
 
-	eventURL: Joi.string().optional(),
+	eventURL: Joi.string().allow("").optional(),
 	extraEventCategories: Joi.array().items(Joi.string()).optional(),
 	eventImageURL: Joi.string().optional(),
 
