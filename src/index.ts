@@ -20,6 +20,7 @@ import chatRoutes from "./routes/chat/chat-routes"
 import authRoutes from "./routes/auth/auth-routes"
 import profileRoutes from "./routes/profile-routes"
 import calendarRoutes from "./routes/calendar/calendar-routes"
+import checkHealth from "./controllers/health-checks/check-health"
 
 dotenv.config()
 
@@ -68,6 +69,7 @@ app.use("/api/lists", jwtVerify, listsRoutes)
 app.use("/api/profile", jwtVerify, profileRoutes)
 app.use("/api/search", jwtVerify, searchRoutes)
 app.use("/api/social", jwtVerify, socialRoutes)
+app.use("/api/health", checkHealth)
 
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
