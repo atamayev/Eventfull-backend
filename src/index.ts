@@ -59,17 +59,17 @@ app.use(cors({
 app.use(cookieParser())
 app.use(express.json())
 
-app.use("/api/admin", adminRoutes)
+app.use("/admin", adminRoutes)
 
-app.use("/api/auth", authRoutes)
-app.use("/api/chat", jwtVerify, chatRoutes)
-app.use("/api/calendar", jwtVerify, calendarRoutes)
-app.use("/api/events", jwtVerify, eventsRoutes)
-app.use("/api/lists", jwtVerify, listsRoutes)
-app.use("/api/profile", jwtVerify, profileRoutes)
-app.use("/api/search", jwtVerify, searchRoutes)
-app.use("/api/social", jwtVerify, socialRoutes)
-app.use("/api/health", checkHealth)
+app.use("/auth", authRoutes)
+app.use("/chat", jwtVerify, chatRoutes)
+app.use("/calendar", jwtVerify, calendarRoutes)
+app.use("/events", jwtVerify, eventsRoutes)
+app.use("/lists", jwtVerify, listsRoutes)
+app.use("/profile", jwtVerify, profileRoutes)
+app.use("/search", jwtVerify, searchRoutes)
+app.use("/social", jwtVerify, socialRoutes)
+app.use("/health", checkHealth)
 
 app.use("*", (req, res) => res.status(404).json({ error: "Route not found"}))
 
