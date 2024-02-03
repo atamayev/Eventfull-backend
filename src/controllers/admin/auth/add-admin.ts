@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import sgMail from "@sendgrid/mail"
 import { Response, Request } from "express"
 import AdminModel from "../../../models/admin-model"
@@ -20,7 +21,10 @@ export default async function addAdmin(req: Request, res: Response): Promise<Res
 			to: email,
 			from: process.env.SENDGRID_FROM_EMAIL,
 			subject: "Eventfull Admin Verification Code",
-			html: `Your Admin Verification code is: <strong>${emailVerificationCode}</strong>`,
+			html: `
+				<p>Your Admin Verification code is: <strong>${emailVerificationCode}</strong></p>
+				<p>Head to <a href='https://admin.eventfullny.com/otp-login' target='_blank'>admin.eventfullny.com/otp-login</a> to create a username and password.</p>
+			`
 		}
 
 		await sgMail.send(msg)
