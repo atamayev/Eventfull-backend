@@ -7,21 +7,19 @@ import objectIdValidation from "../../../utils/object-id-validation"
 
 const eventfullEventIdSchema = Joi.object({
 	eventfullEventId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-}).unknown(true)
+}).required()
 
 export default async function validateEventfullEventId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {
-		const { error } = eventfullEventIdSchema.validate(req.body)
+		const { error } = eventfullEventIdSchema.validate(req.params)
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const eventfullEventId = new Types.ObjectId(req.body.eventfullEventId as string)
-
-		const event = await findEvent(eventfullEventId)
+		const event = await findEvent(req.params.eventfullEventId as unknown as Types.ObjectId)
 
 		if (_.isNull(event)) return res.status(400).json({ message: "Event not found" })
 
-		req.event = event as EventfullEvent
+		req.event = event
 
 		next()
 	} catch (error) {

@@ -92,7 +92,7 @@ eventsRoutes.post(
 )
 
 // TODO: Move the eventufllevent id to be a param, like in the messages routes
-eventsRoutes.post("/delete-eventfull-event",
+eventsRoutes.post("/delete-eventfull-event/:eventfullEventId",
 	validateEventfullEventId,
 	confirmEventIsActive,
 	confirmUserIsEventOrganizerOrCohost,
@@ -100,7 +100,7 @@ eventsRoutes.post("/delete-eventfull-event",
 )
 
 eventsRoutes.post(
-	"/pin-eventfull-event",
+	"/pin-eventfull-event/:eventfullEventId",
 	validateEventfullEventId,
 	confirmEventIsActive,
 	confirmEventIsNotPinned,
@@ -108,13 +108,13 @@ eventsRoutes.post(
 )
 
 eventsRoutes.post(
-	"/remove-pinned-eventfull-event",
+	"/remove-pinned-eventfull-event/:eventfullEventId",
 	validateEventfullEventId,
 	confirmEventIsPinned,
 	removePinnedEventfullEvent
 )
 
-eventsRoutes.post("/sign-up-for-eventfull-event",
+eventsRoutes.post("/sign-up-for-eventfull-event/:eventfullEventId",
 	validateEventfullEventId,
 	confirmEventIsActive,
 	confirmEventIsPublic,
@@ -126,7 +126,7 @@ eventsRoutes.post("/sign-up-for-eventfull-event",
 	signUpForEventfullEvent
 )
 
-eventsRoutes.post("/cancel-eventfull-event-registration",
+eventsRoutes.post("/cancel-eventfull-event-registration/:eventfullEventId",
 	validateEventfullEventId,
 	checkIfUserAttendingEventfullEvent,
 	cancelEventfullEventRegistration

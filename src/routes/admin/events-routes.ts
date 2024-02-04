@@ -36,8 +36,8 @@ adminEventsRoutes.get("/get-event/:eventId", validateEventId, retrieveSingleEven
 
 adminEventsRoutes.delete("/delete-event/:eventId", validateEventId, deleteAdminEventfullEvent)
 
-adminEventsRoutes.post("/add-image-urls",
-	validateEventfullEventId, // TODO: change this to validate the event id in the params
+adminEventsRoutes.post("/add-image-urls/:eventfullEventId",
+	validateEventfullEventId,
 	validateImageURLs,
 	addImageURLs
 )

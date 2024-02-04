@@ -7,7 +7,7 @@ const imageURLsSchema = Joi.object({
 		imageId: Joi.string().uuid().required(),
 		imageURL: Joi.string().uri().required()
 	})).required()
-}).unknown(true)
+}).required()
 
 export default function validateImageURLs (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
