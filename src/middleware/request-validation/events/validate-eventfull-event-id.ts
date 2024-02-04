@@ -7,7 +7,7 @@ import objectIdValidation from "../../../utils/object-id-validation"
 
 const eventfullEventIdSchema = Joi.object({
 	eventfullEventId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-}).required()
+}).unknown(true)
 
 export default async function validateEventfullEventId (req: Request, res: Response, next: NextFunction): Promise<void | Response> {
 	try {

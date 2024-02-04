@@ -91,6 +91,7 @@ eventsRoutes.post(
 	updateEventfullEvent
 )
 
+// TODO: Move the eventufllevent id to be a param, like in the messages routes
 eventsRoutes.post("/delete-eventfull-event",
 	validateEventfullEventId,
 	confirmEventIsActive,

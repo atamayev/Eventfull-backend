@@ -10,6 +10,9 @@ import retrieveEventfullEvents from "../../controllers/admin/events/retrieve-eve
 import updateAdminEventfullEvent from "../../controllers/admin/events/update-admin-eventfull-event"
 import retrieveSingleEventfullEvent from "../../controllers/admin/events/retrieve-single-eventfull-event"
 import deleteAdminEventfullEvent from "../../controllers/admin/events/delete-admin-eventfull-event"
+import addImageURLs from "../../controllers/admin/events/add-image-urls"
+import validateEventfullEventId from "../../middleware/request-validation/events/validate-eventfull-event-id"
+import validateImageURLs from "../../middleware/request-validation/admin/events/validate-image-urls"
 
 const adminEventsRoutes = express.Router()
 
@@ -32,5 +35,11 @@ adminEventsRoutes.get("/get-events", retrieveEventfullEvents)
 adminEventsRoutes.get("/get-event/:eventId", validateEventId, retrieveSingleEventfullEvent)
 
 adminEventsRoutes.delete("/delete-event/:eventId", validateEventId, deleteAdminEventfullEvent)
+
+adminEventsRoutes.post("/add-image-urls",
+	validateEventfullEventId, // TODO: change this to validate the event id in the params
+	validateImageURLs,
+	addImageURLs
+)
 
 export default adminEventsRoutes
