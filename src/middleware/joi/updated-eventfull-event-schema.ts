@@ -46,6 +46,21 @@ const createdBySchema = Joi.object({
 	isCreatedByAdmin: Joi.boolean().required()
 })
 
+const eventImagesSchema = Joi.object({
+	imageId: Joi.string().required(),
+	imageURL: Joi.string().optional()
+})
+
+const ongoingEventTimeSchema = Joi.object({
+	startTime: Joi.string().isoDate().required(),
+	endTime: Joi.string().isoDate().required(),
+	eventDuration: Joi.object({
+		hours: Joi.number().integer().min(0).required(),
+		minutes: Joi.number().integer().min(0).max(59).required()
+	}).required(),
+	dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required()
+})
+
 const updatedEventfullEventSchema = Joi.object({
 	_id: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 	eventName: Joi.string().required(),
@@ -58,23 +73,15 @@ const updatedEventfullEventSchema = Joi.object({
 	canInvitedUsersInviteOthers: Joi.boolean().required(),
 	eventFrequency: Joi.string().valid("one-time", "custom", "ongoing").required(),
 	address: Joi.string().required(),
-	eventDescription: Joi.string().required(),
+	eventDescription: Joi.string().allow("").required(),
 
-	eventURL: Joi.string().optional(),
+	eventURL: Joi.string().allow("").optional(),
 	extraEventCategories: Joi.array().items(Joi.string()).optional(),
-	eventImageURL: Joi.string().optional(),
+	eventImages: Joi.array().items(eventImagesSchema).required(),
 
 	singularEventTime: eventTimesSchema.optional().allow(null),
 
-	ongoingEventTimes: Joi.array().items(Joi.object({
-		dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required(),
-		startTime: Joi.string().isoDate().required(),
-		endTime: Joi.string().isoDate().required(),
-		eventDuration: Joi.object({
-			hours: Joi.number().integer().min(0).required(),
-			minutes: Joi.number().integer().min(0).max(59).required()
-		}).required()
-	})).optional(),
+	ongoingEventTimes: Joi.array().items(ongoingEventTimeSchema).optional(),
 
 	customEventDates: Joi.array().items(eventTimesSchema).optional(),
 

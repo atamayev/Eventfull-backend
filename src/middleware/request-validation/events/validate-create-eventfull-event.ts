@@ -12,7 +12,7 @@ const combinedEventSchema = Joi.object({
 
 export default function validateCreateEventfullEvent (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const { error } = combinedEventSchema .validate(req.body)
+		const { error } = combinedEventSchema.validate(req.body)
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		next()

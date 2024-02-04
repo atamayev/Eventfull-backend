@@ -10,6 +10,16 @@ const eventTimesSchema = Joi.object({
 	}).required()
 })
 
+const ongoingEventTimeSchema = Joi.object({
+	startTime: Joi.string().isoDate().required(),
+	endTime: Joi.string().isoDate().required(),
+	eventDuration: Joi.object({
+		hours: Joi.number().integer().min(0).required(),
+		minutes: Joi.number().integer().min(0).max(59).required()
+	}).required(),
+	dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required()
+})
+
 const incomingEventfullEventSchema = Joi.object({
 	eventName: Joi.string().required(),
 	eventPrice: Joi.number().required(),
@@ -25,19 +35,10 @@ const incomingEventfullEventSchema = Joi.object({
 
 	eventURL: Joi.string().allow("").optional(),
 	extraEventCategories: Joi.array().items(Joi.string()).optional(),
-	eventImageURL: Joi.string().optional(),
 
 	singularEventTime: eventTimesSchema.optional().allow(null),
 
-	ongoingEventTimes: Joi.array().items(Joi.object({
-		dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required(),
-		startTime: Joi.string().isoDate().required(),
-		endTime: Joi.string().isoDate().required(),
-		eventDuration: Joi.object({
-			hours: Joi.number().integer().min(0).required(),
-			minutes: Joi.number().integer().min(0).max(59).required()
-		}).required()
-	})).optional(),
+	ongoingEventTimes: Joi.array().items(ongoingEventTimeSchema).optional(),
 
 	customEventDates: Joi.array().items(eventTimesSchema).optional(),
 
