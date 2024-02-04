@@ -15,9 +15,7 @@ export default async function validateGroupChatIdInParams (req: Request, res: Re
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const groupChatId = new Types.ObjectId(req.params.groupChatId as string)
-
-		const groupChat = await findGroupChat(groupChatId)
+		const groupChat = await findGroupChat(req.params.groupChatId as unknown as Types.ObjectId)
 
 		if (_.isNull(groupChat)) return res.status(400).json({ message: "Group Chat not found" })
 

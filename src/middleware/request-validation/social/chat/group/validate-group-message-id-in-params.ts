@@ -16,9 +16,7 @@ export default async function validateGroupMessageIdInParams (req: Request, res:
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const groupMessageId = new Types.ObjectId(req.params.groupMessageId as string)
-
-		const groupMessage = await findGroupMessage(groupMessageId)
+		const groupMessage = await findGroupMessage(req.params.groupMessageId as unknown as Types.ObjectId)
 
 		if (_.isNull(groupMessage)) return res.status(400).json({ message: "Group Message not found" })
 

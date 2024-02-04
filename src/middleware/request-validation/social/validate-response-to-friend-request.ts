@@ -16,9 +16,7 @@ export default async function validateResponseToFriendRequest (req: Request, res
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const friendId = new Types.ObjectId(req.body.friendId as string)
-
-		const friend = await findUser(friendId)
+		const friend = await findUser(req.body.friendId as unknown as Types.ObjectId)
 
 		if (_.isNull(friend)) return res.status(400).json({ message: "Friend not found" })
 
