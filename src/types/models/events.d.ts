@@ -66,6 +66,11 @@ declare global {
 		minutes: number
 	}
 
+	interface EventImages {
+		imageId: string
+		imageURL?: string
+	}
+
 	interface BaseEventfullEvent {
 		eventName: string
 		eventPrice: number
@@ -81,7 +86,7 @@ declare global {
 		organizer?: SocialData
 		eventURL?: string
 		extraEventCategories?: string[]
-		eventImageURL?: string
+		eventImages: EventImages[]
 
 		// For one-time events:
 		singularEventTime?: BaseEventTime | null

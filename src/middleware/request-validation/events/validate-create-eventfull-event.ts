@@ -1,11 +1,18 @@
 import _ from "lodash"
+import Joi from "joi"
 import { Request, Response, NextFunction } from "express"
 import incomingEventfullEventSchema from "../../joi/incoming-eventfull-event-schema"
 
+const numberOfImagesSchema = Joi.number().required()
+
+const combinedEventSchema = Joi.object({
+	eventfullEventData: incomingEventfullEventSchema,
+	numberOfImages: numberOfImagesSchema
+}).required()
+
 export default function validateCreateEventfullEvent (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const eventfullEventData = req.body.eventfullEventData
-		const { error } = incomingEventfullEventSchema.validate(eventfullEventData)
+		const { error } = combinedEventSchema .validate(req.body)
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
 		next()
