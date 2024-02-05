@@ -3,11 +3,9 @@ import Joi from "joi"
 import { Request, Response, NextFunction } from "express"
 import newEventfullEventSchema from "../../joi/new-eventfull-event-schema"
 
-const numberOfImagesSchema = Joi.number().required()
-
 const combinedEventSchema = Joi.object({
 	eventfullEventData: newEventfullEventSchema,
-	numberOfImages: numberOfImagesSchema
+	numberOfImages: Joi.number().required()
 }).required()
 
 export default function validateCreateEventfullEvent (req: Request, res: Response, next: NextFunction): void | Response {
