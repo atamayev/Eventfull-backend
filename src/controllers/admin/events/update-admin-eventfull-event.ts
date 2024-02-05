@@ -5,6 +5,7 @@ import EventfullEventModel from "../../../models/eventfull-event-model"
 export default async function updateAdminEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
 		const eventfullEventData = req.body.eventfullEventData as EventfullEvent
+		delete eventfullEventData.__v
 
 		const updatedEvent = await EventfullEventModel.findByIdAndUpdate(
 			eventfullEventData._id,

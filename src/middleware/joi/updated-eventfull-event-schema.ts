@@ -63,6 +63,7 @@ const ongoingEventTimeSchema = Joi.object({
 
 const updatedEventfullEventSchema = Joi.object({
 	_id: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
+	__v: Joi.number().required(),
 	eventName: Joi.string().required(),
 	eventPrice: Joi.number().required(),
 	eventType: Joi.string().valid("Entertainment").required(),
