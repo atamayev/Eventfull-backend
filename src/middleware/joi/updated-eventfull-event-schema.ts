@@ -48,6 +48,7 @@ const createdBySchema = Joi.object({
 
 const eventImagesSchema = Joi.object({
 	imageId: Joi.string().required(),
+	isActive: Joi.boolean().required(),
 	imageURL: Joi.string().optional()
 })
 

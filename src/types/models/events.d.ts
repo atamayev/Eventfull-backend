@@ -68,6 +68,7 @@ declare global {
 
 	interface EventImages {
 		imageId: string
+		isActive: boolean
 		imageURL?: string
 	}
 

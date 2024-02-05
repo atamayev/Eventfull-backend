@@ -10,6 +10,7 @@ export default async function retrieveSingleEventfullEvent(req: Request, res: Re
 		if (event?.isActive !== true) {
 			return res.status(400).json({ message: "Event not found" })
 		}
+		event.eventImages = event.eventImages.filter(image => image.isActive === true)
 
 		return res.status(200).json({ event })
 	} catch (error) {
