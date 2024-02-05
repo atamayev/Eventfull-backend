@@ -14,7 +14,7 @@ export default async function addImageURLs(req: Request, res: Response): Promise
 			if (!_.isUndefined(existingImage)) {
 				existingImage.imageURL = imageURL
 			} else {
-				event.eventImages.push({ imageId, imageURL })
+				event.eventImages.push({ imageId, imageURL, isActive: true })
 			}
 		})
 

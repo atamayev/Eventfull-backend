@@ -5,7 +5,8 @@ import { Request, Response, NextFunction } from "express"
 const imageURLsSchema = Joi.object({
 	imageURLs: Joi.array().items(Joi.object({
 		imageId: Joi.string().uuid().required(),
-		imageURL: Joi.string().uri().required()
+		imageURL: Joi.string().uri().required(),
+		isActive: Joi.boolean().required()
 	})).required()
 }).required()
 

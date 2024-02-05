@@ -27,7 +27,7 @@ export default async function addAdminEventfullEvent(req: Request, res: Response
 				if (!_.isUndefined(presignedUrl)) {
 					imagesURLsData.push({ imageId, presignedUrl })
 					// Add the imageId to the newEvent's images array
-					newEvent.eventImages.push({ imageId })
+					newEvent.eventImages.push({ imageId, isActive: true })
 				}
 			}
 			await newEvent.save()

@@ -48,6 +48,7 @@ const ongoingEventTimeSchema = new Schema<OngoingEvents>({
 const eventImagesSchema = new Schema<EventImages>({
 	imageId: { type: String, required: true },
 	imageURL: { type: String, },
+	isActive: { type: Boolean, required: true },
 }, { _id: false })
 
 const eventfullEventSchema = new Schema<EventfullEvent>({
