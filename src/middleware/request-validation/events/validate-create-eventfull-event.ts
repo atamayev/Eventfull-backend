@@ -1,12 +1,12 @@
 import _ from "lodash"
 import Joi from "joi"
 import { Request, Response, NextFunction } from "express"
-import incomingEventfullEventSchema from "../../joi/incoming-eventfull-event-schema"
+import newEventfullEventSchema from "../../joi/new-eventfull-event-schema"
 
 const numberOfImagesSchema = Joi.number().required()
 
 const combinedEventSchema = Joi.object({
-	eventfullEventData: incomingEventfullEventSchema,
+	eventfullEventData: newEventfullEventSchema,
 	numberOfImages: numberOfImagesSchema
 }).required()
 

@@ -20,7 +20,7 @@ const ongoingEventTimeSchema = Joi.object({
 	dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required()
 })
 
-const incomingEventfullEventSchema = Joi.object({
+const newEventfullEventSchema = Joi.object({
 	eventName: Joi.string().required(),
 	eventPrice: Joi.number().required(),
 	eventType: Joi.string().valid("Entertainment").required(),
@@ -47,4 +47,4 @@ const incomingEventfullEventSchema = Joi.object({
 	eventCapacity: Joi.number().optional().allow(null)
 }).required()
 
-export default incomingEventfullEventSchema
+export default newEventfullEventSchema

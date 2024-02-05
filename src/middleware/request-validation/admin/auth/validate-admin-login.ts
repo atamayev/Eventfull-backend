@@ -7,7 +7,7 @@ const loginInformationSchema = Joi.object({
 		contact: Joi.string().required(),
 		password: Joi.string().min(6).required(),
 	}).required()
-})
+}).required()
 
 export default function validateAdminLogin (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

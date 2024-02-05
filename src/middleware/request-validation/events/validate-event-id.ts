@@ -5,7 +5,7 @@ import objectIdValidation from "../../../utils/object-id-validation"
 
 const eventIdSchema = Joi.object({
 	eventId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-})
+}).required()
 
 export default function validateEventId (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

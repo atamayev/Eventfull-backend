@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const googleCalendarCallbackSchema = Joi.object({
 	code: Joi.string().required()
-})
+}).required()
 
 export default function validateGoogleCalendarCallback (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

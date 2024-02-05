@@ -3,9 +3,11 @@ import Joi from "joi"
 import { Request, Response, NextFunction } from "express"
 
 const loginInformationSchema = Joi.object({
-	email: Joi.string().email().required(),
-	otp: Joi.string().min(6).max(6).required(),
-})
+	otpLoginInformation: Joi.object({
+		email: Joi.string().email().required(),
+		otp: Joi.string().min(6).max(6).required()
+	}).required()
+}).required()
 
 export default function validateAdminOTPLogin (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

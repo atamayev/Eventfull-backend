@@ -8,7 +8,7 @@ const changePasswordSchema = Joi.object({
 		currentPassword: Joi.string().min(6).required(),
 		newPassword: Joi.string().min(6).required()
 	}).required()
-})
+}).required()
 
 export default function validateChangePassword(req: Request, res: Response, next: NextFunction): void | Response {
 	try {

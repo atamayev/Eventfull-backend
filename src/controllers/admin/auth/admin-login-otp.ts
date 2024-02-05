@@ -7,8 +7,7 @@ import retrieveAdminFromContact from "../../../utils/auth-helpers/login/retrieve
 
 export default async function adminLoginOTP (req: Request, res: Response): Promise<Response> {
 	try {
-		const email = req.body.email
-		const otp = req.body.otp
+		const { email, otp } = req.body.otpLoginInformation
 
 		const admin = await retrieveAdminFromContact(email, "Email")
 		if (_.isNull(admin)) return res.status(400).json({ message: "Email not found!" })
