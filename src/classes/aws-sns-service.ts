@@ -1,23 +1,13 @@
 import _ from "lodash"
 import { SNS } from "@aws-sdk/client-sns"
-import { CloudWatch } from "@aws-sdk/client-cloudwatch"
 import getPlatformApplicationArn from "../utils/notifications/create-notifications/get-platform-application-arn"
 
 export default class AwsSnsService {
 	private static instance: AwsSnsService | null = null
 	private sns: SNS
-	private cloudWatch: CloudWatch
 
 	private constructor() {
 		this.sns = new SNS({
-			credentials: {
-				accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-			},
-
-			region: process.env.AWS_REGION,
-		})
-		this.cloudWatch = new CloudWatch({
 			credentials: {
 				accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,

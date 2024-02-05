@@ -8,7 +8,7 @@ const newCloudUserInfo = Joi.object({
 		lastName: Joi.string().required(),
 		username: Joi.string().required(),
 	}).required()
-})
+}).required()
 
 export default function validateAddCloudUserPersonalInfo (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

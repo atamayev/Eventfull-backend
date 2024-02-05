@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const colorThemeSchema = Joi.object({
 	colorTheme: Joi.string().valid("Dark", "Light", "System Default").required()
-})
+}).required()
 
 export default function validateColorTheme (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

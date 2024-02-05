@@ -5,8 +5,7 @@ import findEvent from "../../../utils/find/find-event"
 export default async function retrieveSingleEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
 		const eventId = req.params.eventId as string
-		const eventIdObjectId = new Types.ObjectId(eventId)
-		const event = await findEvent(eventIdObjectId)
+		const event = await findEvent(eventId as unknown as Types.ObjectId)
 
 		if (event?.isActive !== true) {
 			return res.status(400).json({ message: "Event not found" })

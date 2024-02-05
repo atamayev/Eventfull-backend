@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const calendarIdSchema = Joi.object({
 	calendarId: Joi.string().required()
-})
+}).required()
 
 export default function validateCalendarIdInParams (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

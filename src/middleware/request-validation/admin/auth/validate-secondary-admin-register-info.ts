@@ -8,7 +8,7 @@ const secondaryAdminRegisterInfoSchema = Joi.object({
 		username: Joi.string().required().pattern(new RegExp("^[^@]*$")),
 		password: Joi.string().min(6).required(),
 	}).required()
-})
+}).required()
 
 export default function validateSecondaryAdminRegisterInfo (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

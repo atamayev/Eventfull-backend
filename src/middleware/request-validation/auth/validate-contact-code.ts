@@ -5,7 +5,7 @@ import { Request, Response, NextFunction } from "express"
 const contactCodeSchema = Joi.object({
 	// Exactly 6 digits
 	code: Joi.string().length(6).pattern(/^[0-9]+$/).required(),
-})
+}).required()
 
 export default function validateContactCode (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

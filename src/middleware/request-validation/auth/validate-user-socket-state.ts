@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const appStateSchema = Joi.object({
 	appState: Joi.string().valid("active", "inactive", "background").required()
-})
+}).required()
 
 export default function validateUserSocketState (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

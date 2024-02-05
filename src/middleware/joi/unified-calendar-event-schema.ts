@@ -32,7 +32,7 @@ export function createFullUnifiedCalendarEventSchema(sourceType: AuthSources): J
 			recurrence: unifiedRecurrenceSchema.optional(),
 			link: Joi.string().optional()
 		}).required()
-	})
+	}).required()
 }
 
 export const partialUnifiedCalendarEventSchema = Joi.object({
@@ -49,4 +49,4 @@ export const partialUnifiedCalendarEventSchema = Joi.object({
 		recurrence: unifiedRecurrenceSchema.optional(),
 		link: Joi.string().optional()
 	}).required()
-})
+}).required()

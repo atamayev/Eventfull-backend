@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const eventNameSchema = Joi.object({
 	eventName: Joi.string().required()
-})
+}).required()
 
 export default function validateSearchEventName (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

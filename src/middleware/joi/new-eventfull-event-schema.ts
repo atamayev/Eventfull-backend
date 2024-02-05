@@ -10,7 +10,17 @@ const eventTimesSchema = Joi.object({
 	}).required()
 })
 
-const incomingEventfullEventSchema = Joi.object({
+const ongoingEventTimeSchema = Joi.object({
+	startTime: Joi.string().isoDate().required(),
+	endTime: Joi.string().isoDate().required(),
+	eventDuration: Joi.object({
+		hours: Joi.number().integer().min(0).required(),
+		minutes: Joi.number().integer().min(0).max(59).required()
+	}).required(),
+	dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required()
+})
+
+const newEventfullEventSchema = Joi.object({
 	eventName: Joi.string().required(),
 	eventPrice: Joi.number().required(),
 	eventType: Joi.string().valid("Entertainment").required(),
@@ -21,23 +31,14 @@ const incomingEventfullEventSchema = Joi.object({
 	canInvitedUsersInviteOthers: Joi.boolean().required(),
 	eventFrequency: Joi.string().valid("one-time", "custom", "ongoing").required(),
 	address: Joi.string().required(),
-	eventDescription: Joi.string().required(),
+	eventDescription: Joi.string().allow("").optional(),
 
-	eventURL: Joi.string().optional(),
+	eventURL: Joi.string().allow("").optional(),
 	extraEventCategories: Joi.array().items(Joi.string()).optional(),
-	eventImageURL: Joi.string().optional(),
 
 	singularEventTime: eventTimesSchema.optional().allow(null),
 
-	ongoingEventTimes: Joi.array().items(Joi.object({
-		dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required(),
-		startTime: Joi.string().isoDate().required(),
-		endTime: Joi.string().isoDate().required(),
-		eventDuration: Joi.object({
-			hours: Joi.number().integer().min(0).required(),
-			minutes: Joi.number().integer().min(0).max(59).required()
-		}).required()
-	})).optional(),
+	ongoingEventTimes: Joi.array().items(ongoingEventTimeSchema).optional(),
 
 	customEventDates: Joi.array().items(eventTimesSchema).optional(),
 
@@ -46,4 +47,4 @@ const incomingEventfullEventSchema = Joi.object({
 	eventCapacity: Joi.number().optional().allow(null)
 }).required()
 
-export default incomingEventfullEventSchema
+export default newEventfullEventSchema

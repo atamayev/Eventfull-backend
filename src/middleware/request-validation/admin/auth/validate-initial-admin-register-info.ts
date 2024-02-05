@@ -8,7 +8,7 @@ const initialAdminRegisterInfoSchema = Joi.object({
 		firstName: Joi.string().required(),
 		lastName: Joi.string().required(),
 	}).required()
-})
+}).required()
 
 export default function validateInitialAdminRegisterInfo (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

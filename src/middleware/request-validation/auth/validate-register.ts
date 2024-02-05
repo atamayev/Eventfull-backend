@@ -13,7 +13,7 @@ const registerInformationSchema = Joi.object({
 		notificationToken: Joi.string().required(),
 		primaryDevicePlatform: Joi.string().valid("ios" , "android" , "windows" , "macos" , "web").required()
 	}).required()
-})
+}).required()
 
 export default function validateRegister (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

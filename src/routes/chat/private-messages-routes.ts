@@ -33,7 +33,7 @@ import retrievePrivateChatMessages from "../../controllers/chat/private/message/
 const privateMessagesRoutes = express.Router()
 
 privateMessagesRoutes.post(
-	"/create-chat",
+	"/create-chat/:friendId",
 	validateFriendId,
 	confirmUserHasntBlockedFriend,
 	confirmFriendHasntBlockedUser,

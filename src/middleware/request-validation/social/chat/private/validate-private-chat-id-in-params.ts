@@ -15,9 +15,7 @@ export default async function validatePrivateChatIdInParams (req: Request, res: 
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const privateChatId = new Types.ObjectId(req.params.privateChatId as string)
-
-		const privateChat = await findPrivateChat(privateChatId)
+		const privateChat = await findPrivateChat(req.params.privateChatId as unknown as Types.ObjectId)
 
 		if (_.isNull(privateChat)) return res.status(400).json({ message: "Private Chat not found" })
 

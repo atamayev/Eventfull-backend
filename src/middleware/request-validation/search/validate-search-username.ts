@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const usernameSchema = Joi.object({
 	username: Joi.string().allow("").optional()
-})
+}).required()
 
 export default function validateSearchUsername (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

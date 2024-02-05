@@ -45,6 +45,11 @@ const ongoingEventTimeSchema = new Schema<OngoingEvents>({
 	dayOfWeek: { type: String, enum: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], required: true },
 }, { _id: false })
 
+const eventImagesSchema = new Schema<EventImages>({
+	imageId: { type: String, required: true },
+	imageURL: { type: String, },
+}, { _id: false })
+
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
 	eventPrice: { type: Number, required: true },
@@ -56,7 +61,8 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	canInvitedUsersInviteOthers: { type: Boolean, required: true },
 	eventFrequency: { type: String, enum: ["one-time", "custom", "ongoing"], required: true },
 	address: { type: String, required: true },
-	eventDescription: { type: String, required: true },
+	eventDescription: { type: String, default: "" },
+	eventImages: { type: [eventImagesSchema], required: true },
 
 	invitees: { type: [eventfullInviteesSchema], required: true},
 	attendees: { type: [eventfullAttendeesSchema], required: true},
@@ -71,7 +77,6 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 	organizer: { type: socialDataSchema },
 	eventURL: { type: String },
 	extraEventCategories: {type: [String]},
-	eventImageURL: { type: String },
 	createdBy: { type: createdBySchema },
 }, { timestamps: true })
 

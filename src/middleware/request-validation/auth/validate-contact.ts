@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express"
 
 const contactSchema = Joi.object({
 	contact: Joi.string().required()
-})
+}).required()
 
 export default function validateContact(req: Request, res: Response, next: NextFunction): void | Response {
 	try {

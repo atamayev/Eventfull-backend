@@ -16,9 +16,7 @@ export default async function validatePrivateMessageIdInParams (req: Request, re
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
-		const privateMessageId = new Types.ObjectId(req.params.privateMessageId as string)
-
-		const privateMessage = await findPrivateMessage(privateMessageId)
+		const privateMessage = await findPrivateMessage(req.params.privateMessageId as unknown as Types.ObjectId)
 
 		if (_.isNull(privateMessage)) return res.status(400).json({ message: "Private Message not found" })
 

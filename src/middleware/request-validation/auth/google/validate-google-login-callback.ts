@@ -7,7 +7,7 @@ const googleLoginCallbackSchema = Joi.object({
 	idToken: Joi.required(),
 	notificationToken: Joi.string().required(),
 	primaryDevicePlatform: Joi.string().valid("ios" , "android" , "windows" , "macos" , "web").required()
-})
+}).required()
 
 export default function validateGoogleLoginCallback (req: Request, res: Response, next: NextFunction): void | Response {
 	try {

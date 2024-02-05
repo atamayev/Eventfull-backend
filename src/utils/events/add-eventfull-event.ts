@@ -32,7 +32,7 @@ export default async function addEventfullEvent(eventfullEvent: EventfullEvent, 
 
 		eventURL: eventfullEvent.eventURL,
 		extraEventCategories: eventfullEvent.extraEventCategories,
-		eventImageURL: eventfullEvent.eventImageURL,
+		eventImages: eventfullEvent.eventImages,
 
 		...(eventfullEvent.eventFrequency === "one-time" && eventfullEvent.singularEventTime ? { singularEventTime: eventfullEvent.singularEventTime } : {}),
 		...(eventfullEvent.eventFrequency === "custom" && eventfullEvent.customEventDates ? { customEventDates: eventfullEvent.customEventDates } : {}),
