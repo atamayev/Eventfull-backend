@@ -11,6 +11,6 @@ export default async function retrieveEventfullEvents(req: Request, res: Respons
 		return res.status(200).json({ events })
 	} catch (error) {
 		console.error(error)
-		return res.status(500).json({ error: "Internal Server Error: Unable to Create Event" })
+		return res.status(500).json({ error: "Internal Server Error: Unable to Retrieve events" })
 	}
 }
