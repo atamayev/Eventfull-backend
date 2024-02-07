@@ -7,7 +7,9 @@ import validateEventfullEventId from "../../middleware/request-validation/events
 import validateCreateEventfullEvent from "../../middleware/request-validation/events/validate-create-eventfull-event"
 import validateUpdateEventfullEvent from "../../middleware/request-validation/events/validate-update-eventfull-event"
 
+import getEventTypes from "../../controllers/lists/get-event-types"
 import addImageURLs from "../../controllers/admin/events/add-image-urls"
+import getEventCategories from "../../controllers/lists/get-event-categories"
 import addAdminEventfullEvent from "../../controllers/admin/events/add-admin-eventfull-event"
 import retrieveEventfullEvents from "../../controllers/admin/events/retrieve-eventfull-events"
 import updateAdminEventfullEvent from "../../controllers/admin/events/update-admin-eventfull-event"
@@ -41,5 +43,12 @@ adminEventsRoutes.post("/add-image-urls/:eventfullEventId",
 	validateImageURLs,
 	addImageURLs
 )
+
+adminEventsRoutes.get("/get-event-types", getEventTypes)
+adminEventsRoutes.get("/get-event-categories", getEventCategories)
+
+// TODO: When adding routes to add/delete types and categories, add isActive parameters to the models
+// also, add the admin (userId and social data) who added them.
+// add timestamps to the models as well.
 
 export default adminEventsRoutes

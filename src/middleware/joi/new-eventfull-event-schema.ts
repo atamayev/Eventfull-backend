@@ -23,7 +23,7 @@ const ongoingEventTimeSchema = Joi.object({
 const newEventfullEventSchema = Joi.object({
 	eventName: Joi.string().required(),
 	eventPrice: Joi.number().required(),
-	eventType: Joi.string().valid("Entertainment").required(),
+	eventType: Joi.string().required(),
 	isVirtual: Joi.boolean().required(),
 	isActive: Joi.boolean().required(),
 	eventPublic: Joi.boolean().required(),
