@@ -3,7 +3,9 @@ import EventCategoryModel from "../../models/event-category-model"
 
 export default async function getEventCategories (req: Request, res: Response): Promise<Response> {
 	try {
-		const eventCategories = await EventCategoryModel.find()
+		const eventCategories = await EventCategoryModel.find(
+			{ isActive: true }
+		).lean()
 		return res.status(200).json({ eventCategories })
 	} catch (error) {
 		console.error(error)

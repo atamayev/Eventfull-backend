@@ -1,8 +1,11 @@
 import { Schema, model } from "mongoose"
+import { adminData } from "./chat/social-data-model"
 
 const eventCategorySchema = new Schema<EventCategory>({
-	eventCategory: { type: String, required: true, unique: true, trim: true },
-	description: { type: String, required: true, trim: true }
+	eventCategoryName: { type: String, required: true, unique: true, trim: true },
+	description: { type: String, required: true, trim: true },
+	isActive: { type: Boolean, required: true, default: true },
+	createdBy: { type: adminData, required: true },
 }, { timestamps: true })
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

@@ -12,3 +12,9 @@ export const socialDataWithTimestampSchema = new Schema<SocialDataWithTimestamp>
 	username: { type: String, required: true },
 	createdAt: { type: Date, default: Date.now }
 }, { _id: false })
+
+export const adminData = new Schema<AdminSocialDataWithTimestamp>({
+	adminId: { type: Schema.Types.ObjectId, ref: "Admin" },
+	username: { type: String, required: true },
+	createdAt: { type: Date, default: Date.now }
+}, { _id: false })

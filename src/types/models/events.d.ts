@@ -17,15 +17,23 @@ declare global {
 	}
 
 	interface EventCategory extends IDInterface {
-		eventCategory: string
+		eventCategoryName: string
 		description: string
+		isActive: boolean
+		createdBy: AdminSocialDataWithTimestamp
+	}
+
+	interface EventCategoryInsideEventType {
+		categoryId: Types.ObjectId
+		eventCategoryName: string
 	}
 
 	interface EventType extends IDInterface {
-		name: string
+		eventTypeName: string
 		description: string
-		// Categories should be of type eventCategory[]
-		categories: string[]
+		categories: EventCategoryInsideEventType[]
+		isActive: boolean
+		createdBy: AdminSocialDataWithTimestamp
 	}
 
 	interface EventfullCalendarEvent extends TimestampsInterface {
