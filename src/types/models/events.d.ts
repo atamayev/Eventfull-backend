@@ -120,6 +120,17 @@ declare global {
 		coHosts: SocialData[]
 		eventCapacity?: number
 	}
+
+	interface IncomingEventCategory {
+		eventCategoryName: string
+		description: string
+	}
+
+	interface IncomingEventType {
+		eventTypeName: string
+		description: string
+		categories: EventCategoryInsideEventType[]
+	}
 }
 
 export {}

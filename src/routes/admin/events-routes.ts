@@ -15,6 +15,14 @@ import retrieveEventfullEvents from "../../controllers/admin/events/retrieve-eve
 import updateAdminEventfullEvent from "../../controllers/admin/events/update-admin-eventfull-event"
 import deleteAdminEventfullEvent from "../../controllers/admin/events/delete-admin-eventfull-event"
 import retrieveSingleEventfullEvent from "../../controllers/admin/events/retrieve-single-eventfull-event"
+import addEventCategory from "../../controllers/admin/events/event-types-and-categories/add-event-category"
+import validateCreateEventCategory from "../../middleware/request-validation/events/validate-create-event-category"
+import addEventType from "../../controllers/admin/events/event-types-and-categories/add-event-type"
+import validateCreateEventType from "../../middleware/request-validation/events/validate-create-event-type"
+import deleteEventCategory from "../../controllers/admin/events/event-types-and-categories/delete-event-category"
+import deleteEventType from "../../controllers/admin/events/event-types-and-categories/delete-event-type"
+import validateEventCategoryId from "../../middleware/request-validation/events/validate-event-category-id"
+import validateEventTypeId from "../../middleware/request-validation/events/validate-event-type-id"
 
 const adminEventsRoutes = express.Router()
 
@@ -47,8 +55,28 @@ adminEventsRoutes.post("/add-image-urls/:eventfullEventId",
 adminEventsRoutes.get("/get-event-types", getEventTypes)
 adminEventsRoutes.get("/get-event-categories", getEventCategories)
 
-// TODO: When adding routes to add/delete types and categories, add isActive parameters to the models
-// also, add the admin (userId and social data) who added them.
-// add timestamps to the models as well.
+adminEventsRoutes.post(
+	"/add-event-category",
+	validateCreateEventCategory,
+	addEventCategory
+)
+
+adminEventsRoutes.post(
+	"/add-event-type",
+	validateCreateEventType,
+	addEventType
+)
+
+adminEventsRoutes.delete(
+	"/delete-event-category/:eventCategoryId",
+	validateEventCategoryId,
+	deleteEventCategory
+)
+
+adminEventsRoutes.delete(
+	"/delete-event-type/:eventTypeId",
+	validateEventTypeId,
+	deleteEventType
+)
 
 export default adminEventsRoutes

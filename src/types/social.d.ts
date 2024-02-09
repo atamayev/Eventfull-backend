@@ -10,10 +10,9 @@ declare global {
 		createdAt: Date
 	}
 
-	interface AdminSocialDataWithTimestamp {
+	interface AdminSocialData {
 		adminId: Types.ObjectId
 		username: string
-		createdAt: Date
 	}
 }
 

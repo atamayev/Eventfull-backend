@@ -3,7 +3,7 @@ import EventfullEventModel from "../../../models/eventfull-event-model"
 
 export default async function deleteAdminEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {
-		const eventId: string = req.params.eventId
+		const eventId = req.params.eventId as string
 
 		await EventfullEventModel.findByIdAndUpdate(
 			eventId,

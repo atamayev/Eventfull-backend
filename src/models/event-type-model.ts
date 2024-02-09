@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose"
-import trimArray from "../utils/trim-array"
 import { adminData } from "./chat/social-data-model"
 
 const eventCategoriesSchema = new Schema<EventCategoryInsideEventType>({
@@ -10,7 +9,7 @@ const eventCategoriesSchema = new Schema<EventCategoryInsideEventType>({
 const eventTypeSchema = new Schema<EventType>({
 	eventTypeName: { type: String, required: true, unique: true, trim: true },
 	description: { type: String, required: true, trim: true },
-	categories: { type: [eventCategoriesSchema], required: true, set: trimArray },
+	categories: { type: [eventCategoriesSchema], required: true },
 	isActive: { type: Boolean, required: true, default: true },
 	createdBy: { type: adminData, required: true },
 }, { timestamps: true })
