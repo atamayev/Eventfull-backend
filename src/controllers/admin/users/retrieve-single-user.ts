@@ -8,10 +8,10 @@ export default async function retrieveSingleUser(req: Request, res: Response): P
 		const userId = req.params.userId as string
 		const user = await findUser(
 			userId as unknown as Types.ObjectId,
-			"_id email firstName lastName email phoneNumber friends username createdAt updatedAt loginHistory"
+			"_id firstName lastName email phoneNumber friends username createdAt updatedAt loginHistory"
 		)
 
-		if (_.isNull(user))	return res.status(400).json({ message: "User not found" })
+		if (_.isNull(user)) return res.status(400).json({ message: "User not found" })
 
 		return res.status(200).json({ user })
 	} catch (error) {

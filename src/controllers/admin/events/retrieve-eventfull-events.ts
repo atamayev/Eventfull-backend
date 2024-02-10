@@ -6,15 +6,12 @@ import EventfullEventModel from "../../../models/eventfull-event-model"
 export default async function retrieveEventfullEvents(req: Request, res: Response): Promise<Response> {
 	try {
 		// TODO: Down the line, will need to add pagination
-		const foundEvents = await EventfullEventModel.find({ isActive: true }).lean()
+		const events = await EventfullEventModel.find({ isActive: true }).lean()
 
-		const eventsWithTypes = await Promise.all(foundEvents.map(async (foundEvent) => {
+		const eventsWithTypes = await Promise.all(events.map(async (foundEvent) => {
 			const eventTypeDoc = await EventTypeModel.findById(foundEvent.eventType).lean()
 
-			if (_.isNull(eventTypeDoc)) {
-				console.error(`EventType not found for event ${foundEvent._id}`)
-				return null // Example: Skip events with missing eventType
-			}
+			if (_.isNull(eventTypeDoc)) return null
 
 			return {
 				...foundEvent,
@@ -25,7 +22,6 @@ export default async function retrieveEventfullEvents(req: Request, res: Respons
 			}
 		}))
 
-		// Filter out null values if some events were skipped
 		const filteredEvents = eventsWithTypes.filter(event => event !== null)
 
 		return res.status(200).json({ events: filteredEvents })
