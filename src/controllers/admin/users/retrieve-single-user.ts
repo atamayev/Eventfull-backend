@@ -6,7 +6,10 @@ import findUser from "../../../utils/find/find-user"
 export default async function retrieveSingleUser(req: Request, res: Response): Promise<Response> {
 	try {
 		const userId = req.params.userId as string
-		const user = await findUser(userId as unknown as Types.ObjectId)
+		const user = await findUser(
+			userId as unknown as Types.ObjectId,
+			"_id email firstName lastName email phoneNumber friends username createdAt updatedAt loginHistory"
+		)
 
 		if (_.isNull(user))	return res.status(400).json({ message: "User not found" })
 
