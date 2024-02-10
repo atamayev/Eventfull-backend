@@ -72,7 +72,7 @@ const updatedEventfullEventSchema = Joi.object({
 	__v: Joi.number().required(),
 	eventName: Joi.string().required(),
 	eventPrice: Joi.number().required(),
-	eventType: Joi.string().required(),
+	eventType: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 	isVirtual: Joi.boolean().required(),
 	isActive: Joi.boolean().required(),
 	eventPublic: Joi.boolean().required(),
