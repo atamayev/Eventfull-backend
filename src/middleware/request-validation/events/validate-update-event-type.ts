@@ -6,6 +6,9 @@ import objectIdValidation from "../../../utils/object-id-validation"
 const eventCategoriesSchema = Joi.object({
 	categoryId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 	eventCategoryName: Joi.string().required(),
+	description: Joi.string().required(),
+	createdAt: Joi.date().optional(),
+	updatedAt: Joi.date().optional(),
 }).required()
 
 const eventTypeSchema = Joi.object({
