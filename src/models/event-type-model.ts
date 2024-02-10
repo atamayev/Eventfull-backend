@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose"
 import { adminData } from "./chat/social-data-model"
 
-const eventCategoriesSchema = new Schema<EventCategoryInsideEventType>({
+export const eventCategoriesSchema = new Schema<EventCategoryInsideEventType>({
 	categoryId: { type: Schema.Types.ObjectId, ref: "EventCategory" },
 	eventCategoryName: { type: String, required: true, unique: true, trim: true }
 }, { timestamps: true, _id: false })

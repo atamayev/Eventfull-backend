@@ -96,7 +96,7 @@ declare global {
 		eventDescription: string
 		organizer?: SocialData
 		eventURL?: string
-		extraEventCategories?: string[]
+		extraEventCategories?: EventCategoryInsideEventType[]
 		eventImages: EventImages[]
 
 		// For one-time events:

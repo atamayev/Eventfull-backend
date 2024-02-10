@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose"
 import socialDataSchema, { socialDataWithTimestampSchema } from "./chat/social-data-model"
+import { eventCategoriesSchema } from "./event-type-model"
 
 const eventfullInviteesSchema = new Schema<EventfullInvitee>({
 	user: { type: socialDataSchema, required: true },
@@ -77,7 +78,7 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 
 	organizer: { type: socialDataSchema },
 	eventURL: { type: String },
-	extraEventCategories: {type: [String]},
+	extraEventCategories: {type: [eventCategoriesSchema]},
 	createdBy: { type: createdBySchema },
 }, { timestamps: true })
 
