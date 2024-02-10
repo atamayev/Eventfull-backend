@@ -2,6 +2,7 @@ import _ from "lodash"
 import { Request, Response } from "express"
 import EventTypeModel from "../../../../models/event-type-model"
 
+// eslint-disable-next-line max-lines-per-function
 export default async function addEventType(req: Request, res: Response): Promise<Response> {
 	try {
 		const admin = req.admin
@@ -34,7 +35,16 @@ export default async function addEventType(req: Request, res: Response): Promise
 			)
 		}
 
-		return res.status(200).json({ eventType })
+		if (_.isNull(eventType)) {
+			return res.status(500).json({ message: "Internal Server Error: Unable to Create Event Type (eventTypes is null)" })
+		}
+
+		return res.status(200).json({
+			_id: eventType._id,
+			updatedAt: eventType.updatedAt,
+			createdAt: eventType.createdAt,
+			createdBy: eventType.createdBy,
+		})
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Create Event Type" })

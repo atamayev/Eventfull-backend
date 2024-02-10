@@ -1,6 +1,6 @@
 import { Types } from "mongoose"
 import { Request, Response } from "express"
-import findEventType from "../../../utils/find/find-event-type"
+import findEventType from "../../../../utils/find/find-event-type"
 
 export default async function retrieveSingleEventType(req: Request, res: Response): Promise<Response> {
 	try {

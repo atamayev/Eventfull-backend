@@ -1,6 +1,6 @@
 import { Types } from "mongoose"
 import { Request, Response } from "express"
-import findEventCategory from "../../../utils/find/find-event-category"
+import findEventCategory from "../../../../utils/find/find-event-category"
 
 export default async function retrieveSingleEventCategory(req: Request, res: Response): Promise<Response> {
 	try {

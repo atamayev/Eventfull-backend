@@ -3,16 +3,17 @@ import Joi from "joi"
 import { Request, Response, NextFunction } from "express"
 import objectIdValidation from "../../../utils/object-id-validation"
 
-const categorySchema = Joi.object({
+const categoriesSchema = Joi.object({
 	categoryId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-	eventCategoryName: Joi.string().required()
+	eventCategoryName: Joi.string().required(),
+	description: Joi.string().required()
 }).required()
 
 const eventTypeSchema = Joi.object({
 	eventTypeDetails: Joi.object({
 		eventTypeName: Joi.string().required(),
 		description: Joi.string().required(),
-		categories: Joi.array().items(categorySchema).required()
+		categories: Joi.array().items(categoriesSchema).required(),
 	}).required()
 }).required()
 

@@ -21,13 +21,13 @@ import deleteEventType from "../../controllers/admin/events/event-types/delete-e
 import updateEventType from "../../controllers/admin/events/event-types/update-event-type"
 import addAdminEventfullEvent from "../../controllers/admin/events/add-admin-eventfull-event"
 import retrieveEventfullEvents from "../../controllers/admin/events/retrieve-eventfull-events"
-import retrieveSingleEventType from "../../controllers/admin/events/retrieve-single-event-type"
+import retrieveSingleEventType from "../../controllers/admin/events/event-types/retrieve-single-event-type"
 import addEventCategory from "../../controllers/admin/events/event-categories/add-event-category"
 import updateAdminEventfullEvent from "../../controllers/admin/events/update-admin-eventfull-event"
 import deleteAdminEventfullEvent from "../../controllers/admin/events/delete-admin-eventfull-event"
 import deleteEventCategory from "../../controllers/admin/events/event-categories/delete-event-category"
 import updateEventCategory from "../../controllers/admin/events/event-categories/update-event-category"
-import retrieveSingleEventCategory from "../../controllers/admin/events/retrieve-single-event-category"
+import retrieveSingleEventCategory from "../../controllers/admin/events/event-categories/retrieve-single-event-category"
 import retrieveSingleEventfullEvent from "../../controllers/admin/events/retrieve-single-eventfull-event"
 
 const adminEventsRoutes = express.Router()

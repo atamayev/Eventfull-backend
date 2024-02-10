@@ -3,7 +3,8 @@ import { adminData } from "./chat/social-data-model"
 
 export const eventCategoriesSchema = new Schema<EventCategoryInsideEventType>({
 	categoryId: { type: Schema.Types.ObjectId, ref: "EventCategory" },
-	eventCategoryName: { type: String, required: true, unique: true, trim: true }
+	eventCategoryName: { type: String, required: true, trim: true },
+	description: { type: String, required: true, trim: true },
 }, { timestamps: true, _id: false })
 
 const eventTypeSchema = new Schema<EventType>({

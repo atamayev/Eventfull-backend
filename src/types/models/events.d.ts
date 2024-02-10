@@ -25,12 +25,17 @@ declare global {
 		createdBy: AdminSocialData
 	}
 
-	interface EventCategoryInsideEventType {
+	interface EventCategoryInsideEventType extends TimestampsInterface {
 		categoryId: Types.ObjectId
 		eventCategoryName: string
+		description: string
 	}
 
-	interface EventType extends IDInterface {
+	interface EventTypeInsideEvent {
+		eventTypeId: Types.ObjectId
+	}
+
+	interface EventType extends IDInterface, TimestampsInterface {
 		eventTypeName: string
 		description: string
 		categories: EventCategoryInsideEventType[]
@@ -85,7 +90,7 @@ declare global {
 	interface BaseEventfullEvent {
 		eventName: string
 		eventPrice: number
-		eventType: string
+		eventType: Types.ObjectId
 		isVirtual: boolean
 		isActive: boolean
 		eventPublic: boolean
@@ -121,6 +126,19 @@ declare global {
 		invitees: SocialData[]
 		coHosts: SocialData[]
 		eventCapacity?: number
+	}
+
+	interface OutgoingEventfullEvent extends Omit<BaseEventfullEvent, "eventType"> {
+		_id: Types.ObjectId
+		eventType: {
+			eventTypeId: Types.ObjectId
+			eventTypeName: string
+		}
+		invitees: EventfullInvitee[]
+		coHosts: EventfullCoHost[]
+		attendees: EventfullAttendee[]
+		eventCapacity: number | null
+		createdBy?: CreatedBy
 	}
 
 	interface IncomingEventCategory {

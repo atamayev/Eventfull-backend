@@ -1,5 +1,6 @@
 import Joi from "joi"
 import { socialDataSchema } from "./updated-eventfull-event-schema"
+import objectIdValidation from "../../utils/object-id-validation"
 
 const eventTimesSchema = Joi.object({
 	startTime: Joi.string().isoDate().required(),
@@ -28,7 +29,7 @@ const extraEventCategoriesSchema = Joi.object({
 const newEventfullEventSchema = Joi.object({
 	eventName: Joi.string().required(),
 	eventPrice: Joi.number().required(),
-	eventType: Joi.string().required(),
+	eventType: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 	isVirtual: Joi.boolean().required(),
 	isActive: Joi.boolean().required(),
 	eventPublic: Joi.boolean().required(),

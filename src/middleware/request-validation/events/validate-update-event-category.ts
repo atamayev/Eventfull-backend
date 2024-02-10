@@ -14,6 +14,8 @@ const eventCategorySchema = Joi.object({
 			adminId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 			username: Joi.string().required()
 		}).required(),
+		isActive: Joi.boolean().optional(),
+		__v: Joi.number().optional()
 	}).required(),
 }).required()
 

@@ -11,7 +11,7 @@ const eventCategoriesSchema = Joi.object({
 const eventTypeSchema = Joi.object({
 	eventTypeDetails: Joi.object({
 		_id: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
-		__v: Joi.number().required(),
+		__v: Joi.number().optional(),
 		eventTypeName: Joi.string().required(),
 		description: Joi.string().required(),
 		createdAt: Joi.date().required(),
@@ -21,7 +21,7 @@ const eventTypeSchema = Joi.object({
 			adminId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 			username: Joi.string().required()
 		}).required(),
-		isActive: Joi.boolean().required(),
+		isActive: Joi.boolean().optional(),
 	}).required(),
 }).required()
 
