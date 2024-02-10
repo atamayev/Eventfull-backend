@@ -1,7 +1,7 @@
 import express from "express"
 import adminAuthRoutes from "./auth-routes"
+import adminUsersRoutes from "./users-routes"
 import adminEventsRoutes from "./events-routes"
-import adminUsersRoutes from "../users/users-routes"
 import adminPersonalInfoRoutes from "./personal-info-routes"
 
 import adminJwtVerify from "../../middleware/jwt/admin-jwt-verify"
