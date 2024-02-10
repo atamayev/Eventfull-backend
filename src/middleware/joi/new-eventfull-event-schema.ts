@@ -21,11 +21,6 @@ const ongoingEventTimeSchema = Joi.object({
 	dayOfWeek: Joi.string().valid("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday").required()
 })
 
-const extraEventCategoriesSchema = Joi.object({
-	categoryId: Joi.string().required(),
-	eventCategoryName: Joi.string().required()
-})
-
 const newEventfullEventSchema = Joi.object({
 	eventName: Joi.string().required(),
 	eventPrice: Joi.number().required(),
@@ -40,7 +35,7 @@ const newEventfullEventSchema = Joi.object({
 	eventDescription: Joi.string().allow("").optional(),
 
 	eventURL: Joi.string().allow("").optional(),
-	extraEventCategories: Joi.array().items(extraEventCategoriesSchema).optional(),
+	extraEventCategories: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation").required()).optional(),
 
 	singularEventTime: eventTimesSchema.optional().allow(null),
 

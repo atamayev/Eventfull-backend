@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose"
 import socialDataSchema, { socialDataWithTimestampSchema } from "./chat/social-data-model"
-import { eventCategoriesSchema } from "./event-type-model"
 
 const eventfullInviteesSchema = new Schema<EventfullInvitee>({
 	user: { type: socialDataSchema, required: true },
@@ -52,10 +51,14 @@ const eventImagesSchema = new Schema<EventImages>({
 	isActive: { type: Boolean, required: true },
 }, { _id: false })
 
+const extraEventCategoriesSchema = new Schema<ExtraEventCategories>({
+	categoryId: { type: Schema.Types.ObjectId, ref: "EventCategory" },
+})
+
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
 	eventPrice: { type: Number, required: true },
-	eventType: { type: Schema.Types.ObjectId, ref: "EventType", required: true }, // TODO: change this to reference an event type id.
+	eventType: { type: Schema.Types.ObjectId, ref: "EventType", required: true },
 	// also, change the extra event categories to reference the event category id
 	isVirtual: { type: Boolean, required: true },
 	isActive: { type: Boolean, required: true },
@@ -79,7 +82,7 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 
 	organizer: { type: socialDataSchema },
 	eventURL: { type: String },
-	extraEventCategories: {type: [eventCategoriesSchema]},
+	extraEventCategories: {type: [extraEventCategoriesSchema]},
 	createdBy: { type: createdBySchema },
 }, { timestamps: true })
 

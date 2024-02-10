@@ -1,10 +1,10 @@
 import _ from "lodash"
 import { v4 as uuidv4 } from "uuid"
 import { Request, Response } from "express"
+import EventTypeModel from "../../../models/event-type-model"
 import AwsStorageService from "../../../classes/aws-storage-service"
 import EventfullEventModel from "../../../models/eventfull-event-model"
 import convertAdminEventToEventfullEvent from "../../../utils/events/convert-admin-event-to-eventfull-event"
-import EventTypeModel from "../../../models/event-type-model"
 
 export default async function addAdminEventfullEvent(req: Request, res: Response): Promise<Response> {
 	try {

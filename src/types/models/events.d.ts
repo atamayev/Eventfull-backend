@@ -87,6 +87,10 @@ declare global {
 		imageURL?: string
 	}
 
+	interface ExtraEventCategories {
+		categoryId: Types.ObjectId
+	}
+
 	interface BaseEventfullEvent {
 		eventName: string
 		eventPrice: number
@@ -101,7 +105,7 @@ declare global {
 		eventDescription: string
 		organizer?: SocialData
 		eventURL?: string
-		extraEventCategories?: EventCategoryInsideEventType[]
+		extraEventCategories?: ExtraEventCategories[]
 		eventImages: EventImages[]
 
 		// For one-time events:
