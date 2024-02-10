@@ -4,13 +4,14 @@ import { Request, Response, NextFunction } from "express"
 import objectIdValidation from "../../../utils/object-id-validation"
 
 const eventCategoriesSchema = Joi.object({
-	_id: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
+	categoryId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 	eventCategoryName: Joi.string().required(),
 }).required()
 
 const eventTypeSchema = Joi.object({
-	eventCategoryDetails: Joi.object({
+	eventTypeDetails: Joi.object({
 		_id: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
+		__v: Joi.number().required(),
 		eventTypeName: Joi.string().required(),
 		description: Joi.string().required(),
 		createdAt: Joi.date().required(),
@@ -20,6 +21,7 @@ const eventTypeSchema = Joi.object({
 			adminId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 			username: Joi.string().required()
 		}).required(),
+		isActive: Joi.boolean().required(),
 	}).required(),
 }).required()
 
