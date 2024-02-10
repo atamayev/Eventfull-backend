@@ -53,13 +53,12 @@ const eventImagesSchema = new Schema<EventImages>({
 
 const extraEventCategoriesSchema = new Schema<ExtraEventCategories>({
 	categoryId: { type: Schema.Types.ObjectId, ref: "EventCategory" },
-})
+}, { _id: false })
 
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
 	eventPrice: { type: Number, required: true },
 	eventType: { type: Schema.Types.ObjectId, ref: "EventType", required: true },
-	// also, change the extra event categories to reference the event category id
 	isVirtual: { type: Boolean, required: true },
 	isActive: { type: Boolean, required: true },
 	eventPublic: { type: Boolean, required: true },

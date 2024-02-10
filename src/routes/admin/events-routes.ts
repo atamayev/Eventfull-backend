@@ -21,14 +21,14 @@ import deleteEventType from "../../controllers/admin/events/event-types/delete-e
 import updateEventType from "../../controllers/admin/events/event-types/update-event-type"
 import addAdminEventfullEvent from "../../controllers/admin/events/add-admin-eventfull-event"
 import retrieveEventfullEvents from "../../controllers/admin/events/retrieve-eventfull-events"
-import retrieveSingleEventType from "../../controllers/admin/events/event-types/retrieve-single-event-type"
 import addEventCategory from "../../controllers/admin/events/event-categories/add-event-category"
 import updateAdminEventfullEvent from "../../controllers/admin/events/update-admin-eventfull-event"
 import deleteAdminEventfullEvent from "../../controllers/admin/events/delete-admin-eventfull-event"
 import deleteEventCategory from "../../controllers/admin/events/event-categories/delete-event-category"
 import updateEventCategory from "../../controllers/admin/events/event-categories/update-event-category"
-import retrieveSingleEventCategory from "../../controllers/admin/events/event-categories/retrieve-single-event-category"
 import retrieveSingleEventfullEvent from "../../controllers/admin/events/retrieve-single-eventfull-event"
+import retrieveSingleEventType from "../../controllers/admin/events/event-types/retrieve-single-event-type"
+import retrieveSingleEventCategory from "../../controllers/admin/events/event-categories/retrieve-single-event-category"
 
 const adminEventsRoutes = express.Router()
 
@@ -40,16 +40,16 @@ adminEventsRoutes.post(
 	addAdminEventfullEvent
 )
 
+adminEventsRoutes.get("/get-events", retrieveEventfullEvents)
+
+adminEventsRoutes.get("/get-event/:eventId", validateEventId, retrieveSingleEventfullEvent)
+
 adminEventsRoutes.post(
 	"/update-event",
 	validateUpdateEventfullEvent,
 	confirmEventFrequencyAttributes,
 	updateAdminEventfullEvent
 )
-
-adminEventsRoutes.get("/get-events", retrieveEventfullEvents)
-
-adminEventsRoutes.get("/get-event/:eventId", validateEventId, retrieveSingleEventfullEvent)
 
 adminEventsRoutes.delete("/delete-event/:eventId", validateEventId, deleteAdminEventfullEvent)
 
@@ -60,49 +60,25 @@ adminEventsRoutes.post("/add-image-urls/:eventfullEventId",
 )
 
 // Event Categories:
+adminEventsRoutes.post("/add-event-category", validateCreateEventCategory, addEventCategory)
+
 adminEventsRoutes.get("/get-event-categories", getEventCategories)
 
 adminEventsRoutes.get("/get-event-category/:eventCategoryId", validateEventCategoryId, retrieveSingleEventCategory)
 
-adminEventsRoutes.post(
-	"/add-event-category",
-	validateCreateEventCategory,
-	addEventCategory
-)
+adminEventsRoutes.post("/update-event-category", validateUpdateEventCategory, updateEventCategory)
 
-adminEventsRoutes.post(
-	"/update-event-category",
-	validateUpdateEventCategory,
-	updateEventCategory
-)
-
-adminEventsRoutes.delete(
-	"/delete-event-category/:eventCategoryId",
-	validateEventCategoryId,
-	deleteEventCategory
-)
+adminEventsRoutes.delete("/delete-event-category/:eventCategoryId", validateEventCategoryId, deleteEventCategory)
 
 // Event Types:
+adminEventsRoutes.post("/add-event-type", validateCreateEventType, addEventType)
+
 adminEventsRoutes.get("/get-event-types", getEventTypes)
 
 adminEventsRoutes.get("/get-event-type/:eventTypeId", validateEventTypeId, retrieveSingleEventType)
 
-adminEventsRoutes.post(
-	"/add-event-type",
-	validateCreateEventType,
-	addEventType
-)
+adminEventsRoutes.post("/update-event-type", validateUpdateEventType, updateEventType)
 
-adminEventsRoutes.post(
-	"/update-event-type",
-	validateUpdateEventType,
-	updateEventType
-)
-
-adminEventsRoutes.delete(
-	"/delete-event-type/:eventTypeId",
-	validateEventTypeId,
-	deleteEventType
-)
+adminEventsRoutes.delete("/delete-event-type/:eventTypeId", validateEventTypeId, deleteEventType)
 
 export default adminEventsRoutes
