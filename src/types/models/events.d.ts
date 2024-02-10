@@ -1,3 +1,5 @@
+import { Types } from "mongoose"
+
 declare global {
 	type EventFrequency = "one-time" | "custom" | "ongoing"
 
@@ -20,7 +22,7 @@ declare global {
 		eventCategoryName: string
 		description: string
 		isActive: boolean
-		createdBy: AdminSocialDataWithTimestamp
+		createdBy: AdminSocialData
 	}
 
 	interface EventCategoryInsideEventType {
@@ -33,7 +35,7 @@ declare global {
 		description: string
 		categories: EventCategoryInsideEventType[]
 		isActive: boolean
-		createdBy: AdminSocialDataWithTimestamp
+		createdBy: AdminSocialData
 	}
 
 	interface EventfullCalendarEvent extends TimestampsInterface {

@@ -14,9 +14,6 @@ export default async function addAdminEventfullEvent(req: Request, res: Response
 		const eventfullEvent = convertAdminEventToEventfullEvent(admin, eventfullEventData)
 
 		const newEvent = await EventfullEventModel.create(eventfullEvent)
-		if (!_.isUndefined(newEvent.createdBy?.userId)) {
-			newEvent.createdBy.userId = newEvent.createdBy.userId.toString()
-		}
 
 		const imagesURLsData = []
 		if (numberOfImages !== 0) {

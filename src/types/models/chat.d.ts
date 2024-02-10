@@ -1,3 +1,5 @@
+import { Types } from "mongoose"
+
 declare global {
 	interface Chat extends IDInterface, TimestampsInterface {
 		participantDetails: SocialData[]

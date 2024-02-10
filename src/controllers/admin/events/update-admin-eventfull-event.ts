@@ -16,9 +16,6 @@ export default async function updateAdminEventfullEvent(req: Request, res: Respo
 			{ new: true }
 		)
 
-		if (!_.isUndefined(updatedEvent?.createdBy?.userId)) {
-			updatedEvent.createdBy.userId = updatedEvent.createdBy.userId.toString()
-		}
 		if (_.isNull(updatedEvent)) return res.status(400).json({ message: "Event not found" })
 
 		const imagesURLsData = []
