@@ -16,7 +16,7 @@ export default async function updateAdminEventfullEvent(req: Request, res: Respo
 			eventfullEventData._id,
 			eventfullEventData,
 			{ new: true }
-		)
+		).lean()
 
 		if (_.isNull(newUpdatedEvent)) return res.status(400).json({ message: "Event not found" })
 
