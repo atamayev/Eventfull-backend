@@ -128,19 +128,6 @@ declare global {
 		eventCapacity?: number
 	}
 
-	interface OutgoingEventfullEvent extends Omit<BaseEventfullEvent, "eventType"> {
-		_id: Types.ObjectId
-		eventType: {
-			eventTypeId: Types.ObjectId
-			eventTypeName: string
-		}
-		invitees: EventfullInvitee[]
-		coHosts: EventfullCoHost[]
-		attendees: EventfullAttendee[]
-		eventCapacity: number | null
-		createdBy?: CreatedBy
-	}
-
 	interface IncomingEventCategory {
 		eventCategoryName: string
 		description: string
