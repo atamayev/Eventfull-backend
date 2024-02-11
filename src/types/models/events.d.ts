@@ -83,10 +83,6 @@ declare global {
 		imageURL?: string
 	}
 
-	interface ExtraEventCategories {
-		categoryId: Types.ObjectId
-	}
-
 	interface BaseEventfullEvent {
 		eventName: string
 		eventPrice: number
@@ -101,7 +97,7 @@ declare global {
 		eventDescription: string
 		organizer?: SocialData
 		eventURL?: string
-		extraEventCategories?: ExtraEventCategories[]
+		extraEventCategories?: Types.ObjectId[]
 		eventImages: EventImages[]
 
 		// For one-time events:
@@ -126,19 +122,6 @@ declare global {
 		invitees: SocialData[]
 		coHosts: SocialData[]
 		eventCapacity?: number
-	}
-
-	interface OutgoingEventfullEvent extends Omit<BaseEventfullEvent, "eventType"> {
-		_id: Types.ObjectId
-		eventType: {
-			eventTypeId: Types.ObjectId
-			eventTypeName: string
-		}
-		invitees: EventfullInvitee[]
-		coHosts: EventfullCoHost[]
-		attendees: EventfullAttendee[]
-		eventCapacity: number | null
-		createdBy?: CreatedBy
 	}
 
 	interface IncomingEventCategory {
