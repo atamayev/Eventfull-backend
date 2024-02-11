@@ -31,10 +31,6 @@ declare global {
 		description: string
 	}
 
-	interface EventTypeInsideEvent {
-		eventTypeId: Types.ObjectId
-	}
-
 	interface EventType extends IDInterface, TimestampsInterface {
 		eventTypeName: string
 		description: string
