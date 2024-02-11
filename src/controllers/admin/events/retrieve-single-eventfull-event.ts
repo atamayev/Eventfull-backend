@@ -8,21 +8,25 @@ export default async function retrieveSingleEventfullEvent(req: Request, res: Re
 	try {
 		const eventId = req.params.eventId as string
 		const foundEvent = await findEvent(eventId as unknown as Types.ObjectId)
-
-		if (foundEvent?.isActive !== true) {
+		if (_.isNull(foundEvent)) {
 			return res.status(400).json({ message: "Event not found" })
 		}
-		foundEvent.eventImages = foundEvent.eventImages.filter(image => image.isActive === true)
-		const eventTypeDoc = await EventTypeModel.findById(foundEvent.eventType).lean()
+		const leanEvent = foundEvent.toObject() as EventfullEvent
+
+		if (leanEvent.isActive !== true) {
+			return res.status(400).json({ message: "Event not found" })
+		}
+		leanEvent.eventImages = leanEvent.eventImages.filter(image => image.isActive === true)
+		const eventTypeDoc = await EventTypeModel.findById(leanEvent.eventType).lean()
 
 		if (_.isNull(eventTypeDoc)) {
 			return res.status(500).json({ message: "Internal Server Error: Unable to Retrieve Single Event (eventTypeName is null)" })
 		}
 
 		const event: OutgoingEventfullEvent = {
-			...foundEvent,
+			...leanEvent,
 			eventType: {
-				eventTypeId: foundEvent.eventType,
+				eventTypeId: leanEvent.eventType,
 				eventTypeName: eventTypeDoc.eventTypeName
 			}
 		}

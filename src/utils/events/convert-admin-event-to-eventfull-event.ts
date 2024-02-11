@@ -15,6 +15,7 @@ export default function convertAdminEventToEventfullEvent(
 		eventReviewable: false,
 		canInvitedUsersInviteOthers: true,
 		eventFrequency: adminEvent.eventFrequency,
+		extraEventCategories: adminEvent.extraEventCategories,
 
 		invitees: [],
 		coHosts: [],
