@@ -38,7 +38,7 @@ export default async function addAdminEventfullEvent(req: Request, res: Response
 		}
 
 		const newEvent: OutgoingEventfullEvent = {
-			...createdEvent,
+			...createdEvent.toObject(),
 			eventType: {
 				eventTypeId: createdEvent.eventType,
 				eventTypeName: eventTypeDoc.eventTypeName

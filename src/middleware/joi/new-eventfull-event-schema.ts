@@ -35,7 +35,7 @@ const newEventfullEventSchema = Joi.object({
 	eventDescription: Joi.string().allow("").optional(),
 
 	eventURL: Joi.string().allow("").optional(),
-	extraEventCategories: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation").required()).optional(),
+	extraEventCategories: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation").optional()).optional(),
 
 	singularEventTime: eventTimesSchema.optional().allow(null),
 
