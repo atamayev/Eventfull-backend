@@ -83,10 +83,6 @@ declare global {
 		imageURL?: string
 	}
 
-	interface ExtraEventCategories {
-		categoryId: Types.ObjectId
-	}
-
 	interface BaseEventfullEvent {
 		eventName: string
 		eventPrice: number
