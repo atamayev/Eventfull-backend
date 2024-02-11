@@ -1,3 +1,5 @@
+import { Types } from "mongoose"
+
 declare global {
 	type EventFrequency = "one-time" | "custom" | "ongoing"
 
@@ -17,15 +19,24 @@ declare global {
 	}
 
 	interface EventCategory extends IDInterface {
-		eventCategory: string
+		eventCategoryName: string
+		description: string
+		isActive: boolean
+		createdBy: AdminSocialData
+	}
+
+	interface EventCategoryInsideEventType extends TimestampsInterface {
+		categoryId: Types.ObjectId
+		eventCategoryName: string
 		description: string
 	}
 
-	interface EventType extends IDInterface {
-		name: string
+	interface EventType extends IDInterface, TimestampsInterface {
+		eventTypeName: string
 		description: string
-		// Categories should be of type eventCategory[]
-		categories: string[]
+		categories: EventCategoryInsideEventType[]
+		isActive: boolean
+		createdBy: AdminSocialData
 	}
 
 	interface EventfullCalendarEvent extends TimestampsInterface {
@@ -72,10 +83,14 @@ declare global {
 		imageURL?: string
 	}
 
+	interface ExtraEventCategories {
+		categoryId: Types.ObjectId
+	}
+
 	interface BaseEventfullEvent {
 		eventName: string
 		eventPrice: number
-		eventType: string
+		eventType: Types.ObjectId
 		isVirtual: boolean
 		isActive: boolean
 		eventPublic: boolean
@@ -86,7 +101,7 @@ declare global {
 		eventDescription: string
 		organizer?: SocialData
 		eventURL?: string
-		extraEventCategories?: string[]
+		extraEventCategories?: ExtraEventCategories[]
 		eventImages: EventImages[]
 
 		// For one-time events:
@@ -111,6 +126,30 @@ declare global {
 		invitees: SocialData[]
 		coHosts: SocialData[]
 		eventCapacity?: number
+	}
+
+	interface OutgoingEventfullEvent extends Omit<BaseEventfullEvent, "eventType"> {
+		_id: Types.ObjectId
+		eventType: {
+			eventTypeId: Types.ObjectId
+			eventTypeName: string
+		}
+		invitees: EventfullInvitee[]
+		coHosts: EventfullCoHost[]
+		attendees: EventfullAttendee[]
+		eventCapacity: number | null
+		createdBy?: CreatedBy
+	}
+
+	interface IncomingEventCategory {
+		eventCategoryName: string
+		description: string
+	}
+
+	interface IncomingEventType {
+		eventTypeName: string
+		description: string
+		categories: EventCategoryInsideEventType[]
 	}
 }
 

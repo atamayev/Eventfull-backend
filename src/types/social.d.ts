@@ -9,6 +9,11 @@ declare global {
 	interface SocialDataWithTimestamp extends SocialData {
 		createdAt: Date
 	}
+
+	interface AdminSocialData {
+		adminId: Types.ObjectId
+		username: string
+	}
 }
 
 export {}

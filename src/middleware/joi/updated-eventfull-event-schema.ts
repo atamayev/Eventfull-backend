@@ -67,7 +67,7 @@ const updatedEventfullEventSchema = Joi.object({
 	__v: Joi.number().required(),
 	eventName: Joi.string().required(),
 	eventPrice: Joi.number().required(),
-	eventType: Joi.string().valid("Entertainment").required(),
+	eventType: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 	isVirtual: Joi.boolean().required(),
 	isActive: Joi.boolean().required(),
 	eventPublic: Joi.boolean().required(),
@@ -78,7 +78,7 @@ const updatedEventfullEventSchema = Joi.object({
 	eventDescription: Joi.string().allow("").required(),
 
 	eventURL: Joi.string().allow("").optional(),
-	extraEventCategories: Joi.array().items(Joi.string()).optional(),
+	extraEventCategories: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation").required()).optional(),
 	eventImages: Joi.array().items(eventImagesSchema).required(),
 
 	singularEventTime: eventTimesSchema.optional().allow(null),

@@ -5,9 +5,9 @@ import UserModel from "../../models/user-model"
 export default async function findUser(userId: Types.ObjectId, select?: string): Promise<User | null> {
 	let user
 	if (!_.isUndefined(select)) {
-		user = await UserModel.findById(userId).select(select)
+		user = await UserModel.findById(userId).select(select).lean()
 	} else {
-		user = await UserModel.findById(userId)
+		user = await UserModel.findById(userId).lean()
 	}
 	return user
 }

@@ -8,7 +8,7 @@ export default function convertAdminEventToEventfullEvent(
 	const event = {
 		eventName: adminEvent.eventName,
 		eventPrice: adminEvent.eventPrice,
-		eventType: "Entertainment",
+		eventType: adminEvent.eventType,
 		isVirtual: false,
 		isActive: true,
 		eventPublic: true,

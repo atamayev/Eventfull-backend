@@ -51,7 +51,7 @@ declare global {
 		title: string,
 		body: string,
 		targetPage: FrontEndScreens,
-		extraData?: Record<string, string | Date>
+		extraData?: Record<string, string | Date | Types.ObjectId>
 	}
 }
 

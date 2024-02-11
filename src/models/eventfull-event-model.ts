@@ -51,10 +51,14 @@ const eventImagesSchema = new Schema<EventImages>({
 	isActive: { type: Boolean, required: true },
 }, { _id: false })
 
+const extraEventCategoriesSchema = new Schema<ExtraEventCategories>({
+	categoryId: { type: Schema.Types.ObjectId, ref: "EventCategory" },
+}, { _id: false })
+
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
 	eventPrice: { type: Number, required: true },
-	eventType: { type: String, required: true },
+	eventType: { type: Schema.Types.ObjectId, ref: "EventType", required: true },
 	isVirtual: { type: Boolean, required: true },
 	isActive: { type: Boolean, required: true },
 	eventPublic: { type: Boolean, required: true },
@@ -77,7 +81,7 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 
 	organizer: { type: socialDataSchema },
 	eventURL: { type: String },
-	extraEventCategories: {type: [String]},
+	extraEventCategories: {type: [extraEventCategoriesSchema]},
 	createdBy: { type: createdBySchema },
 }, { timestamps: true })
 

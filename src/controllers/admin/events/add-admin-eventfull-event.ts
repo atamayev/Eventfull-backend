@@ -1,6 +1,7 @@
 import _ from "lodash"
 import { v4 as uuidv4 } from "uuid"
 import { Request, Response } from "express"
+import EventTypeModel from "../../../models/event-type-model"
 import AwsStorageService from "../../../classes/aws-storage-service"
 import EventfullEventModel from "../../../models/eventfull-event-model"
 import convertAdminEventToEventfullEvent from "../../../utils/events/convert-admin-event-to-eventfull-event"
@@ -13,10 +14,7 @@ export default async function addAdminEventfullEvent(req: Request, res: Response
 
 		const eventfullEvent = convertAdminEventToEventfullEvent(admin, eventfullEventData)
 
-		const newEvent = await EventfullEventModel.create(eventfullEvent)
-		if (!_.isUndefined(newEvent.createdBy?.userId)) {
-			newEvent.createdBy.userId = newEvent.createdBy.userId.toString()
-		}
+		const createdEvent = await EventfullEventModel.create(eventfullEvent)
 
 		const imagesURLsData = []
 		if (numberOfImages !== 0) {
@@ -27,12 +25,27 @@ export default async function addAdminEventfullEvent(req: Request, res: Response
 				if (!_.isUndefined(presignedUrl)) {
 					imagesURLsData.push({ imageId, presignedUrl })
 					// Add the imageId to the newEvent's images array
-					newEvent.eventImages.push({ imageId, isActive: true })
+					createdEvent.eventImages.push({ imageId, isActive: true })
 				}
 			}
-			await newEvent.save()
+			await createdEvent.save()
 		}
 
+		const eventTypeDoc = await EventTypeModel.findById(createdEvent.eventType).lean()
+
+		if (_.isNull(eventTypeDoc)) {
+			return res.status(500).json({ message: "Internal Server Error: Unable to Retrieve Single Event (eventTypeName is null)" })
+		}
+
+		const newEvent: OutgoingEventfullEvent = {
+			...createdEvent,
+			eventType: {
+				eventTypeId: createdEvent.eventType,
+				eventTypeName: eventTypeDoc.eventTypeName
+			}
+		}
+
+		// TODO: also attach the extra categories to the newEvent
 		return res.status(200).json({ newEvent, imagesURLsData })
 	} catch (error) {
 		console.error(error)
