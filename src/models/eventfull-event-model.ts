@@ -51,10 +51,6 @@ const eventImagesSchema = new Schema<EventImages>({
 	isActive: { type: Boolean, required: true },
 }, { _id: false })
 
-const extraEventCategoriesSchema = new Schema<ExtraEventCategories>({
-	categoryId: { type: Schema.Types.ObjectId, ref: "EventCategory" },
-}, { _id: false })
-
 const eventfullEventSchema = new Schema<EventfullEvent>({
 	eventName: { type: String, required: true },
 	eventPrice: { type: Number, required: true },
@@ -81,7 +77,7 @@ const eventfullEventSchema = new Schema<EventfullEvent>({
 
 	organizer: { type: socialDataSchema },
 	eventURL: { type: String },
-	extraEventCategories: {type: [extraEventCategoriesSchema]},
+	extraEventCategories: {type: [{ type: Schema.Types.ObjectId, ref: "EventCategory" }]},
 	createdBy: { type: createdBySchema },
 }, { timestamps: true })
 

@@ -45,7 +45,6 @@ export default async function addAdminEventfullEvent(req: Request, res: Response
 			}
 		}
 
-		// TODO: also attach the extra categories to the newEvent
 		return res.status(200).json({ newEvent, imagesURLsData })
 	} catch (error) {
 		console.error(error)

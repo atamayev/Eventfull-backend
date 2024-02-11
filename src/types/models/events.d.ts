@@ -101,7 +101,7 @@ declare global {
 		eventDescription: string
 		organizer?: SocialData
 		eventURL?: string
-		extraEventCategories?: ExtraEventCategories[]
+		extraEventCategories?: Types.ObjectId[]
 		eventImages: EventImages[]
 
 		// For one-time events:
