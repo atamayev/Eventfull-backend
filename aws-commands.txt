@@ -11,6 +11,7 @@ ssh -i C:\Users\actam\Downloads\eventfull-key-pair-1.pem ubuntu@52.70.65.195
 In AWS:
 `cd eventfull`
 `npm install --production`
+`pm2 restart <app_name or app_id>`
 
 I am using the package pm2 to run the server on the instance (even after I close my connection)
 Important pm2 commands:
