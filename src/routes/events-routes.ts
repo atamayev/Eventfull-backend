@@ -28,6 +28,7 @@ import confirmInviterIsAlreadyInvitedOrHost from "../middleware/events/confirm-i
 import confirmEventOrganizerNotBlockingFriend from "../middleware/events/confirm-event-organizer-not-blocking-friend"
 
 import pinEventfullEvent from "../controllers/events/pin-eventfull-event"
+import retrieveEventsFeed from "../controllers/events/retrieve-events-feed"
 import createEventfullEvent from "../controllers/events/create-eventfull-event"
 import deleteEventfullEvent from "../controllers/events/delete-eventfull-event"
 import updateEventfullEvent from "../controllers/events/update-eventfull-event"
@@ -37,7 +38,6 @@ import removePinnedEventfullEvent from "../controllers/events/remove-pinned-even
 import inviteFriendToEventfullEvent from "../controllers/events/invite-friend-to-eventfull-event"
 import retractInviteToEventfullEvent from "../controllers/events/retract-invite-to-eventfull-event"
 import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
-import retrieveEventsFeed from "../controllers/events/retrieve-events-feed"
 
 const eventsRoutes = express.Router()
 
