@@ -37,6 +37,7 @@ import removePinnedEventfullEvent from "../controllers/events/remove-pinned-even
 import inviteFriendToEventfullEvent from "../controllers/events/invite-friend-to-eventfull-event"
 import retractInviteToEventfullEvent from "../controllers/events/retract-invite-to-eventfull-event"
 import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
+import retrieveEventsFeed from "../controllers/events/retrieve-events-feed"
 
 const eventsRoutes = express.Router()
 
@@ -130,5 +131,7 @@ eventsRoutes.post("/cancel-eventfull-event-registration/:eventfullEventId",
 	checkIfUserAttendingEventfullEvent,
 	cancelEventfullEventRegistration
 )
+
+eventsRoutes.get("/retrieve-events", retrieveEventsFeed)
 
 export default eventsRoutes
