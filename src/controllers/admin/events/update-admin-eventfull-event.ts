@@ -10,11 +10,11 @@ export default async function updateAdminEventfullEvent(req: Request, res: Respo
 		const numberOfImages = req.body.numberOfImages as number
 		delete eventfullEventData.__v
 
-		const updatedEvent = await EventfullEventModel.findByIdAndUpdate(
+		let updatedEvent = await EventfullEventModel.findByIdAndUpdate(
 			eventfullEventData._id,
 			eventfullEventData,
 			{ new: true }
-		).lean()
+		)
 
 		if (_.isNull(updatedEvent)) return res.status(400).json({ message: "Event not found" })
 
@@ -31,6 +31,8 @@ export default async function updateAdminEventfullEvent(req: Request, res: Respo
 			}
 			await updatedEvent.save()
 		}
+
+		updatedEvent = updatedEvent.toObject()
 
 		updatedEvent.eventImages = updatedEvent.eventImages.filter(image => image.isActive === true)
 

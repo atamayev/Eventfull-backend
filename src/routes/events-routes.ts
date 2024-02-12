@@ -28,6 +28,7 @@ import confirmInviterIsAlreadyInvitedOrHost from "../middleware/events/confirm-i
 import confirmEventOrganizerNotBlockingFriend from "../middleware/events/confirm-event-organizer-not-blocking-friend"
 
 import pinEventfullEvent from "../controllers/events/pin-eventfull-event"
+import retrieveEventsFeed from "../controllers/events/retrieve-events-feed"
 import createEventfullEvent from "../controllers/events/create-eventfull-event"
 import deleteEventfullEvent from "../controllers/events/delete-eventfull-event"
 import updateEventfullEvent from "../controllers/events/update-eventfull-event"
@@ -130,5 +131,7 @@ eventsRoutes.post("/cancel-eventfull-event-registration/:eventfullEventId",
 	checkIfUserAttendingEventfullEvent,
 	cancelEventfullEventRegistration
 )
+
+eventsRoutes.get("/retrieve-events", retrieveEventsFeed)
 
 export default eventsRoutes

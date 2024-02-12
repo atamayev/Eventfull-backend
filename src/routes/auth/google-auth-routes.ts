@@ -12,7 +12,19 @@ import revokeGoogleCalendarAccess from "../../controllers/auth/google-auth/revok
 const googleAuthRoutes = express.Router()
 
 googleAuthRoutes.post("/login-callback", validateGoogleLoginCallback, googleLoginAuthCallback)
-googleAuthRoutes.post("/calendar-callback", jwtVerify, validateGoogleCalendarCallback, googleCalendarAuthCallback)
-googleAuthRoutes.post("/revoke-google-calendar-access", jwtVerify, confirmUserHasGoogleCalendar, revokeGoogleCalendarAccess)
+
+googleAuthRoutes.post(
+	"/calendar-callback",
+	jwtVerify,
+	validateGoogleCalendarCallback,
+	googleCalendarAuthCallback
+)
+
+googleAuthRoutes.post(
+	"/revoke-google-calendar-access",
+	jwtVerify,
+	confirmUserHasGoogleCalendar,
+	revokeGoogleCalendarAccess
+)
 
 export default googleAuthRoutes
