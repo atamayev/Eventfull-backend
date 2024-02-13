@@ -18,8 +18,9 @@ export default async function searchForEventName(req: Request, res: Response): P
 		const events = await EventfullEventModel.find({
 			// Exclude users in the blocked lists:
 			"organizer.userId": { $nin: blockedIds },
+			isActive: true,
 			eventName: regex
-		}).select("eventName").limit(10)
+		}).select("_id eventName").limit(10)
 
 		return res.status(200).json({ events })
 	} catch (error) {
