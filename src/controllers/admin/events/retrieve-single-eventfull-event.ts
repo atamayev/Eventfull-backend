@@ -8,7 +8,7 @@ export default async function retrieveSingleEventfullEvent(req: Request, res: Re
 		const event = await EventfullEventModel.findById(eventId).lean()
 		if (_.isNull(event)) return res.status(400).json({ message: "Event not found" })
 
-		if (event.isActive !== true) return res.status(400).json({ message: "Event not found" })
+		if (event.isActive !== true) return res.status(400).json({ message: "Event no longer active" })
 
 		event.eventImages = event.eventImages.filter(image => image.isActive === true)
 

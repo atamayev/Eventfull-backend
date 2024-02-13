@@ -16,19 +16,16 @@ export default async function addAdminEventfullEvent(req: Request, res: Response
 		const newEvent = await EventfullEventModel.create(eventfullEvent)
 
 		const imagesURLsData = []
-		if (numberOfImages !== 0) {
-			for (let i = 0; i < numberOfImages; i++) {
-				const imageId = uuidv4()
-				const presignedUrl  = await AwsStorageService.getInstance().generatePresignedURL(imageId)
-				// eslint-disable-next-line max-depth
-				if (!_.isUndefined(presignedUrl)) {
-					imagesURLsData.push({ imageId, presignedUrl })
-					// Add the imageId to the newEvent's images array
-					newEvent.eventImages.push({ imageId, isActive: true })
-				}
+		for (let i = 0; i < numberOfImages; i++) {
+			const imageId = uuidv4()
+			const presignedUrl  = await AwsStorageService.getInstance().generatePresignedURL(imageId)
+			if (!_.isUndefined(presignedUrl)) {
+				imagesURLsData.push({ imageId, presignedUrl })
+				// Add the imageId to the newEvent's images array
+				newEvent.eventImages.push({ imageId, isActive: true })
 			}
-			await newEvent.save()
 		}
+		await newEvent.save()
 
 		return res.status(200).json({ newEvent, imagesURLsData })
 	} catch (error) {

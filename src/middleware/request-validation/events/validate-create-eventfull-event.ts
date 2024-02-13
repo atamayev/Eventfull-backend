@@ -5,7 +5,7 @@ import newEventfullEventSchema from "../../joi/new-eventfull-event-schema"
 
 const combinedEventSchema = Joi.object({
 	eventfullEventData: newEventfullEventSchema,
-	numberOfImages: Joi.number().required()
+	numberOfImages: Joi.number().min(1).required()
 }).required()
 
 export default function validateCreateEventfullEvent (req: Request, res: Response, next: NextFunction): void | Response {

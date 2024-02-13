@@ -78,7 +78,7 @@ const updatedEventfullEventSchema = Joi.object({
 	eventDescription: Joi.string().allow("").required(),
 
 	eventURL: Joi.string().allow("").optional(),
-	extraEventCategories: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation").required()).optional(),
+	extraEventCategories: Joi.array().items(Joi.string().custom(objectIdValidation, "Object ID Validation").optional()).optional(),
 	eventImages: Joi.array().items(eventImagesSchema).required(),
 
 	singularEventTime: eventTimesSchema.optional().allow(null),
