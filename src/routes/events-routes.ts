@@ -14,6 +14,7 @@ import confirmEventIsPublic from "../middleware/events/confirm-event-is-public"
 import confirmEventIsPinned from "../middleware/events/confirm-event-is-pinned"
 import confirmEventIsNotPinned from "../middleware/events/confirm-event-is-not-pinned"
 import confirmEventIsInviteable from "../middleware/events/confirm-event-is-inviteable"
+import validateEventId from "../middleware/request-validation/events/validate-event-id"
 import checkIfEventCapacityFull from "../middleware/events/check-if-event-capacity-full"
 import confirmUsersAreFriends from "../middleware/social/friend/confirm-users-are-friends"
 import confirmAbleToInviteFriend from "../middleware/events/confirm-able-to-invite-friend"
@@ -37,9 +38,8 @@ import respondToEventfullInvite from "../controllers/events/respond-to-eventfull
 import removePinnedEventfullEvent from "../controllers/events/remove-pinned-eventfull-event"
 import inviteFriendToEventfullEvent from "../controllers/events/invite-friend-to-eventfull-event"
 import retractInviteToEventfullEvent from "../controllers/events/retract-invite-to-eventfull-event"
-import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
-import validateEventId from "../middleware/request-validation/events/validate-event-id"
 import retrieveSingleEventfullEvent from "../controllers/admin/events/retrieve-single-eventfull-event"
+import cancelEventfullEventRegistration from "../controllers/events/cancel-eventfull-event-registration"
 
 const eventsRoutes = express.Router()
 

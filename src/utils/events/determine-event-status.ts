@@ -2,6 +2,7 @@ export default function determineEventStatus(event: EventfullEvent, currentTime:
 	let isFuture = false
 	let isHappeningNow = false
 
+	// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 	const checkTime = (startTime: Date, endTime: Date) => {
 		if (currentTime < startTime) isFuture = true
 		else if (currentTime >= startTime && currentTime <= endTime) isHappeningNow = true
@@ -19,6 +20,7 @@ export default function determineEventStatus(event: EventfullEvent, currentTime:
 	}
 
 	if (isFuture) return "Future"
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (isHappeningNow) return "Happening Now"
 	return "Past"
 }
