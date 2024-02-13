@@ -28,14 +28,13 @@ export default async function retrieveEventsFeed(req: Request, res: Response): P
 							branches: [
 								{
 									case: { $eq: ["$eventFrequency", "one-time"] },
-									then: { $gt: ["$singularEventTime.startTime", currentDate] }
+									then: { $gt: ["$singularEventTime.endTime", currentDate] }
 								},
 								{
 									case: { $eq: ["$eventFrequency", "custom"] },
 									then: {
 										$gt: [
-											{ $max: "$customEventDates.startTime" },
-											currentDate
+											{ $max: "$customEventDates.endTime" }, currentDate
 										]
 									}
 								},
