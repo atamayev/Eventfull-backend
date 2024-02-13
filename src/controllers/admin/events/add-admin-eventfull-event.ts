@@ -19,7 +19,6 @@ export default async function addAdminEventfullEvent(req: Request, res: Response
 		for (let i = 0; i < numberOfImages; i++) {
 			const imageId = uuidv4()
 			const presignedUrl  = await AwsStorageService.getInstance().generatePresignedURL(imageId)
-			// eslint-disable-next-line max-depth
 			if (!_.isUndefined(presignedUrl)) {
 				imagesURLsData.push({ imageId, presignedUrl })
 				// Add the imageId to the newEvent's images array
