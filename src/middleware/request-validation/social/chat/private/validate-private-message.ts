@@ -1,8 +1,10 @@
 import Joi from "joi"
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
+import objectIdValidation from "../../../../../utils/object-id-validation"
 
 const privateMessageSchema = Joi.object({
+	newPrivateMessageId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),
 	privateMessage: Joi.string().min(1).max(1000).required(),
 }).unknown(true)
 

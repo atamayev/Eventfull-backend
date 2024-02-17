@@ -6,6 +6,7 @@ import NotificationHelper from "../../../../classes/notification-helper"
 import createGroupMessageStatuses from "../../../../utils/chat/create-group-message-statuses"
 
 interface ReplyToGroupChatData {
+	_id: Types.ObjectId
 	groupChatId?: Types.ObjectId
 	senderDetails: SocialData
 	text: string
@@ -21,9 +22,11 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 		const groupMessageReplyingTo = req.groupMessage
 		const groupChat = req.groupChat
 		const message = req.body.groupMessage as string
+		const newGroupMessageId = req.body.newGroupMessageId as Types.ObjectId
 
 		const messageStatuses = createGroupMessageStatuses(groupChat.participantDetails, user._id)
 		const data: ReplyToGroupChatData = {
+			_id: newGroupMessageId,
 			groupChatId: groupChat._id,
 			senderDetails: {
 				userId: user._id,
@@ -45,7 +48,7 @@ export default async function replyToGroupMessage(req: Request, res: Response): 
 
 		await NotificationHelper.replyToGroupMessage(friends, groupMessage)
 
-		return res.status(200).json({ groupMessage })
+		return res.status(200).json({ success: "Replied to Group Message" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Reply to Group Message" })
