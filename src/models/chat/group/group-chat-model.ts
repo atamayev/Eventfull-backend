@@ -2,7 +2,7 @@ import { Schema, model, Types } from "mongoose"
 import socialDataSchema from "../social-data-model"
 import { messageStatusSchema } from "../message-status-model"
 
-const lastMessageSchema = new Schema<GroupMessage>({
+const lastMessageSchema = new Schema<LastGroupMessage>({
 	text: { type: String, trim: true },
 	senderDetails: socialDataSchema,
 	isTextEdited: { type: Boolean, default: false },
@@ -10,7 +10,7 @@ const lastMessageSchema = new Schema<GroupMessage>({
 	groupMessageId: { type: Schema.Types.ObjectId, ref: "GroupMessage" },
 	replyTo: { type: Schema.Types.ObjectId, ref: "GroupMessage", default: null },
 	isActive: { type: Boolean, default: true },
-}, { timestamps: true })
+}, { _id: false, timestamps: true })
 
 const groupChatSchema = new Schema<GroupChat>({
 	participantDetails: {

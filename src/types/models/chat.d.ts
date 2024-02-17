@@ -31,8 +31,30 @@ declare global {
 	}
 
 	interface GroupMessage extends Message {
-		messageStatuses: MessageStatusObject[]
 		groupMessageId: Types.ObjectId
+		messageStatuses: MessageStatusObject[]
+	}
+
+	// Same as Private Mesasge, but without the _id
+	interface LastPrivateMessage extends TimestampsInterface {
+		senderDetails: SocialData
+		text: string
+		isTextEdited: boolean
+		replyTo: Types.ObjectId | null
+		isActive: boolean
+		privateMessageId: Types.ObjectId
+		messageStatus: MessageStatuses
+	}
+
+	// Same as Group Mesasge, but without the _id
+	interface LastGroupMessage extends TimestampsInterface {
+		senderDetails: SocialData
+		text: string
+		isTextEdited: boolean
+		replyTo: Types.ObjectId | null
+		isActive: boolean
+		groupMessageId: Types.ObjectId
+		messageStatuses: MessageStatusObject[]
 	}
 
 	// The following two interfaces are used in the Messages Models
