@@ -1,7 +1,7 @@
 import { Schema, model, Types } from "mongoose"
 import socialDataSchema from "../social-data-model"
 
-const lastMessageSchema = new Schema<PrivateMessage>({
+const lastMessageSchema = new Schema<LastPrivateMessage>({
 	text: { type: String, trim: true },
 	senderDetails: socialDataSchema,
 	isTextEdited: { type: Boolean, default: false },
@@ -9,7 +9,7 @@ const lastMessageSchema = new Schema<PrivateMessage>({
 	replyTo: { type: Schema.Types.ObjectId, ref: "PrivateMessage", default: null },
 	isActive: { type: Boolean, default: true },
 	messageStatus: { type: String, enum: ["Sent", "Delivered", "Read"], default: "Sent" },
-}, { timestamps: true })
+}, { _id: false, timestamps: true })
 
 const privateChatSchema = new Schema<PrivateChat>({
 	participantDetails: {

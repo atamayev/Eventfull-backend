@@ -38,10 +38,6 @@ declare global {
 
 	type AppStates = "active" | "inactive" | "background"
 
-	interface ChatNameMapping {
-		[key: string]: string
-	}
-
 	interface TimestampsInterface {
 		createdAt: Date
 		updatedAt: Date

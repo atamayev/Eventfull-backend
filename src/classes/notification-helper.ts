@@ -21,7 +21,7 @@ export default class NotificationHelper {
 
 				const extraData = {
 					userId: _.toString(user._id),
-					username: user.username || "User",
+					senderUsername: user.username || "User",
 					createdAt
 				}
 
@@ -72,7 +72,7 @@ export default class NotificationHelper {
 
 				const extraData = {
 					userId: _.toString(user._id),
-					username: user.username || "User",
+					senderUsername: user.username || "User",
 					createdAt
 				}
 
@@ -261,6 +261,7 @@ export default class NotificationHelper {
 
 	public static updateGroupMessageStatus (
 		receiverIds: Types.ObjectId[],
+		fromUserId: Types.ObjectId,
 		updatedGroupMessage: GroupMessageWithChatId,
 		newMessageStatus: MessageStatuses,
 	): void {
@@ -270,7 +271,7 @@ export default class NotificationHelper {
 				if (socketManager.isUserOnline(receiverId) === false) {
 					continue
 				}
-				socketManager.updateGroupMessageStatus(receiverId, updatedGroupMessage, newMessageStatus)
+				socketManager.updateGroupMessageStatus(receiverId, fromUserId, updatedGroupMessage, newMessageStatus)
 			}
 		} catch (error) {
 			console.error(error)

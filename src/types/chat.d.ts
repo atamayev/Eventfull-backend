@@ -14,9 +14,10 @@ declare global {
 		text: string
 		senderDetails: SocialData
 		isTextEdited: boolean
-		messageStatuses: MessageStatusObject[]
-		groupMessageId: Types.ObjectId
 		replyTo: Types.ObjectId | null
+		groupMessageId: Types.ObjectId
+		isActive: boolean
+		messageStatuses: MessageStatusObject[]
 	}
 
 	interface PrivateChatWithName extends TimestampsInterface {
@@ -32,8 +33,10 @@ declare global {
 		text: string
 		senderDetails: SocialData
 		isTextEdited: boolean
-		privateMessageId: Types.ObjectId
 		replyTo: Types.ObjectId | null
+		privateMessageId: Types.ObjectId
+		isActive: boolean
+		messageStatus: MessageStatuses
 	}
 
 	type MessageStatuses = "Sent" | "Delivered" | "Read" | "Sender"

@@ -40,6 +40,7 @@ export default async function login (req: Request, res: Response): Promise<Respo
 		const isContactVerified = isUserContactVerified(primaryContact, user)
 
 		return res.status(200).json({
+			userId: user._id,
 			accessToken,
 			isUserConnectedGoogleCalendar,
 			firstName: user.firstName,

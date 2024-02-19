@@ -25,6 +25,7 @@ export default async function googleLoginAuthCallback (req: Request, res: Respon
 		await addLoginRecord(tokensResonse.googleUser._id)
 
 		return res.status(200).json({
+			userId: tokensResonse.googleUser._id,
 			authenticated: true,
 			accessToken: token,
 			isUserConnectedGoogleCalendar,

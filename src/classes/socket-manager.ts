@@ -165,6 +165,7 @@ export default class SocketManager {
 
 	public updateGroupMessageStatus(
 		toUserId: Types.ObjectId,
+		fromUserId: Types.ObjectId,
 		updatedGroupMessage: GroupMessageWithChatId,
 		newMessageStatus: MessageStatuses,
 	): void {
@@ -174,7 +175,7 @@ export default class SocketManager {
 			groupChatId: _.toString(updatedGroupMessage.groupChatId),
 			groupMessageId: _.toString(updatedGroupMessage._id),
 			newMessageStatus,
-			senderUsername: updatedGroupMessage.senderDetails.username
+			senderUserId: fromUserId
 		})
 	}
 

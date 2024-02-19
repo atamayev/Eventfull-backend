@@ -44,6 +44,7 @@ export default async function updateGroupMessageStatus(req: Request, res: Respon
 
 		NotificationHelper.updateGroupMessageStatus(
 			friendIds,
+			user._id,
 			updatedGroupMessage,
 			newMessageStatus,
 		)

@@ -5,6 +5,7 @@ import PrivateMessageModel from "../../../../models/chat/private/private-message
 import PrivateChatModel from "../../../../models/chat/private/private-chat-model"
 
 interface ChatData {
+	_id: Types.ObjectId
 	privateChatId?: Types.ObjectId
 	senderDetails: SocialData
 	text: string
@@ -17,8 +18,10 @@ export default async function sendPrivateMessage(req: Request, res: Response): P
 		const friend = req.friend
 		const privateChat = req.privateChat
 		const message = req.body.privateMessage as string
+		const newPrivateMessageId = req.body.newPrivateMessageId as Types.ObjectId
 
 		const data: ChatData = {
+			_id: newPrivateMessageId,
 			privateChatId: privateChat._id,
 			senderDetails: {
 				userId: user._id,
@@ -38,7 +41,7 @@ export default async function sendPrivateMessage(req: Request, res: Response): P
 
 		await NotificationHelper.sendPrivateMessage(friend, privateMessage)
 
-		return res.status(200).json({ privateMessage })
+		return res.status(200).json({ success: "Private Message Sent" })
 	} catch (error) {
 		console.error(error)
 		return res.status(500).json({ error: "Internal Server Error: Unable to Send Private Message" })
