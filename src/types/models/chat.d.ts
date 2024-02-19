@@ -14,7 +14,7 @@ declare global {
 		lastMessage: GroupMessage | null
 	}
 
-	interface Message extends IDInterface, TimestampsInterface {
+	interface Message extends TimestampsInterface {
 		senderDetails: SocialData
 		text: string
 		isTextEdited: boolean
@@ -25,45 +25,35 @@ declare global {
 	}
 
 	// The following two interfaces are used in the Chat Models
-	interface PrivateMessage extends Message {
+	interface PrivateMessage extends IDInterface, Message {
 		privateMessageId: Types.ObjectId
 		messageStatus: MessageStatuses
 	}
 
-	interface GroupMessage extends Message {
+	interface GroupMessage extends IDInterface, Message {
 		groupMessageId: Types.ObjectId
 		messageStatuses: MessageStatusObject[]
 	}
 
 	// Same as Private Mesasge, but without the _id
-	interface LastPrivateMessage extends TimestampsInterface {
-		senderDetails: SocialData
-		text: string
-		isTextEdited: boolean
-		replyTo: Types.ObjectId | null
-		isActive: boolean
+	interface LastPrivateMessage extends Message {
 		privateMessageId: Types.ObjectId
 		messageStatus: MessageStatuses
 	}
 
 	// Same as Group Mesasge, but without the _id
-	interface LastGroupMessage extends TimestampsInterface {
-		senderDetails: SocialData
-		text: string
-		isTextEdited: boolean
-		replyTo: Types.ObjectId | null
-		isActive: boolean
+	interface LastGroupMessage extends Message {
 		groupMessageId: Types.ObjectId
 		messageStatuses: MessageStatusObject[]
 	}
 
 	// The following two interfaces are used in the Messages Models
-	interface PrivateMessageWithChatId extends Message {
+	interface PrivateMessageWithChatId extends IDInterface, Message {
 		privateChatId: Types.ObjectId
 		messageStatus: MessageStatuses
 	}
 
-	interface GroupMessageWithChatId extends Message {
+	interface GroupMessageWithChatId extends IDInterface, Message {
 		messageStatuses: MessageStatusObject[]
 		groupChatId: Types.ObjectId
 	}
