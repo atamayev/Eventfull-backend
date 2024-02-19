@@ -174,7 +174,7 @@ export default class SocketManager {
 			groupChatId: _.toString(updatedGroupMessage.groupChatId),
 			groupMessageId: _.toString(updatedGroupMessage._id),
 			newMessageStatus,
-			senderUsername: updatedGroupMessage.senderDetails.username
+			senderUserId: updatedGroupMessage.senderDetails.userId
 		})
 	}
 

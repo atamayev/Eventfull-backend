@@ -21,7 +21,7 @@ export default class NotificationHelper {
 
 				const extraData = {
 					userId: _.toString(user._id),
-					username: user.username || "User",
+					senderUsername: user.username || "User",
 					createdAt
 				}
 
@@ -72,7 +72,7 @@ export default class NotificationHelper {
 
 				const extraData = {
 					userId: _.toString(user._id),
-					username: user.username || "User",
+					senderUsername: user.username || "User",
 					createdAt
 				}
 
