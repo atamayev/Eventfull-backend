@@ -1,5 +1,5 @@
 export default function createGCMMessage(notificationData: NotificationData): string {
-	const { title, body, targetPage, extraData } = notificationData
+	const { title, body, targetPage, deepLink, extraData } = notificationData
 
 	const gcmMessage = {
 		notification: {
@@ -8,6 +8,7 @@ export default function createGCMMessage(notificationData: NotificationData): st
 		},
 		data: {
 			targetPage,
+			deepLink,
 			...extraData
 		}
 	}

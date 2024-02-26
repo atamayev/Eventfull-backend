@@ -44,9 +44,10 @@ declare global {
 	}
 
 	interface NotificationData {
-		title: string,
-		body: string,
-		targetPage: FrontEndScreens,
+		title: string
+		body: string
+		targetPage: FrontEndScreens
+		deepLink: string
 		extraData?: Record<string, string | Date | Types.ObjectId>
 	}
 }

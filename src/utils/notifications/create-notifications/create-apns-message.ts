@@ -1,5 +1,5 @@
 export default function createAPNSMessage(notificationData: NotificationData): string {
-	const { title, body, targetPage, extraData } = notificationData
+	const { title, body, targetPage, deepLink, extraData } = notificationData
 
 	const apnsMessage = {
 		aps: {
@@ -12,6 +12,7 @@ export default function createAPNSMessage(notificationData: NotificationData): s
 		},
 		data: {
 			targetPage,
+			deepLink,
 			...extraData
 		}
 	}

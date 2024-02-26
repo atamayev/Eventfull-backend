@@ -28,6 +28,7 @@ export default class NotificationHelper {
 				const notificationData: NotificationData = {
 					title: "New Friend Request",
 					body: `${user.username || "User"} sent you a friend request.`,
+					deepLink: "eventfullny://chat",
 					targetPage: "Chat",
 					extraData
 				}
@@ -80,6 +81,7 @@ export default class NotificationHelper {
 					title: "Friend Request Accepted",
 					body: `${user.username || "User"} accepted your friend request.`,
 					targetPage: "Chat",
+					deepLink: "eventfullny://chat",
 					extraData
 				}
 
@@ -132,6 +134,7 @@ export default class NotificationHelper {
 				const notificationData: NotificationData = {
 					title: `New Message from ${privateMessage.senderDetails.username || "User"}`,
 					body: privateMessage.text,
+					deepLink: `eventfullny://chat/private/${privateMessage.privateChatId}`,
 					targetPage: "Private Chat Screen",
 					extraData
 				}
@@ -203,6 +206,7 @@ export default class NotificationHelper {
 					title: `${privateMessage.senderDetails.username || "User"} replied to your message`,
 					body: privateMessage.text,
 					targetPage: "Private Chat Screen",
+					deepLink: `eventfullny://chat/private/${privateMessage.privateChatId}`,
 					extraData
 				}
 				const notificationMessage = returnCorrectMessageType(receiver.primaryDevicePlatform, notificationData)
@@ -244,6 +248,7 @@ export default class NotificationHelper {
 						title: `New Message from ${groupMessage.senderDetails.username || "User"}`,
 						body: groupMessage.text,
 						targetPage: "Group Chat Screen",
+						deepLink: `eventfullny://chat/group/${groupMessage.groupChatId}`,
 						extraData
 					}
 
@@ -333,6 +338,7 @@ export default class NotificationHelper {
 						title: `New Message from ${groupMessage.senderDetails.username || "User"}`,
 						body: groupMessage.text,
 						targetPage: "Group Chat Screen",
+						deepLink: `eventfullny://chat/group/${groupMessage.groupChatId}`,
 						extraData
 					}
 
