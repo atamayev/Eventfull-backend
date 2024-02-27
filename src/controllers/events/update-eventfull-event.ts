@@ -6,7 +6,7 @@ export default async function updateEventfullEvent(req: Request, res: Response):
 	try {
 		const user = req.user
 		const event = req.event
-		const updatedEventData  = req.body.eventfullEventData as IncomingEventfullEvent
+		const updatedEventData = req.body.eventfullEventData as IncomingEventfullEvent
 		const organizerOrCoHost = req.organizerOrCoHost as "Organizer" | "Co-Host"
 		const createdAt = new Date()
 		await addInvitees(user, event, updatedEventData, createdAt)

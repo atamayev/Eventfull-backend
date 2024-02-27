@@ -2,7 +2,7 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 import checkIfUserBlockedByFriend from "../../../utils/social/block/check-if-user-blocked-by-friend"
 
-export default  function checkIfBlockedUserBlockedUser (req: Request, res: Response, next: NextFunction): void | Response {
+export default function checkIfBlockedUserBlockedUser (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
 		const user = req.user
 		const blockedUser = req.blockedUser

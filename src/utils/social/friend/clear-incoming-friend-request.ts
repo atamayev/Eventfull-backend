@@ -9,7 +9,7 @@ export default async function clearIncomingFriendRequest (userId: Types.ObjectId
 			{ runValidators: true }
 		)
 
-		const friendUpdate =  UserModel.findByIdAndUpdate(
+		const friendUpdate = UserModel.findByIdAndUpdate(
 			friendId,
 			{ $pull: { outgoingFriendRequests: { userId } } },
 			{ runValidators: true }

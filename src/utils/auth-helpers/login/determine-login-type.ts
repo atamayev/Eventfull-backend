@@ -1,7 +1,7 @@
 import validator from "validator"
 import { isValidPhoneNumber } from "libphonenumber-js"
 
-export default function determineLoginType(input: string): EmailOrPhoneOrUsername  {
+export default function determineLoginType(input: string): EmailOrPhoneOrUsername {
 	if (validator.isEmail(input)) return "Email"
 
 	// Down the line, we'll need to add support for international phone numbers

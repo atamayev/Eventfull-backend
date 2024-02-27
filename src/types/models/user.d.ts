@@ -29,9 +29,9 @@ declare global {
 		googleCalendarAccessTokenExpiryDate?: Date
 		googleCalendarRefreshToken?: string
 
-        microsoftLoginAccessToken?: string
-        microsoftLoginRefreshToken?: string
-        microsoftLoginAccessTokenExpiryDate?: Date
+		microsoftLoginAccessToken?: string
+		microsoftLoginRefreshToken?: string
+		microsoftLoginAccessTokenExpiryDate?: Date
 		microsoftCalendarAccessToken?: string
 		microsoftCalendarRefreshToken?: string
 		microsoftCalendarAccessTokenExpiryDate?: Date
