@@ -13,6 +13,7 @@ import confirmFriendHasntBlockedUser from "../middleware/social/friend/confirm-f
 import checkIfBlockedUserBlockedUser from "../middleware/social/block/check-if-blocked-user-blocked-user"
 import checkIfUserBlockedBlockedUser from "../middleware/social/block/check-if-user-blocked-blocked-user"
 import checkIfUnblockedUserBlockedUser from "../middleware/social/unblock/check-if-unblocked-user-blocked-user"
+import confirmIncomingFriendRequestExists from "../middleware/social/friend/confirm-incoming-friend-request-exists"
 
 import listFriends from "../controllers/social/list/list-friends"
 import blockAnotherUser from "../controllers/social/block-another-user"
@@ -46,6 +47,7 @@ socialRoutes.post(
 	confirmUserHasntBlockedFriend,
 	confirmFriendHasntBlockedUser,
 	confirmUsersAreNotFriends,
+	confirmIncomingFriendRequestExists,
 	acceptFriendRequest
 )
 
@@ -55,6 +57,7 @@ socialRoutes.post(
 	confirmUserHasntBlockedFriend,
 	confirmFriendHasntBlockedUser,
 	confirmUsersAreNotFriends,
+	confirmIncomingFriendRequestExists,
 	declineFriendRequest
 )
 
