@@ -3,9 +3,9 @@ import express from "express"
 import validateFriendId from "../middleware/request-validation/social/validate-friend-id"
 import validateBlockedUserId from "../middleware/request-validation/social/validate-blocked-user-id"
 import validateUnblockedUserId from "../middleware/request-validation/social/validate-unblocked-user-id"
-import validateResponseToFriendRequest from "../middleware/request-validation/social/validate-response-to-friend-request"
 
 import confirmUsersAreFriends from "../middleware/social/friend/confirm-users-are-friends"
+import validateCreatedAt from "../middleware/request-validation/social/validate-created-at"
 import confirmUsersAreNotFriends from "../middleware/social/friend/confirm-users-are-not-friends"
 import confirmUserNotFriendingSelf from "../middleware/social/friend/confirm-user-not-friending-self"
 import confirmUserHasntBlockedFriend from "../middleware/social/friend/confirm-user-hasnt-blocked-friend"
@@ -20,11 +20,11 @@ import sendFriendRequest from "../controllers/social/send-friend-request"
 import unblockAnotherUser from "../controllers/social/unblock-another-user"
 import listBlockedUsers from "../controllers/social/list/list-blocked-users"
 import unfriendAnotherUser from "../controllers/social/unfriend-another-user"
+import acceptFriendRequest from "../controllers/social/accept-friend-request"
 import retractFriendRequest from "../controllers/social/retract-friend-request"
-import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
+import declineFriendRequest from "../controllers/social/decline-friend-request"
 import listIncomingFriendRequests from "../controllers/social/list/list-incoming-friend-requests"
 import listOutgoingFriendRequests from "../controllers/social/list/list-outgoing-friend-requests"
-import validateCreatedAt from "../middleware/request-validation/social/validate-created-at"
 
 const socialRoutes = express.Router()
 
@@ -40,17 +40,37 @@ socialRoutes.post(
 )
 
 socialRoutes.post(
-	"/respond-to-friend-request/:friendId",
-	validateResponseToFriendRequest,
+	"/accept-friend-request/:friendId",
+	validateCreatedAt,
 	validateFriendId,
 	confirmUserHasntBlockedFriend,
 	confirmFriendHasntBlockedUser,
 	confirmUsersAreNotFriends,
-	respondToFriendRequest
+	acceptFriendRequest
 )
 
-socialRoutes.post("/retract-friend-request/:friendId", validateFriendId, confirmUsersAreNotFriends, retractFriendRequest)
-socialRoutes.post("/unfriend-another-user/:friendId", validateFriendId, confirmUsersAreFriends, unfriendAnotherUser)
+socialRoutes.post(
+	"/decline-friend-request/:friendId",
+	validateFriendId,
+	confirmUserHasntBlockedFriend,
+	confirmFriendHasntBlockedUser,
+	confirmUsersAreNotFriends,
+	declineFriendRequest
+)
+
+socialRoutes.post(
+	"/retract-friend-request/:friendId",
+	validateFriendId,
+	confirmUsersAreNotFriends,
+	retractFriendRequest
+)
+
+socialRoutes.post(
+	"/unfriend-another-user/:friendId",
+	validateFriendId,
+	confirmUsersAreFriends,
+	unfriendAnotherUser
+)
 
 socialRoutes.get("/get-incoming-friend-requests", listIncomingFriendRequests)
 socialRoutes.get("/get-outgoing-friend-requests", listOutgoingFriendRequests)

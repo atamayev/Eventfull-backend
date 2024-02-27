@@ -1,7 +1,7 @@
 import UserModel from "../../../models/user-model"
 import NotificationHelper from "../../../classes/notification-helper"
 
-export default async function acceptFriendRequest (
+export default async function acceptFriendRequestHelper (
 	user: User,
 	friend: User,
 	createdAt: Date
