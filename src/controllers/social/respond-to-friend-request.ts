@@ -7,23 +7,21 @@ export default async function respondToFriendRequest(req: Request, res: Response
 	try {
 		const user = req.user
 		const friend = req.friend
-		const response = req.body.response as AcceptOrDecline
+		const { response, createdAt } = req.body
 
 		const incomingFriendRequestExists = checkIfIncomingFriendRequestExists(user, friend._id)
 		if (incomingFriendRequestExists === false) {
 			return res.status(400).json({ message: "Friend Request does not exist" })
 		}
 
-		let createdAt
-
 		if (response === "Accept") {
-			createdAt = await acceptFriendRequest(user, friend)
+			await acceptFriendRequest(user, friend, createdAt)
 		}
 
 		await clearIncomingFriendRequest(user._id, friend._id)
 
 		if (response === "Accept") {
-			return res.status(200).json({ createdAt })
+			return res.status(200).json({ success: "Friend Request Accepted" })
 		} else {
 			return res.status(200).json({ success: "Friend Request Declined" })
 		}

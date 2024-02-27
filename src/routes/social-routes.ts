@@ -24,11 +24,13 @@ import retractFriendRequest from "../controllers/social/retract-friend-request"
 import respondToFriendRequest from "../controllers/social/respond-to-friend-request"
 import listIncomingFriendRequests from "../controllers/social/list/list-incoming-friend-requests"
 import listOutgoingFriendRequests from "../controllers/social/list/list-outgoing-friend-requests"
+import validateCreatedAt from "../middleware/request-validation/social/validate-created-at"
 
 const socialRoutes = express.Router()
 
 socialRoutes.post(
 	"/send-friend-request/:friendId",
+	validateCreatedAt,
 	validateFriendId,
 	confirmUserNotFriendingSelf,
 	confirmUserHasntBlockedFriend,

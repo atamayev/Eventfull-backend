@@ -2,14 +2,13 @@ import Joi from "joi"
 import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
-const responseToFriendRequestSchema = Joi.object({
-	response: Joi.string().valid("Accept", "Decline").required(),
-	createdAt: Joi.date().optional(), // required if response is accept
+const validateCreatedAtSchema = Joi.object({
+	createdAt: Joi.date().required(), // required if response is accept
 }).required()
 
-export default function validateResponseToFriendRequest (req: Request, res: Response, next: NextFunction): void | Response {
+export default function validateCreatedAt (req: Request, res: Response, next: NextFunction): void | Response {
 	try {
-		const { error } = responseToFriendRequestSchema.validate(req.body)
+		const { error } = validateCreatedAtSchema.validate(req.body)
 
 		if (!_.isUndefined(error)) return res.status(400).json({ validationError: error.details[0].message })
 
