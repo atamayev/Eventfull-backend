@@ -85,6 +85,11 @@ socialRoutes.post(
 	blockAnotherUser
 )
 
-socialRoutes.post("/unblock-another-user", validateUnblockedUserId, checkIfUnblockedUserBlockedUser, unblockAnotherUser)
+socialRoutes.post(
+	"/unblock-another-user",
+	validateUnblockedUserId,
+	checkIfUnblockedUserBlockedUser,
+	unblockAnotherUser
+)
 
 export default socialRoutes
