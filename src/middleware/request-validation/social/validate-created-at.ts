@@ -3,7 +3,7 @@ import _ from "lodash"
 import { Request, Response, NextFunction } from "express"
 
 const validateCreatedAtSchema = Joi.object({
-	createdAt: Joi.date().required(), // required if response is accept
+	createdAt: Joi.date().required(),
 }).required()
 
 export default function validateCreatedAt (req: Request, res: Response, next: NextFunction): void | Response {
