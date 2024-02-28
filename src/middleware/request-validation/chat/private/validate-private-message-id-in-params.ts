@@ -2,9 +2,9 @@ import Joi from "joi"
 import _ from "lodash"
 import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
-import findPrivateChat from "../../../../../utils/find/find-private-chat"
-import objectIdValidation from "../../../../../utils/object-id-validation"
-import findPrivateMessage from "../../../../../utils/find/find-private-message"
+import findPrivateChat from "../../../../utils/find/find-private-chat"
+import objectIdValidation from "../../../../utils/object-id-validation"
+import findPrivateMessage from "../../../../utils/find/find-private-message"
 
 const privateMessageSchema = Joi.object({
 	privateMessageId: Joi.string().custom(objectIdValidation, "Object ID Validation").required(),

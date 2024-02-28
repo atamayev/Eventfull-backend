@@ -18,7 +18,7 @@ export default async function addAdminEventfullEvent(req: Request, res: Response
 		const imagesURLsData = []
 		for (let i = 0; i < numberOfImages; i++) {
 			const imageId = uuidv4()
-			const presignedUrl  = await AwsStorageService.getInstance().generatePresignedURL(imageId)
+			const presignedUrl = await AwsStorageService.getInstance().generatePresignedURL(imageId)
 			if (!_.isUndefined(presignedUrl)) {
 				imagesURLsData.push({ imageId, presignedUrl })
 				// Add the imageId to the newEvent's images array

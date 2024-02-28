@@ -1,3 +1,4 @@
+import { Types } from "mongoose"
 import { Request, Response, NextFunction } from "express"
 
 export default function confirmEventIsNotPinned(req: Request, res: Response, next: NextFunction): void | Response {
@@ -5,7 +6,7 @@ export default function confirmEventIsNotPinned(req: Request, res: Response, nex
 		const user = req.user
 		const event = req.event
 
-		const isEventPinned = user.eventPins.includes(event._id)
+		const isEventPinned = user.eventPins.includes(new Types.ObjectId(event._id))
 
 		if (isEventPinned === true) {
 			return res.status(400).json({ message: "Event is already pinned." })

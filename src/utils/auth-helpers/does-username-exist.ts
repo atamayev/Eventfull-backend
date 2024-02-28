@@ -1,7 +1,7 @@
 import AdminModel from "../../models/admin-model"
 import UserModel from "../../models/user-model"
 
-export default async function doesUsernameExist(username: string, isAdmin: boolean = false): Promise<boolean>  {
+export default async function doesUsernameExist(username: string, isAdmin: boolean = false): Promise<boolean> {
 	if (isAdmin === true) {
 		const admin = await AdminModel.findOne({
 			username: { $regex: `^${username}$`, $options: "i" }
