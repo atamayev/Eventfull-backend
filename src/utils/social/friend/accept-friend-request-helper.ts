@@ -1,5 +1,6 @@
 import UserModel from "../../../models/user-model"
 import NotificationHelper from "../../../classes/notification-helper"
+import clearIncomingFriendRequest from "./clear-incoming-friend-request"
 
 export default async function acceptFriendRequestHelper (
 	user: User,
@@ -31,7 +32,8 @@ export default async function acceptFriendRequestHelper (
 			{ runValidators: true }
 		)
 
-		await Promise.all([userUpdate, friendUpdate])
+		const removeIncomingFrienqRequest = clearIncomingFriendRequest(user._id, friend._id)
+		await Promise.all([userUpdate, friendUpdate, removeIncomingFrienqRequest])
 
 		await NotificationHelper.acceptFriendRequest(user, friend, createdAt)
 	} catch (error) {
