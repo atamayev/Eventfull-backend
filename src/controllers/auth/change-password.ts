@@ -1,6 +1,6 @@
 import { Response, Request } from "express"
-import UserModel from "../../models/user-model"
 import Hash from "../../classes/hash"
+import UserModel from "../../models/user-model"
 import isSameContactMethod from "../../utils/auth-helpers/is-same-contact-method"
 
 export default async function changePassword (req: Request, res: Response): Promise<Response> {

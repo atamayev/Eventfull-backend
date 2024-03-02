@@ -15,9 +15,12 @@ declare global {
 		gender?: string
 		profilePictureURL?: string
 		bio?: string
+
 		eventPins: Types.ObjectId[]
 		calendarData: UnifiedCalendarEvent[]
 		eventfullEvents: EventfullCalendarEvent[]
+		onlyShowEventfullEvents: boolean
+
 		colorTheme: "Light" | "Dark" | "System Default"
 		iosEndpointArn?: string
 		androidEndpointArn?: string
