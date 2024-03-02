@@ -40,9 +40,12 @@ const userSchema = new Schema<User>({
 	gender: { type: String, trim: true },
 	profilePictureURL: { type: String, trim: true },
 	bio: { type: String, trim: true },
+
 	eventPins: { type: [Schema.Types.ObjectId] },
 	calendarData: { type: [calendarDataSchema] },
 	eventfullEvents: { type: [eventfullEventsSchema] },
+	onlyShowEventfullEvents: { type: Boolean, default: false },
+
 	colorTheme: { type: String, default: "System Default", enum: ["Dark", "Light", "System Default"] },
 	androidEndpointArn: { type: String, trim: true },
 	iosEndpointArn: { type: String, trim: true },
