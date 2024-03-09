@@ -4,18 +4,18 @@ import utc from "dayjs/plugin/utc"
 import timezone from "dayjs/plugin/timezone"
 dayjs.extend(utc)
 dayjs.extend(timezone)
-import { Event } from "@microsoft/microsoft-graph-types"
+import { Event, DateTimeTimeZone } from "@microsoft/microsoft-graph-types"
 
 export default function convertMicrosoftToUnified(events: Event[]): UnifiedCalendarEvent[] {
 	return events.map(event => {
 		const formattedLocation = formatMicrosoftLocation(event)
+		const eventTime = formatMicrosoftDateTime(event.start, event.end)
 
 		return {
 			id: event.id || "",
 			title: event.subject || "",
 			description: event.bodyPreview || "",
-			startDateTime: formatMicrosoftDateTime(event.start?.dateTime),
-			endDateTime: formatMicrosoftDateTime(event.end?.dateTime),
+			eventTime,
 			timeZone: event.start?.timeZone || "America/New_York",
 			...(formattedLocation !== "" && { location: formattedLocation }),
 			organizerEmail: _.get(event, "organizer.emailAddress.address", ""),
@@ -32,18 +32,20 @@ export default function convertMicrosoftToUnified(events: Event[]): UnifiedCalen
 	})
 }
 
-function formatMicrosoftDateTime(dateTime: string | undefined): UnifiedDateTime {
-	if (_.isUndefined(dateTime)) return { date: "", time: "" }
-	const newYorkTimeZone = "America/New_York"
-
-	if (dateTime.endsWith("T00:00:00.0000000")) {
-		const date = dateTime.split("T")[0]
-		return { date, time: "00:00:00" }
+function formatMicrosoftDateTime(
+	startDateTime: DateTimeTimeZone | null | undefined,
+	endDateTime: DateTimeTimeZone | null | undefined
+): CalendarBaseEventTime {
+	const parseDateTime = (dateTime: DateTimeTimeZone | null | undefined): Date => {
+		if (!dateTime || !dateTime.dateTime) return new Date()
+		const timeZone = dateTime.timeZone || "America/New_York"
+		return dayjs(dateTime.dateTime).tz(timeZone).toDate()
 	}
 
-	const newYorkDateTime = dayjs.utc(dateTime).tz(newYorkTimeZone).format("YYYY-MM-DDTHH:mm:ss")
-	const [date, time] = newYorkDateTime.split("T")
-	return { date, time }
+	return {
+		startTime: parseDateTime(startDateTime),
+		endTime: parseDateTime(endDateTime),
+	}
 }
 
 function getRecurrencePattern(event: Event): UnifiedRecurrence | undefined {

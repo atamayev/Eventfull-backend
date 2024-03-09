@@ -9,8 +9,7 @@ export default function convertGoogleToUnified(events: calendar_v3.Schema$Event[
 			id: event.id || "",
 			title: event.summary || "",
 			description: event.description || "",
-			startDateTime: formatGoogleDateTime(event.start),
-			endDateTime: formatGoogleDateTime(event.end),
+			eventTime: formatGoogleDateTime(event.start, event.end),
 			timeZone: timeZone,
 			location: event.location || "",
 			organizerEmail: _.get(event, "organizer.email", ""),
@@ -31,19 +30,27 @@ function isAllDayEvent(event: calendar_v3.Schema$Event): boolean {
 	return _.has(event.start, "date") && _.has(event.end, "date")
 }
 
-function formatGoogleDateTime(dateTime: calendar_v3.Schema$EventDateTime | undefined): UnifiedDateTime {
-	if (_.isNil(dateTime)) return { date: "", time: "" }
+function formatGoogleDateTime(
+	startDateTime: calendar_v3.Schema$EventDateTime | undefined,
+	endDateTime: calendar_v3.Schema$EventDateTime | undefined
+): CalendarBaseEventTime {
+	const fallbackDate = new Date()
 
-	if (!_.isNil(dateTime.date)) return { date: dateTime.date, time: "00:00:00" }
-
-	if (!_.isNil(dateTime.dateTime)) {
-		const [date, timeWithZ] = dateTime.dateTime.split("T")
-		const time = timeWithZ.split("Z")[0]
-
-		return { date, time }
+	const parseDateTime = (dateTime: calendar_v3.Schema$EventDateTime | undefined): Date => {
+		if (_.isUndefined(dateTime)) return fallbackDate
+		if (dateTime.dateTime) {
+			return new Date(dateTime.dateTime)
+		} else if (dateTime.date) {
+			return new Date(dateTime.date)
+		} else {
+			return fallbackDate
+		}
 	}
 
-	return { date: "", time: "" }
+	return {
+		startTime: parseDateTime(startDateTime),
+		endTime: parseDateTime(endDateTime),
+	}
 }
 
 function getRecurrencePattern(event: calendar_v3.Schema$Event): UnifiedRecurrence | undefined {

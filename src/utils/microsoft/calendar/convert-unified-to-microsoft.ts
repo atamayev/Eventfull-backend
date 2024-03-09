@@ -1,4 +1,9 @@
 import _ from "lodash"
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+import timezone from "dayjs/plugin/timezone"
+dayjs.extend(utc)
+dayjs.extend(timezone)
 import {
 	Event,
 	PatternedRecurrence,
@@ -9,7 +14,9 @@ import {
 } from "@microsoft/microsoft-graph-types"
 
 export default function convertUnifiedToMicrosoft(unifiedEvent: UnifiedCalendarEvent): Event {
-	const combineDateTime = (dateTime: UnifiedDateTime): string => `${dateTime.date}T${dateTime.time}`
+	const toISOStringWithTimezone = (date: Date, timeZone: string = "America/New_York"): string => {
+		return dayjs(date).tz(timeZone).format()
+	}
 
 	const defaultTimeZone = "America/New_York"
 
@@ -18,11 +25,11 @@ export default function convertUnifiedToMicrosoft(unifiedEvent: UnifiedCalendarE
 		subject: unifiedEvent.title,
 		bodyPreview: unifiedEvent.description,
 		start: {
-			dateTime: combineDateTime(unifiedEvent.startDateTime),
+			dateTime: toISOStringWithTimezone(unifiedEvent.eventTime.startTime, unifiedEvent.timeZone || defaultTimeZone),
 			timeZone: unifiedEvent.timeZone || defaultTimeZone
 		},
 		end: {
-			dateTime: combineDateTime(unifiedEvent.endDateTime),
+			dateTime: toISOStringWithTimezone(unifiedEvent.eventTime.endTime, unifiedEvent.timeZone || defaultTimeZone),
 			timeZone: unifiedEvent.timeZone || defaultTimeZone
 		},
 		location: {

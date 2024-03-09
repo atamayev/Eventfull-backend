@@ -1,8 +1,8 @@
-import { calendar_v3 } from "@googleapis/calendar"
 import { Response, Request } from "express"
-import saveIncomingUnifiedCalendarEvents from "../../../utils/calendar-misc/save-incoming-unified-calendar-events"
+import { calendar_v3 } from "@googleapis/calendar"
 import createGoogleCalendarClient from "../../../utils/google/calendar/create-google-calendar-client"
 import convertGoogleToUnified from "../../../utils/google/calendar/calendar-retrieval/convert-google-to-unified"
+import saveIncomingUnifiedCalendarEvents from "../../../utils/calendar-misc/save-incoming-unified-calendar-events"
 
 export default async function getGoogleCalendarEvents(req: Request, res: Response): Promise<Response> {
 	try {

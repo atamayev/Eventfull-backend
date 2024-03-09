@@ -1,19 +1,19 @@
 import { calendar_v3 } from "@googleapis/calendar"
 
 export default function convertUnifiedToGoogle(unifiedEvent: UnifiedCalendarEvent): calendar_v3.Schema$Event {
-	const combineDateTime = (dateTime: UnifiedDateTime): string => `${dateTime.date}T${dateTime.time}`
-	const defaultTimeZone = "America/New_York"
+	const formatGoogleDateTime = (date: Date, isAllDay: boolean, timeZone: string | undefined): calendar_v3.Schema$EventDateTime => {
+		if (isAllDay === true) {
+			return { date: date.toISOString().split("T")[0] }
+		}
+		return { dateTime: date.toISOString(), timeZone: timeZone }
+	}
 
 	const googleEvent: calendar_v3.Schema$Event = {
 		id: unifiedEvent.id,
 		summary: unifiedEvent.title,
 		description: unifiedEvent.description,
-		start: unifiedEvent.isAllDay ?
-			{ date: unifiedEvent.startDateTime.date } :
-			{ dateTime: combineDateTime(unifiedEvent.startDateTime), timeZone: unifiedEvent.timeZone || defaultTimeZone },
-		end: unifiedEvent.isAllDay ?
-			{ date: unifiedEvent.endDateTime.date } :
-			{ dateTime: combineDateTime(unifiedEvent.endDateTime), timeZone: unifiedEvent.timeZone || defaultTimeZone },
+		start: formatGoogleDateTime(unifiedEvent.eventTime.startTime, unifiedEvent.isAllDay, unifiedEvent.timeZone),
+		end: formatGoogleDateTime(unifiedEvent.eventTime.endTime, unifiedEvent.isAllDay, unifiedEvent.timeZone),
 		location: unifiedEvent.location,
 		attendees: unifiedEvent.attendees.map(attendee => ({
 			email: attendee.email,

@@ -1,9 +1,8 @@
 import { Schema } from "mongoose"
 
-// TODO: Change this to just be a Date (like in EventfullEvent model)
-export const unifiedDateTimeSchema = new Schema<UnifiedDateTime>({
-	date: { type: String, required: true },
-	time: { type: String, required: true }
+const eventTimeSchema = new Schema<CalendarBaseEventTime>({
+	startTime: { type: Date, required: true },
+	endTime: { type: Date, required: true }
 }, { _id: false, timestamps: true })
 
 const unifiedCalendarAttendeeSchema = new Schema<UnifiedCalendarAttendee>({
@@ -20,8 +19,7 @@ const calendarDataSchema = new Schema<UnifiedCalendarEvent>({
 	id: { type: String, required: true },
 	title: { type: String, required: true },
 	description: { type: String, required: false },
-	startDateTime: { type: unifiedDateTimeSchema, required: true },
-	endDateTime: { type: unifiedDateTimeSchema, required: true },
+	eventTime: { type: eventTimeSchema },
 	timeZone: { type: String, required: false },
 	location: { type: String, required: false },
 	organizerEmail: { type: String, required: false },
