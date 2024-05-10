@@ -1,0 +1,16 @@
+
+Eventfull
+1. Mobile Calendar UI
+
+2. Event details
+
+3. - Only show events that fit into calendar
+
+
+Next:
+	Automated unit tests. during testing, mock requests should be sent to the backend with various values, and should expect certain responses to those inputs
+
+Later:
+	Saving messages to async
+	Edit text without keyboard closing between renders.
+	Create separate admin endpoints server
